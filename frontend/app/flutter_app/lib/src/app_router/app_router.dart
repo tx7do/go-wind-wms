@@ -22,6 +22,11 @@ import 'package:go_wind_wms/src/features/approval/domain/approval_repository.dar
     show ApprovalRepository;
 import 'package:go_wind_wms/src/features/approval/presentation/approval_cubit.dart';
 import 'package:go_wind_wms/src/features/approval/presentation/approval_page.dart';
+import 'package:go_wind_wms/src/features/asn/data/asn_repository_impl.dart';
+import 'package:go_wind_wms/src/features/asn/domain/asn_repository.dart';
+import 'package:go_wind_wms/src/features/asn/presentation/asn_cubit.dart';
+import 'package:go_wind_wms/src/features/asn/presentation/asn_detail_page.dart';
+import 'package:go_wind_wms/src/features/asn/presentation/asn_page.dart';
 import 'package:go_wind_wms/src/features/wms/domain/wms_repository.dart'
     show WmsRepository;
 import 'package:go_wind_wms/src/features/wms/presentation/wms_cubit.dart';
@@ -93,6 +98,36 @@ GoRouter createAppRouter() {
                   )..load(),
                   child: const WmsPage(),
                 ),
+                routes: [
+                  GoRoute(
+                    name: RouteNames.asn,
+                    path: 'asn',
+                    builder: (context, state) => BlocProvider(
+                      create: (_) => AsnCubit(
+                        GetIt.instance<AsnRepository>(),
+                      )..load(),
+                      child: const AsnPage(),
+                    ),
+                    routes: [
+                      GoRoute(
+                        name: RouteNames.asnDetail,
+                        path: 'detail/:id',
+                        builder: (context, state) {
+                          final id = int.tryParse(
+                                state.pathParameters['id'] ?? '',
+                              ) ??
+                              0;
+                          return BlocProvider(
+                            create: (_) => AsnCubit(
+                              GetIt.instance<AsnRepository>(),
+                            ),
+                            child: AsnDetailPage(asnId: id),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

@@ -16,10 +16,6 @@
     "lowStockTitle": "低库存清单",
     "lowStockEmpty": "暂无低库存项",
     "movementTrendTitle": "近 30 日库存流水趋势",
-    "revenueMonth": "本月收入（元）",
-    "cogsMonth": "本月成本（元）",
-    "profitMonth": "本月利润（元）",
-    "arApBalance": "应收 / 应付余额（元）",
     "expiringLotsTitle": "临期批次预警（30 天内到期）",
     "expiringLotsCount": "{count} 个批次待处理"
   },
@@ -604,17 +600,6 @@
     "progress": "审批进度",
     "stepOf": "第 {current}/{total} 级"
   },
-  "supplier": {
-    "moduleName": "供应商",
-    "code": "供应商编码",
-    "name": "供应商名称",
-    "contact": "联系人",
-    "phone": "联系电话",
-    "enable": "启用状态",
-    "button": {
-      "create": "创建供应商"
-    }
-  },
   "doc": {
     "purchaseTitle": "采 购 单",
     "salesTitle": "销 售 单",
@@ -650,71 +635,6 @@
     "fromWarehouse": "源仓库",
     "toWarehouse": "目的仓库"
   },
-  "purchaseOrder": {
-    "moduleName": "采购单",
-    "poNumber": "采购单号",
-    "supplierCode": "供应商",
-    "warehouseCode": "收货仓库",
-    "status": "状态",
-    "totalAmount": "总额（元）",
-    "items": "采购明细",
-    "skuCode": "SKU",
-    "quantity": "数量",
-    "unitPrice": "单价（元）",
-    "unitPriceCents": "单价（分）",
-    "amount": "金额（元）",
-    "addItem": "添加明细",
-    "itemsRequired": "至少需要一条明细",
-    "itemInvalid": "请完整填写 SKU 与正整数数量",
-    "receivedQuantity": "已收数量",
-    "receive": {
-      "title": "采购收货",
-      "warehouse": "收货仓库",
-      "quantity": "收货数量",
-      "quantityHint": "默认为未收完的剩余数量",
-      "exceedsRemaining": "收货数量超过剩余未收数量",
-      "lotSection": "批次登记（可选）",
-      "lotHint": "填写批次号后按批次收货并在批次库存页跟踪余量与效期；留空则不跟踪",
-      "lotName": "批次号",
-      "expiryDate": "效期（可选）"
-    },
-    "button": {
-      "create": "创建采购单",
-      "submit": "提交审批",
-      "approve": "通过",
-      "reject": "驳回",
-      "cancel": "取消",
-      "complete": "完结",
-      "receive": "收货",
-      "print": "打印"
-    }
-  },
-  "payable": {
-    "moduleName": "应付单",
-    "payableNumber": "应付单号",
-    "poRef": "来源采购单",
-    "supplierCode": "供应商",
-    "amount": "应付总额（元）",
-    "amountCents": "应付总额（分）",
-    "paidAmount": "已付（元）",
-    "status": "状态",
-    "recordPayment": "记录付款",
-    "paymentAmountCents": "付款金额（分）",
-    "paymentInvalid": "请输入正整数付款金额（分）",
-    "button": {
-      "create": "手工建账",
-      "pay": "付款",
-      "cancel": "取消"
-    }
-  },
-  "payment": {
-    "moduleName": "付款",
-    "paymentNumber": "付款单号",
-    "payableId": "应付单ID",
-    "amount": "金额（元）",
-    "method": "付款方式",
-    "status": "状态"
-  },
   "product": {
     "moduleName": "商品",
     "code": "SKU编码",
@@ -725,39 +645,6 @@
     "button": {
       "create": "创建商品"
     }
-  },
-  "aging": {
-    "title": "应付账龄报表",
-    "disclaimer": "本报表按账期到期日对未结清应付分桶统计，逾期桶（红色）需优先处置。金额单位元。",
-    "bucket": "分桶",
-    "count": "笔数",
-    "totalAmount": "金额（元）",
-    "bucketLabel": {
-      "overdue": "已逾期",
-      "0_7": "0-7 天",
-      "8_30": "8-30 天",
-      "31_90": "31-90 天",
-      "over_90": "90 天以上",
-      "no_due_date": "无账期"
-    }
-  },
-  "receivable": {
-    "amount": "应收总额（元）",
-    "amountCents": "应收总额（分）",
-    "button": {
-      "create": "手工建账",
-      "receipt": "收款",
-      "cancel": "取消"
-    },
-    "moduleName": "应收单",
-    "paidAmount": "已收（元）",
-    "receivableNumber": "应收单号",
-    "receiptAmountCents": "收款金额（分）",
-    "receiptInvalid": "请输入正整数收款金额（分）",
-    "soRef": "来源销售单",
-    "recordReceipt": "记录收款",
-    "status": "状态",
-    "customerCode": "客户"
   },
   "receipt": {
     "amount": "金额（元）",
@@ -816,20 +703,6 @@
     "unitPrice": "单价（元）",
     "unitPriceCents": "单价（分）",
     "warehouseCode": "发货仓库"
-  },
-  "customer": {
-    "button": {
-      "create": "创建客户"
-    },
-    "code": "客户编码",
-    "contact": "联系人",
-    "enable": "启用状态",
-    "moduleName": "客户",
-    "name": "客户名称",
-    "phone": "联系电话",
-    "creditLimit": "信用额度（元）",
-    "creditLimitHint": "0 或留空 = 不限",
-    "unlimited": "不限"
   },
   "register": {
     "tenantName": "企业名称",
@@ -962,5 +835,68 @@
     "amount": "金额（元）",
     "export": "导出 Excel",
     "chartTitle": "金额排行（元）"
+  },
+  "asn": {
+    "moduleName": "到货通知单",
+    "asnNumber": "单号",
+    "warehouseCode": "目的仓库",
+    "partnerCode": "发货方",
+    "status": "状态",
+    "expectedDate": "预计到货",
+    "lines": "到货明细",
+    "skuCode": "SKU 编码",
+    "expectedQty": "预期数量",
+    "line": {
+      "expected": "预期",
+      "received": "已收",
+      "putaway": "已上架",
+      "lotName": "批次号"
+    },
+    "qc": {
+      "pass": "质检通过",
+      "fail": "质检不合格"
+    },
+    "statusText": {
+      "draft": "草稿",
+      "announced": "已宣告",
+      "receiving": "收货中",
+      "completed": "已完结",
+      "cancelled": "已取消"
+    },
+    "action": {
+      "announce": "宣告到货",
+      "receive": "收货",
+      "putaway": "上架",
+      "close": "完结",
+      "cancel": "取消"
+    },
+    "button": {
+      "create": "创建到货通知单",
+      "addLine": "添加明细"
+    },
+    "linesRequired": "请至少添加一条到货明细",
+    "lineInvalid": "明细的 SKU 与预期数量（正数）必须完整",
+    "receive": {
+      "title": "收货：{number}",
+      "qty": "本次收货",
+      "remaining": "剩余可收",
+      "nothingToReceive": "没有可收货的明细",
+      "overQty": "收货数量不能超过剩余可收数",
+      "success": "收货成功，已生成入库拣货单",
+      "failed": "收货失败"
+    },
+    "putaway": {
+      "title": "上架：{number}",
+      "qty": "本次上架",
+      "targetLocation": "目标库位",
+      "remaining": "剩余可上架",
+      "nothingToPutaway": "没有可上架的明细",
+      "locationRequired": "上架明细必须选择目标库位",
+      "overQty": "上架数量不能超过剩余可上架数",
+      "qcBlocked": "质检不合格/未检的明细不能上架",
+      "qcBlockedHint": "质检不合格或未检，不可上架",
+      "success": "上架成功，已生成上架拣货单",
+      "failed": "上架失败"
+    }
   }
 }

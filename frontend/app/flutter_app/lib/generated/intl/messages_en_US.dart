@@ -20,6 +20,10 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en_US';
 
+  static String m0(number) => "Putaway ${number}";
+
+  static String m1(number) => "Receive ${number}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appName": MessageLookupByLibrary.simpleMessage("GoWind WMS"),
@@ -44,6 +48,71 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "approvalStatusPending": MessageLookupByLibrary.simpleMessage("Pending"),
     "approvalStatusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
+    "asnActionPutaway": MessageLookupByLibrary.simpleMessage("Putaway"),
+    "asnActionReceive": MessageLookupByLibrary.simpleMessage("Receive"),
+    "asnCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "asnEmpty": MessageLookupByLibrary.simpleMessage("No ASN records"),
+    "asnInvalidInput": MessageLookupByLibrary.simpleMessage(
+      "Action rejected: check quantities, QC and status",
+    ),
+    "asnLocationRequired": MessageLookupByLibrary.simpleMessage(
+      "Select a target location for each line",
+    ),
+    "asnLotName": MessageLookupByLibrary.simpleMessage("Lot"),
+    "asnNetwork": MessageLookupByLibrary.simpleMessage(
+      "Network error, please retry",
+    ),
+    "asnNotFound": MessageLookupByLibrary.simpleMessage(
+      "ASN not found, please check the number",
+    ),
+    "asnNothingToPutaway": MessageLookupByLibrary.simpleMessage(
+      "Fill in putaway quantities first",
+    ),
+    "asnNothingToReceive": MessageLookupByLibrary.simpleMessage(
+      "Fill in receive quantities first",
+    ),
+    "asnOverPutaway": MessageLookupByLibrary.simpleMessage(
+      "Putaway quantity exceeds remaining",
+    ),
+    "asnOverReceive": MessageLookupByLibrary.simpleMessage(
+      "Receive quantity exceeds remaining",
+    ),
+    "asnPartner": MessageLookupByLibrary.simpleMessage("Shipper"),
+    "asnPutawayQty": MessageLookupByLibrary.simpleMessage("Putaway Qty"),
+    "asnPutawayRemaining": MessageLookupByLibrary.simpleMessage("Remaining"),
+    "asnPutawaySuccess": MessageLookupByLibrary.simpleMessage(
+      "Putaway done. Picking created",
+    ),
+    "asnPutawayTargetLocation": MessageLookupByLibrary.simpleMessage(
+      "Target Location",
+    ),
+    "asnPutawayTitle": m0,
+    "asnQcFail": MessageLookupByLibrary.simpleMessage("QC Fail"),
+    "asnQcPass": MessageLookupByLibrary.simpleMessage("QC Pass"),
+    "asnQtyExpected": MessageLookupByLibrary.simpleMessage("Expected"),
+    "asnQtyPutaway": MessageLookupByLibrary.simpleMessage("Putaway"),
+    "asnQtyReceived": MessageLookupByLibrary.simpleMessage("Received"),
+    "asnReceiveQty": MessageLookupByLibrary.simpleMessage("Receive Qty"),
+    "asnReceiveRemaining": MessageLookupByLibrary.simpleMessage("Remaining"),
+    "asnReceiveSuccess": MessageLookupByLibrary.simpleMessage(
+      "Received. Inbound picking created",
+    ),
+    "asnReceiveTitle": m1,
+    "asnScanHint": MessageLookupByLibrary.simpleMessage(
+      "Scan / enter ASN number",
+    ),
+    "asnStatusAnnounced": MessageLookupByLibrary.simpleMessage("Announced"),
+    "asnStatusCancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
+    "asnStatusCompleted": MessageLookupByLibrary.simpleMessage("Completed"),
+    "asnStatusDraft": MessageLookupByLibrary.simpleMessage("Draft"),
+    "asnStatusReceiving": MessageLookupByLibrary.simpleMessage("Receiving"),
+    "asnUnauthorized": MessageLookupByLibrary.simpleMessage(
+      "Session expired, please sign in again",
+    ),
+    "asnUnknown": MessageLookupByLibrary.simpleMessage(
+      "Action failed, please retry",
+    ),
+    "asnWarehouse": MessageLookupByLibrary.simpleMessage("Warehouse"),
     "backToHome": MessageLookupByLibrary.simpleMessage("Back to Home"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "comingSoon": MessageLookupByLibrary.simpleMessage(
@@ -91,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "metricWarehouses": MessageLookupByLibrary.simpleMessage("Warehouses"),
     "navApproval": MessageLookupByLibrary.simpleMessage("Approval"),
     "navDashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
+    "navInbound": MessageLookupByLibrary.simpleMessage("Inbound"),
     "navWms": MessageLookupByLibrary.simpleMessage("WMS"),
     "negativeStock": MessageLookupByLibrary.simpleMessage(
       "Outbound quantity exceeds current stock",

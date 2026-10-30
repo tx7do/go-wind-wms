@@ -666,14 +666,162 @@ var StockPickingService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
+	LocationService_List_FullMethodName = "/app.service.v1.LocationService/List"
+	LocationService_Get_FullMethodName  = "/app.service.v1.LocationService/Get"
+)
+
+// LocationServiceClient is the client API for LocationService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
+// 库存位置服务（移动端只读：上架时选择目标库位）
+type LocationServiceClient interface {
+	// 查询位置列表
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListLocationResponse, error)
+	// 查询位置详情
+	Get(ctx context.Context, in *v11.GetLocationRequest, opts ...grpc.CallOption) (*v11.StockLocation, error)
+}
+
+type locationServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewLocationServiceClient(cc grpc.ClientConnInterface) LocationServiceClient {
+	return &locationServiceClient{cc}
+}
+
+func (c *locationServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListLocationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(v11.ListLocationResponse)
+	err := c.cc.Invoke(ctx, LocationService_List_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *locationServiceClient) Get(ctx context.Context, in *v11.GetLocationRequest, opts ...grpc.CallOption) (*v11.StockLocation, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(v11.StockLocation)
+	err := c.cc.Invoke(ctx, LocationService_Get_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// LocationServiceServer is the server API for LocationService service.
+// All implementations must embed UnimplementedLocationServiceServer
+// for forward compatibility.
+//
+// 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
+// 库存位置服务（移动端只读：上架时选择目标库位）
+type LocationServiceServer interface {
+	// 查询位置列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListLocationResponse, error)
+	// 查询位置详情
+	Get(context.Context, *v11.GetLocationRequest) (*v11.StockLocation, error)
+	mustEmbedUnimplementedLocationServiceServer()
+}
+
+// UnimplementedLocationServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedLocationServiceServer struct{}
+
+func (UnimplementedLocationServiceServer) List(context.Context, *v1.PagingRequest) (*v11.ListLocationResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method List not implemented")
+}
+func (UnimplementedLocationServiceServer) Get(context.Context, *v11.GetLocationRequest) (*v11.StockLocation, error) {
+	return nil, status.Error(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedLocationServiceServer) mustEmbedUnimplementedLocationServiceServer() {}
+func (UnimplementedLocationServiceServer) testEmbeddedByValue()                         {}
+
+// UnsafeLocationServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to LocationServiceServer will
+// result in compilation errors.
+type UnsafeLocationServiceServer interface {
+	mustEmbedUnimplementedLocationServiceServer()
+}
+
+func RegisterLocationServiceServer(s grpc.ServiceRegistrar, srv LocationServiceServer) {
+	// If the following call panics, it indicates UnimplementedLocationServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&LocationService_ServiceDesc, srv)
+}
+
+func _LocationService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1.PagingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).List(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocationService_List_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).List(ctx, req.(*v1.PagingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LocationService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.GetLocationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).Get(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LocationService_Get_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).Get(ctx, req.(*v11.GetLocationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// LocationService_ServiceDesc is the grpc.ServiceDesc for LocationService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var LocationService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "app.service.v1.LocationService",
+	HandlerType: (*LocationServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "List",
+			Handler:    _LocationService_List_Handler,
+		},
+		{
+			MethodName: "Get",
+			Handler:    _LocationService_Get_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "app/service/v1/i_inventory.proto",
+}
+
+const (
 	StockLotService_List_FullMethodName = "/app.service.v1.StockLotService/List"
 )
 
 // StockLotServiceClient is the client API for StockLotService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
 type StockLotServiceClient interface {
 	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListStockLotResponse, error)
 }
@@ -699,8 +847,6 @@ func (c *stockLotServiceClient) List(ctx context.Context, in *v1.PagingRequest, 
 // StockLotServiceServer is the server API for StockLotService service.
 // All implementations must embed UnimplementedStockLotServiceServer
 // for forward compatibility.
-//
-// 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
 type StockLotServiceServer interface {
 	List(context.Context, *v1.PagingRequest) (*v11.ListStockLotResponse, error)
 	mustEmbedUnimplementedStockLotServiceServer()

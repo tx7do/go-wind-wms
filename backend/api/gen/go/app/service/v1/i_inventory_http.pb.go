@@ -538,6 +538,106 @@ func (c *StockPickingServiceHTTPClientImpl) Validate(ctx context.Context, in *v1
 	return &out, nil
 }
 
+const OperationLocationServiceGet = "/app.service.v1.LocationService/Get"
+const OperationLocationServiceList = "/app.service.v1.LocationService/List"
+
+type LocationServiceHTTPServer interface {
+	// Get 查询位置详情
+	Get(context.Context, *v11.GetLocationRequest) (*v11.StockLocation, error)
+	// List 查询位置列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListLocationResponse, error)
+}
+
+func RegisterLocationServiceHTTPServer(s *http.Server, srv LocationServiceHTTPServer) {
+	r := s.Route("/")
+	r.GET("/app/v1/stock-locations", _LocationService_List5_HTTP_Handler(srv))
+	r.GET("/app/v1/stock-locations/{id}", _LocationService_Get5_HTTP_Handler(srv))
+}
+
+func _LocationService_List5_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v1.PagingRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceList)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.List(ctx, req.(*v1.PagingRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*v11.ListLocationResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _LocationService_Get5_HTTP_Handler(srv LocationServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.GetLocationRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationLocationServiceGet)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.Get(ctx, req.(*v11.GetLocationRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*v11.StockLocation)
+		return ctx.Result(200, reply)
+	}
+}
+
+type LocationServiceHTTPClient interface {
+	// Get 查询位置详情
+	Get(ctx context.Context, req *v11.GetLocationRequest, opts ...http.CallOption) (rsp *v11.StockLocation, err error)
+	// List 查询位置列表
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListLocationResponse, err error)
+}
+
+type LocationServiceHTTPClientImpl struct {
+	cc *http.Client
+}
+
+func NewLocationServiceHTTPClient(client *http.Client) LocationServiceHTTPClient {
+	return &LocationServiceHTTPClientImpl{client}
+}
+
+// Get 查询位置详情
+func (c *LocationServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetLocationRequest, opts ...http.CallOption) (*v11.StockLocation, error) {
+	var out v11.StockLocation
+	pattern := "/app/v1/stock-locations/{id}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationLocationServiceGet))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// List 查询位置列表
+func (c *LocationServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListLocationResponse, error) {
+	var out v11.ListLocationResponse
+	pattern := "/app/v1/stock-locations"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationLocationServiceList))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 const OperationStockLotServiceList = "/app.service.v1.StockLotService/List"
 
 type StockLotServiceHTTPServer interface {
@@ -546,10 +646,10 @@ type StockLotServiceHTTPServer interface {
 
 func RegisterStockLotServiceHTTPServer(s *http.Server, srv StockLotServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/app/v1/stock-lots", _StockLotService_List5_HTTP_Handler(srv))
+	r.GET("/app/v1/stock-lots", _StockLotService_List6_HTTP_Handler(srv))
 }
 
-func _StockLotService_List5_HTTP_Handler(srv StockLotServiceHTTPServer) func(ctx http.Context) error {
+func _StockLotService_List6_HTTP_Handler(srv StockLotServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {

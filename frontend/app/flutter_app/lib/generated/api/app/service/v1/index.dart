@@ -9123,6 +9123,594 @@ class InventoryServiceV1CancelStockPickingRequest {
 }
 
 /// 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
+/// 库存位置服务（移动端只读：上架时选择目标库位）
+class LocationServiceClient {
+  final ClientTransport _transport;
+
+  LocationServiceClient(this._transport);
+
+  /// 查询位置列表
+  Future<InventoryServiceV1ListLocationResponse> list(PaginationPagingRequest request, {Map<String, String>? headers}) async {
+    final path = '/app/v1/stock-locations';
+    final queryParams = <String>[];
+    if (request.page != null) {
+      queryParams.add('page=${Uri.encodeComponent(request.page!.toString())}');
+    }
+    if (request.pageSize != null) {
+      queryParams.add('pageSize=${Uri.encodeComponent(request.pageSize!.toString())}');
+    }
+    if (request.offset != null) {
+      queryParams.add('offset=${Uri.encodeComponent(request.offset!.toString())}');
+    }
+    if (request.limit != null) {
+      queryParams.add('limit=${Uri.encodeComponent(request.limit!.toString())}');
+    }
+    if (request.token != null) {
+      queryParams.add('token=${Uri.encodeComponent(request.token!.toString())}');
+    }
+    if (request.noPaging != null) {
+      queryParams.add('noPaging=${Uri.encodeComponent(request.noPaging!.toString())}');
+    }
+    if (request.query != null) {
+      queryParams.add('query=${Uri.encodeComponent(request.query!.toString())}');
+    }
+    if (request.filter != null) {
+      queryParams.add('filter=${Uri.encodeComponent(request.filter!.toString())}');
+    }
+    if (request.filterExpr?.type != null) {
+      queryParams.add('filterExpr.type=${Uri.encodeComponent(request.filterExpr!.type!.toString())}');
+    }
+    if (request.orderBy != null) {
+      queryParams.add('orderBy=${Uri.encodeComponent(request.orderBy!.toString())}');
+    }
+    if (request.fieldMask != null) {
+      queryParams.add('fieldMask=${Uri.encodeComponent(request.fieldMask!.toString())}');
+    }
+    var uri = path;
+    if (queryParams.isNotEmpty) {
+      uri += '?${queryParams.join("&")}';
+    }
+    final result = await _transport.unary(uri, 'GET', null, TransportMeta(
+      service: 'LocationService',
+      method: 'List',
+    ), headers: headers);
+    return InventoryServiceV1ListLocationResponse.fromJson(result as Map<String, dynamic>);
+  }
+
+  /// 查询位置详情
+  Future<InventoryServiceV1StockLocation> get(InventoryServiceV1GetLocationRequest request, {Map<String, String>? headers}) async {
+    if (request.id == null) {
+      throw ArgumentError('missing required field request.id');
+    }
+    final path = '/app/v1/stock-locations/${request.id}';
+    final queryParams = <String>[];
+    if (request.viewMask != null) {
+      queryParams.add('viewMask=${Uri.encodeComponent(request.viewMask!.toString())}');
+    }
+    var uri = path;
+    if (queryParams.isNotEmpty) {
+      uri += '?${queryParams.join("&")}';
+    }
+    final result = await _transport.unary(uri, 'GET', null, TransportMeta(
+      service: 'LocationService',
+      method: 'Get',
+    ), headers: headers);
+    return InventoryServiceV1StockLocation.fromJson(result as Map<String, dynamic>);
+  }
+}
+
+class InventoryServiceV1ListLocationResponse {
+  List<InventoryServiceV1StockLocation>? items;
+  int? total;
+
+  InventoryServiceV1ListLocationResponse({
+    this.items,
+    this.total,
+  });
+
+  factory InventoryServiceV1ListLocationResponse.fromJson(Map<String, dynamic> json) {
+    return InventoryServiceV1ListLocationResponse(
+      items: (json['items'] as List<dynamic>?)?.map((e) => InventoryServiceV1StockLocation.fromJson(e as Map<String, dynamic>)).toList(),
+      total: json['total'] != null ? int.parse(json['total'].toString()) : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (items != null) json['items'] = items!.map((e) => e.toJson()).toList();
+    if (total != null) json['total'] = total.toString();
+    return json;
+  }
+
+  @override
+  String toString() {
+    return 'InventoryServiceV1ListLocationResponse(items: $items, total: $total)';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+    other is InventoryServiceV1ListLocationResponse &&
+      runtimeType == other.runtimeType
+      && items == other.items
+      && total == other.total
+    ;
+
+  @override
+  int get hashCode => Object.hashAll([
+    items,
+    total,
+  ]);
+
+  InventoryServiceV1ListLocationResponse copyWith({
+    List<InventoryServiceV1StockLocation>? items,
+    int? total,
+  }) {
+    return InventoryServiceV1ListLocationResponse(
+      items: items ?? this.items,
+      total: total ?? this.total,
+    );
+  }
+
+  /// 二进制 proto 编码（MQTT 等二进制传输用；字段按编号升序写出）
+  Uint8List writeToBuffer() {
+    final w = ProtoWireWriter();
+    _writeTo(w);
+    return w.toBuffer();
+  }
+
+  void _writeTo(ProtoWireWriter w) {
+    // field 1: items
+    final f1 = items;
+    if (f1 != null) {
+      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+    }
+    // field 2: total
+    final f2 = total;
+    if (f2 != null) {
+      w.writeUint64(2, f2!);
+    }
+  }
+
+  factory InventoryServiceV1ListLocationResponse.fromBuffer(List<int> bytes) {
+    return InventoryServiceV1ListLocationResponse._readFrom(ProtoWireReader(bytes));
+  }
+
+  static InventoryServiceV1ListLocationResponse _readFrom(ProtoWireReader r) {
+    final m = InventoryServiceV1ListLocationResponse();
+    while (r.next()) {
+      switch (r.fieldNumber) {
+        // field 1: items
+        case 1: {
+          m.items = r.readNestedList().map(InventoryServiceV1StockLocation._readFrom).toList();
+          break;
+        }
+        // field 2: total
+        case 2: {
+          m.total = r.readUint64();
+          break;
+        }
+        default: {
+          r.skip();
+        }
+      }
+    }
+    return m;
+  }
+
+}
+
+/// 库存位置（借鉴 Odoo stock.location，简化为扁平结构）
+class InventoryServiceV1StockLocation {
+  String? createdAt;
+  int? createdBy;
+  String? deletedAt;
+  int? deletedBy;
+  ///
+  /// Behaviors: OPTIONAL
+  int? id;
+  ///
+  /// Behaviors: OPTIONAL
+  String? name;
+  String? remark;
+  int? tenantId;
+  String? updatedAt;
+  int? updatedBy;
+  ///
+  /// Behaviors: OPTIONAL
+  InventoryServiceV1StockLocation$Usage? usage;
+  ///
+  /// Behaviors: OPTIONAL
+  String? warehouseCode;
+
+  InventoryServiceV1StockLocation({
+    this.createdAt,
+    this.createdBy,
+    this.deletedAt,
+    this.deletedBy,
+    this.id,
+    this.name,
+    this.remark,
+    this.tenantId,
+    this.updatedAt,
+    this.updatedBy,
+    this.usage,
+    this.warehouseCode,
+  });
+
+  factory InventoryServiceV1StockLocation.fromJson(Map<String, dynamic> json) {
+    return InventoryServiceV1StockLocation(
+      createdAt: json['createdAt'] as String?,
+      createdBy: json['createdBy'] as int?,
+      deletedAt: json['deletedAt'] as String?,
+      deletedBy: json['deletedBy'] as int?,
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      remark: json['remark'] as String?,
+      tenantId: json['tenantId'] as int?,
+      updatedAt: json['updatedAt'] as String?,
+      updatedBy: json['updatedBy'] as int?,
+      usage: json['usage'] != null ? InventoryServiceV1StockLocation$Usage.fromString(json['usage'] as String) : null,
+      warehouseCode: json['warehouseCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (createdAt != null) json['createdAt'] = createdAt;
+    if (createdBy != null) json['createdBy'] = createdBy;
+    if (deletedAt != null) json['deletedAt'] = deletedAt;
+    if (deletedBy != null) json['deletedBy'] = deletedBy;
+    if (id != null) json['id'] = id;
+    if (name != null) json['name'] = name;
+    if (remark != null) json['remark'] = remark;
+    if (tenantId != null) json['tenantId'] = tenantId;
+    if (updatedAt != null) json['updatedAt'] = updatedAt;
+    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (usage != null) json['usage'] = usage!.value;
+    if (warehouseCode != null) json['warehouseCode'] = warehouseCode;
+    return json;
+  }
+
+  @override
+  String toString() {
+    return 'InventoryServiceV1StockLocation(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, deletedBy: $deletedBy, id: $id, name: $name, remark: $remark, tenantId: $tenantId, updatedAt: $updatedAt, updatedBy: $updatedBy, usage: $usage, warehouseCode: $warehouseCode)';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+    other is InventoryServiceV1StockLocation &&
+      runtimeType == other.runtimeType
+      && createdAt == other.createdAt
+      && createdBy == other.createdBy
+      && deletedAt == other.deletedAt
+      && deletedBy == other.deletedBy
+      && id == other.id
+      && name == other.name
+      && remark == other.remark
+      && tenantId == other.tenantId
+      && updatedAt == other.updatedAt
+      && updatedBy == other.updatedBy
+      && usage == other.usage
+      && warehouseCode == other.warehouseCode
+    ;
+
+  @override
+  int get hashCode => Object.hashAll([
+    createdAt,
+    createdBy,
+    deletedAt,
+    deletedBy,
+    id,
+    name,
+    remark,
+    tenantId,
+    updatedAt,
+    updatedBy,
+    usage,
+    warehouseCode,
+  ]);
+
+  InventoryServiceV1StockLocation copyWith({
+    String? createdAt,
+    int? createdBy,
+    String? deletedAt,
+    int? deletedBy,
+    int? id,
+    String? name,
+    String? remark,
+    int? tenantId,
+    String? updatedAt,
+    int? updatedBy,
+    InventoryServiceV1StockLocation$Usage? usage,
+    String? warehouseCode,
+  }) {
+    return InventoryServiceV1StockLocation(
+      createdAt: createdAt ?? this.createdAt,
+      createdBy: createdBy ?? this.createdBy,
+      deletedAt: deletedAt ?? this.deletedAt,
+      deletedBy: deletedBy ?? this.deletedBy,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      remark: remark ?? this.remark,
+      tenantId: tenantId ?? this.tenantId,
+      updatedAt: updatedAt ?? this.updatedAt,
+      updatedBy: updatedBy ?? this.updatedBy,
+      usage: usage ?? this.usage,
+      warehouseCode: warehouseCode ?? this.warehouseCode,
+    );
+  }
+
+  /// 二进制 proto 编码（MQTT 等二进制传输用；字段按编号升序写出）
+  Uint8List writeToBuffer() {
+    final w = ProtoWireWriter();
+    _writeTo(w);
+    return w.toBuffer();
+  }
+
+  void _writeTo(ProtoWireWriter w) {
+    // field 1: id
+    final f1 = id;
+    if (f1 != null) {
+      w.writeUint32(1, f1!);
+    }
+    // field 2: name
+    final f2 = name;
+    if (f2 != null) {
+      w.writeString(2, f2!);
+    }
+    // field 3: usage
+    final f3 = usage;
+    if (f3 != null) {
+      w.writeEnum(3, f3!.wire); // InventoryServiceV1StockLocation$Usage
+    }
+    // field 4: warehouseCode
+    final f4 = warehouseCode;
+    if (f4 != null) {
+      w.writeString(4, f4!);
+    }
+    // field 11: remark
+    final f11 = remark;
+    if (f11 != null) {
+      w.writeString(11, f11!);
+    }
+    // field 20: tenantId
+    final f20 = tenantId;
+    if (f20 != null) {
+      w.writeUint32(20, f20!);
+    }
+    // field 100: createdBy
+    final f100 = createdBy;
+    if (f100 != null) {
+      w.writeUint32(100, f100!);
+    }
+    // field 101: updatedBy
+    final f101 = updatedBy;
+    if (f101 != null) {
+      w.writeUint32(101, f101!);
+    }
+    // field 102: deletedBy
+    final f102 = deletedBy;
+    if (f102 != null) {
+      w.writeUint32(102, f102!);
+    }
+    // field 200: createdAt
+    final f200 = createdAt;
+    if (f200 != null) {
+      w.writeTimestamp(200, f200!);
+    }
+    // field 201: updatedAt
+    final f201 = updatedAt;
+    if (f201 != null) {
+      w.writeTimestamp(201, f201!);
+    }
+    // field 202: deletedAt
+    final f202 = deletedAt;
+    if (f202 != null) {
+      w.writeTimestamp(202, f202!);
+    }
+  }
+
+  factory InventoryServiceV1StockLocation.fromBuffer(List<int> bytes) {
+    return InventoryServiceV1StockLocation._readFrom(ProtoWireReader(bytes));
+  }
+
+  static InventoryServiceV1StockLocation _readFrom(ProtoWireReader r) {
+    final m = InventoryServiceV1StockLocation();
+    while (r.next()) {
+      switch (r.fieldNumber) {
+        // field 1: id
+        case 1: {
+          m.id = r.readUint32();
+          break;
+        }
+        // field 2: name
+        case 2: {
+          m.name = r.readString();
+          break;
+        }
+        // field 3: usage
+        case 3: {
+          m.usage = InventoryServiceV1StockLocation$Usage.fromWire(r.readEnum());
+          break;
+        }
+        // field 4: warehouseCode
+        case 4: {
+          m.warehouseCode = r.readString();
+          break;
+        }
+        // field 11: remark
+        case 11: {
+          m.remark = r.readString();
+          break;
+        }
+        // field 20: tenantId
+        case 20: {
+          m.tenantId = r.readUint32();
+          break;
+        }
+        // field 100: createdBy
+        case 100: {
+          m.createdBy = r.readUint32();
+          break;
+        }
+        // field 101: updatedBy
+        case 101: {
+          m.updatedBy = r.readUint32();
+          break;
+        }
+        // field 102: deletedBy
+        case 102: {
+          m.deletedBy = r.readUint32();
+          break;
+        }
+        // field 200: createdAt
+        case 200: {
+          m.createdAt = r.readTimestampIso();
+          break;
+        }
+        // field 201: updatedAt
+        case 201: {
+          m.updatedAt = r.readTimestampIso();
+          break;
+        }
+        // field 202: deletedAt
+        case 202: {
+          m.deletedAt = r.readTimestampIso();
+          break;
+        }
+        default: {
+          r.skip();
+        }
+      }
+    }
+    return m;
+  }
+
+}
+
+/// 位置用途（借鉴 Odoo stock.location.usage，驱动移动语义）
+enum InventoryServiceV1StockLocation$Usage {
+  customer('CUSTOMER', 2),
+  internal('INTERNAL', 0),
+  inventoryLoss('INVENTORY_LOSS', 3),
+  supplier('SUPPLIER', 1);
+
+  final String value;
+  /// proto 枚举数值（二进制 wire 编解码用，与 JSON 的 value 字符串互补）
+  final int wire;
+  const InventoryServiceV1StockLocation$Usage(this.value, this.wire);
+
+  static InventoryServiceV1StockLocation$Usage fromString(String v) =>
+    values.firstWhere((e) => e.value == v, orElse: () => throw ArgumentError('Unknown InventoryServiceV1StockLocation\$Usage value: ' + v));
+  static InventoryServiceV1StockLocation$Usage fromWire(int v) =>
+    values.firstWhere((e) => e.wire == v, orElse: () => throw ArgumentError('Unknown InventoryServiceV1StockLocation\$Usage wire value: ' + v.toString()));
+  @override
+  String toString() => value;
+}
+
+class InventoryServiceV1GetLocationRequest {
+  int? id;
+  String? viewMask;
+
+  InventoryServiceV1GetLocationRequest({
+    this.id,
+    this.viewMask,
+  });
+
+  factory InventoryServiceV1GetLocationRequest.fromJson(Map<String, dynamic> json) {
+    return InventoryServiceV1GetLocationRequest(
+      id: json['id'] as int?,
+      viewMask: json['viewMask'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) json['id'] = id;
+    if (viewMask != null) json['viewMask'] = viewMask;
+    return json;
+  }
+
+  @override
+  String toString() {
+    return 'InventoryServiceV1GetLocationRequest(id: $id, viewMask: $viewMask)';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+    other is InventoryServiceV1GetLocationRequest &&
+      runtimeType == other.runtimeType
+      && id == other.id
+      && viewMask == other.viewMask
+    ;
+
+  @override
+  int get hashCode => Object.hashAll([
+    id,
+    viewMask,
+  ]);
+
+  InventoryServiceV1GetLocationRequest copyWith({
+    int? id,
+    String? viewMask,
+  }) {
+    return InventoryServiceV1GetLocationRequest(
+      id: id ?? this.id,
+      viewMask: viewMask ?? this.viewMask,
+    );
+  }
+
+  /// 二进制 proto 编码（MQTT 等二进制传输用；字段按编号升序写出）
+  Uint8List writeToBuffer() {
+    final w = ProtoWireWriter();
+    _writeTo(w);
+    return w.toBuffer();
+  }
+
+  void _writeTo(ProtoWireWriter w) {
+    // field 1: id
+    final f1 = id;
+    if (f1 != null) {
+      w.writeUint32(1, f1!);
+    }
+    // field 100: viewMask
+    final f100 = viewMask;
+    if (f100 != null) {
+      w.writeFieldMask(100, f100!);
+    }
+  }
+
+  factory InventoryServiceV1GetLocationRequest.fromBuffer(List<int> bytes) {
+    return InventoryServiceV1GetLocationRequest._readFrom(ProtoWireReader(bytes));
+  }
+
+  static InventoryServiceV1GetLocationRequest _readFrom(ProtoWireReader r) {
+    final m = InventoryServiceV1GetLocationRequest();
+    while (r.next()) {
+      switch (r.fieldNumber) {
+        // field 1: id
+        case 1: {
+          m.id = r.readUint32();
+          break;
+        }
+        // field 100: viewMask
+        case 100: {
+          m.viewMask = r.readFieldMaskText();
+          break;
+        }
+        default: {
+          r.skip();
+        }
+      }
+    }
+    return m;
+  }
+
+}
+
 class StockLotServiceClient {
   final ClientTransport _transport;
 
@@ -11583,6 +12171,7 @@ class ApiClient {
   AuthenticationServiceClient? _authenticationService;
   DictEntryLookupClient? _dictEntryLookup;
   FileTransferServiceClient? _fileTransferService;
+  LocationServiceClient? _locationService;
   StockLotServiceClient? _stockLotService;
   StockPickingServiceClient? _stockPickingService;
   StockQuantServiceClient? _stockQuantService;
@@ -11614,6 +12203,11 @@ class ApiClient {
   FileTransferServiceClient get fileTransferService {
     _fileTransferService ??= FileTransferServiceClient(_transport);
     return _fileTransferService!;
+  }
+
+  LocationServiceClient get locationService {
+    _locationService ??= LocationServiceClient(_transport);
+    return _locationService!;
   }
 
   StockLotServiceClient get stockLotService {
@@ -11648,6 +12242,7 @@ class ApiClient {
     _authenticationService = null;
     _dictEntryLookup = null;
     _fileTransferService = null;
+    _locationService = null;
     _stockLotService = null;
     _stockPickingService = null;
     _stockQuantService = null;

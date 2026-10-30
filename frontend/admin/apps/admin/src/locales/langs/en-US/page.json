@@ -16,10 +16,6 @@
     "lowStockTitle": "Low Stock",
     "lowStockEmpty": "No low-stock items",
     "movementTrendTitle": "Movement Trend (Last 30 Days)",
-    "revenueMonth": "Revenue (Month)",
-    "cogsMonth": "COGS (Month)",
-    "profitMonth": "Profit (Month)",
-    "arApBalance": "AR / AP Balance",
     "expiringLotsTitle": "Expiring Lots (within 30 days)",
     "expiringLotsCount": "{count} lots to handle"
   },
@@ -595,17 +591,6 @@
     "progress": "Progress",
     "stepOf": "Step {current}/{total}"
   },
-  "supplier": {
-    "moduleName": "Supplier",
-    "code": "Supplier Code",
-    "name": "Supplier Name",
-    "contact": "Contact",
-    "phone": "Phone",
-    "enable": "Enabled",
-    "button": {
-      "create": "Create Supplier"
-    }
-  },
   "doc": {
     "purchaseTitle": "PURCHASE ORDER",
     "salesTitle": "SALES ORDER",
@@ -641,71 +626,6 @@
     "fromWarehouse": "From Warehouse",
     "toWarehouse": "To Warehouse"
   },
-  "purchaseOrder": {
-    "moduleName": "Purchase Order",
-    "poNumber": "PO Number",
-    "supplierCode": "Supplier",
-    "warehouseCode": "Receiving Warehouse",
-    "status": "Status",
-    "totalAmount": "Total",
-    "items": "Items",
-    "skuCode": "SKU",
-    "quantity": "Quantity",
-    "unitPrice": "Unit Price",
-    "unitPriceCents": "Unit Price (cents)",
-    "amount": "Amount",
-    "addItem": "Add Item",
-    "itemsRequired": "At least one item is required",
-    "itemInvalid": "Fill SKU and a positive quantity",
-    "receivedQuantity": "Received",
-    "receive": {
-      "title": "Receive Goods",
-      "warehouse": "Receiving Warehouse",
-      "quantity": "Receive Quantity",
-      "quantityHint": "Defaults to the remaining unreceived quantity",
-      "exceedsRemaining": "Receive quantity exceeds the remaining unreceived quantity",
-      "lotSection": "Lot Registration (optional)",
-      "lotHint": "Filling a lot number tracks remaining quantity and expiry in Stock Lots; leave empty to skip",
-      "lotName": "Lot No.",
-      "expiryDate": "Expiry (optional)"
-    },
-    "button": {
-      "create": "New Purchase Order",
-      "submit": "Submit",
-      "approve": "Approve",
-      "reject": "Reject",
-      "cancel": "Cancel",
-      "complete": "Complete",
-      "receive": "Receive",
-      "print": "Print"
-    }
-  },
-  "payable": {
-    "moduleName": "Payable",
-    "payableNumber": "Payable No.",
-    "poRef": "Source PO",
-    "supplierCode": "Supplier",
-    "amount": "Total",
-    "amountCents": "Total (cents)",
-    "paidAmount": "Paid",
-    "status": "Status",
-    "recordPayment": "Record Payment",
-    "paymentAmountCents": "Amount (cents)",
-    "paymentInvalid": "Enter a positive whole amount in cents",
-    "button": {
-      "create": "New Payable",
-      "pay": "Pay",
-      "cancel": "Cancel"
-    }
-  },
-  "payment": {
-    "moduleName": "Payment",
-    "paymentNumber": "Payment No.",
-    "payableId": "Payable ID",
-    "amount": "Amount",
-    "method": "Method",
-    "status": "Status"
-  },
   "product": {
     "moduleName": "Product",
     "code": "SKU Code",
@@ -716,39 +636,6 @@
     "button": {
       "create": "Create Product"
     }
-  },
-  "aging": {
-    "title": "Payable Aging Report",
-    "disclaimer": "This report buckets unsettled payables by due date. The overdue bucket (red) requires priority action. Amounts in yuan.",
-    "bucket": "Bucket",
-    "count": "Count",
-    "totalAmount": "Amount",
-    "bucketLabel": {
-      "overdue": "Overdue",
-      "0_7": "0-7 days",
-      "8_30": "8-30 days",
-      "31_90": "31-90 days",
-      "over_90": "over 90 days",
-      "no_due_date": "No due date"
-    }
-  },
-  "receivable": {
-    "amount": "Total",
-    "amountCents": "Total (cents)",
-    "button": {
-      "create": "New Receivable",
-      "receipt": "Receipt",
-      "cancel": "Cancel"
-    },
-    "moduleName": "Receivable",
-    "paidAmount": "Received",
-    "receivableNumber": "Receivable No.",
-    "receiptAmountCents": "Amount (cents)",
-    "receiptInvalid": "Enter a positive whole amount in cents",
-    "soRef": "Source SO",
-    "recordReceipt": "Record Receipt",
-    "status": "Status",
-    "customerCode": "Customer"
   },
   "receipt": {
     "amount": "Amount",
@@ -807,20 +694,6 @@
     "unitPrice": "Unit Price",
     "unitPriceCents": "Unit Price (cents)",
     "warehouseCode": "Shipping Warehouse"
-  },
-  "customer": {
-    "button": {
-      "create": "Create Customer"
-    },
-    "code": "Customer Code",
-    "contact": "Contact",
-    "enable": "Enabled",
-    "moduleName": "Customer",
-    "name": "Customer Name",
-    "phone": "Phone",
-    "creditLimit": "Credit Limit",
-    "creditLimitHint": "0 or empty = unlimited",
-    "unlimited": "Unlimited"
   },
   "register": {
     "tenantName": "Company Name",
@@ -965,5 +838,68 @@
     "amount": "Amount",
     "export": "Export Excel",
     "chartTitle": "Amount Ranking"
+  },
+  "asn": {
+    "moduleName": "ASN",
+    "asnNumber": "ASN No.",
+    "warehouseCode": "Dest. Warehouse",
+    "partnerCode": "Shipper",
+    "status": "Status",
+    "expectedDate": "Expected Date",
+    "lines": "ASN Lines",
+    "skuCode": "SKU Code",
+    "expectedQty": "Expected Qty",
+    "line": {
+      "expected": "Expected",
+      "received": "Received",
+      "putaway": "Putaway",
+      "lotName": "Lot"
+    },
+    "qc": {
+      "pass": "QC Pass",
+      "fail": "QC Fail"
+    },
+    "statusText": {
+      "draft": "Draft",
+      "announced": "Announced",
+      "receiving": "Receiving",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "action": {
+      "announce": "Announce",
+      "receive": "Receive",
+      "putaway": "Putaway",
+      "close": "Close",
+      "cancel": "Cancel"
+    },
+    "button": {
+      "create": "Create ASN",
+      "addLine": "Add Line"
+    },
+    "linesRequired": "Add at least one ASN line",
+    "lineInvalid": "Each line needs a SKU code and a positive expected quantity",
+    "receive": {
+      "title": "Receive: {number}",
+      "qty": "Receive Qty",
+      "remaining": "Remaining",
+      "nothingToReceive": "No lines to receive",
+      "overQty": "Receive quantity exceeds remaining quantity",
+      "success": "Received. Inbound picking created",
+      "failed": "Receive failed"
+    },
+    "putaway": {
+      "title": "Putaway: {number}",
+      "qty": "Putaway Qty",
+      "targetLocation": "Target Location",
+      "remaining": "Remaining",
+      "nothingToPutaway": "No lines to putaway",
+      "locationRequired": "Target location is required",
+      "overQty": "Putaway quantity exceeds remaining quantity",
+      "qcBlocked": "QC-failed or pending lines cannot be put away",
+      "qcBlockedHint": "QC failed or pending - putaway blocked",
+      "success": "Putaway done. Picking created",
+      "failed": "Putaway failed"
+    }
   }
 }

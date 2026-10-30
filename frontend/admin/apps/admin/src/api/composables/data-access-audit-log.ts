@@ -116,6 +116,17 @@ const DATA_ACCESS_AUDIT_LOG_ACCESS_TYPE_COLOR_MAP: Record<string, string> = {
   DEFAULT: '#86909C',
 };
 
+const DATA_ACCESS_AUDIT_LOG_CATEGORY_COLOR_MAP: Record<string, string> = {
+  USER: '#1677ff',
+  ORDER: '#2f54eb',
+  PRODUCT: '#13c2c2',
+  STOCK: '#fa8c16',
+  FINANCE: '#722ed1',
+  SYSTEM: '#52c41a',
+  OTHER: '#86909C',
+  DEFAULT: '#86909C',
+};
+
 export function dataAccessAuditLogAccessTypeToColor(accessType: AccessType) {
   return (
     DATA_ACCESS_AUDIT_LOG_ACCESS_TYPE_COLOR_MAP[accessType as string] ??
@@ -128,4 +139,17 @@ export function dataAccessAuditLogAccessTypeToName(accessType: AccessType) {
   const values = dataAccessAuditLogAccessTypeList.value;
   const matchedItem = values.find((item) => item.value === accessType);
   return matchedItem ? matchedItem.label : '';
+}
+
+export function dataAccessAuditLogCategoryToColor(category?: string) {
+  return (
+    DATA_ACCESS_AUDIT_LOG_CATEGORY_COLOR_MAP[category as string] ??
+    DATA_ACCESS_AUDIT_LOG_CATEGORY_COLOR_MAP.DEFAULT ??
+    '#86909C'
+  );
+}
+
+export function dataAccessAuditLogCategoryToName(category?: string) {
+  if (!category) return '';
+  return category;
 }

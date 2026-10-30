@@ -101,5 +101,57 @@
   "stocktakeZeroDiff": "Difference must not be 0",
   "stocktakeSuccess": "Stocktake applied",
   "stocktakeFailed": "Stocktake failed",
-  "skuLabel": "SKU"
+  "skuLabel": "SKU",
+  "navInbound": "Inbound",
+  "asnScanHint": "Scan / enter ASN number",
+  "asnEmpty": "No ASN records",
+  "asnNotFound": "ASN not found, please check the number",
+  "asnInvalidInput": "Action rejected: check quantities, QC and status",
+  "asnUnauthorized": "Session expired, please sign in again",
+  "asnNetwork": "Network error, please retry",
+  "asnUnknown": "Action failed, please retry",
+  "asnStatusDraft": "Draft",
+  "asnStatusAnnounced": "Announced",
+  "asnStatusReceiving": "Receiving",
+  "asnStatusCompleted": "Completed",
+  "asnStatusCancelled": "Cancelled",
+  "asnWarehouse": "Warehouse",
+  "asnPartner": "Shipper",
+  "asnQtyExpected": "Expected",
+  "asnQtyReceived": "Received",
+  "asnQtyPutaway": "Putaway",
+  "asnQcPass": "QC Pass",
+  "asnQcFail": "QC Fail",
+  "asnLotName": "Lot",
+  "asnActionReceive": "Receive",
+  "asnActionPutaway": "Putaway",
+  "asnCancel": "Cancel",
+  "asnReceiveTitle": "Receive {number}",
+  "asnReceiveQty": "Receive Qty",
+  "asnReceiveRemaining": "Remaining",
+  "asnNothingToReceive": "Fill in receive quantities first",
+  "asnOverReceive": "Receive quantity exceeds remaining",
+  "asnReceiveSuccess": "Received. Inbound picking created",
+  "asnPutawayTitle": "Putaway {number}",
+  "asnPutawayQty": "Putaway Qty",
+  "asnPutawayRemaining": "Remaining",
+  "asnPutawayTargetLocation": "Target Location",
+  "asnNothingToPutaway": "Fill in putaway quantities first",
+  "asnOverPutaway": "Putaway quantity exceeds remaining",
+  "asnLocationRequired": "Select a target location for each line",
+  "asnPutawaySuccess": "Putaway done. Picking created",
+  "@asnReceiveTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "@asnPutawayTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
 }

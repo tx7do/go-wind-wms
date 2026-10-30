@@ -101,5 +101,57 @@
   "stocktakeZeroDiff": "差异数量不能为 0",
   "stocktakeSuccess": "盘点已生效",
   "stocktakeFailed": "盘点失败",
-  "skuLabel": "SKU"
+  "skuLabel": "SKU",
+  "navInbound": "到货通知",
+  "asnScanHint": "扫描/输入 ASN 单号",
+  "asnEmpty": "暂无到货通知单",
+  "asnNotFound": "单号不存在，请检查后重试",
+  "asnInvalidInput": "操作被拒绝：请核对数量、质检与单据状态",
+  "asnUnauthorized": "登录已过期，请重新登录",
+  "asnNetwork": "网络异常，请稍后重试",
+  "asnUnknown": "操作失败，请稍后重试",
+  "asnStatusDraft": "草稿",
+  "asnStatusAnnounced": "已宣告",
+  "asnStatusReceiving": "收货中",
+  "asnStatusCompleted": "已完结",
+  "asnStatusCancelled": "已取消",
+  "asnWarehouse": "仓库",
+  "asnPartner": "发货方",
+  "asnQtyExpected": "预期",
+  "asnQtyReceived": "已收",
+  "asnQtyPutaway": "已上架",
+  "asnQcPass": "质检通过",
+  "asnQcFail": "质检不合格",
+  "asnLotName": "批次号",
+  "asnActionReceive": "收货",
+  "asnActionPutaway": "上架",
+  "asnCancel": "取消",
+  "asnReceiveTitle": "收货 {number}",
+  "asnReceiveQty": "本次收货",
+  "asnReceiveRemaining": "剩余",
+  "asnNothingToReceive": "请先填写收货数量",
+  "asnOverReceive": "收货数量不能超过剩余可收数",
+  "asnReceiveSuccess": "收货成功，已生成入库拣货单",
+  "asnPutawayTitle": "上架 {number}",
+  "asnPutawayQty": "本次上架",
+  "asnPutawayRemaining": "剩余",
+  "asnPutawayTargetLocation": "目标库位",
+  "asnNothingToPutaway": "请先填写上架数量",
+  "asnOverPutaway": "上架数量不能超过剩余可上架数",
+  "asnLocationRequired": "请为每行选择目标库位",
+  "asnPutawaySuccess": "上架成功，已生成上架拣货单",
+  "@asnReceiveTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "@asnPutawayTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
 }

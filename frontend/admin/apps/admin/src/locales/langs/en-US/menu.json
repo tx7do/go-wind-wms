@@ -59,36 +59,13 @@
     "stockQuant": "Stock Quants",
     "stockPicking": "Stock Pickings",
     "product": "Products",
-    "stockLot": "Stock Lots"
+    "stockLot": "Stock Lots",
+    "asn": "ASN"
   },
   "approval": {
     "moduleName": "Approval Center",
     "request": "Approval Requests",
     "flow": "Approval Flows"
-  },
-  "procurement": {
-    "moduleName": "Procurement",
-    "purchaseOrder": "Purchase Orders",
-    "supplier": "Suppliers"
-  },
-  "finance": {
-    "moduleName": "Finance",
-    "payable": "Payables",
-    "payment": "Payments",
-    "aging": "Aging Report",
-    "receivable": "Receivable Management",
-    "receipt": "Receipt Ledger",
-    "agingAr": "Receivable Aging",
-    "profit": "Profit Report",
-    "trialBalance": "Trial Balance",
-    "journal": "Journal Entries",
-    "statement": "Partner Statement",
-    "salesRanking": "Sales Ranking"
-  },
-  "sales": {
-    "moduleName": "Sales Management",
-    "salesOrder": "Sales Orders",
-    "customer": "Customer Management"
   },
   "billing": {
     "moduleName": "Subscription & Pricing",

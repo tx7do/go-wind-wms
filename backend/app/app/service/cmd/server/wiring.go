@@ -59,6 +59,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	roleServiceClient := data.NewRoleServiceClient(ctx, discovery)
 	userCredentialServiceClient := data.NewUserCredentialServiceClient(ctx, discovery)
 	warehouseServiceClient := data.NewWarehouseServiceClient(ctx, discovery)
+	locationServiceClient := data.NewLocationServiceClient(ctx, discovery)
 	stockQuantServiceClient := data.NewStockQuantServiceClient(ctx, discovery)
 	stockLotServiceClient := data.NewStockLotServiceClient(ctx, discovery)
 	stockPickingServiceClient := data.NewStockPickingServiceClient(ctx, discovery)
@@ -74,6 +75,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	fileTransferService := service.NewFileTransferService(ctx, minIOClient, fileServiceClient)
 	userProfileService := service.NewUserProfileService(ctx, userServiceClient, tenantServiceClient, orgUnitServiceClient, positionServiceClient, roleServiceClient, userCredentialServiceClient)
 	warehouseService := service.NewWarehouseService(ctx, warehouseServiceClient)
+	locationService := service.NewLocationService(ctx, locationServiceClient)
 	stockQuantService := service.NewStockQuantService(ctx, stockQuantServiceClient)
 	stockLotService := service.NewStockLotService(ctx, stockLotServiceClient)
 	stockPickingService := service.NewStockPickingService(ctx, stockPickingServiceClient)
@@ -92,6 +94,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 		fileTransferService,
 		userProfileService,
 		warehouseService,
+		locationService,
 		stockQuantService,
 		stockLotService,
 		stockPickingService,

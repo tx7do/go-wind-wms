@@ -239,6 +239,25 @@ const gridOptions: VxeGridProps<LoginAuditLog> = {
 };
 
 const [Grid] = useVbenVxeGrid({ gridOptions, formOptions });
+
+const [Drawer, drawerApi] = useVbenDrawer({
+  connectedComponent: LoginAuditLogDetailDrawer,
+});
+
+/* 操作列描述符：单详情钮（定式由 TableActions 统一执行） */
+function buildRowActions(): TableAction[] {
+  return [
+    {
+      key: 'detail',
+      label: $t('ui.button.detail'),
+      icon: h(LucideEye),
+      onClick: (row: any) => {
+        drawerApi.setData({ row });
+        drawerApi.open();
+      },
+    },
+  ];
+}
 </script>
 
 <template>

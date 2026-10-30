@@ -76,6 +76,18 @@ const warehouse: RouteRecordRaw[] = [
         },
         component: () => import('#/views/app/wms/stock_lot/index.vue'),
       },
+
+      {
+        path: 'asns',
+        name: 'AsnManagement',
+        meta: {
+          order: 5,
+          icon: 'lucide:clipboard-list',
+          title: $t('menu.wms.asn'),
+          authority: ['sys:platform_admin', 'sys:tenant_manager', 'sys:warehouse_keeper'],
+        },
+        component: () => import('#/views/app/wms/asn/index.vue'),
+      },
     ],
   },
 ];

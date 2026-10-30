@@ -184,6 +184,15 @@ func NewStockQuantServiceClient(ctx *bootstrap.Context, r registry.Discovery) in
 	return inventoryV1.NewStockQuantServiceClient(cli)
 }
 
+func NewLocationServiceClient(ctx *bootstrap.Context, r registry.Discovery) inventoryV1.LocationServiceClient {
+	cli, err := rpc.CreateGrpcClient(ctx.Context(), r, serviceid.NewDiscoveryName(serviceid.CoreService), ctx.GetConfig())
+	if err != nil {
+		return nil
+	}
+
+	return inventoryV1.NewLocationServiceClient(cli)
+}
+
 func NewStockLotServiceClient(ctx *bootstrap.Context, r registry.Discovery) inventoryV1.StockLotServiceClient {
 	cli, err := rpc.CreateGrpcClient(ctx.Context(), r, serviceid.NewDiscoveryName(serviceid.CoreService), ctx.GetConfig())
 	if err != nil {

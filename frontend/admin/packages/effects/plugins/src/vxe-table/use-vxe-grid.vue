@@ -36,7 +36,6 @@ import { $t } from '@vben/locales';
 import { usePreferences } from '@vben/preferences';
 import { cloneDeep, cn, mergeWithArrayOverride } from '@vben/utils';
 import {
-  VbenButton,
   VbenHelpTooltip,
   VbenIconButton,
   VbenLoading,

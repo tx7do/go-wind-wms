@@ -673,6 +673,266 @@ class S {
   String get skuLabel {
     return Intl.message('SKU', name: 'skuLabel', desc: '', args: []);
   }
+
+  /// `到货通知`
+  String get navInbound {
+    return Intl.message('到货通知', name: 'navInbound', desc: '', args: []);
+  }
+
+  /// `扫描/输入 ASN 单号`
+  String get asnScanHint {
+    return Intl.message(
+      '扫描/输入 ASN 单号',
+      name: 'asnScanHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `暂无到货通知单`
+  String get asnEmpty {
+    return Intl.message('暂无到货通知单', name: 'asnEmpty', desc: '', args: []);
+  }
+
+  /// `单号不存在，请检查后重试`
+  String get asnNotFound {
+    return Intl.message(
+      '单号不存在，请检查后重试',
+      name: 'asnNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `操作被拒绝：请核对数量、质检与单据状态`
+  String get asnInvalidInput {
+    return Intl.message(
+      '操作被拒绝：请核对数量、质检与单据状态',
+      name: 'asnInvalidInput',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `登录已过期，请重新登录`
+  String get asnUnauthorized {
+    return Intl.message(
+      '登录已过期，请重新登录',
+      name: 'asnUnauthorized',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `网络异常，请稍后重试`
+  String get asnNetwork {
+    return Intl.message('网络异常，请稍后重试', name: 'asnNetwork', desc: '', args: []);
+  }
+
+  /// `操作失败，请稍后重试`
+  String get asnUnknown {
+    return Intl.message('操作失败，请稍后重试', name: 'asnUnknown', desc: '', args: []);
+  }
+
+  /// `草稿`
+  String get asnStatusDraft {
+    return Intl.message('草稿', name: 'asnStatusDraft', desc: '', args: []);
+  }
+
+  /// `已宣告`
+  String get asnStatusAnnounced {
+    return Intl.message('已宣告', name: 'asnStatusAnnounced', desc: '', args: []);
+  }
+
+  /// `收货中`
+  String get asnStatusReceiving {
+    return Intl.message('收货中', name: 'asnStatusReceiving', desc: '', args: []);
+  }
+
+  /// `已完结`
+  String get asnStatusCompleted {
+    return Intl.message('已完结', name: 'asnStatusCompleted', desc: '', args: []);
+  }
+
+  /// `已取消`
+  String get asnStatusCancelled {
+    return Intl.message('已取消', name: 'asnStatusCancelled', desc: '', args: []);
+  }
+
+  /// `仓库`
+  String get asnWarehouse {
+    return Intl.message('仓库', name: 'asnWarehouse', desc: '', args: []);
+  }
+
+  /// `发货方`
+  String get asnPartner {
+    return Intl.message('发货方', name: 'asnPartner', desc: '', args: []);
+  }
+
+  /// `预期`
+  String get asnQtyExpected {
+    return Intl.message('预期', name: 'asnQtyExpected', desc: '', args: []);
+  }
+
+  /// `已收`
+  String get asnQtyReceived {
+    return Intl.message('已收', name: 'asnQtyReceived', desc: '', args: []);
+  }
+
+  /// `已上架`
+  String get asnQtyPutaway {
+    return Intl.message('已上架', name: 'asnQtyPutaway', desc: '', args: []);
+  }
+
+  /// `质检通过`
+  String get asnQcPass {
+    return Intl.message('质检通过', name: 'asnQcPass', desc: '', args: []);
+  }
+
+  /// `质检不合格`
+  String get asnQcFail {
+    return Intl.message('质检不合格', name: 'asnQcFail', desc: '', args: []);
+  }
+
+  /// `批次号`
+  String get asnLotName {
+    return Intl.message('批次号', name: 'asnLotName', desc: '', args: []);
+  }
+
+  /// `收货`
+  String get asnActionReceive {
+    return Intl.message('收货', name: 'asnActionReceive', desc: '', args: []);
+  }
+
+  /// `上架`
+  String get asnActionPutaway {
+    return Intl.message('上架', name: 'asnActionPutaway', desc: '', args: []);
+  }
+
+  /// `取消`
+  String get asnCancel {
+    return Intl.message('取消', name: 'asnCancel', desc: '', args: []);
+  }
+
+  /// `收货 {number}`
+  String asnReceiveTitle(String number) {
+    return Intl.message(
+      '收货 $number',
+      name: 'asnReceiveTitle',
+      desc: '',
+      args: [number],
+    );
+  }
+
+  /// `本次收货`
+  String get asnReceiveQty {
+    return Intl.message('本次收货', name: 'asnReceiveQty', desc: '', args: []);
+  }
+
+  /// `剩余`
+  String get asnReceiveRemaining {
+    return Intl.message('剩余', name: 'asnReceiveRemaining', desc: '', args: []);
+  }
+
+  /// `请先填写收货数量`
+  String get asnNothingToReceive {
+    return Intl.message(
+      '请先填写收货数量',
+      name: 'asnNothingToReceive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `收货数量不能超过剩余可收数`
+  String get asnOverReceive {
+    return Intl.message(
+      '收货数量不能超过剩余可收数',
+      name: 'asnOverReceive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `收货成功，已生成入库拣货单`
+  String get asnReceiveSuccess {
+    return Intl.message(
+      '收货成功，已生成入库拣货单',
+      name: 'asnReceiveSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `上架 {number}`
+  String asnPutawayTitle(String number) {
+    return Intl.message(
+      '上架 $number',
+      name: 'asnPutawayTitle',
+      desc: '',
+      args: [number],
+    );
+  }
+
+  /// `本次上架`
+  String get asnPutawayQty {
+    return Intl.message('本次上架', name: 'asnPutawayQty', desc: '', args: []);
+  }
+
+  /// `剩余`
+  String get asnPutawayRemaining {
+    return Intl.message('剩余', name: 'asnPutawayRemaining', desc: '', args: []);
+  }
+
+  /// `目标库位`
+  String get asnPutawayTargetLocation {
+    return Intl.message(
+      '目标库位',
+      name: 'asnPutawayTargetLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `请先填写上架数量`
+  String get asnNothingToPutaway {
+    return Intl.message(
+      '请先填写上架数量',
+      name: 'asnNothingToPutaway',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `上架数量不能超过剩余可上架数`
+  String get asnOverPutaway {
+    return Intl.message(
+      '上架数量不能超过剩余可上架数',
+      name: 'asnOverPutaway',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `请为每行选择目标库位`
+  String get asnLocationRequired {
+    return Intl.message(
+      '请为每行选择目标库位',
+      name: 'asnLocationRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `上架成功，已生成上架拣货单`
+  String get asnPutawaySuccess {
+    return Intl.message(
+      '上架成功，已生成上架拣货单',
+      name: 'asnPutawaySuccess',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

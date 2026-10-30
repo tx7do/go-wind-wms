@@ -1,31 +1,24 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref, shallowRef, watch } from 'vue';
+import { onMounted, ref, shallowRef, watch } from 'vue';
 
 import type { EchartsUIType } from '@vben/plugins/echarts';
 
 import {
   LucideBuilding,
-  LucideCoins,
   LucideInbox,
   LucideNotebookPen,
   LucidePencil,
-  LucideTrendingDown,
-  LucideTrendingUp,
-  LucideWallet,
 } from '@vben/icons';
 import { EchartsUI, useEcharts } from '@vben/plugins/echarts';
 
 import { notification } from 'ant-design-vue';
 
 import {
-  centsToYuan,
-  fetchFinanceSummary,
   fetchListStockLots,
   fetchMovementTrend,
   fetchStockQuantOverview,
   formatLotExpiry,
   PaginationQuery,
-  type financeservicev1_FinanceSummaryResponse as FinanceSummary,
   type inventoryservicev1_MovementTrendResponse as MovementTrendResponse,
   type inventoryservicev1_StockQuantOverview as StockQuantOverview,
 } from '#/api';
@@ -37,7 +30,6 @@ const { renderEcharts } = useEcharts(chartRef);
 const loading = ref(true);
 const overview = ref<StockQuantOverview>();
 const trend = ref<MovementTrendResponse>();
-const summary = ref<FinanceSummary>();
 
 const metricCards = [
   {
@@ -61,36 +53,6 @@ const metricCards = [
     color: '#fa541c',
   },
 ] as const;
-
-const financeCards = computed(() => [
-  {
-    key: 'revenueMonth',
-    icon: LucideTrendingUp,
-    color: '#16a34a',
-    value: centsToYuan(summary.value?.revenueMonth ?? 0),
-  },
-  {
-    key: 'cogsMonth',
-    icon: LucideTrendingDown,
-    color: '#f97316',
-    value: centsToYuan(summary.value?.cogsMonth ?? 0),
-  },
-  {
-    key: 'profitMonth',
-    icon: LucideCoins,
-    color: '#1677ff',
-    value: centsToYuan(summary.value?.profitMonth ?? 0),
-  },
-  {
-    key: 'arApBalance',
-    icon: LucideWallet,
-    color: '#722ed1',
-    value:
-      centsToYuan(summary.value?.arBalance ?? 0) +
-      ' / ' +
-      centsToYuan(summary.value?.apBalance ?? 0),
-  },
-]);
 
 const expiringLots = ref<any[]>([]);
 const expiringColumns = [
@@ -123,12 +85,7 @@ async function loadOverview() {
   }
 }
 
-async function loadFinance() {
-  try {
-    summary.value = await fetchFinanceSummary();
-  } catch {
-    // 汇总失败不阻塞看板
-  }
+async function loadExpiringLots() {
   try {
     const lots = await fetchListStockLots(
       new PaginationQuery({
@@ -173,7 +130,7 @@ watch(trend, (val) => {
 onMounted(() => {
   loadOverview();
   loadTrend();
-  loadFinance();
+  loadExpiringLots();
 });
 </script>
 
@@ -207,37 +164,6 @@ onMounted(() => {
                 <div class="text-2xl font-semibold">
                   {{ overview?.[card.key] ?? '-' }}
                 </div>
-              </div>
-            </div>
-          </a-card>
-        </a-col>
-      </a-row>
-
-      <a-row class="mt-4" :gutter="[16, 16]">
-        <a-col
-          v-for="card in financeCards"
-          :key="card.key"
-          :xs="24"
-          :sm="12"
-          :lg="6"
-        >
-          <a-card>
-            <div class="flex items-center gap-3">
-              <div
-                class="flex h-11 w-11 items-center justify-center rounded-lg"
-                :style="{ backgroundColor: `${card.color}1a` }"
-              >
-                <component
-                  :is="card.icon"
-                  class="h-5 w-5"
-                  :style="{ color: card.color }"
-                />
-              </div>
-              <div>
-                <div class="text-xs text-gray-500">
-                  {{ $t(`page.dashboard.${card.key}`) }}
-                </div>
-                <div class="text-2xl font-semibold">{{ card.value }}</div>
               </div>
             </div>
           </a-card>

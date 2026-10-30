@@ -20,7 +20,6 @@ import {
   successToColor,
   successToNameWithStatusCode,
 } from '#/api';
-import { type auditservicev1_DataAccessAuditLog as DataAccessAuditLog } from '#/api';
 import { $t } from '#/locales';
 import TableActions from '#/components/TableActions.vue';
 import type { TableAction } from '#/components/TableActions.vue';
@@ -227,6 +226,25 @@ const gridOptions: VxeGridProps<ApiAuditLog> = {
 };
 
 const [Grid] = useVbenVxeGrid({ gridOptions, formOptions });
+
+const [Drawer, drawerApi] = useVbenDrawer({
+  connectedComponent: DataAccessAuditLogDetailDrawer,
+});
+
+/* 操作列描述符：单详情钮（定式由 TableActions 统一执行） */
+function buildRowActions(): TableAction[] {
+  return [
+    {
+      key: 'detail',
+      label: $t('ui.button.detail'),
+      icon: h(LucideEye),
+      onClick: (row: any) => {
+        drawerApi.setData({ row });
+        drawerApi.open();
+      },
+    },
+  ];
+}
 </script>
 
 <template>

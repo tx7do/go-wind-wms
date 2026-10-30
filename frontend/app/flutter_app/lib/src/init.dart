@@ -30,6 +30,8 @@ import 'package:go_wind_wms/src/features/dict/data/dict_repository_impl.dart'
     show createDictRepositoryImpl;
 import 'package:go_wind_wms/src/features/dict/domain/dict_repository.dart'
     show DictRepository;
+import 'package:go_wind_wms/src/features/asn/data/asn_repository_impl.dart';
+import 'package:go_wind_wms/src/features/asn/domain/asn_repository.dart';
 import 'package:go_wind_wms/src/features/wms/data/wms_repository_impl.dart'
     show createWmsRepositoryImpl;
 import 'package:go_wind_wms/src/features/wms/domain/wms_repository.dart'
@@ -75,6 +77,9 @@ void _initTransport() {
   );
   getIt.registerLazySingleton<WmsRepository>(
     () => createWmsRepositoryImpl(),
+  );
+  getIt.registerLazySingleton<AsnRepository>(
+    () => createAsnRepositoryImpl(),
   );
   getIt.registerLazySingleton<ApprovalRepository>(
     () => createApprovalRepositoryImpl(),

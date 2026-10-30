@@ -99,6 +99,23 @@ service StockPickingService {
 }
 
 // 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
+// 库存位置服务（移动端只读：上架时选择目标库位）
+service LocationService {
+  // 查询位置列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListLocationResponse) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-locations"
+    };
+  }
+
+  // 查询位置详情
+  rpc Get (inventory.service.v1.GetLocationRequest) returns (inventory.service.v1.StockLocation) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-locations/{id}"
+    };
+  }
+}
+
 service StockLotService {
   rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListStockLotResponse) {
     option (google.api.http) = {

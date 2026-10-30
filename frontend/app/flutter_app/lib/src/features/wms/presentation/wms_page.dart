@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:go_wind_wms/generated/l10n.dart';
+import 'package:go_wind_wms/src/core/constants/router_paths.dart';
 import 'package:go_wind_wms/src/features/wms/presentation/wms_cubit.dart';
 import 'package:go_wind_wms/src/features/wms/presentation/wms_state.dart';
 
@@ -30,7 +32,16 @@ class _WmsPageState extends State<WmsPage> {
   Widget build(BuildContext context) {
     final loc = S.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(loc.navWms)),
+      appBar: AppBar(
+        title: Text(loc.navWms),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.local_shipping_outlined),
+            tooltip: S.of(context).navInbound,
+            onPressed: () => context.push(AppRoutePath.asn),
+          ),
+        ],
+      ),
       body: BlocConsumer<WmsCubit, WmsState>(
           listener: (context, state) {
           if (state is WmsReady && state.message != null) {

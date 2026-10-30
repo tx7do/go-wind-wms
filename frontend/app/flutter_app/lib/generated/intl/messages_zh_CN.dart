@@ -20,6 +20,10 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
+  static String m0(number) => "上架 ${number}";
+
+  static String m1(number) => "收货 ${number}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appName": MessageLookupByLibrary.simpleMessage("GoWind WMS"),
@@ -40,6 +44,45 @@ class MessageLookup extends MessageLookupByLibrary {
     "approvalStatusCancelled": MessageLookupByLibrary.simpleMessage("已撤销"),
     "approvalStatusPending": MessageLookupByLibrary.simpleMessage("待审批"),
     "approvalStatusRejected": MessageLookupByLibrary.simpleMessage("已驳回"),
+    "asnActionPutaway": MessageLookupByLibrary.simpleMessage("上架"),
+    "asnActionReceive": MessageLookupByLibrary.simpleMessage("收货"),
+    "asnCancel": MessageLookupByLibrary.simpleMessage("取消"),
+    "asnEmpty": MessageLookupByLibrary.simpleMessage("暂无到货通知单"),
+    "asnInvalidInput": MessageLookupByLibrary.simpleMessage(
+      "操作被拒绝：请核对数量、质检与单据状态",
+    ),
+    "asnLocationRequired": MessageLookupByLibrary.simpleMessage("请为每行选择目标库位"),
+    "asnLotName": MessageLookupByLibrary.simpleMessage("批次号"),
+    "asnNetwork": MessageLookupByLibrary.simpleMessage("网络异常，请稍后重试"),
+    "asnNotFound": MessageLookupByLibrary.simpleMessage("单号不存在，请检查后重试"),
+    "asnNothingToPutaway": MessageLookupByLibrary.simpleMessage("请先填写上架数量"),
+    "asnNothingToReceive": MessageLookupByLibrary.simpleMessage("请先填写收货数量"),
+    "asnOverPutaway": MessageLookupByLibrary.simpleMessage("上架数量不能超过剩余可上架数"),
+    "asnOverReceive": MessageLookupByLibrary.simpleMessage("收货数量不能超过剩余可收数"),
+    "asnPartner": MessageLookupByLibrary.simpleMessage("发货方"),
+    "asnPutawayQty": MessageLookupByLibrary.simpleMessage("本次上架"),
+    "asnPutawayRemaining": MessageLookupByLibrary.simpleMessage("剩余"),
+    "asnPutawaySuccess": MessageLookupByLibrary.simpleMessage("上架成功，已生成上架拣货单"),
+    "asnPutawayTargetLocation": MessageLookupByLibrary.simpleMessage("目标库位"),
+    "asnPutawayTitle": m0,
+    "asnQcFail": MessageLookupByLibrary.simpleMessage("质检不合格"),
+    "asnQcPass": MessageLookupByLibrary.simpleMessage("质检通过"),
+    "asnQtyExpected": MessageLookupByLibrary.simpleMessage("预期"),
+    "asnQtyPutaway": MessageLookupByLibrary.simpleMessage("已上架"),
+    "asnQtyReceived": MessageLookupByLibrary.simpleMessage("已收"),
+    "asnReceiveQty": MessageLookupByLibrary.simpleMessage("本次收货"),
+    "asnReceiveRemaining": MessageLookupByLibrary.simpleMessage("剩余"),
+    "asnReceiveSuccess": MessageLookupByLibrary.simpleMessage("收货成功，已生成入库拣货单"),
+    "asnReceiveTitle": m1,
+    "asnScanHint": MessageLookupByLibrary.simpleMessage("扫描/输入 ASN 单号"),
+    "asnStatusAnnounced": MessageLookupByLibrary.simpleMessage("已宣告"),
+    "asnStatusCancelled": MessageLookupByLibrary.simpleMessage("已取消"),
+    "asnStatusCompleted": MessageLookupByLibrary.simpleMessage("已完结"),
+    "asnStatusDraft": MessageLookupByLibrary.simpleMessage("草稿"),
+    "asnStatusReceiving": MessageLookupByLibrary.simpleMessage("收货中"),
+    "asnUnauthorized": MessageLookupByLibrary.simpleMessage("登录已过期，请重新登录"),
+    "asnUnknown": MessageLookupByLibrary.simpleMessage("操作失败，请稍后重试"),
+    "asnWarehouse": MessageLookupByLibrary.simpleMessage("仓库"),
     "backToHome": MessageLookupByLibrary.simpleMessage("返回首页"),
     "cancel": MessageLookupByLibrary.simpleMessage("取消"),
     "comingSoon": MessageLookupByLibrary.simpleMessage("模块开发中"),
@@ -77,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "metricWarehouses": MessageLookupByLibrary.simpleMessage("仓库数"),
     "navApproval": MessageLookupByLibrary.simpleMessage("审批"),
     "navDashboard": MessageLookupByLibrary.simpleMessage("看板"),
+    "navInbound": MessageLookupByLibrary.simpleMessage("到货通知"),
     "navWms": MessageLookupByLibrary.simpleMessage("仓储"),
     "negativeStock": MessageLookupByLibrary.simpleMessage("出库数量不能超过当前库存"),
     "noWarehouse": MessageLookupByLibrary.simpleMessage("暂无可用仓库"),

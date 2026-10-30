@@ -8,4 +8,6 @@ class RouteNames {
   static const String home = 'home';
   static const String approval = 'approval';
   static const String wms = 'wms';
+  static const String asn = 'asn';
+  static const String asnDetail = 'asnDetail';
 }

@@ -122,64 +122,6 @@ export function useDeleteStockPicking(
 // 退货（销售退货 / 采购退货 → 拣货单）
 // ==============================
 
-export function useCreateSalesReturn(
-  options?: UseMutationOptions<
-    object,
-    Error,
-    {
-      items: { quantity: number; salesOrderItemId: number }[];
-      salesOrderId: number;
-    }
-  >,
-) {
-  return useMutation({
-    mutationFn: ({
-      salesOrderId,
-      items,
-    }: {
-      items: { quantity: number; salesOrderItemId: number }[];
-      salesOrderId: number;
-    }) =>
-      apiClient.stockPickingService.CreateSalesReturn({
-        salesOrderId,
-        items: items.map((it) => ({
-          salesOrderItemId: it.salesOrderItemId,
-          quantity: it.quantity,
-        })),
-      }),
-    ...options,
-  });
-}
-
-export function useCreatePurchaseReturn(
-  options?: UseMutationOptions<
-    object,
-    Error,
-    {
-      items: { purchaseOrderItemId: number; quantity: number }[];
-      purchaseOrderId: number;
-    }
-  >,
-) {
-  return useMutation({
-    mutationFn: ({
-      purchaseOrderId,
-      items,
-    }: {
-      items: { purchaseOrderItemId: number; quantity: number }[];
-      purchaseOrderId: number;
-    }) =>
-      apiClient.stockPickingService.CreatePurchaseReturn({
-        purchaseOrderId,
-        items: items.map((it) => ({
-          purchaseOrderItemId: it.purchaseOrderItemId,
-          quantity: it.quantity,
-        })),
-      }),
-    ...options,
-  });
-}
-
 // ==============================
 // 拣货类型 / 派生态 枚举与工具函数
 // ==============================
