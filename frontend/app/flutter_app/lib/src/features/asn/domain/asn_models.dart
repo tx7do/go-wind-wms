@@ -103,12 +103,14 @@ class ReceiveLineDraft {
   final int quantity;
   final AsnServiceV1AsnQcStatus qcStatus;
   final String? lotName;
+  final DateTime? expiry;
 
   const ReceiveLineDraft({
     required this.asnLineId,
     required this.quantity,
     this.qcStatus = AsnServiceV1AsnQcStatus.qcPass,
     this.lotName,
+    this.expiry,
   });
 }
 

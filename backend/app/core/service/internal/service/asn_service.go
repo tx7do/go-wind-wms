@@ -2,10 +2,12 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	paginationV1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 
@@ -254,8 +256,9 @@ func (s *AsnService) Receive(ctx context.Context, req *asnV1.ReceiveAsnRequest) 
 		return nil, err
 	}
 
-	// 本次收货按 SKU 聚合为 moves（同 SKU 多明细合并）。
-	moves := aggregateMoves(lines, reqQty)
+	// 本次收货按 (SKU, 批次, 效期) 细分为 moves——批次信息随 move 走，
+	// Validate 时据此 get-or-create 批次（多批次分次收互不覆盖）。
+	moves := aggregateMoves(lines, req.GetLines())
 
 	picking, err := s.stockPickingRepo.Create(ctx, &inventoryV1.CreateStockPickingRequest{
 		Data: &inventoryV1.StockPicking{
@@ -282,8 +285,13 @@ func (s *AsnService) Receive(ctx context.Context, req *asnV1.ReceiveAsnRequest) 
 		if l.QcStatus != nil {
 			qc = l.GetQcStatus()
 		}
+		var expiry *time.Time
+		if l.ExpiryDate != nil {
+			t := l.GetExpiryDate().AsTime()
+			expiry = &t
+		}
 		if err = s.asnRepo.ApplyReceivedQtyTx(ctx, tx, l.GetAsnLineId(), l.GetQuantity(),
-			entQcStatus(qc), l.LotName); err != nil {
+			entQcStatus(qc), l.LotName, expiry); err != nil {
 			return nil, err
 		}
 	}
@@ -417,34 +425,57 @@ func (s *AsnService) confirmPickingMovesTx(ctx context.Context, tx *ent.Tx, pick
 	return nil
 }
 
-// aggregateMoves 按 SKU 聚合收货 moves。
-func aggregateMoves(lines []*ent.AsnLine, reqQty map[uint32]int64) []*inventoryV1.StockMove {
+// aggregateMoves 按 (SKU, 批次, 效期) 聚合收货 moves。
+// 批次/效期事实来自本次收货请求行（ReceiveAsnLine），而非 ASN 行快照——
+// 同一行多批分次收时 ASN 行是"最近一次"口径，历史批次关联会丢。
+// 每个组合一条 move（批次信息随 move 走，Validate 落批次表）；
+// 未带批次的行归入 (sku, "", nil) 组（未跟踪库存）。
+func aggregateMoves(lines []*ent.AsnLine, reqLines []*asnV1.ReceiveAsnLine) []*inventoryV1.StockMove {
 	lineByID := make(map[uint32]*ent.AsnLine, len(lines))
 	for _, l := range lines {
 		lineByID[l.ID] = l
 	}
 
-	merged := make(map[string]int64)
-	var skuOrder []string
-	for lineID, qty := range reqQty {
-		line, ok := lineByID[lineID]
+	type moveKey struct {
+		sku    string
+		lot    string
+		expiry string
+	}
+	merged := make(map[moveKey]int64)
+	var keyOrder []moveKey
+	for _, rl := range reqLines {
+		line, ok := lineByID[rl.GetAsnLineId()]
 		if !ok {
 			continue
 		}
-		sku := deref(line.SkuCode)
-		if _, seen := merged[sku]; !seen {
-			skuOrder = append(skuOrder, sku)
+		k := moveKey{sku: deref(line.SkuCode)}
+		if rl.LotName != nil {
+			k.lot = rl.GetLotName()
 		}
-		merged[sku] += qty
+		if rl.ExpiryDate != nil {
+			k.expiry = rl.GetExpiryDate().AsTime().UTC().Format(time.RFC3339)
+		}
+		if _, seen := merged[k]; !seen {
+			keyOrder = append(keyOrder, k)
+		}
+		merged[k] += rl.GetQuantity()
 	}
 
-	moves := make([]*inventoryV1.StockMove, 0, len(skuOrder))
-	for _, sku := range skuOrder {
-		qty := merged[sku]
-		moves = append(moves, &inventoryV1.StockMove{
-			ProductCode:     &sku,
+	moves := make([]*inventoryV1.StockMove, 0, len(keyOrder))
+	for _, k := range keyOrder {
+		qty := merged[k]
+		mv := &inventoryV1.StockMove{
+			ProductCode:     &k.sku,
 			PlannedQuantity: &qty,
-		})
+		}
+		if k.lot != "" {
+			mv.LotName = &k.lot
+		}
+		if k.expiry != "" {
+			t, _ := time.Parse(time.RFC3339, k.expiry)
+			mv.ExpiryDate = timestamppb.New(t)
+		}
+		moves = append(moves, mv)
 	}
 	return moves
 }

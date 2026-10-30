@@ -45,7 +45,11 @@ type StockMove struct {
 	// 计划数量
 	PlannedQuantity *int64 `json:"planned_quantity,omitempty"`
 	// 移动状态
-	State        *stockmove.State `json:"state,omitempty"`
+	State *stockmove.State `json:"state,omitempty"`
+	// 收货批次号（ASN 入库 move 自带）
+	LotName *string `json:"lot_name,omitempty"`
+	// 批次效期（ASN 入库 move 自带，FEFO 排序依据）
+	ExpiryDate   *time.Time `json:"expiry_date,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -56,9 +60,9 @@ func (*StockMove) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case stockmove.FieldID, stockmove.FieldCreatedBy, stockmove.FieldUpdatedBy, stockmove.FieldDeletedBy, stockmove.FieldTenantID, stockmove.FieldPickingID, stockmove.FieldSourceLocationID, stockmove.FieldDestinationLocationID, stockmove.FieldPlannedQuantity:
 			values[i] = new(sql.NullInt64)
-		case stockmove.FieldRemark, stockmove.FieldProductCode, stockmove.FieldState:
+		case stockmove.FieldRemark, stockmove.FieldProductCode, stockmove.FieldState, stockmove.FieldLotName:
 			values[i] = new(sql.NullString)
-		case stockmove.FieldCreatedAt, stockmove.FieldUpdatedAt, stockmove.FieldDeletedAt:
+		case stockmove.FieldCreatedAt, stockmove.FieldUpdatedAt, stockmove.FieldDeletedAt, stockmove.FieldExpiryDate:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -179,6 +183,20 @@ func (_m *StockMove) assignValues(columns []string, values []any) error {
 				_m.State = new(stockmove.State)
 				*_m.State = stockmove.State(value.String)
 			}
+		case stockmove.FieldLotName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field lot_name", values[i])
+			} else if value.Valid {
+				_m.LotName = new(string)
+				*_m.LotName = value.String
+			}
+		case stockmove.FieldExpiryDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field expiry_date", values[i])
+			} else if value.Valid {
+				_m.ExpiryDate = new(time.Time)
+				*_m.ExpiryDate = value.Time
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -283,6 +301,16 @@ func (_m *StockMove) String() string {
 	if v := _m.State; v != nil {
 		builder.WriteString("state=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.LotName; v != nil {
+		builder.WriteString("lot_name=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.ExpiryDate; v != nil {
+		builder.WriteString("expiry_date=")
+		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteByte(')')
 	return builder.String()

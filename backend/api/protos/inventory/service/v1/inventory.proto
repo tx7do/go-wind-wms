@@ -510,6 +510,24 @@ message StockMove {
   optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
   optional google.protobuf.Timestamp deleted_at = 202 [json_name = "deletedAt", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+
+  // lot_name/expiry_date：ASN 收货生成的入库 move 自带批次信息
+  // （每 (sku, lot, expiry) 细分一条 move），Validate 登记批次用。
+  optional string lot_name = 16 [
+    json_name = "lotName",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+          description: "收货批次号（ASN 入库 move）"
+        }
+  ]; // 收货批次号
+
+  optional google.protobuf.Timestamp expiry_date = 17 [
+    json_name = "expiryDate",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+          description: "批次效期（ASN 入库 move）"
+        }
+  ]; // 批次效期
 }
 
 // 查询仓库列表 - 回应

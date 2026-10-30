@@ -165,5 +165,7 @@
   "outboundConfirm": "Confirm",
   "outboundValidate": "Validate",
   "outboundConfirmed": "Confirmed. Picking can start",
-  "outboundValidated": "Outbound done. Stock deducted"
+  "outboundValidated": "Outbound done. Stock deducted",
+  "asnExpiryDate": "Expiry (YYYY-MM-DD)",
+  "asnExpiryInvalid": "Invalid expiry, use YYYY-MM-DD"
 }

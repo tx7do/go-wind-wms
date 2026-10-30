@@ -79,6 +79,11 @@ func (AsnLine) Fields() []ent.Field {
 			Comment("批次号（最近一次收货登记，可选）").
 			Optional().
 			Nillable(),
+
+		field.Time("expiry_date").
+			Comment("效期（最近一次收货登记，FEFO 排序依据）").
+			Optional().
+			Nillable(),
 	}
 }
 

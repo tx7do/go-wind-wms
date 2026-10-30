@@ -318,6 +318,46 @@ func (_u *StockMoveUpdate) ClearState() *StockMoveUpdate {
 	return _u
 }
 
+// SetLotName sets the "lot_name" field.
+func (_u *StockMoveUpdate) SetLotName(v string) *StockMoveUpdate {
+	_u.mutation.SetLotName(v)
+	return _u
+}
+
+// SetNillableLotName sets the "lot_name" field if the given value is not nil.
+func (_u *StockMoveUpdate) SetNillableLotName(v *string) *StockMoveUpdate {
+	if v != nil {
+		_u.SetLotName(*v)
+	}
+	return _u
+}
+
+// ClearLotName clears the value of the "lot_name" field.
+func (_u *StockMoveUpdate) ClearLotName() *StockMoveUpdate {
+	_u.mutation.ClearLotName()
+	return _u
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (_u *StockMoveUpdate) SetExpiryDate(v time.Time) *StockMoveUpdate {
+	_u.mutation.SetExpiryDate(v)
+	return _u
+}
+
+// SetNillableExpiryDate sets the "expiry_date" field if the given value is not nil.
+func (_u *StockMoveUpdate) SetNillableExpiryDate(v *time.Time) *StockMoveUpdate {
+	if v != nil {
+		_u.SetExpiryDate(*v)
+	}
+	return _u
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (_u *StockMoveUpdate) ClearExpiryDate() *StockMoveUpdate {
+	_u.mutation.ClearExpiryDate()
+	return _u
+}
+
 // Mutation returns the StockMoveMutation object of the builder.
 func (_u *StockMoveUpdate) Mutation() *StockMoveMutation {
 	return _u.mutation
@@ -476,6 +516,18 @@ func (_u *StockMoveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.StateCleared() {
 		_spec.ClearField(stockmove.FieldState, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.LotName(); ok {
+		_spec.SetField(stockmove.FieldLotName, field.TypeString, value)
+	}
+	if _u.mutation.LotNameCleared() {
+		_spec.ClearField(stockmove.FieldLotName, field.TypeString)
+	}
+	if value, ok := _u.mutation.ExpiryDate(); ok {
+		_spec.SetField(stockmove.FieldExpiryDate, field.TypeTime, value)
+	}
+	if _u.mutation.ExpiryDateCleared() {
+		_spec.ClearField(stockmove.FieldExpiryDate, field.TypeTime)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
@@ -788,6 +840,46 @@ func (_u *StockMoveUpdateOne) ClearState() *StockMoveUpdateOne {
 	return _u
 }
 
+// SetLotName sets the "lot_name" field.
+func (_u *StockMoveUpdateOne) SetLotName(v string) *StockMoveUpdateOne {
+	_u.mutation.SetLotName(v)
+	return _u
+}
+
+// SetNillableLotName sets the "lot_name" field if the given value is not nil.
+func (_u *StockMoveUpdateOne) SetNillableLotName(v *string) *StockMoveUpdateOne {
+	if v != nil {
+		_u.SetLotName(*v)
+	}
+	return _u
+}
+
+// ClearLotName clears the value of the "lot_name" field.
+func (_u *StockMoveUpdateOne) ClearLotName() *StockMoveUpdateOne {
+	_u.mutation.ClearLotName()
+	return _u
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (_u *StockMoveUpdateOne) SetExpiryDate(v time.Time) *StockMoveUpdateOne {
+	_u.mutation.SetExpiryDate(v)
+	return _u
+}
+
+// SetNillableExpiryDate sets the "expiry_date" field if the given value is not nil.
+func (_u *StockMoveUpdateOne) SetNillableExpiryDate(v *time.Time) *StockMoveUpdateOne {
+	if v != nil {
+		_u.SetExpiryDate(*v)
+	}
+	return _u
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (_u *StockMoveUpdateOne) ClearExpiryDate() *StockMoveUpdateOne {
+	_u.mutation.ClearExpiryDate()
+	return _u
+}
+
 // Mutation returns the StockMoveMutation object of the builder.
 func (_u *StockMoveUpdateOne) Mutation() *StockMoveMutation {
 	return _u.mutation
@@ -976,6 +1068,18 @@ func (_u *StockMoveUpdateOne) sqlSave(ctx context.Context) (_node *StockMove, er
 	}
 	if _u.mutation.StateCleared() {
 		_spec.ClearField(stockmove.FieldState, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.LotName(); ok {
+		_spec.SetField(stockmove.FieldLotName, field.TypeString, value)
+	}
+	if _u.mutation.LotNameCleared() {
+		_spec.ClearField(stockmove.FieldLotName, field.TypeString)
+	}
+	if value, ok := _u.mutation.ExpiryDate(); ok {
+		_spec.SetField(stockmove.FieldExpiryDate, field.TypeTime, value)
+	}
+	if _u.mutation.ExpiryDateCleared() {
+		_spec.ClearField(stockmove.FieldExpiryDate, field.TypeTime)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	_node = &StockMove{config: _u.config}

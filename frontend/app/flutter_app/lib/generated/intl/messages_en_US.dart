@@ -52,6 +52,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "asnActionReceive": MessageLookupByLibrary.simpleMessage("Receive"),
     "asnCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "asnEmpty": MessageLookupByLibrary.simpleMessage("No ASN records"),
+    "asnExpiryDate": MessageLookupByLibrary.simpleMessage(
+      "Expiry (YYYY-MM-DD)",
+    ),
+    "asnExpiryInvalid": MessageLookupByLibrary.simpleMessage(
+      "Invalid expiry, use YYYY-MM-DD",
+    ),
     "asnInvalidInput": MessageLookupByLibrary.simpleMessage(
       "Action rejected: check quantities, QC and status",
     ),

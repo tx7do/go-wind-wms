@@ -79,6 +79,8 @@ class AsnRepositoryImpl implements AsnRepository {
                   quantity: l.quantity,
                   qcStatus: l.qcStatus,
                   lotName: l.lotName,
+                  expiryDate:
+                      l.expiry == null ? null : l.expiry!.toIso8601String(),
                 ),
               )
               .toList(),

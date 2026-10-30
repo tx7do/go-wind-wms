@@ -199,6 +199,7 @@ class _AsnDetailPageState extends State<AsnDetailPage> {
     final cubit = context.read<AsnCubit>();
     final controllers = <int, TextEditingController>{};
     final lotControllers = <int, TextEditingController>{};
+    final expiryControllers = <int, TextEditingController>{};
     final qc = <int, AsnServiceV1AsnQcStatus>{};
 
     showModalBottomSheet<void>(
@@ -299,6 +300,18 @@ class _AsnDetailPageState extends State<AsnDetailPage> {
                                       border: const OutlineInputBorder(),
                                     ),
                                   ),
+                                  const SizedBox(height: 6),
+                                  TextFormField(
+                                    controller: expiryControllers[line.id] ??=
+                                        TextEditingController(),
+                                    keyboardType: TextInputType.datetime,
+                                    decoration: InputDecoration(
+                                      labelText: loc.asnExpiryDate,
+                                      hintText: 'YYYY-MM-DD',
+                                      isDense: true,
+                                      border: const OutlineInputBorder(),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -330,6 +343,21 @@ class _AsnDetailPageState extends State<AsnDetailPage> {
                                 );
                               return;
                             }
+                            DateTime? expiry;
+                            final expiryRaw =
+                                expiryControllers[line.id]?.text.trim();
+                            if (expiryRaw != null && expiryRaw.isNotEmpty) {
+                              expiry = DateTime.tryParse(expiryRaw);
+                              if (expiry == null) {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(
+                                    SnackBar(
+                                        content: Text(loc.asnExpiryInvalid)),
+                                  );
+                                return;
+                              }
+                            }
                             drafts.add(
                               ReceiveLineDraft(
                                 asnLineId: line.id,
@@ -337,6 +365,7 @@ class _AsnDetailPageState extends State<AsnDetailPage> {
                                 qcStatus: qc[line.id] ??
                                     AsnServiceV1AsnQcStatus.qcPass,
                                 lotName: lotControllers[line.id]?.text.trim(),
+                                expiry: expiry,
                               ),
                             );
                           }

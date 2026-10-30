@@ -48,6 +48,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "asnActionReceive": MessageLookupByLibrary.simpleMessage("收货"),
     "asnCancel": MessageLookupByLibrary.simpleMessage("取消"),
     "asnEmpty": MessageLookupByLibrary.simpleMessage("暂无到货通知单"),
+    "asnExpiryDate": MessageLookupByLibrary.simpleMessage("效期（YYYY-MM-DD）"),
+    "asnExpiryInvalid": MessageLookupByLibrary.simpleMessage(
+      "效期格式错误，应为 YYYY-MM-DD",
+    ),
     "asnInvalidInput": MessageLookupByLibrary.simpleMessage(
       "操作被拒绝：请核对数量、质检与单据状态",
     ),

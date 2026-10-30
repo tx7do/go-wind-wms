@@ -311,6 +311,7 @@ var (
 		{Name: "putaway_qty", Type: field.TypeInt64, Nullable: true, Comment: "已上架数量（累计）", Default: 0},
 		{Name: "qc_status", Type: field.TypeEnum, Nullable: true, Comment: "质检状态：QC_PENDING=未检，QC_PASS=通过，QC_FAIL=不合格", Enums: []string{"QC_PENDING", "QC_PASS", "QC_FAIL"}, Default: "QC_PENDING"},
 		{Name: "lot_name", Type: field.TypeString, Nullable: true, Comment: "批次号（最近一次收货登记，可选）"},
+		{Name: "expiry_date", Type: field.TypeTime, Nullable: true, Comment: "效期（最近一次收货登记，FEFO 排序依据）"},
 	}
 	// WmsAsnLinesTable holds the schema information for the "wms_asn_lines" table.
 	WmsAsnLinesTable = &schema.Table{
@@ -2570,6 +2571,8 @@ var (
 		{Name: "destination_location_id", Type: field.TypeUint32, Nullable: true, Comment: "目的位置ID", Default: 0},
 		{Name: "planned_quantity", Type: field.TypeInt64, Nullable: true, Comment: "计划数量", Default: 0},
 		{Name: "state", Type: field.TypeEnum, Nullable: true, Comment: "移动状态", Enums: []string{"DRAFT", "CONFIRMED", "DONE", "CANCELLED"}, Default: "DRAFT"},
+		{Name: "lot_name", Type: field.TypeString, Nullable: true, Comment: "收货批次号（ASN 入库 move 自带）"},
+		{Name: "expiry_date", Type: field.TypeTime, Nullable: true, Comment: "批次效期（ASN 入库 move 自带，FEFO 排序依据）"},
 	}
 	// InvStockMovesTable holds the schema information for the "inv_stock_moves" table.
 	InvStockMovesTable = &schema.Table{

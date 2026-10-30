@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	entCrud "github.com/tx7do/go-crud/entgo"
 
@@ -66,6 +67,13 @@ func (r *StockMoveRepo) CreateMovesForPicking(
 		}
 		if move.PlannedQuantity != nil {
 			builder.SetNillablePlannedQuantity(move.PlannedQuantity)
+		if move.LotName != nil {
+			builder.SetNillableLotName(move.LotName)
+		}
+		if move.ExpiryDate != nil {
+			et := move.ExpiryDate.AsTime()
+			builder.SetNillableExpiryDate(&et)
+		}
 		}
 		if _, err := builder.Save(ctx); err != nil {
 			r.log.Errorf("insert stock_move failed: %s", err.Error())
@@ -200,6 +208,10 @@ func (r *StockMoveRepo) mapMoveRows(rows []*ent.StockMove) []*inventoryV1.StockM
 			PlannedQuantity:       row.PlannedQuantity,
 			State:                 r.stateConverter.ToDTO(row.State),
 			Remark:                row.Remark,
+			LotName:               row.LotName,
+		}
+		if row.ExpiryDate != nil {
+			dto.ExpiryDate = timestamppb.New(*row.ExpiryDate)
 		}
 		items = append(items, dto)
 	}

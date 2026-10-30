@@ -165,5 +165,7 @@
   "outboundConfirm": "确认拣货",
   "outboundValidate": "校验出库",
   "outboundConfirmed": "已确认，可开始拣货",
-  "outboundValidated": "出库完成，库存已扣减"
+  "outboundValidated": "出库完成，库存已扣减",
+  "asnExpiryDate": "效期（YYYY-MM-DD）",
+  "asnExpiryInvalid": "效期格式错误，应为 YYYY-MM-DD"
 }

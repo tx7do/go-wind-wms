@@ -44,6 +44,8 @@ const (
 	FieldQcStatus = "qc_status"
 	// FieldLotName holds the string denoting the lot_name field in the database.
 	FieldLotName = "lot_name"
+	// FieldExpiryDate holds the string denoting the expiry_date field in the database.
+	FieldExpiryDate = "expiry_date"
 	// Table holds the table name of the asnline in the database.
 	Table = "wms_asn_lines"
 )
@@ -66,6 +68,7 @@ var Columns = []string{
 	FieldPutawayQty,
 	FieldQcStatus,
 	FieldLotName,
+	FieldExpiryDate,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -209,4 +212,9 @@ func ByQcStatus(opts ...sql.OrderTermOption) OrderOption {
 // ByLotName orders the results by the lot_name field.
 func ByLotName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldLotName, opts...).ToFunc()
+}
+
+// ByExpiryDate orders the results by the expiry_date field.
+func ByExpiryDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldExpiryDate, opts...).ToFunc()
 }

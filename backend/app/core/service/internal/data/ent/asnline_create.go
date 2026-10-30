@@ -232,6 +232,20 @@ func (_c *AsnLineCreate) SetNillableLotName(v *string) *AsnLineCreate {
 	return _c
 }
 
+// SetExpiryDate sets the "expiry_date" field.
+func (_c *AsnLineCreate) SetExpiryDate(v time.Time) *AsnLineCreate {
+	_c.mutation.SetExpiryDate(v)
+	return _c
+}
+
+// SetNillableExpiryDate sets the "expiry_date" field if the given value is not nil.
+func (_c *AsnLineCreate) SetNillableExpiryDate(v *time.Time) *AsnLineCreate {
+	if v != nil {
+		_c.SetExpiryDate(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *AsnLineCreate) SetID(v uint32) *AsnLineCreate {
 	_c.mutation.SetID(v)
@@ -406,6 +420,10 @@ func (_c *AsnLineCreate) createSpec() (*AsnLine, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.LotName(); ok {
 		_spec.SetField(asnline.FieldLotName, field.TypeString, value)
 		_node.LotName = &value
+	}
+	if value, ok := _c.mutation.ExpiryDate(); ok {
+		_spec.SetField(asnline.FieldExpiryDate, field.TypeTime, value)
+		_node.ExpiryDate = &value
 	}
 	return _node, _spec
 }
@@ -732,6 +750,24 @@ func (u *AsnLineUpsert) UpdateLotName() *AsnLineUpsert {
 // ClearLotName clears the value of the "lot_name" field.
 func (u *AsnLineUpsert) ClearLotName() *AsnLineUpsert {
 	u.SetNull(asnline.FieldLotName)
+	return u
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (u *AsnLineUpsert) SetExpiryDate(v time.Time) *AsnLineUpsert {
+	u.Set(asnline.FieldExpiryDate, v)
+	return u
+}
+
+// UpdateExpiryDate sets the "expiry_date" field to the value that was provided on create.
+func (u *AsnLineUpsert) UpdateExpiryDate() *AsnLineUpsert {
+	u.SetExcluded(asnline.FieldExpiryDate)
+	return u
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (u *AsnLineUpsert) ClearExpiryDate() *AsnLineUpsert {
+	u.SetNull(asnline.FieldExpiryDate)
 	return u
 }
 
@@ -1108,6 +1144,27 @@ func (u *AsnLineUpsertOne) UpdateLotName() *AsnLineUpsertOne {
 func (u *AsnLineUpsertOne) ClearLotName() *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.ClearLotName()
+	})
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (u *AsnLineUpsertOne) SetExpiryDate(v time.Time) *AsnLineUpsertOne {
+	return u.Update(func(s *AsnLineUpsert) {
+		s.SetExpiryDate(v)
+	})
+}
+
+// UpdateExpiryDate sets the "expiry_date" field to the value that was provided on create.
+func (u *AsnLineUpsertOne) UpdateExpiryDate() *AsnLineUpsertOne {
+	return u.Update(func(s *AsnLineUpsert) {
+		s.UpdateExpiryDate()
+	})
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (u *AsnLineUpsertOne) ClearExpiryDate() *AsnLineUpsertOne {
+	return u.Update(func(s *AsnLineUpsert) {
+		s.ClearExpiryDate()
 	})
 }
 
@@ -1650,6 +1707,27 @@ func (u *AsnLineUpsertBulk) UpdateLotName() *AsnLineUpsertBulk {
 func (u *AsnLineUpsertBulk) ClearLotName() *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.ClearLotName()
+	})
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (u *AsnLineUpsertBulk) SetExpiryDate(v time.Time) *AsnLineUpsertBulk {
+	return u.Update(func(s *AsnLineUpsert) {
+		s.SetExpiryDate(v)
+	})
+}
+
+// UpdateExpiryDate sets the "expiry_date" field to the value that was provided on create.
+func (u *AsnLineUpsertBulk) UpdateExpiryDate() *AsnLineUpsertBulk {
+	return u.Update(func(s *AsnLineUpsert) {
+		s.UpdateExpiryDate()
+	})
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (u *AsnLineUpsertBulk) ClearExpiryDate() *AsnLineUpsertBulk {
+	return u.Update(func(s *AsnLineUpsert) {
+		s.ClearExpiryDate()
 	})
 }
 

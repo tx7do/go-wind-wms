@@ -6681,6 +6681,10 @@ components:
                 lotName:
                     type: string
                     description: 批次号（可选，收货时登记）
+                expiryDate:
+                    type: string
+                    description: 效期（收货时登记，FEFO 依据）
+                    format: date-time
                 remark:
                     type: string
                     description: 备注
@@ -6764,6 +6768,10 @@ components:
                 lotName:
                     type: string
                     description: 批次号（可选，多批次分多次收）
+                expiryDate:
+                    type: string
+                    description: 效期（可选，登记批次效期，FEFO 依据）
+                    format: date-time
             description: 收货明细（本次增量）
         asn.service.v1.ReceiveAsnRequest:
             type: object
@@ -9624,6 +9632,10 @@ components:
                 asnId:
                     type: integer
                     description: 关联到货通知单ID
+                    format: uint32
+                waveId:
+                    type: integer
+                    description: 所属波次ID（0=未入波次）
                     format: uint32
                 partnerCode:
                     type: string

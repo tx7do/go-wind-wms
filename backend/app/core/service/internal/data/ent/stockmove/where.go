@@ -119,6 +119,16 @@ func PlannedQuantity(v int64) predicate.StockMove {
 	return predicate.StockMove(sql.FieldEQ(FieldPlannedQuantity, v))
 }
 
+// LotName applies equality check predicate on the "lot_name" field. It's identical to LotNameEQ.
+func LotName(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldEQ(FieldLotName, v))
+}
+
+// ExpiryDate applies equality check predicate on the "expiry_date" field. It's identical to ExpiryDateEQ.
+func ExpiryDate(v time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldEQ(FieldExpiryDate, v))
+}
+
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
 func CreatedAtEQ(v time.Time) predicate.StockMove {
 	return predicate.StockMove(sql.FieldEQ(FieldCreatedAt, v))
@@ -847,6 +857,131 @@ func StateIsNil() predicate.StockMove {
 // StateNotNil applies the NotNil predicate on the "state" field.
 func StateNotNil() predicate.StockMove {
 	return predicate.StockMove(sql.FieldNotNull(FieldState))
+}
+
+// LotNameEQ applies the EQ predicate on the "lot_name" field.
+func LotNameEQ(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldEQ(FieldLotName, v))
+}
+
+// LotNameNEQ applies the NEQ predicate on the "lot_name" field.
+func LotNameNEQ(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldNEQ(FieldLotName, v))
+}
+
+// LotNameIn applies the In predicate on the "lot_name" field.
+func LotNameIn(vs ...string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldIn(FieldLotName, vs...))
+}
+
+// LotNameNotIn applies the NotIn predicate on the "lot_name" field.
+func LotNameNotIn(vs ...string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldNotIn(FieldLotName, vs...))
+}
+
+// LotNameGT applies the GT predicate on the "lot_name" field.
+func LotNameGT(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldGT(FieldLotName, v))
+}
+
+// LotNameGTE applies the GTE predicate on the "lot_name" field.
+func LotNameGTE(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldGTE(FieldLotName, v))
+}
+
+// LotNameLT applies the LT predicate on the "lot_name" field.
+func LotNameLT(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldLT(FieldLotName, v))
+}
+
+// LotNameLTE applies the LTE predicate on the "lot_name" field.
+func LotNameLTE(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldLTE(FieldLotName, v))
+}
+
+// LotNameContains applies the Contains predicate on the "lot_name" field.
+func LotNameContains(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldContains(FieldLotName, v))
+}
+
+// LotNameHasPrefix applies the HasPrefix predicate on the "lot_name" field.
+func LotNameHasPrefix(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldHasPrefix(FieldLotName, v))
+}
+
+// LotNameHasSuffix applies the HasSuffix predicate on the "lot_name" field.
+func LotNameHasSuffix(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldHasSuffix(FieldLotName, v))
+}
+
+// LotNameIsNil applies the IsNil predicate on the "lot_name" field.
+func LotNameIsNil() predicate.StockMove {
+	return predicate.StockMove(sql.FieldIsNull(FieldLotName))
+}
+
+// LotNameNotNil applies the NotNil predicate on the "lot_name" field.
+func LotNameNotNil() predicate.StockMove {
+	return predicate.StockMove(sql.FieldNotNull(FieldLotName))
+}
+
+// LotNameEqualFold applies the EqualFold predicate on the "lot_name" field.
+func LotNameEqualFold(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldEqualFold(FieldLotName, v))
+}
+
+// LotNameContainsFold applies the ContainsFold predicate on the "lot_name" field.
+func LotNameContainsFold(v string) predicate.StockMove {
+	return predicate.StockMove(sql.FieldContainsFold(FieldLotName, v))
+}
+
+// ExpiryDateEQ applies the EQ predicate on the "expiry_date" field.
+func ExpiryDateEQ(v time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldEQ(FieldExpiryDate, v))
+}
+
+// ExpiryDateNEQ applies the NEQ predicate on the "expiry_date" field.
+func ExpiryDateNEQ(v time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldNEQ(FieldExpiryDate, v))
+}
+
+// ExpiryDateIn applies the In predicate on the "expiry_date" field.
+func ExpiryDateIn(vs ...time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldIn(FieldExpiryDate, vs...))
+}
+
+// ExpiryDateNotIn applies the NotIn predicate on the "expiry_date" field.
+func ExpiryDateNotIn(vs ...time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldNotIn(FieldExpiryDate, vs...))
+}
+
+// ExpiryDateGT applies the GT predicate on the "expiry_date" field.
+func ExpiryDateGT(v time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldGT(FieldExpiryDate, v))
+}
+
+// ExpiryDateGTE applies the GTE predicate on the "expiry_date" field.
+func ExpiryDateGTE(v time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldGTE(FieldExpiryDate, v))
+}
+
+// ExpiryDateLT applies the LT predicate on the "expiry_date" field.
+func ExpiryDateLT(v time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldLT(FieldExpiryDate, v))
+}
+
+// ExpiryDateLTE applies the LTE predicate on the "expiry_date" field.
+func ExpiryDateLTE(v time.Time) predicate.StockMove {
+	return predicate.StockMove(sql.FieldLTE(FieldExpiryDate, v))
+}
+
+// ExpiryDateIsNil applies the IsNil predicate on the "expiry_date" field.
+func ExpiryDateIsNil() predicate.StockMove {
+	return predicate.StockMove(sql.FieldIsNull(FieldExpiryDate))
+}
+
+// ExpiryDateNotNil applies the NotNil predicate on the "expiry_date" field.
+func ExpiryDateNotNil() predicate.StockMove {
+	return predicate.StockMove(sql.FieldNotNull(FieldExpiryDate))
 }
 
 // And groups predicates with the AND operator between them.

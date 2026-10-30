@@ -864,7 +864,8 @@
       "expected": "Expected",
       "received": "Received",
       "putaway": "Putaway",
-      "lotName": "Lot"
+      "lotName": "Lot",
+      "expiryDate": "Expiry Date"
     },
     "qc": {
       "pass": "QC Pass",

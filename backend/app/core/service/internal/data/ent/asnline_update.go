@@ -338,6 +338,26 @@ func (_u *AsnLineUpdate) ClearLotName() *AsnLineUpdate {
 	return _u
 }
 
+// SetExpiryDate sets the "expiry_date" field.
+func (_u *AsnLineUpdate) SetExpiryDate(v time.Time) *AsnLineUpdate {
+	_u.mutation.SetExpiryDate(v)
+	return _u
+}
+
+// SetNillableExpiryDate sets the "expiry_date" field if the given value is not nil.
+func (_u *AsnLineUpdate) SetNillableExpiryDate(v *time.Time) *AsnLineUpdate {
+	if v != nil {
+		_u.SetExpiryDate(*v)
+	}
+	return _u
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (_u *AsnLineUpdate) ClearExpiryDate() *AsnLineUpdate {
+	_u.mutation.ClearExpiryDate()
+	return _u
+}
+
 // Mutation returns the AsnLineMutation object of the builder.
 func (_u *AsnLineUpdate) Mutation() *AsnLineMutation {
 	return _u.mutation
@@ -502,6 +522,12 @@ func (_u *AsnLineUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.LotNameCleared() {
 		_spec.ClearField(asnline.FieldLotName, field.TypeString)
+	}
+	if value, ok := _u.mutation.ExpiryDate(); ok {
+		_spec.SetField(asnline.FieldExpiryDate, field.TypeTime, value)
+	}
+	if _u.mutation.ExpiryDateCleared() {
+		_spec.ClearField(asnline.FieldExpiryDate, field.TypeTime)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
@@ -834,6 +860,26 @@ func (_u *AsnLineUpdateOne) ClearLotName() *AsnLineUpdateOne {
 	return _u
 }
 
+// SetExpiryDate sets the "expiry_date" field.
+func (_u *AsnLineUpdateOne) SetExpiryDate(v time.Time) *AsnLineUpdateOne {
+	_u.mutation.SetExpiryDate(v)
+	return _u
+}
+
+// SetNillableExpiryDate sets the "expiry_date" field if the given value is not nil.
+func (_u *AsnLineUpdateOne) SetNillableExpiryDate(v *time.Time) *AsnLineUpdateOne {
+	if v != nil {
+		_u.SetExpiryDate(*v)
+	}
+	return _u
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (_u *AsnLineUpdateOne) ClearExpiryDate() *AsnLineUpdateOne {
+	_u.mutation.ClearExpiryDate()
+	return _u
+}
+
 // Mutation returns the AsnLineMutation object of the builder.
 func (_u *AsnLineUpdateOne) Mutation() *AsnLineMutation {
 	return _u.mutation
@@ -1028,6 +1074,12 @@ func (_u *AsnLineUpdateOne) sqlSave(ctx context.Context) (_node *AsnLine, err er
 	}
 	if _u.mutation.LotNameCleared() {
 		_spec.ClearField(asnline.FieldLotName, field.TypeString)
+	}
+	if value, ok := _u.mutation.ExpiryDate(); ok {
+		_spec.SetField(asnline.FieldExpiryDate, field.TypeTime, value)
+	}
+	if _u.mutation.ExpiryDateCleared() {
+		_spec.ClearField(asnline.FieldExpiryDate, field.TypeTime)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	_node = &AsnLine{config: _u.config}

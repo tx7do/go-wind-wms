@@ -1,7 +1,7 @@
 data:
   database:
     driver: "postgres"
-    source: "host=127.0.0.1 port=15432 user=postgres password=*Abcd123456 dbname=go_wind_wms sslmode=disable"
+    source: "host=127.0.0.1 port=5432 user=postgres password=*Abcd123456 dbname=go_wind_wms sslmode=disable"
     migrate: true
     debug: false
     max_idle_connections: 25
@@ -9,7 +9,7 @@ data:
     connection_max_lifetime: 300s
 
   redis:
-    addr: "127.0.0.1:16379"
+    addr: "127.0.0.1:6379"
     password: "*Abcd123456"
     dial_timeout: 10s
     read_timeout: 0.4s

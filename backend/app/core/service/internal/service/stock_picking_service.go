@@ -9,6 +9,7 @@ import (
 	paginationV1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/tx7do/go-utils/trans"
 
@@ -403,10 +404,14 @@ func (s *StockPickingService) Validate(ctx context.Context, req *inventoryV1.Val
 				if l.SkuCode != nil && *l.SkuCode != "" && l.LotName != nil && *l.LotName != "" {
 					lotName := *l.LotName
 					sku := *l.SkuCode
-					assignments[sku] = &inventoryV1.LotAssignment{
+					la := &inventoryV1.LotAssignment{
 						ProductCode: sku,
 						LotName:     lotName,
 					}
+					if l.ExpiryDate != nil {
+						la.ExpiryDate = timestamppb.New(*l.ExpiryDate)
+					}
+					assignments[sku] = la
 				}
 			}
 		}
@@ -550,18 +555,33 @@ func (s *StockPickingService) recordMoveLinesWithLot(
 			qty, unitCost, lotID)
 	}
 
-	// 入库腿：登记批次。
+	// 入库腿：登记批次。优先用 move 自带的批次信息（ASN 收货链：
+	// 每 (sku, lot, expiry) 一条 move，多批次分次收互不覆盖），
+	// 其次走调用方显式指派（LotAssignments）；都没有则未跟踪行。
 	if dstInternal && !srcInternal {
+		if move.GetLotName() != "" {
+			var expiry *time.Time
+			if move.GetExpiryDate() != nil {
+				t := move.GetExpiryDate().AsTime()
+				expiry = &t
+			}
+			lotID, lerr := s.stockLotRepo.GetOrCreateTx(ctx, tx,
+				move.GetProductCode(), move.GetLotName(), expiry)
+			if lerr != nil {
+				return lerr
+			}
+			return createLine(executedQty, lotID)
+		}
 		if assignment != nil {
 			var expiry *time.Time
 			if assignment.GetExpiryDate() != nil {
 				t := assignment.GetExpiryDate().AsTime()
 				expiry = &t
 			}
-			lotID, err := s.stockLotRepo.GetOrCreateTx(ctx, tx,
+			lotID, lerr := s.stockLotRepo.GetOrCreateTx(ctx, tx,
 				move.GetProductCode(), assignment.GetLotName(), expiry)
-			if err != nil {
-				return err
+			if lerr != nil {
+				return lerr
 			}
 			return createLine(executedQty, lotID)
 		}

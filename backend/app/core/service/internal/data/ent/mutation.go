@@ -9445,6 +9445,7 @@ type AsnLineMutation struct {
 	addputaway_qty  *int64
 	qc_status       *asnline.QcStatus
 	lot_name        *string
+	expiry_date     *time.Time
 	clearedFields   map[string]struct{}
 	done            bool
 	oldValue        func(context.Context) (*AsnLine, error)
@@ -10458,6 +10459,55 @@ func (m *AsnLineMutation) ResetLotName() {
 	delete(m.clearedFields, asnline.FieldLotName)
 }
 
+// SetExpiryDate sets the "expiry_date" field.
+func (m *AsnLineMutation) SetExpiryDate(t time.Time) {
+	m.expiry_date = &t
+}
+
+// ExpiryDate returns the value of the "expiry_date" field in the mutation.
+func (m *AsnLineMutation) ExpiryDate() (r time.Time, exists bool) {
+	v := m.expiry_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExpiryDate returns the old "expiry_date" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldExpiryDate(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExpiryDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExpiryDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExpiryDate: %w", err)
+	}
+	return oldValue.ExpiryDate, nil
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (m *AsnLineMutation) ClearExpiryDate() {
+	m.expiry_date = nil
+	m.clearedFields[asnline.FieldExpiryDate] = struct{}{}
+}
+
+// ExpiryDateCleared returns if the "expiry_date" field was cleared in this mutation.
+func (m *AsnLineMutation) ExpiryDateCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldExpiryDate]
+	return ok
+}
+
+// ResetExpiryDate resets all changes to the "expiry_date" field.
+func (m *AsnLineMutation) ResetExpiryDate() {
+	m.expiry_date = nil
+	delete(m.clearedFields, asnline.FieldExpiryDate)
+}
+
 // Where appends a list predicates to the AsnLineMutation builder.
 func (m *AsnLineMutation) Where(ps ...predicate.AsnLine) {
 	m.predicates = append(m.predicates, ps...)
@@ -10492,7 +10542,7 @@ func (m *AsnLineMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AsnLineMutation) Fields() []string {
-	fields := make([]string, 0, 15)
+	fields := make([]string, 0, 16)
 	if m.created_at != nil {
 		fields = append(fields, asnline.FieldCreatedAt)
 	}
@@ -10538,6 +10588,9 @@ func (m *AsnLineMutation) Fields() []string {
 	if m.lot_name != nil {
 		fields = append(fields, asnline.FieldLotName)
 	}
+	if m.expiry_date != nil {
+		fields = append(fields, asnline.FieldExpiryDate)
+	}
 	return fields
 }
 
@@ -10576,6 +10629,8 @@ func (m *AsnLineMutation) Field(name string) (ent.Value, bool) {
 		return m.QcStatus()
 	case asnline.FieldLotName:
 		return m.LotName()
+	case asnline.FieldExpiryDate:
+		return m.ExpiryDate()
 	}
 	return nil, false
 }
@@ -10615,6 +10670,8 @@ func (m *AsnLineMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldQcStatus(ctx)
 	case asnline.FieldLotName:
 		return m.OldLotName(ctx)
+	case asnline.FieldExpiryDate:
+		return m.OldExpiryDate(ctx)
 	}
 	return nil, fmt.Errorf("unknown AsnLine field %s", name)
 }
@@ -10728,6 +10785,13 @@ func (m *AsnLineMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetLotName(v)
+		return nil
+	case asnline.FieldExpiryDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExpiryDate(v)
 		return nil
 	}
 	return fmt.Errorf("unknown AsnLine field %s", name)
@@ -10903,6 +10967,9 @@ func (m *AsnLineMutation) ClearedFields() []string {
 	if m.FieldCleared(asnline.FieldLotName) {
 		fields = append(fields, asnline.FieldLotName)
 	}
+	if m.FieldCleared(asnline.FieldExpiryDate) {
+		fields = append(fields, asnline.FieldExpiryDate)
+	}
 	return fields
 }
 
@@ -10962,6 +11029,9 @@ func (m *AsnLineMutation) ClearField(name string) error {
 	case asnline.FieldLotName:
 		m.ClearLotName()
 		return nil
+	case asnline.FieldExpiryDate:
+		m.ClearExpiryDate()
+		return nil
 	}
 	return fmt.Errorf("unknown AsnLine nullable field %s", name)
 }
@@ -11014,6 +11084,9 @@ func (m *AsnLineMutation) ResetField(name string) error {
 		return nil
 	case asnline.FieldLotName:
 		m.ResetLotName()
+		return nil
+	case asnline.FieldExpiryDate:
+		m.ResetExpiryDate()
 		return nil
 	}
 	return fmt.Errorf("unknown AsnLine field %s", name)
@@ -63042,6 +63115,8 @@ type StockMoveMutation struct {
 	planned_quantity           *int64
 	addplanned_quantity        *int64
 	state                      *stockmove.State
+	lot_name                   *string
+	expiry_date                *time.Time
 	clearedFields              map[string]struct{}
 	done                       bool
 	oldValue                   func(context.Context) (*StockMove, error)
@@ -64006,6 +64081,104 @@ func (m *StockMoveMutation) ResetState() {
 	delete(m.clearedFields, stockmove.FieldState)
 }
 
+// SetLotName sets the "lot_name" field.
+func (m *StockMoveMutation) SetLotName(s string) {
+	m.lot_name = &s
+}
+
+// LotName returns the value of the "lot_name" field in the mutation.
+func (m *StockMoveMutation) LotName() (r string, exists bool) {
+	v := m.lot_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLotName returns the old "lot_name" field's value of the StockMove entity.
+// If the StockMove object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockMoveMutation) OldLotName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLotName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLotName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLotName: %w", err)
+	}
+	return oldValue.LotName, nil
+}
+
+// ClearLotName clears the value of the "lot_name" field.
+func (m *StockMoveMutation) ClearLotName() {
+	m.lot_name = nil
+	m.clearedFields[stockmove.FieldLotName] = struct{}{}
+}
+
+// LotNameCleared returns if the "lot_name" field was cleared in this mutation.
+func (m *StockMoveMutation) LotNameCleared() bool {
+	_, ok := m.clearedFields[stockmove.FieldLotName]
+	return ok
+}
+
+// ResetLotName resets all changes to the "lot_name" field.
+func (m *StockMoveMutation) ResetLotName() {
+	m.lot_name = nil
+	delete(m.clearedFields, stockmove.FieldLotName)
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (m *StockMoveMutation) SetExpiryDate(t time.Time) {
+	m.expiry_date = &t
+}
+
+// ExpiryDate returns the value of the "expiry_date" field in the mutation.
+func (m *StockMoveMutation) ExpiryDate() (r time.Time, exists bool) {
+	v := m.expiry_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExpiryDate returns the old "expiry_date" field's value of the StockMove entity.
+// If the StockMove object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockMoveMutation) OldExpiryDate(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExpiryDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExpiryDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExpiryDate: %w", err)
+	}
+	return oldValue.ExpiryDate, nil
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (m *StockMoveMutation) ClearExpiryDate() {
+	m.expiry_date = nil
+	m.clearedFields[stockmove.FieldExpiryDate] = struct{}{}
+}
+
+// ExpiryDateCleared returns if the "expiry_date" field was cleared in this mutation.
+func (m *StockMoveMutation) ExpiryDateCleared() bool {
+	_, ok := m.clearedFields[stockmove.FieldExpiryDate]
+	return ok
+}
+
+// ResetExpiryDate resets all changes to the "expiry_date" field.
+func (m *StockMoveMutation) ResetExpiryDate() {
+	m.expiry_date = nil
+	delete(m.clearedFields, stockmove.FieldExpiryDate)
+}
+
 // Where appends a list predicates to the StockMoveMutation builder.
 func (m *StockMoveMutation) Where(ps ...predicate.StockMove) {
 	m.predicates = append(m.predicates, ps...)
@@ -64040,7 +64213,7 @@ func (m *StockMoveMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StockMoveMutation) Fields() []string {
-	fields := make([]string, 0, 14)
+	fields := make([]string, 0, 16)
 	if m.created_at != nil {
 		fields = append(fields, stockmove.FieldCreatedAt)
 	}
@@ -64083,6 +64256,12 @@ func (m *StockMoveMutation) Fields() []string {
 	if m.state != nil {
 		fields = append(fields, stockmove.FieldState)
 	}
+	if m.lot_name != nil {
+		fields = append(fields, stockmove.FieldLotName)
+	}
+	if m.expiry_date != nil {
+		fields = append(fields, stockmove.FieldExpiryDate)
+	}
 	return fields
 }
 
@@ -64119,6 +64298,10 @@ func (m *StockMoveMutation) Field(name string) (ent.Value, bool) {
 		return m.PlannedQuantity()
 	case stockmove.FieldState:
 		return m.State()
+	case stockmove.FieldLotName:
+		return m.LotName()
+	case stockmove.FieldExpiryDate:
+		return m.ExpiryDate()
 	}
 	return nil, false
 }
@@ -64156,6 +64339,10 @@ func (m *StockMoveMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldPlannedQuantity(ctx)
 	case stockmove.FieldState:
 		return m.OldState(ctx)
+	case stockmove.FieldLotName:
+		return m.OldLotName(ctx)
+	case stockmove.FieldExpiryDate:
+		return m.OldExpiryDate(ctx)
 	}
 	return nil, fmt.Errorf("unknown StockMove field %s", name)
 }
@@ -64262,6 +64449,20 @@ func (m *StockMoveMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetState(v)
+		return nil
+	case stockmove.FieldLotName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLotName(v)
+		return nil
+	case stockmove.FieldExpiryDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExpiryDate(v)
 		return nil
 	}
 	return fmt.Errorf("unknown StockMove field %s", name)
@@ -64434,6 +64635,12 @@ func (m *StockMoveMutation) ClearedFields() []string {
 	if m.FieldCleared(stockmove.FieldState) {
 		fields = append(fields, stockmove.FieldState)
 	}
+	if m.FieldCleared(stockmove.FieldLotName) {
+		fields = append(fields, stockmove.FieldLotName)
+	}
+	if m.FieldCleared(stockmove.FieldExpiryDate) {
+		fields = append(fields, stockmove.FieldExpiryDate)
+	}
 	return fields
 }
 
@@ -64490,6 +64697,12 @@ func (m *StockMoveMutation) ClearField(name string) error {
 	case stockmove.FieldState:
 		m.ClearState()
 		return nil
+	case stockmove.FieldLotName:
+		m.ClearLotName()
+		return nil
+	case stockmove.FieldExpiryDate:
+		m.ClearExpiryDate()
+		return nil
 	}
 	return fmt.Errorf("unknown StockMove nullable field %s", name)
 }
@@ -64539,6 +64752,12 @@ func (m *StockMoveMutation) ResetField(name string) error {
 		return nil
 	case stockmove.FieldState:
 		m.ResetState()
+		return nil
+	case stockmove.FieldLotName:
+		m.ResetLotName()
+		return nil
+	case stockmove.FieldExpiryDate:
+		m.ResetExpiryDate()
 		return nil
 	}
 	return fmt.Errorf("unknown StockMove field %s", name)

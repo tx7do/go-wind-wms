@@ -1033,6 +1033,26 @@ class S {
       args: [],
     );
   }
+
+  /// `效期（YYYY-MM-DD）`
+  String get asnExpiryDate {
+    return Intl.message(
+      '效期（YYYY-MM-DD）',
+      name: 'asnExpiryDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `效期格式错误，应为 YYYY-MM-DD`
+  String get asnExpiryInvalid {
+    return Intl.message(
+      '效期格式错误，应为 YYYY-MM-DD',
+      name: 'asnExpiryInvalid',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

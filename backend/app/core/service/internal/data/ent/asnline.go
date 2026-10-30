@@ -47,7 +47,9 @@ type AsnLine struct {
 	// 质检状态：QC_PENDING=未检，QC_PASS=通过，QC_FAIL=不合格
 	QcStatus *asnline.QcStatus `json:"qc_status,omitempty"`
 	// 批次号（最近一次收货登记，可选）
-	LotName      *string `json:"lot_name,omitempty"`
+	LotName *string `json:"lot_name,omitempty"`
+	// 效期（最近一次收货登记，FEFO 排序依据）
+	ExpiryDate   *time.Time `json:"expiry_date,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -60,7 +62,7 @@ func (*AsnLine) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case asnline.FieldRemark, asnline.FieldSkuCode, asnline.FieldQcStatus, asnline.FieldLotName:
 			values[i] = new(sql.NullString)
-		case asnline.FieldCreatedAt, asnline.FieldUpdatedAt, asnline.FieldDeletedAt:
+		case asnline.FieldCreatedAt, asnline.FieldUpdatedAt, asnline.FieldDeletedAt, asnline.FieldExpiryDate:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -188,6 +190,13 @@ func (_m *AsnLine) assignValues(columns []string, values []any) error {
 				_m.LotName = new(string)
 				*_m.LotName = value.String
 			}
+		case asnline.FieldExpiryDate:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field expiry_date", values[i])
+			} else if value.Valid {
+				_m.ExpiryDate = new(time.Time)
+				*_m.ExpiryDate = value.Time
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -297,6 +306,11 @@ func (_m *AsnLine) String() string {
 	if v := _m.LotName; v != nil {
 		builder.WriteString("lot_name=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.ExpiryDate; v != nil {
+		builder.WriteString("expiry_date=")
+		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteByte(')')
 	return builder.String()

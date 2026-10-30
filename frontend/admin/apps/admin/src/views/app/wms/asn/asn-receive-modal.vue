@@ -22,6 +22,7 @@ interface ReceiveLine {
   quantity: number;
   qcStatus: 'QC_PASS' | 'QC_FAIL';
   lotName?: string;
+  expiryDate?: string;
 }
 
 const lines = reactive<ReceiveLine[]>([]);
@@ -62,6 +63,9 @@ async function handleReceive() {
       quantity: l.quantity,
       qcStatus: l.qcStatus,
       lotName: l.lotName || undefined,
+      expiryDate: l.expiryDate
+        ? new Date(l.expiryDate).toISOString()
+        : undefined,
     }));
 
   if (payload.length === 0) {
@@ -133,6 +137,11 @@ async function handleReceive() {
           v-model:value="line.lotName"
           :placeholder="$t('page.asn.line.lotName')"
           class="w-36"
+        />
+        <a-date-picker
+          v-model:value="line.expiryDate"
+          :placeholder="$t('page.asn.line.expiryDate')"
+          class="w-40"
         />
       </div>
 

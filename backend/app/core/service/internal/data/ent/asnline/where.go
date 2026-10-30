@@ -124,6 +124,11 @@ func LotName(v string) predicate.AsnLine {
 	return predicate.AsnLine(sql.FieldEQ(FieldLotName, v))
 }
 
+// ExpiryDate applies equality check predicate on the "expiry_date" field. It's identical to ExpiryDateEQ.
+func ExpiryDate(v time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldEQ(FieldExpiryDate, v))
+}
+
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
 func CreatedAtEQ(v time.Time) predicate.AsnLine {
 	return predicate.AsnLine(sql.FieldEQ(FieldCreatedAt, v))
@@ -927,6 +932,56 @@ func LotNameEqualFold(v string) predicate.AsnLine {
 // LotNameContainsFold applies the ContainsFold predicate on the "lot_name" field.
 func LotNameContainsFold(v string) predicate.AsnLine {
 	return predicate.AsnLine(sql.FieldContainsFold(FieldLotName, v))
+}
+
+// ExpiryDateEQ applies the EQ predicate on the "expiry_date" field.
+func ExpiryDateEQ(v time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldEQ(FieldExpiryDate, v))
+}
+
+// ExpiryDateNEQ applies the NEQ predicate on the "expiry_date" field.
+func ExpiryDateNEQ(v time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldNEQ(FieldExpiryDate, v))
+}
+
+// ExpiryDateIn applies the In predicate on the "expiry_date" field.
+func ExpiryDateIn(vs ...time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldIn(FieldExpiryDate, vs...))
+}
+
+// ExpiryDateNotIn applies the NotIn predicate on the "expiry_date" field.
+func ExpiryDateNotIn(vs ...time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldNotIn(FieldExpiryDate, vs...))
+}
+
+// ExpiryDateGT applies the GT predicate on the "expiry_date" field.
+func ExpiryDateGT(v time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldGT(FieldExpiryDate, v))
+}
+
+// ExpiryDateGTE applies the GTE predicate on the "expiry_date" field.
+func ExpiryDateGTE(v time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldGTE(FieldExpiryDate, v))
+}
+
+// ExpiryDateLT applies the LT predicate on the "expiry_date" field.
+func ExpiryDateLT(v time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldLT(FieldExpiryDate, v))
+}
+
+// ExpiryDateLTE applies the LTE predicate on the "expiry_date" field.
+func ExpiryDateLTE(v time.Time) predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldLTE(FieldExpiryDate, v))
+}
+
+// ExpiryDateIsNil applies the IsNil predicate on the "expiry_date" field.
+func ExpiryDateIsNil() predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldIsNull(FieldExpiryDate))
+}
+
+// ExpiryDateNotNil applies the NotNil predicate on the "expiry_date" field.
+func ExpiryDateNotNil() predicate.AsnLine {
+	return predicate.AsnLine(sql.FieldNotNull(FieldExpiryDate))
 }
 
 // And groups predicates with the AND operator between them.

@@ -285,6 +285,7 @@ type AsnLine struct {
 	PutawayQty    *int64                 `protobuf:"varint,6,opt,name=putaway_qty,json=putawayQty,proto3,oneof" json:"putaway_qty,omitempty"`                           // 已上架数量（累计）
 	QcStatus      *AsnQcStatus           `protobuf:"varint,7,opt,name=qc_status,json=qcStatus,proto3,enum=asn.service.v1.AsnQcStatus,oneof" json:"qc_status,omitempty"` // 质检状态（最近一次收货）
 	LotName       *string                `protobuf:"bytes,8,opt,name=lot_name,json=lotName,proto3,oneof" json:"lot_name,omitempty"`                                     // 批次号（可选，收货时登记）
+	ExpiryDate    *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=expiry_date,json=expiryDate,proto3,oneof" json:"expiry_date,omitempty"`                           // 效期（收货时登记，FEFO 依据）
 	Remark        *string                `protobuf:"bytes,9,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                                      // 备注
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -374,6 +375,13 @@ func (x *AsnLine) GetLotName() string {
 		return *x.LotName
 	}
 	return ""
+}
+
+func (x *AsnLine) GetExpiryDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpiryDate
+	}
+	return nil
 }
 
 func (x *AsnLine) GetRemark() string {
@@ -929,6 +937,7 @@ type ReceiveAsnLine struct {
 	Quantity      int64                  `protobuf:"varint,2,opt,name=quantity,proto3" json:"quantity,omitempty"`                                                       // 本次收货数量（正整数）
 	QcStatus      *AsnQcStatus           `protobuf:"varint,3,opt,name=qc_status,json=qcStatus,proto3,enum=asn.service.v1.AsnQcStatus,oneof" json:"qc_status,omitempty"` // 质检状态（缺省按质检通过处理）
 	LotName       *string                `protobuf:"bytes,4,opt,name=lot_name,json=lotName,proto3,oneof" json:"lot_name,omitempty"`                                     // 批次号（可选，多批次分多次收）
+	ExpiryDate    *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=expiry_date,json=expiryDate,proto3,oneof" json:"expiry_date,omitempty"`                            // 效期（可选，登记批次效期，FEFO 依据）
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -989,6 +998,13 @@ func (x *ReceiveAsnLine) GetLotName() string {
 		return *x.LotName
 	}
 	return ""
+}
+
+func (x *ReceiveAsnLine) GetExpiryDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpiryDate
+	}
+	return nil
 }
 
 type ReceiveAsnResponse struct {
@@ -1230,7 +1246,7 @@ const file_asn_service_v1_asn_proto_rawDesc = "" +
 	"\v_created_byB\r\n" +
 	"\v_updated_byB\r\n" +
 	"\v_created_atB\r\n" +
-	"\v_updated_at\"\xc4\x05\n" +
+	"\v_updated_at\"\xc7\x06\n" +
 	"\aAsnLine\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b明细IDH\x00R\x02id\x88\x01\x01\x129\n" +
 	"\x06asn_id\x18\x02 \x01(\rB\x1d\xbaG\x1a\x92\x02\x17所属到货通知单IDH\x01R\x05asnId\x88\x01\x01\x120\n" +
@@ -1241,8 +1257,11 @@ const file_asn_service_v1_asn_proto_rawDesc = "" +
 	"\vputaway_qty\x18\x06 \x01(\x03B!\xbaG\x1e\x92\x02\x1b已上架数量（累计）H\x05R\n" +
 	"putawayQty\x88\x01\x01\x12i\n" +
 	"\tqc_status\x18\a \x01(\x0e2\x1b.asn.service.v1.AsnQcStatusB*\xbaG'\x92\x02$质检状态（最近一次收货）H\x06R\bqcStatus\x88\x01\x01\x12M\n" +
-	"\blot_name\x18\b \x01(\tB-\xbaG*\x92\x02'批次号（可选，收货时登记）H\aR\alotName\x88\x01\x01\x12)\n" +
-	"\x06remark\x18\t \x01(\tB\f\xbaG\t\x92\x02\x06备注H\bR\x06remark\x88\x01\x01B\x05\n" +
+	"\blot_name\x18\b \x01(\tB-\xbaG*\x92\x02'批次号（可选，收货时登记）H\aR\alotName\x88\x01\x01\x12q\n" +
+	"\vexpiry_date\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampB/\xbaG,\x92\x02)效期（收货时登记，FEFO 依据）H\bR\n" +
+	"expiryDate\x88\x01\x01\x12)\n" +
+	"\x06remark\x18\t \x01(\tB\f\xbaG\t\x92\x02\x06备注H\tR\x06remark\x88\x01\x01B\x05\n" +
 	"\x03_idB\t\n" +
 	"\a_asn_idB\v\n" +
 	"\t_sku_codeB\x0f\n" +
@@ -1251,7 +1270,8 @@ const file_asn_service_v1_asn_proto_rawDesc = "" +
 	"\f_putaway_qtyB\f\n" +
 	"\n" +
 	"_qc_statusB\v\n" +
-	"\t_lot_nameB\t\n" +
+	"\t_lot_nameB\x0e\n" +
+	"\f_expiry_dateB\t\n" +
 	"\a_remark\"-\n" +
 	"\rGetAsnRequest\x12\x10\n" +
 	"\x02id\x18\x01 \x01(\rH\x00R\x02idB\n" +
@@ -1281,15 +1301,18 @@ const file_asn_service_v1_asn_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"`\n" +
 	"\x11ReceiveAsnRequest\x12\x15\n" +
 	"\x06asn_id\x18\x01 \x01(\rR\x05asnId\x124\n" +
-	"\x05lines\x18\x02 \x03(\v2\x1e.asn.service.v1.ReceiveAsnLineR\x05lines\"\xb0\x02\n" +
+	"\x05lines\x18\x02 \x03(\v2\x1e.asn.service.v1.ReceiveAsnLineR\x05lines\"\xbf\x03\n" +
 	"\x0eReceiveAsnLine\x12\x1e\n" +
 	"\vasn_line_id\x18\x01 \x01(\rR\tasnLineId\x12\x1a\n" +
 	"\bquantity\x18\x02 \x01(\x03R\bquantity\x12r\n" +
 	"\tqc_status\x18\x03 \x01(\x0e2\x1b.asn.service.v1.AsnQcStatusB3\xbaG0\x92\x02-质检状态（缺省按质检通过处理）H\x00R\bqcStatus\x88\x01\x01\x12S\n" +
-	"\blot_name\x18\x04 \x01(\tB3\xbaG0\x92\x02-批次号（可选，多批次分多次收）H\x01R\alotName\x88\x01\x01B\f\n" +
+	"\blot_name\x18\x04 \x01(\tB3\xbaG0\x92\x02-批次号（可选，多批次分多次收）H\x01R\alotName\x88\x01\x01\x12}\n" +
+	"\vexpiry_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampB;\xbaG8\x92\x025效期（可选，登记批次效期，FEFO 依据）H\x02R\n" +
+	"expiryDate\x88\x01\x01B\f\n" +
 	"\n" +
 	"_qc_statusB\v\n" +
-	"\t_lot_name\"3\n" +
+	"\t_lot_nameB\x0e\n" +
+	"\f_expiry_date\"3\n" +
 	"\x12ReceiveAsnResponse\x12\x1d\n" +
 	"\n" +
 	"picking_id\x18\x01 \x01(\rR\tpickingId\"`\n" +
@@ -1377,42 +1400,44 @@ var file_asn_service_v1_asn_proto_depIdxs = []int32{
 	20, // 3: asn.service.v1.Asn.created_at:type_name -> google.protobuf.Timestamp
 	20, // 4: asn.service.v1.Asn.updated_at:type_name -> google.protobuf.Timestamp
 	1,  // 5: asn.service.v1.AsnLine.qc_status:type_name -> asn.service.v1.AsnQcStatus
-	2,  // 6: asn.service.v1.CreateAsnRequest.data:type_name -> asn.service.v1.Asn
-	2,  // 7: asn.service.v1.UpdateAsnRequest.data:type_name -> asn.service.v1.Asn
-	21, // 8: asn.service.v1.UpdateAsnRequest.update_mask:type_name -> google.protobuf.FieldMask
-	2,  // 9: asn.service.v1.ListAsnResponse.items:type_name -> asn.service.v1.Asn
-	15, // 10: asn.service.v1.ReceiveAsnRequest.lines:type_name -> asn.service.v1.ReceiveAsnLine
-	1,  // 11: asn.service.v1.ReceiveAsnLine.qc_status:type_name -> asn.service.v1.AsnQcStatus
-	18, // 12: asn.service.v1.PutawayAsnRequest.lines:type_name -> asn.service.v1.PutawayAsnLine
-	22, // 13: asn.service.v1.AsnService.List:input_type -> pagination.PagingRequest
-	22, // 14: asn.service.v1.AsnService.Count:input_type -> pagination.PagingRequest
-	4,  // 15: asn.service.v1.AsnService.Get:input_type -> asn.service.v1.GetAsnRequest
-	5,  // 16: asn.service.v1.AsnService.GetByNumber:input_type -> asn.service.v1.GetAsnByNumberRequest
-	6,  // 17: asn.service.v1.AsnService.Create:input_type -> asn.service.v1.CreateAsnRequest
-	7,  // 18: asn.service.v1.AsnService.Update:input_type -> asn.service.v1.UpdateAsnRequest
-	8,  // 19: asn.service.v1.AsnService.Delete:input_type -> asn.service.v1.DeleteAsnRequest
-	11, // 20: asn.service.v1.AsnService.Announce:input_type -> asn.service.v1.AnnounceAsnRequest
-	12, // 21: asn.service.v1.AsnService.Cancel:input_type -> asn.service.v1.CancelAsnRequest
-	14, // 22: asn.service.v1.AsnService.Receive:input_type -> asn.service.v1.ReceiveAsnRequest
-	17, // 23: asn.service.v1.AsnService.Putaway:input_type -> asn.service.v1.PutawayAsnRequest
-	13, // 24: asn.service.v1.AsnService.Close:input_type -> asn.service.v1.CloseAsnRequest
-	9,  // 25: asn.service.v1.AsnService.List:output_type -> asn.service.v1.ListAsnResponse
-	10, // 26: asn.service.v1.AsnService.Count:output_type -> asn.service.v1.CountAsnResponse
-	2,  // 27: asn.service.v1.AsnService.Get:output_type -> asn.service.v1.Asn
-	2,  // 28: asn.service.v1.AsnService.GetByNumber:output_type -> asn.service.v1.Asn
-	23, // 29: asn.service.v1.AsnService.Create:output_type -> google.protobuf.Empty
-	23, // 30: asn.service.v1.AsnService.Update:output_type -> google.protobuf.Empty
-	23, // 31: asn.service.v1.AsnService.Delete:output_type -> google.protobuf.Empty
-	23, // 32: asn.service.v1.AsnService.Announce:output_type -> google.protobuf.Empty
-	23, // 33: asn.service.v1.AsnService.Cancel:output_type -> google.protobuf.Empty
-	16, // 34: asn.service.v1.AsnService.Receive:output_type -> asn.service.v1.ReceiveAsnResponse
-	19, // 35: asn.service.v1.AsnService.Putaway:output_type -> asn.service.v1.PutawayAsnResponse
-	23, // 36: asn.service.v1.AsnService.Close:output_type -> google.protobuf.Empty
-	25, // [25:37] is the sub-list for method output_type
-	13, // [13:25] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	20, // 6: asn.service.v1.AsnLine.expiry_date:type_name -> google.protobuf.Timestamp
+	2,  // 7: asn.service.v1.CreateAsnRequest.data:type_name -> asn.service.v1.Asn
+	2,  // 8: asn.service.v1.UpdateAsnRequest.data:type_name -> asn.service.v1.Asn
+	21, // 9: asn.service.v1.UpdateAsnRequest.update_mask:type_name -> google.protobuf.FieldMask
+	2,  // 10: asn.service.v1.ListAsnResponse.items:type_name -> asn.service.v1.Asn
+	15, // 11: asn.service.v1.ReceiveAsnRequest.lines:type_name -> asn.service.v1.ReceiveAsnLine
+	1,  // 12: asn.service.v1.ReceiveAsnLine.qc_status:type_name -> asn.service.v1.AsnQcStatus
+	20, // 13: asn.service.v1.ReceiveAsnLine.expiry_date:type_name -> google.protobuf.Timestamp
+	18, // 14: asn.service.v1.PutawayAsnRequest.lines:type_name -> asn.service.v1.PutawayAsnLine
+	22, // 15: asn.service.v1.AsnService.List:input_type -> pagination.PagingRequest
+	22, // 16: asn.service.v1.AsnService.Count:input_type -> pagination.PagingRequest
+	4,  // 17: asn.service.v1.AsnService.Get:input_type -> asn.service.v1.GetAsnRequest
+	5,  // 18: asn.service.v1.AsnService.GetByNumber:input_type -> asn.service.v1.GetAsnByNumberRequest
+	6,  // 19: asn.service.v1.AsnService.Create:input_type -> asn.service.v1.CreateAsnRequest
+	7,  // 20: asn.service.v1.AsnService.Update:input_type -> asn.service.v1.UpdateAsnRequest
+	8,  // 21: asn.service.v1.AsnService.Delete:input_type -> asn.service.v1.DeleteAsnRequest
+	11, // 22: asn.service.v1.AsnService.Announce:input_type -> asn.service.v1.AnnounceAsnRequest
+	12, // 23: asn.service.v1.AsnService.Cancel:input_type -> asn.service.v1.CancelAsnRequest
+	14, // 24: asn.service.v1.AsnService.Receive:input_type -> asn.service.v1.ReceiveAsnRequest
+	17, // 25: asn.service.v1.AsnService.Putaway:input_type -> asn.service.v1.PutawayAsnRequest
+	13, // 26: asn.service.v1.AsnService.Close:input_type -> asn.service.v1.CloseAsnRequest
+	9,  // 27: asn.service.v1.AsnService.List:output_type -> asn.service.v1.ListAsnResponse
+	10, // 28: asn.service.v1.AsnService.Count:output_type -> asn.service.v1.CountAsnResponse
+	2,  // 29: asn.service.v1.AsnService.Get:output_type -> asn.service.v1.Asn
+	2,  // 30: asn.service.v1.AsnService.GetByNumber:output_type -> asn.service.v1.Asn
+	23, // 31: asn.service.v1.AsnService.Create:output_type -> google.protobuf.Empty
+	23, // 32: asn.service.v1.AsnService.Update:output_type -> google.protobuf.Empty
+	23, // 33: asn.service.v1.AsnService.Delete:output_type -> google.protobuf.Empty
+	23, // 34: asn.service.v1.AsnService.Announce:output_type -> google.protobuf.Empty
+	23, // 35: asn.service.v1.AsnService.Cancel:output_type -> google.protobuf.Empty
+	16, // 36: asn.service.v1.AsnService.Receive:output_type -> asn.service.v1.ReceiveAsnResponse
+	19, // 37: asn.service.v1.AsnService.Putaway:output_type -> asn.service.v1.PutawayAsnResponse
+	23, // 38: asn.service.v1.AsnService.Close:output_type -> google.protobuf.Empty
+	27, // [27:39] is the sub-list for method output_type
+	15, // [15:27] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_asn_service_v1_asn_proto_init() }

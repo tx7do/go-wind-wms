@@ -263,6 +263,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			asnline.FieldPutawayQty:  {Type: field.TypeInt64, Column: asnline.FieldPutawayQty},
 			asnline.FieldQcStatus:    {Type: field.TypeEnum, Column: asnline.FieldQcStatus},
 			asnline.FieldLotName:     {Type: field.TypeString, Column: asnline.FieldLotName},
+			asnline.FieldExpiryDate:  {Type: field.TypeTime, Column: asnline.FieldExpiryDate},
 		},
 	}
 	graph.Nodes[7] = &sqlgraph.Node{
@@ -1220,6 +1221,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			stockmove.FieldDestinationLocationID: {Type: field.TypeUint32, Column: stockmove.FieldDestinationLocationID},
 			stockmove.FieldPlannedQuantity:       {Type: field.TypeInt64, Column: stockmove.FieldPlannedQuantity},
 			stockmove.FieldState:                 {Type: field.TypeEnum, Column: stockmove.FieldState},
+			stockmove.FieldLotName:               {Type: field.TypeString, Column: stockmove.FieldLotName},
+			stockmove.FieldExpiryDate:            {Type: field.TypeTime, Column: stockmove.FieldExpiryDate},
 		},
 	}
 	graph.Nodes[41] = &sqlgraph.Node{
@@ -2529,6 +2532,11 @@ func (f *AsnLineFilter) WhereQcStatus(p entql.StringP) {
 // WhereLotName applies the entql string predicate on the lot_name field.
 func (f *AsnLineFilter) WhereLotName(p entql.StringP) {
 	f.Where(p.Field(asnline.FieldLotName))
+}
+
+// WhereExpiryDate applies the entql time.Time predicate on the expiry_date field.
+func (f *AsnLineFilter) WhereExpiryDate(p entql.TimeP) {
+	f.Where(p.Field(asnline.FieldExpiryDate))
 }
 
 // addPredicate implements the predicateAdder interface.
@@ -6604,6 +6612,16 @@ func (f *StockMoveFilter) WherePlannedQuantity(p entql.Int64P) {
 // WhereState applies the entql string predicate on the state field.
 func (f *StockMoveFilter) WhereState(p entql.StringP) {
 	f.Where(p.Field(stockmove.FieldState))
+}
+
+// WhereLotName applies the entql string predicate on the lot_name field.
+func (f *StockMoveFilter) WhereLotName(p entql.StringP) {
+	f.Where(p.Field(stockmove.FieldLotName))
+}
+
+// WhereExpiryDate applies the entql time.Time predicate on the expiry_date field.
+func (f *StockMoveFilter) WhereExpiryDate(p entql.TimeP) {
+	f.Where(p.Field(stockmove.FieldExpiryDate))
 }
 
 // addPredicate implements the predicateAdder interface.

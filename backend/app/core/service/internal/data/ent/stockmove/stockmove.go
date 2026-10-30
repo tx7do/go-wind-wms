@@ -42,6 +42,10 @@ const (
 	FieldPlannedQuantity = "planned_quantity"
 	// FieldState holds the string denoting the state field in the database.
 	FieldState = "state"
+	// FieldLotName holds the string denoting the lot_name field in the database.
+	FieldLotName = "lot_name"
+	// FieldExpiryDate holds the string denoting the expiry_date field in the database.
+	FieldExpiryDate = "expiry_date"
 	// Table holds the table name of the stockmove in the database.
 	Table = "inv_stock_moves"
 )
@@ -63,6 +67,8 @@ var Columns = []string{
 	FieldDestinationLocationID,
 	FieldPlannedQuantity,
 	FieldState,
+	FieldLotName,
+	FieldExpiryDate,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -202,4 +208,14 @@ func ByPlannedQuantity(opts ...sql.OrderTermOption) OrderOption {
 // ByState orders the results by the state field.
 func ByState(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldState, opts...).ToFunc()
+}
+
+// ByLotName orders the results by the lot_name field.
+func ByLotName(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLotName, opts...).ToFunc()
+}
+
+// ByExpiryDate orders the results by the expiry_date field.
+func ByExpiryDate(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldExpiryDate, opts...).ToFunc()
 }

@@ -170,6 +170,11 @@ message AsnLine {
     (gnostic.openapi.v3.property) = {description: "批次号（可选，收货时登记）"}
   ]; // 批次号（可选，收货时登记）
 
+  optional google.protobuf.Timestamp expiry_date = 10 [
+    json_name = "expiryDate",
+    (gnostic.openapi.v3.property) = {description: "效期（收货时登记，FEFO 依据）"}
+  ]; // 效期（收货时登记，FEFO 依据）
+
   optional string remark = 9 [
     json_name = "remark",
     (gnostic.openapi.v3.property) = {description: "备注"}
@@ -249,6 +254,11 @@ message ReceiveAsnLine {
     json_name = "lotName",
     (gnostic.openapi.v3.property) = {description: "批次号（可选，多批次分多次收）"}
   ]; // 批次号（可选，多批次分多次收）
+
+  optional google.protobuf.Timestamp expiry_date = 5 [
+    json_name = "expiryDate",
+    (gnostic.openapi.v3.property) = {description: "效期（可选，登记批次效期，FEFO 依据）"}
+  ]; // 效期（可选，登记批次效期，FEFO 依据）
 }
 
 message ReceiveAsnResponse {

@@ -79,6 +79,17 @@ func (StockMove) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
+		// lot_name/expiry_date：ASN 收货生成的入库 move 自带批次信息
+		// （每 (sku, lot, expiry) 细分一条 move），Validate 登记批次用。
+		field.String("lot_name").
+			Comment("收货批次号（ASN 入库 move 自带）").
+			Optional().
+			Nillable(),
+
+		field.Time("expiry_date").
+			Comment("批次效期（ASN 入库 move 自带，FEFO 排序依据）").
+			Optional().
+			Nillable(),
 	}
 }
 

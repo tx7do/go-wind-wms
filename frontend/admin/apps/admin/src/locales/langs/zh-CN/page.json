@@ -861,7 +861,8 @@
       "expected": "预期",
       "received": "已收",
       "putaway": "已上架",
-      "lotName": "批次号"
+      "lotName": "批次号",
+      "expiryDate": "效期"
     },
     "qc": {
       "pass": "质检通过",

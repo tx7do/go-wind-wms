@@ -279,6 +279,9 @@ func (r *AsnRepo) lineToDTO(t *ent.AsnLine) *asnV1.AsnLine {
 		PutawayQty:  t.PutawayQty,
 		LotName:     t.LotName,
 	}
+	if t.ExpiryDate != nil {
+		dto.ExpiryDate = timestamppb.New(*t.ExpiryDate)
+	}
 	if t.QcStatus != nil {
 		if v := r.qcConverter.ToDTO(t.QcStatus); v != nil {
 			dto.QcStatus = v
@@ -578,9 +581,9 @@ func (r *AsnRepo) TransitionStatusTx(ctx context.Context, tx *ent.Tx, id uint32,
 }
 
 // ApplyReceivedQtyTx 原子累加收货数：仅当 累计收货 + delta ≤ 预期 时生效
-// （防超收，行级条件更新）。同时回写质检状态与批次（最近一次收货口径）。
+// （防超收，行级条件更新）。同时回写质检状态、批次与效期（最近一次收货口径）。
 // 0 行命中返回 CONFLICT。
-func (r *AsnRepo) ApplyReceivedQtyTx(ctx context.Context, tx *ent.Tx, lineID uint32, delta int64, qc asnline.QcStatus, lotName *string) error {
+func (r *AsnRepo) ApplyReceivedQtyTx(ctx context.Context, tx *ent.Tx, lineID uint32, delta int64, qc asnline.QcStatus, lotName *string, expiry *time.Time) error {
 	guard := func(s *sql.Selector) {
 		// received + delta ≤ expected
 		s.Where(sql.ExprP(
@@ -598,6 +601,9 @@ func (r *AsnRepo) ApplyReceivedQtyTx(ctx context.Context, tx *ent.Tx, lineID uin
 		SetUpdatedAt(time.Now())
 	if lotName != nil {
 		query.SetLotName(*lotName)
+	}
+	if expiry != nil {
+		query.SetExpiryDate(*expiry)
 	}
 
 	n, err := query.Save(ctx)

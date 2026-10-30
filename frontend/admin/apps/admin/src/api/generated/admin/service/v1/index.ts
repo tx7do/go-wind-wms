@@ -1680,6 +1680,7 @@ export type asnservicev1_AsnStatus =
 export type asnservicev1_AsnLine = {
   asnId?: number;
   expectedQty?: number;
+  expiryDate?: wellKnownTimestamp;
   id?: number;
   lotName?: string;
   putawayQty?: number;
@@ -1733,6 +1734,7 @@ export type asnservicev1_ReceiveAsnRequest = {
 // 收货明细（本次增量）
 export type asnservicev1_ReceiveAsnLine = {
   asnLineId: number | undefined;
+  expiryDate?: wellKnownTimestamp;
   lotName?: string;
   qcStatus?: asnservicev1_AsnQcStatus;
   quantity: number | undefined;
@@ -4861,7 +4863,15 @@ export type inventoryservicev1_StockMove = {
   destinationLocationId?: number;
   //
   // Behaviors: OPTIONAL
+  expiryDate?: wellKnownTimestamp;
+  //
+  // Behaviors: OPTIONAL
   id?: number;
+  // lot_name/expiry_date：ASN 收货生成的入库 move 自带批次信息
+  // （每 (sku, lot, expiry) 细分一条 move），Validate 登记批次用。
+  //
+  // Behaviors: OPTIONAL
+  lotName?: string;
   //
   // Behaviors: OPTIONAL
   pickingId?: number;

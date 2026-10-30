@@ -218,6 +218,34 @@ func (_c *StockMoveCreate) SetNillableState(v *stockmove.State) *StockMoveCreate
 	return _c
 }
 
+// SetLotName sets the "lot_name" field.
+func (_c *StockMoveCreate) SetLotName(v string) *StockMoveCreate {
+	_c.mutation.SetLotName(v)
+	return _c
+}
+
+// SetNillableLotName sets the "lot_name" field if the given value is not nil.
+func (_c *StockMoveCreate) SetNillableLotName(v *string) *StockMoveCreate {
+	if v != nil {
+		_c.SetLotName(*v)
+	}
+	return _c
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (_c *StockMoveCreate) SetExpiryDate(v time.Time) *StockMoveCreate {
+	_c.mutation.SetExpiryDate(v)
+	return _c
+}
+
+// SetNillableExpiryDate sets the "expiry_date" field if the given value is not nil.
+func (_c *StockMoveCreate) SetNillableExpiryDate(v *time.Time) *StockMoveCreate {
+	if v != nil {
+		_c.SetExpiryDate(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *StockMoveCreate) SetID(v uint32) *StockMoveCreate {
 	_c.mutation.SetID(v)
@@ -388,6 +416,14 @@ func (_c *StockMoveCreate) createSpec() (*StockMove, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.State(); ok {
 		_spec.SetField(stockmove.FieldState, field.TypeEnum, value)
 		_node.State = &value
+	}
+	if value, ok := _c.mutation.LotName(); ok {
+		_spec.SetField(stockmove.FieldLotName, field.TypeString, value)
+		_node.LotName = &value
+	}
+	if value, ok := _c.mutation.ExpiryDate(); ok {
+		_spec.SetField(stockmove.FieldExpiryDate, field.TypeTime, value)
+		_node.ExpiryDate = &value
 	}
 	return _node, _spec
 }
@@ -696,6 +732,42 @@ func (u *StockMoveUpsert) UpdateState() *StockMoveUpsert {
 // ClearState clears the value of the "state" field.
 func (u *StockMoveUpsert) ClearState() *StockMoveUpsert {
 	u.SetNull(stockmove.FieldState)
+	return u
+}
+
+// SetLotName sets the "lot_name" field.
+func (u *StockMoveUpsert) SetLotName(v string) *StockMoveUpsert {
+	u.Set(stockmove.FieldLotName, v)
+	return u
+}
+
+// UpdateLotName sets the "lot_name" field to the value that was provided on create.
+func (u *StockMoveUpsert) UpdateLotName() *StockMoveUpsert {
+	u.SetExcluded(stockmove.FieldLotName)
+	return u
+}
+
+// ClearLotName clears the value of the "lot_name" field.
+func (u *StockMoveUpsert) ClearLotName() *StockMoveUpsert {
+	u.SetNull(stockmove.FieldLotName)
+	return u
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (u *StockMoveUpsert) SetExpiryDate(v time.Time) *StockMoveUpsert {
+	u.Set(stockmove.FieldExpiryDate, v)
+	return u
+}
+
+// UpdateExpiryDate sets the "expiry_date" field to the value that was provided on create.
+func (u *StockMoveUpsert) UpdateExpiryDate() *StockMoveUpsert {
+	u.SetExcluded(stockmove.FieldExpiryDate)
+	return u
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (u *StockMoveUpsert) ClearExpiryDate() *StockMoveUpsert {
+	u.SetNull(stockmove.FieldExpiryDate)
 	return u
 }
 
@@ -1051,6 +1123,48 @@ func (u *StockMoveUpsertOne) UpdateState() *StockMoveUpsertOne {
 func (u *StockMoveUpsertOne) ClearState() *StockMoveUpsertOne {
 	return u.Update(func(s *StockMoveUpsert) {
 		s.ClearState()
+	})
+}
+
+// SetLotName sets the "lot_name" field.
+func (u *StockMoveUpsertOne) SetLotName(v string) *StockMoveUpsertOne {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.SetLotName(v)
+	})
+}
+
+// UpdateLotName sets the "lot_name" field to the value that was provided on create.
+func (u *StockMoveUpsertOne) UpdateLotName() *StockMoveUpsertOne {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.UpdateLotName()
+	})
+}
+
+// ClearLotName clears the value of the "lot_name" field.
+func (u *StockMoveUpsertOne) ClearLotName() *StockMoveUpsertOne {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.ClearLotName()
+	})
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (u *StockMoveUpsertOne) SetExpiryDate(v time.Time) *StockMoveUpsertOne {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.SetExpiryDate(v)
+	})
+}
+
+// UpdateExpiryDate sets the "expiry_date" field to the value that was provided on create.
+func (u *StockMoveUpsertOne) UpdateExpiryDate() *StockMoveUpsertOne {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.UpdateExpiryDate()
+	})
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (u *StockMoveUpsertOne) ClearExpiryDate() *StockMoveUpsertOne {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.ClearExpiryDate()
 	})
 }
 
@@ -1572,6 +1686,48 @@ func (u *StockMoveUpsertBulk) UpdateState() *StockMoveUpsertBulk {
 func (u *StockMoveUpsertBulk) ClearState() *StockMoveUpsertBulk {
 	return u.Update(func(s *StockMoveUpsert) {
 		s.ClearState()
+	})
+}
+
+// SetLotName sets the "lot_name" field.
+func (u *StockMoveUpsertBulk) SetLotName(v string) *StockMoveUpsertBulk {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.SetLotName(v)
+	})
+}
+
+// UpdateLotName sets the "lot_name" field to the value that was provided on create.
+func (u *StockMoveUpsertBulk) UpdateLotName() *StockMoveUpsertBulk {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.UpdateLotName()
+	})
+}
+
+// ClearLotName clears the value of the "lot_name" field.
+func (u *StockMoveUpsertBulk) ClearLotName() *StockMoveUpsertBulk {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.ClearLotName()
+	})
+}
+
+// SetExpiryDate sets the "expiry_date" field.
+func (u *StockMoveUpsertBulk) SetExpiryDate(v time.Time) *StockMoveUpsertBulk {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.SetExpiryDate(v)
+	})
+}
+
+// UpdateExpiryDate sets the "expiry_date" field to the value that was provided on create.
+func (u *StockMoveUpsertBulk) UpdateExpiryDate() *StockMoveUpsertBulk {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.UpdateExpiryDate()
+	})
+}
+
+// ClearExpiryDate clears the value of the "expiry_date" field.
+func (u *StockMoveUpsertBulk) ClearExpiryDate() *StockMoveUpsertBulk {
+	return u.Update(func(s *StockMoveUpsert) {
+		s.ClearExpiryDate()
 	})
 }
 

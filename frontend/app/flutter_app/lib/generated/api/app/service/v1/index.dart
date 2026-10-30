@@ -2531,6 +2531,7 @@ enum AsnServiceV1AsnStatus {
 class AsnServiceV1AsnLine {
   int? asnId;
   int? expectedQty;
+  String? expiryDate;
   int? id;
   String? lotName;
   int? putawayQty;
@@ -2542,6 +2543,7 @@ class AsnServiceV1AsnLine {
   AsnServiceV1AsnLine({
     this.asnId,
     this.expectedQty,
+    this.expiryDate,
     this.id,
     this.lotName,
     this.putawayQty,
@@ -2555,6 +2557,7 @@ class AsnServiceV1AsnLine {
     return AsnServiceV1AsnLine(
       asnId: json['asnId'] as int?,
       expectedQty: json['expectedQty'] != null ? int.parse(json['expectedQty'].toString()) : null,
+      expiryDate: json['expiryDate'] as String?,
       id: json['id'] as int?,
       lotName: json['lotName'] as String?,
       putawayQty: json['putawayQty'] != null ? int.parse(json['putawayQty'].toString()) : null,
@@ -2569,6 +2572,7 @@ class AsnServiceV1AsnLine {
     final json = <String, dynamic>{};
     if (asnId != null) json['asnId'] = asnId;
     if (expectedQty != null) json['expectedQty'] = expectedQty.toString();
+    if (expiryDate != null) json['expiryDate'] = expiryDate;
     if (id != null) json['id'] = id;
     if (lotName != null) json['lotName'] = lotName;
     if (putawayQty != null) json['putawayQty'] = putawayQty.toString();
@@ -2581,7 +2585,7 @@ class AsnServiceV1AsnLine {
 
   @override
   String toString() {
-    return 'AsnServiceV1AsnLine(asnId: $asnId, expectedQty: $expectedQty, id: $id, lotName: $lotName, putawayQty: $putawayQty, qcStatus: $qcStatus, receivedQty: $receivedQty, remark: $remark, skuCode: $skuCode)';
+    return 'AsnServiceV1AsnLine(asnId: $asnId, expectedQty: $expectedQty, expiryDate: $expiryDate, id: $id, lotName: $lotName, putawayQty: $putawayQty, qcStatus: $qcStatus, receivedQty: $receivedQty, remark: $remark, skuCode: $skuCode)';
   }
 
   @override
@@ -2591,6 +2595,7 @@ class AsnServiceV1AsnLine {
       runtimeType == other.runtimeType
       && asnId == other.asnId
       && expectedQty == other.expectedQty
+      && expiryDate == other.expiryDate
       && id == other.id
       && lotName == other.lotName
       && putawayQty == other.putawayQty
@@ -2604,6 +2609,7 @@ class AsnServiceV1AsnLine {
   int get hashCode => Object.hashAll([
     asnId,
     expectedQty,
+    expiryDate,
     id,
     lotName,
     putawayQty,
@@ -2616,6 +2622,7 @@ class AsnServiceV1AsnLine {
   AsnServiceV1AsnLine copyWith({
     int? asnId,
     int? expectedQty,
+    String? expiryDate,
     int? id,
     String? lotName,
     int? putawayQty,
@@ -2627,6 +2634,7 @@ class AsnServiceV1AsnLine {
     return AsnServiceV1AsnLine(
       asnId: asnId ?? this.asnId,
       expectedQty: expectedQty ?? this.expectedQty,
+      expiryDate: expiryDate ?? this.expiryDate,
       id: id ?? this.id,
       lotName: lotName ?? this.lotName,
       putawayQty: putawayQty ?? this.putawayQty,
@@ -2690,6 +2698,11 @@ class AsnServiceV1AsnLine {
     if (f9 != null) {
       w.writeString(9, f9!);
     }
+    // field 10: expiryDate
+    final f10 = expiryDate;
+    if (f10 != null) {
+      w.writeTimestamp(10, f10!);
+    }
   }
 
   factory AsnServiceV1AsnLine.fromBuffer(List<int> bytes) {
@@ -2743,6 +2756,11 @@ class AsnServiceV1AsnLine {
         // field 9: remark
         case 9: {
           m.remark = r.readString();
+          break;
+        }
+        // field 10: expiryDate
+        case 10: {
+          m.expiryDate = r.readTimestampIso();
           break;
         }
         default: {
@@ -3045,12 +3063,14 @@ class AsnServiceV1ReceiveAsnRequest {
 /// 收货明细（本次增量）
 class AsnServiceV1ReceiveAsnLine {
   int? asnLineId;
+  String? expiryDate;
   String? lotName;
   AsnServiceV1AsnQcStatus? qcStatus;
   int? quantity;
 
   AsnServiceV1ReceiveAsnLine({
     this.asnLineId,
+    this.expiryDate,
     this.lotName,
     this.qcStatus,
     this.quantity,
@@ -3059,6 +3079,7 @@ class AsnServiceV1ReceiveAsnLine {
   factory AsnServiceV1ReceiveAsnLine.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1ReceiveAsnLine(
       asnLineId: json['asnLineId'] as int?,
+      expiryDate: json['expiryDate'] as String?,
       lotName: json['lotName'] as String?,
       qcStatus: json['qcStatus'] != null ? AsnServiceV1AsnQcStatus.fromString(json['qcStatus'] as String) : null,
       quantity: json['quantity'] != null ? int.parse(json['quantity'].toString()) : null,
@@ -3068,6 +3089,7 @@ class AsnServiceV1ReceiveAsnLine {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (asnLineId != null) json['asnLineId'] = asnLineId;
+    if (expiryDate != null) json['expiryDate'] = expiryDate;
     if (lotName != null) json['lotName'] = lotName;
     if (qcStatus != null) json['qcStatus'] = qcStatus!.value;
     if (quantity != null) json['quantity'] = quantity.toString();
@@ -3076,7 +3098,7 @@ class AsnServiceV1ReceiveAsnLine {
 
   @override
   String toString() {
-    return 'AsnServiceV1ReceiveAsnLine(asnLineId: $asnLineId, lotName: $lotName, qcStatus: $qcStatus, quantity: $quantity)';
+    return 'AsnServiceV1ReceiveAsnLine(asnLineId: $asnLineId, expiryDate: $expiryDate, lotName: $lotName, qcStatus: $qcStatus, quantity: $quantity)';
   }
 
   @override
@@ -3085,6 +3107,7 @@ class AsnServiceV1ReceiveAsnLine {
     other is AsnServiceV1ReceiveAsnLine &&
       runtimeType == other.runtimeType
       && asnLineId == other.asnLineId
+      && expiryDate == other.expiryDate
       && lotName == other.lotName
       && qcStatus == other.qcStatus
       && quantity == other.quantity
@@ -3093,6 +3116,7 @@ class AsnServiceV1ReceiveAsnLine {
   @override
   int get hashCode => Object.hashAll([
     asnLineId,
+    expiryDate,
     lotName,
     qcStatus,
     quantity,
@@ -3100,12 +3124,14 @@ class AsnServiceV1ReceiveAsnLine {
 
   AsnServiceV1ReceiveAsnLine copyWith({
     int? asnLineId,
+    String? expiryDate,
     String? lotName,
     AsnServiceV1AsnQcStatus? qcStatus,
     int? quantity,
   }) {
     return AsnServiceV1ReceiveAsnLine(
       asnLineId: asnLineId ?? this.asnLineId,
+      expiryDate: expiryDate ?? this.expiryDate,
       lotName: lotName ?? this.lotName,
       qcStatus: qcStatus ?? this.qcStatus,
       quantity: quantity ?? this.quantity,
@@ -3140,6 +3166,11 @@ class AsnServiceV1ReceiveAsnLine {
     if (f4 != null) {
       w.writeString(4, f4!);
     }
+    // field 5: expiryDate
+    final f5 = expiryDate;
+    if (f5 != null) {
+      w.writeTimestamp(5, f5!);
+    }
   }
 
   factory AsnServiceV1ReceiveAsnLine.fromBuffer(List<int> bytes) {
@@ -3168,6 +3199,11 @@ class AsnServiceV1ReceiveAsnLine {
         // field 4: lotName
         case 4: {
           m.lotName = r.readString();
+          break;
+        }
+        // field 5: expiryDate
+        case 5: {
+          m.expiryDate = r.readTimestampIso();
           break;
         }
         default: {
@@ -7765,6 +7801,9 @@ class InventoryServiceV1StockPicking {
   String? toWarehouseCode;
   String? updatedAt;
   int? updatedBy;
+  ///
+  /// Behaviors: OPTIONAL
+  int? waveId;
 
   InventoryServiceV1StockPicking({
     this.asnId,
@@ -7786,6 +7825,7 @@ class InventoryServiceV1StockPicking {
     this.toWarehouseCode,
     this.updatedAt,
     this.updatedBy,
+    this.waveId,
   });
 
   factory InventoryServiceV1StockPicking.fromJson(Map<String, dynamic> json) {
@@ -7809,6 +7849,7 @@ class InventoryServiceV1StockPicking {
       toWarehouseCode: json['toWarehouseCode'] as String?,
       updatedAt: json['updatedAt'] as String?,
       updatedBy: json['updatedBy'] as int?,
+      waveId: json['waveId'] as int?,
     );
   }
 
@@ -7833,12 +7874,13 @@ class InventoryServiceV1StockPicking {
     if (toWarehouseCode != null) json['toWarehouseCode'] = toWarehouseCode;
     if (updatedAt != null) json['updatedAt'] = updatedAt;
     if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (waveId != null) json['waveId'] = waveId;
     return json;
   }
 
   @override
   String toString() {
-    return 'InventoryServiceV1StockPicking(asnId: $asnId, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, deletedBy: $deletedBy, derivedState: $derivedState, destinationLocationId: $destinationLocationId, fromWarehouseCode: $fromWarehouseCode, id: $id, moves: $moves, partnerCode: $partnerCode, pickingNumber: $pickingNumber, pickingType: $pickingType, remark: $remark, sourceLocationId: $sourceLocationId, tenantId: $tenantId, toWarehouseCode: $toWarehouseCode, updatedAt: $updatedAt, updatedBy: $updatedBy)';
+    return 'InventoryServiceV1StockPicking(asnId: $asnId, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, deletedBy: $deletedBy, derivedState: $derivedState, destinationLocationId: $destinationLocationId, fromWarehouseCode: $fromWarehouseCode, id: $id, moves: $moves, partnerCode: $partnerCode, pickingNumber: $pickingNumber, pickingType: $pickingType, remark: $remark, sourceLocationId: $sourceLocationId, tenantId: $tenantId, toWarehouseCode: $toWarehouseCode, updatedAt: $updatedAt, updatedBy: $updatedBy, waveId: $waveId)';
   }
 
   @override
@@ -7865,6 +7907,7 @@ class InventoryServiceV1StockPicking {
       && toWarehouseCode == other.toWarehouseCode
       && updatedAt == other.updatedAt
       && updatedBy == other.updatedBy
+      && waveId == other.waveId
     ;
 
   @override
@@ -7888,6 +7931,7 @@ class InventoryServiceV1StockPicking {
     toWarehouseCode,
     updatedAt,
     updatedBy,
+    waveId,
   ]);
 
   InventoryServiceV1StockPicking copyWith({
@@ -7910,6 +7954,7 @@ class InventoryServiceV1StockPicking {
     String? toWarehouseCode,
     String? updatedAt,
     int? updatedBy,
+    int? waveId,
   }) {
     return InventoryServiceV1StockPicking(
       asnId: asnId ?? this.asnId,
@@ -7931,6 +7976,7 @@ class InventoryServiceV1StockPicking {
       toWarehouseCode: toWarehouseCode ?? this.toWarehouseCode,
       updatedAt: updatedAt ?? this.updatedAt,
       updatedBy: updatedBy ?? this.updatedBy,
+      waveId: waveId ?? this.waveId,
     );
   }
 
@@ -8001,6 +8047,11 @@ class InventoryServiceV1StockPicking {
     final f14 = asnId;
     if (f14 != null) {
       w.writeUint32(14, f14!);
+    }
+    // field 15: waveId
+    final f15 = waveId;
+    if (f15 != null) {
+      w.writeUint32(15, f15!);
     }
     // field 20: tenantId
     final f20 = tenantId;
@@ -8107,6 +8158,11 @@ class InventoryServiceV1StockPicking {
           m.asnId = r.readUint32();
           break;
         }
+        // field 15: waveId
+        case 15: {
+          m.waveId = r.readUint32();
+          break;
+        }
         // field 20: tenantId
         case 20: {
           m.tenantId = r.readUint32();
@@ -8203,7 +8259,15 @@ class InventoryServiceV1StockMove {
   int? destinationLocationId;
   ///
   /// Behaviors: OPTIONAL
+  String? expiryDate;
+  ///
+  /// Behaviors: OPTIONAL
   int? id;
+  /// lot_name/expiry_date：ASN 收货生成的入库 move 自带批次信息
+  /// （每 (sku, lot, expiry) 细分一条 move），Validate 登记批次用。
+  ///
+  /// Behaviors: OPTIONAL
+  String? lotName;
   ///
   /// Behaviors: OPTIONAL
   int? pickingId;
@@ -8230,7 +8294,9 @@ class InventoryServiceV1StockMove {
     this.deletedAt,
     this.deletedBy,
     this.destinationLocationId,
+    this.expiryDate,
     this.id,
+    this.lotName,
     this.pickingId,
     this.plannedQuantity,
     this.productCode,
@@ -8249,7 +8315,9 @@ class InventoryServiceV1StockMove {
       deletedAt: json['deletedAt'] as String?,
       deletedBy: json['deletedBy'] as int?,
       destinationLocationId: json['destinationLocationId'] as int?,
+      expiryDate: json['expiryDate'] as String?,
       id: json['id'] as int?,
+      lotName: json['lotName'] as String?,
       pickingId: json['pickingId'] as int?,
       plannedQuantity: json['plannedQuantity'] != null ? int.parse(json['plannedQuantity'].toString()) : null,
       productCode: json['productCode'] as String?,
@@ -8269,7 +8337,9 @@ class InventoryServiceV1StockMove {
     if (deletedAt != null) json['deletedAt'] = deletedAt;
     if (deletedBy != null) json['deletedBy'] = deletedBy;
     if (destinationLocationId != null) json['destinationLocationId'] = destinationLocationId;
+    if (expiryDate != null) json['expiryDate'] = expiryDate;
     if (id != null) json['id'] = id;
+    if (lotName != null) json['lotName'] = lotName;
     if (pickingId != null) json['pickingId'] = pickingId;
     if (plannedQuantity != null) json['plannedQuantity'] = plannedQuantity.toString();
     if (productCode != null) json['productCode'] = productCode;
@@ -8284,7 +8354,7 @@ class InventoryServiceV1StockMove {
 
   @override
   String toString() {
-    return 'InventoryServiceV1StockMove(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, deletedBy: $deletedBy, destinationLocationId: $destinationLocationId, id: $id, pickingId: $pickingId, plannedQuantity: $plannedQuantity, productCode: $productCode, remark: $remark, sourceLocationId: $sourceLocationId, state: $state, tenantId: $tenantId, updatedAt: $updatedAt, updatedBy: $updatedBy)';
+    return 'InventoryServiceV1StockMove(createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, deletedBy: $deletedBy, destinationLocationId: $destinationLocationId, expiryDate: $expiryDate, id: $id, lotName: $lotName, pickingId: $pickingId, plannedQuantity: $plannedQuantity, productCode: $productCode, remark: $remark, sourceLocationId: $sourceLocationId, state: $state, tenantId: $tenantId, updatedAt: $updatedAt, updatedBy: $updatedBy)';
   }
 
   @override
@@ -8297,7 +8367,9 @@ class InventoryServiceV1StockMove {
       && deletedAt == other.deletedAt
       && deletedBy == other.deletedBy
       && destinationLocationId == other.destinationLocationId
+      && expiryDate == other.expiryDate
       && id == other.id
+      && lotName == other.lotName
       && pickingId == other.pickingId
       && plannedQuantity == other.plannedQuantity
       && productCode == other.productCode
@@ -8316,7 +8388,9 @@ class InventoryServiceV1StockMove {
     deletedAt,
     deletedBy,
     destinationLocationId,
+    expiryDate,
     id,
+    lotName,
     pickingId,
     plannedQuantity,
     productCode,
@@ -8334,7 +8408,9 @@ class InventoryServiceV1StockMove {
     String? deletedAt,
     int? deletedBy,
     int? destinationLocationId,
+    String? expiryDate,
     int? id,
+    String? lotName,
     int? pickingId,
     int? plannedQuantity,
     String? productCode,
@@ -8351,7 +8427,9 @@ class InventoryServiceV1StockMove {
       deletedAt: deletedAt ?? this.deletedAt,
       deletedBy: deletedBy ?? this.deletedBy,
       destinationLocationId: destinationLocationId ?? this.destinationLocationId,
+      expiryDate: expiryDate ?? this.expiryDate,
       id: id ?? this.id,
+      lotName: lotName ?? this.lotName,
       pickingId: pickingId ?? this.pickingId,
       plannedQuantity: plannedQuantity ?? this.plannedQuantity,
       productCode: productCode ?? this.productCode,
@@ -8411,6 +8489,16 @@ class InventoryServiceV1StockMove {
     final f11 = remark;
     if (f11 != null) {
       w.writeString(11, f11!);
+    }
+    // field 16: lotName
+    final f16 = lotName;
+    if (f16 != null) {
+      w.writeString(16, f16!);
+    }
+    // field 17: expiryDate
+    final f17 = expiryDate;
+    if (f17 != null) {
+      w.writeTimestamp(17, f17!);
     }
     // field 20: tenantId
     final f20 = tenantId;
@@ -8495,6 +8583,16 @@ class InventoryServiceV1StockMove {
         // field 11: remark
         case 11: {
           m.remark = r.readString();
+          break;
+        }
+        // field 16: lotName
+        case 16: {
+          m.lotName = r.readString();
+          break;
+        }
+        // field 17: expiryDate
+        case 17: {
+          m.expiryDate = r.readTimestampIso();
           break;
         }
         // field 20: tenantId
