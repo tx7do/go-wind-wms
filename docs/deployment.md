@@ -1,6 +1,6 @@
-# GoWind ERP 部署运维指南
+# GoWind WMS 部署运维指南
 
-> 本指南面向负责把 GoWind ERP 部署到生产环境的运维/后端人员，覆盖：依赖服务、后端微服务、管理后台前端、移动端发布的完整部署路径，以及配置改造、安全清单、备份恢复、升级与已知问题。
+> 本指南面向负责把 GoWind WMS 部署到生产环境的运维/后端人员，覆盖：依赖服务、后端微服务、管理后台前端、移动端发布的完整部署路径，以及配置改造、安全清单、备份恢复、升级与已知问题。
 >
 > 开发环境搭建见根 [README](../README.md)「快速开始」；脚本细节见 [backend/scripts/README.md](../backend/scripts/README.md)。基于 2026-08-29 的 main 分支编写。
 
@@ -34,7 +34,7 @@
 | admin-service | 管理后台 BFF（Web 前端的唯一后端入口） | REST `6600`，SSE `6601`（`/events`），gRPC 随机端口 |
 | app-service | 移动端 BFF（Flutter App 的唯一后端入口） | REST `6700`，SSE `6701`（`/events`），gRPC 随机端口 |
 | core-service | 核心业务服务，**唯一连数据库的服务**，内嵌 Asynq 异步任务 | 仅 gRPC（随机端口，经 etcd 注册被发现） |
-| PostgreSQL | 主数据库（库名 `go_wind_erp`） | `5432` |
+| PostgreSQL | 主数据库（库名 `go_wind_wms`） | `5432` |
 | Redis | 缓存 + Asynq 任务队列（core 使用 DB 1） | `6379` |
 | MinIO | S3 兼容对象存储（文件上传），默认桶 `images` | API `9000`，控制台 `9001` |
 | etcd | 服务注册与发现 | `2379`（客户端）/ `2380`（peer） |
@@ -115,10 +115,10 @@ make pm2-deploy
 
 该目标等价于执行 `scripts/deploy/pm2_service.sh`，它会：
 
-1. 加载 `backend/.env`（`PROJECT_NAME=go_wind_erp`、`SERVICE_APP_VERSION=1.0.0`）；
+1. 加载 `backend/.env`（`PROJECT_NAME=go_wind_wms`、`SERVICE_APP_VERSION=1.0.0`）；
 2. 执行 `make build_only` 编译三个服务，产物在各服务 `bin/server`；
-3. 安装到 `~/app/go_wind_erp/<admin|app|core>/service/`（二进制 + configs 目录一并复制）；
-4. 用 PM2 启动并守护：`pm2 start ... --name go_wind_erp-<服务名> -- -c <configs 目录>`，随后 `pm2 save`。
+3. 安装到 `~/app/go_wind_wms/<admin|app|core>/service/`（二进制 + configs 目录一并复制）；
+4. 用 PM2 启动并守护：`pm2 start ... --name go_wind_wms-<服务名> -- -c <configs 目录>`，随后 `pm2 save`。
 
 验证服务：
 
@@ -139,7 +139,7 @@ pm2 save
 
 ## 5. 生产配置改造清单（必读）
 
-三个服务的配置在各服务 `backend/app/<服务名>/service/configs/` 目录下的 yaml 文件中（`-c` 参数指向该目录）。PM2 安装后位于 `~/app/go_wind_erp/<服务名>/service/configs/`，**可直接改服务器上的副本**（改完 `pm2 restart` 生效）。
+三个服务的配置在各服务 `backend/app/<服务名>/service/configs/` 目录下的 yaml 文件中（`-c` 参数指向该目录）。PM2 安装后位于 `~/app/go_wind_wms/<服务名>/service/configs/`，**可直接改服务器上的副本**（改完 `pm2 restart` 生效）。
 
 **先理解一条机制**：配置文件中的 `${key:默认值}` 占位符由 Kratos 从**配置文件树内部**解析——在配置树里任何 yaml 顶层写 `key: 值` 即可覆盖占位符；**设置同名操作系统环境变量无效**（配置文件里的注释有误导性，以此为准）。
 
@@ -151,7 +151,7 @@ pm2 save
 database:
   driver: "postgres"
   # 宿主机运行时依赖端口已由 compose 发布到 127.0.0.1，host 不要写容器名
-  source: "host=127.0.0.1 port=5432 user=postgres password=<你的PG密码> dbname=go_wind_erp sslmode=disable"
+  source: "host=127.0.0.1 port=5432 user=postgres password=<你的PG密码> dbname=go_wind_wms sslmode=disable"
   migrate: true        # 首次启动建表；稳定运行后可改为 false
   max_open_conn: 25
   redis:
@@ -233,13 +233,13 @@ compose 默认密码与各服务 configs 的默认值**已统一**为演示值 `
 
 ### 5.7 日志（可选）
 
-`logger.yaml` 默认双写：stdout + 滚动文件 `./logs/info.log`（1MB×5 个，保留 30 天，相对进程工作目录）。PM2 模式另有 `~/app/go_wind_erp/<服务名>/service/bin/stdout.log|stderr.log`。
+`logger.yaml` 默认双写：stdout + 滚动文件 `./logs/info.log`（1MB×5 个，保留 30 天，相对进程工作目录）。PM2 模式另有 `~/app/go_wind_wms/<服务名>/service/bin/stdout.log|stderr.log`。
 
 ## 6. 数据库初始化与种子数据
 
 **全新生产库不需要导入任何 SQL**：
 
-1. 建空库：compose 已自动建 `go_wind_erp`；自建库时用 `CREATE DATABASE go_wind_erp;`
+1. 建空库：compose 已自动建 `go_wind_wms`；自建库时用 `CREATE DATABASE go_wind_wms;`
 2. 启动 core-service：ent 自动迁移建全部表（`migrate: true`）
 3. 启动逻辑自动写入：角色/权限模板、内置权限点，以及默认管理员 **admin / admin**
 
@@ -373,10 +373,10 @@ server {
 
 ```bash
 # 备份（容器名以 docker ps 实际为准）
-docker exec <postgres容器> pg_dump -U postgres go_wind_erp | gzip > /backup/gowind_$(date +%F).sql.gz
+docker exec <postgres容器> pg_dump -U postgres go_wind_wms | gzip > /backup/gowind_$(date +%F).sql.gz
 
 # 恢复
-gunzip -c /backup/gowind_2026-08-29.sql.gz | docker exec -i <postgres容器> psql -U postgres go_wind_erp
+gunzip -c /backup/gowind_2026-08-29.sql.gz | docker exec -i <postgres容器> psql -U postgres go_wind_wms
 ```
 
 **MinIO 备份**：直接备份宿主机挂载目录（默认 `${APP_ROOT:-/root/app}/minio/data`），或用 `mc mirror` 同步到远端。
@@ -388,7 +388,7 @@ gunzip -c /backup/gowind_2026-08-29.sql.gz | docker exec -i <postgres容器> psq
 ```bash
 # 0. 备份数据库（见第 10 章）
 # 1. 拉取新代码
-cd /path/to/go-wind-erp && git pull
+cd /path/to/go-wind-wms && git pull
 
 # 2. 重建前端（如前端有变更）并发布 dist/
 cd frontend/admin && pnpm install --frozen-lockfile && pnpm build:antd
@@ -412,7 +412,7 @@ curl -s http://127.0.0.1:6700/ >/dev/null && echo app-ok
 
 | 事项 | 现状与做法 |
 |:---|:---|
-| 进程守护 | PM2 自动重启；`pm2 status` / `pm2 logs go_wind_erp-admin` |
+| 进程守护 | PM2 自动重启；`pm2 status` / `pm2 logs go_wind_wms-admin` |
 | 健康检查 | 依赖容器在 `docker-compose.yaml` 中已带 healthcheck（pg_isready / redis-cli ping / etcdctl endpoint health / minio health）；应用服务**没有专用健康端点**（无 /healthz），用端口探测（6600/6700）或 `pm2 status` 判断存活；接入监控建议用 TCP 探测 |
 | 指标 | 未暴露 Prometheus 端点 |
 | 链路追踪 | Jaeger UI `http://<服务器>:16686`（生产建议不对公网开放）；采样率见 5.3 |

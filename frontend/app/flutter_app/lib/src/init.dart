@@ -34,14 +34,6 @@ import 'package:go_wind_wms/src/features/wms/data/wms_repository_impl.dart'
     show createWmsRepositoryImpl;
 import 'package:go_wind_wms/src/features/wms/domain/wms_repository.dart'
     show WmsRepository;
-import 'package:go_wind_wms/src/features/sales/data/sales_repository_impl.dart'
-    show createSalesRepositoryImpl;
-import 'package:go_wind_wms/src/features/sales/domain/sales_repository.dart'
-    show SalesRepository;
-import 'package:go_wind_wms/src/features/procurement/data/procurement_repository_impl.dart'
-    show createProcurementRepositoryImpl;
-import 'package:go_wind_wms/src/features/procurement/domain/procurement_repository.dart'
-    show ProcurementRepository;
 import 'package:get_it/get_it.dart' show GetIt;
 
 import 'init_thirdparty_plugins.dart';
@@ -83,12 +75,6 @@ void _initTransport() {
   );
   getIt.registerLazySingleton<WmsRepository>(
     () => createWmsRepositoryImpl(),
-  );
-  getIt.registerLazySingleton<SalesRepository>(
-    () => createSalesRepositoryImpl(),
-  );
-  getIt.registerLazySingleton<ProcurementRepository>(
-    () => createProcurementRepositoryImpl(),
   );
   getIt.registerLazySingleton<ApprovalRepository>(
     () => createApprovalRepositoryImpl(),

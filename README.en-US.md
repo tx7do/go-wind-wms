@@ -106,7 +106,7 @@ GoWind WMS is derived from the inventory module and common foundation of GoWind 
 ## Project Structure
 
 ```
-go-wind-erp/
+go-wind-wms/
 ├── backend/                        # Backend services
 │   ├── api/                        # Protobuf API definitions & generated code
 │   │   ├── protos/                 # .proto source files
@@ -193,7 +193,7 @@ make test
 
 ## Contact
 
-- WeChat: `yang_lin_bo` (Note: `go-wind-erp`)
+- WeChat: `yang_lin_bo` (Note: `go-wind-wms`)
 
 ## Contributing
 

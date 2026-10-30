@@ -901,19 +901,3 @@ var DemoProducts = []DemoProduct{
 	{Code: "SKU-1005", Name: "透明胶带", Spec: "48mm×100m", Unit: "卷"},
 }
 
-// DemoPartner 演示往来单位。
-type DemoPartner struct {
-	Code, Name, Contact, Phone string
-}
-
-// DemoSuppliers 演示供应商。
-var DemoSuppliers = []DemoPartner{
-	{Code: "SUP-1001", Name: "华东五金供货商", Contact: "王经理", Phone: "13800001001"},
-	{Code: "SUP-1002", Name: "南方电子元件厂", Contact: "李经理", Phone: "13800001002"},
-}
-
-// DemoCustomers 演示客户。
-var DemoCustomers = []DemoPartner{
-	{Code: "CUS-1001", Name: "华北零售连锁", Contact: "赵经理", Phone: "13900001001"},
-	{Code: "CUS-1002", Name: "城中装修队", Contact: "钱队长", Phone: "13900001002"},
-}

@@ -91,8 +91,8 @@ func (s *ApprovalRequestService) Create(ctx context.Context, req *approvalV1.Cre
 		return nil, err
 	}
 
-	// 多级审批快照在仓储层单点完成（PO/SO/付款/收款/补货提交路径均
-	// 直连仓储建单），此处无需重复。
+	// 多级审批快照在仓储层单点完成（业务方提交路径均直连仓储建单），
+	// 此处无需重复。
 	if _, err := s.approvalRequestRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}

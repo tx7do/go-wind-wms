@@ -39,11 +39,6 @@ class HomeShell extends StatelessWidget {
             selectedIcon: const Icon(Icons.warehouse),
             label: loc.navWms,
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.sell_outlined),
-            selectedIcon: const Icon(Icons.sell),
-            label: loc.navSales,
-          ),
         ],
       ),
     );

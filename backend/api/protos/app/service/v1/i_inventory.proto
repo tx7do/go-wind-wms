@@ -73,22 +73,6 @@ service StockPickingService {
     };
   }
 
-  // 创建销售退货拣货单（INCOMING：客户→仓库，负向回写履约数）
-  rpc CreateSalesReturn (inventory.service.v1.CreateSalesReturnRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/app/v1/stock-pickings:sales-return"
-      body: "*"
-    };
-  }
-
-  // 创建采购退货拣货单（OUTGOING：仓库→供应商，负向回写收货数）
-  rpc CreatePurchaseReturn (inventory.service.v1.CreatePurchaseReturnRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/app/v1/stock-pickings:purchase-return"
-      body: "*"
-    };
-  }
-
   // 确认拣货单
   rpc Confirm (inventory.service.v1.ConfirmStockPickingRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {

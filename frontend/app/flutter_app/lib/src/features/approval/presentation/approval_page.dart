@@ -295,27 +295,11 @@ class _ApprovalBodyState extends State<_ApprovalBody> {
     );
   }
 
-  /// 按业务类型深链到单据详情：SALES_ORDER/PURCHASE_ORDER 的 bizRef
-  /// 形如 "XXX_ORDER:{id}"，解析后跳转对应详情页；其他类型不可点。
+  /// 按业务类型深链到单据详情。当前 WMS 无已实现的可深链单据
+  /// （ERP 的销售单/采购单深链已随模块剥离）；后续 WMS 业务单据
+  /// （如库存调整单审批）在 switch 中追加分支即可。
   VoidCallback? _detailRoute(ApprovalInfo item) {
-    final id = switch (item.bizType) {
-      'SALES_ORDER' => _orderIdFromRef(item.bizRef, 'SALES_ORDER'),
-      'PURCHASE_ORDER' => _orderIdFromRef(item.bizRef, 'PURCHASE_ORDER'),
-      _ => null,
-    };
-    if (id == null) return null;
-    return () => context.push(
-          item.bizType == 'SALES_ORDER'
-              ? '${AppRoutePath.salesDetailPrefix}$id'
-              : '${AppRoutePath.poDetailPrefix}$id',
-        );
-  }
-
-  int? _orderIdFromRef(String bizRef, String prefix) {
-    final value = bizRef.startsWith('$prefix:')
-        ? bizRef.substring(prefix.length + 1)
-        : '';
-    return int.tryParse(value);
+    return null;
   }
 
   String _filterLabel(S loc, ApprovalFilter filter) => switch (filter) {

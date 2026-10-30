@@ -38,8 +38,6 @@ const (
 	FieldSourceLocationID = "source_location_id"
 	// FieldDestinationLocationID holds the string denoting the destination_location_id field in the database.
 	FieldDestinationLocationID = "destination_location_id"
-	// FieldPurchaseOrderID holds the string denoting the purchase_order_id field in the database.
-	FieldPurchaseOrderID = "purchase_order_id"
 	// FieldAsnID holds the string denoting the asn_id field in the database.
 	FieldAsnID = "asn_id"
 	// FieldPartnerCode holds the string denoting the partner_code field in the database.
@@ -63,7 +61,6 @@ var Columns = []string{
 	FieldPickingType,
 	FieldSourceLocationID,
 	FieldDestinationLocationID,
-	FieldPurchaseOrderID,
 	FieldAsnID,
 	FieldPartnerCode,
 }
@@ -93,8 +90,6 @@ var (
 	DefaultSourceLocationID uint32
 	// DefaultDestinationLocationID holds the default value on creation for the "destination_location_id" field.
 	DefaultDestinationLocationID uint32
-	// DefaultPurchaseOrderID holds the default value on creation for the "purchase_order_id" field.
-	DefaultPurchaseOrderID uint32
 	// DefaultAsnID holds the default value on creation for the "asn_id" field.
 	DefaultAsnID uint32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -195,11 +190,6 @@ func BySourceLocationID(opts ...sql.OrderTermOption) OrderOption {
 // ByDestinationLocationID orders the results by the destination_location_id field.
 func ByDestinationLocationID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDestinationLocationID, opts...).ToFunc()
-}
-
-// ByPurchaseOrderID orders the results by the purchase_order_id field.
-func ByPurchaseOrderID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPurchaseOrderID, opts...).ToFunc()
 }
 
 // ByAsnID orders the results by the asn_id field.

@@ -108,9 +108,9 @@ VALUES
     (6, 1, 1, 'REGION', '华北大区', 'NORTH', '负责华北区域市场运营、客户维护、销售管理及本地化服务落地', '/1/6', 3, 12, 'ON', now()),
     (7, 1, 1, 'SUBSIDIARY', '广州分公司', 'GZ', '负责华南区域（广州及周边）业务拓展、客户服务及本地化运营', '/1/7', 5, 2, 'ON', now()),
     (8, 1, 1, 'SUBSIDIARY', '深圳子公司', 'SZ', '负责深圳区域市场开拓、科技创新业务落地及高端客户对接', '/1/8', 6, 4, 'ON', now()),
-    (9, 1, 1, 'DIVISION', '销售部', 'SALES', '统筹集团整体销售策略制定、销售团队管理及业绩目标达成', '/1/9', 7, 16, 'ON', now()),
-    (10, 1, 9, 'DEPARTMENT', '海外事业部', 'INTL', '负责海外市场拓展、国际客户合作、跨境业务管理及本地化运营', '/1/9/10', 1, 17, 'ON', now()),
-    (11, 1, 10, 'TEAM', '海外销售组', 'INTL-SALES-1', '具体执行海外市场销售任务，跟进客户需求及订单落地', '/1/9/10/11', 1, 18, 'ON', now()),
+    (9, 1, 1, 'DIVISION', '仓储运营部', 'WMS-OPS', '统筹仓储作业运营：收货、上架、库存、盘点与出库协同', '/1/9', 7, 16, 'ON', now()),
+    (10, 1, 9, 'DEPARTMENT', '库内作业部', 'WMS-INHOUSE', '负责库内作业管理：上架、移库、盘点与库存维护', '/1/9/10', 1, 17, 'ON', now()),
+    (11, 1, 10, 'TEAM', '库存盘点组', 'WMS-COUNT-1', '执行循环盘点与库存核对，处理差异复盘与调整', '/1/9/10/11', 1, 18, 'ON', now()),
     (12, 1, 5, 'PROJECT', '新能源项目组', 'NEO-PROJ', '专项负责新能源项目的研发、落地、运营及成果转化', '/1/2/5/12', 1, 6, 'ON', now()),
     (13, 1, 1, 'COMMITTEE', '审计委员会', 'AUDIT', '独立开展集团内部审计、风控检查、合规监督及问题整改跟进', '/1/13', 8, 12, 'ON', now()),
     (14, 1, 1, 'DEPARTMENT', '客服部', 'CS', '负责全集团客户咨询、投诉处理、售后服务及客户满意度提升', '/1/14', 9, 11, 'ON', now()),
@@ -134,10 +134,10 @@ VALUES
     (9, 1, 'MANAGER', '招聘主管', 'HR-RECRUIT-LEADER-001', 2, 8, '负责公司各部门招聘需求对接、简历筛选及面试安排', 'HR', 2, 2, 1, false, 'ON', 2, now()),
     (10, 1, 'REGULAR', '薪酬绩效专员', 'HR-C&P-001', 2, 8, '负责员工薪酬核算、绩效考核制度落地及社保公积金管理', 'HR', 3, 2, 1, false, 'ON', 3, now()),
     (11, 1, 'REGULAR', 'HRBP', 'HR-BP-001', 2, 8, '对接业务部门，提供人力资源支持（入离职、员工关系等）', 'HR', 4, 2, 1, false, 'ON', 4, now()),
-    (12, 1, 'LEADER', '财务总监', 'FIN-DIRECTOR-001', 2, NULL, '负责公司财务战略、预算管理及财务风险控制', 'FIN', 1, 1, 1, true, 'ON', 1, now()),
-    (13, 1, 'MANAGER', '会计主管', 'FIN-ACCOUNT-LEADER-001', 2, 12, '负责账务处理、财务报表编制及税务申报管理', 'FIN', 2, 2, 1, false, 'ON', 2, now()),
-    (14, 1, 'REGULAR', '出纳专员', 'FIN-CASHIER-001', 2, 13, '负责日常资金收付、银行对账及票据管理', 'FIN', 3, 3, 1, false, 'ON', 3, now()),
-    (15, 1, 'REGULAR', '成本会计', 'FIN-COST-001', 2, 13, '负责成本核算、成本分析及成本控制方案制定', 'FIN', 4, 3, 1, false, 'ON', 4, now()),
+    (12, 1, 'LEADER', '仓储总监', 'WH-DIRECTOR-001', 2, NULL, '负责仓储运营战略、产能规划及运营风险控制', 'WH', 1, 1, 1, true, 'ON', 1, now()),
+    (13, 1, 'MANAGER', '仓库主管', 'WH-SUPERVISOR-001', 2, 12, '负责仓库日常作业调度、现场管理与 KPI 落地', 'WH', 2, 2, 1, false, 'ON', 2, now()),
+    (14, 1, 'REGULAR', '收货组长', 'WH-RECV-LEADER-001', 2, 13, '负责到货预约、卸货收货与质检协调', 'WH', 3, 3, 1, false, 'ON', 3, now()),
+    (15, 1, 'REGULAR', '库存专员', 'WH-STOCK-CLERK-001', 2, 13, '负责库存核对、批次效期管理与差异处理', 'WH', 4, 3, 1, false, 'ON', 4, now()),
     (16, 1, 'LEADER', '市场总监', 'MKT-DIRECTOR-001', 4, NULL, '负责市场战略规划、品牌建设及营销活动策划', 'MKT', 1, 1, 1, true, 'ON', 1, now()),
     (17, 1, 'MANAGER', '新媒体运营主管', 'MKT-NEWS-LEADER-001', 4, 16, '负责新媒体平台内容运营及用户增长', 'MKT', 2, 2, 1, false, 'ON', 2, now()),
     (18, 1, 'REGULAR', '活动策划专员', 'MKT-EVENT-001', 4, 16, '负责线下活动策划、执行及效果复盘', 'MKT', 3, 3, 1, false, 'ON', 3, now()),
@@ -174,8 +174,7 @@ INSERT INTO public.sys_dict_types (
       (1, 'USER_STATUS', '用户状态', 10, true, now(), now()),
       (2, 'DEVICE_TYPE', '设备类型', 20, true, now(), now()),
       (3, 'ORDER_STATUS', '订单状态', 30, true, now(), now()),
-      (4, 'GENDER', '性别', 40, true, now(), now()),
-      (5, 'PAYMENT_METHOD', '支付方式', 50, true, now(), now()),
+      (4, 'GENDER', '性别', 40, true, now(), now()),,
       (6, 'APPROVAL_BIZ_TYPE', '审批业务类型', 60, true, now(), now())
 ;
 SELECT setval('sys_dict_types_id_seq', (SELECT MAX(id) FROM sys_dict_types));
@@ -203,14 +202,7 @@ INSERT INTO public.sys_dict_entries (
       -- 性别
       (12, 4, 'MALE', 1, 1, true, now(), now(), 0),
       (13, 4, 'FEMALE', 2, 2, true, now(), now(), 0),
-      (14, 4, 'UNKNOWN', 0, 3, true, now(), now(), 0),
-      -- 支付方式
-      (15, 5, 'ALIPAY', 1, 1, true, now(), now(), 0),
-      (16, 5, 'WECHAT', 2, 2, true, now(), now(), 0),
-      (17, 5, 'UNIONPAY', 3, 3, true, now(), now(), 0),
-      (18, 5, 'CASH', 4, 4, false, now(), now(), 0),
-      -- 审批业务类型（审批单 biz_type 的展示标签来源）
-;
+      (14, 4, 'UNKNOWN', 0, 3, true, now(), now(), 0));
 SELECT setval('sys_dict_entries_id_seq', (SELECT MAX(id) FROM sys_dict_entries));
 
 -- ----------------------------
@@ -237,12 +229,7 @@ INSERT INTO public.sys_dict_entry_i18n (
       (12, 'zh-CN', '男', '', 1, 0, now(), now()),
       (13, 'zh-CN', '女', '', 2, 0, now(), now()),
       (14, 'zh-CN', '未知', '用户未填写时默认值', 3, 0, now(), now()),
-      -- 支付方式
-      (15, 'zh-CN', '支付宝', '支持花呗、余额宝', 1, 0, now(), now()),
-      (16, 'zh-CN', '微信支付', '需绑定微信', 2, 0, now(), now()),
-      (17, 'zh-CN', '银联支付', '支持信用卡、储蓄卡', 3, 0, now(), now()),
-      (18, 'zh-CN', '现金支付', '线下支付，已废弃（2025-01停用）', 4, 0, now(), now()),
-      -- 审批业务类型
+      -- 支付方式 now()), now()), now()), now()),
 
       -- User Status
       (1, 'en-US', 'Normal', 'User can log in and operate normally', 1, 0, now(), now()),
@@ -266,11 +253,7 @@ INSERT INTO public.sys_dict_entry_i18n (
       (13, 'en-US', 'Female', '', 2, 0, now(), now()),
       (14, 'en-US', 'Unknown', 'Default value when user does not specify', 3, 0, now(), now()),
 
-      -- Payment Method
-      (15, 'en-US', 'Alipay', 'Supports Huabei and Yu’ebao', 1, 0, now(), now()),
-      (16, 'en-US', 'WeChat Pay', 'Requires WeChat account binding', 2, 0, now(), now()),
-      (17, 'en-US', 'UnionPay', 'Supports credit and debit cards', 3, 0, now(), now()),
-      (18, 'en-US', 'Cash', 'Offline payment; deprecated as of Jan 2025', 4, 0, now(), now()),
+      -- Payment Method now()), now()), now()), now()),
 
       -- Approval Business Type
 ;
@@ -346,17 +329,17 @@ SELECT setval(pg_get_serial_sequence('public.inv_stock_quants','id'), COALESCE((
 -- ----------------------------
 -- inv_stock_pickings — 拣货单（INCOMING 入库 / INTERNAL 调拨）
 -- ----------------------------
-INSERT INTO inv_stock_pickings (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, picking_number, picking_type, source_location_id, destination_location_id, purchase_order_id, partner_code) VALUES
-    (1, now() - interval '9 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 'PK-IN-2026-0001', 'INCOMING', 3, 1, 1, 'SUP-001'),
-    (2, now() - interval '6 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 'PK-TR-2026-0002', 'INTERNAL', 1, 2, 0, NULL)
+INSERT INTO inv_stock_pickings (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, picking_number, picking_type, source_location_id, destination_location_id, partner_code) VALUES
+    (1, now() - interval '9 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 'PK-IN-2026-0001', 'INCOMING', 3, 1, 'SUP-001'),
+    (2, now() - interval '6 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 'PK-TR-2026-0002', 'INTERNAL', 1, 2, NULL)
 ;
 SELECT setval(pg_get_serial_sequence('public.inv_stock_pickings','id'), COALESCE((SELECT MAX(id) FROM inv_stock_pickings),1), true);
 -- ----------------------------
 -- inv_stock_moves — 库存移动计划（DONE/DRAFT 等多状态）
 -- ----------------------------
-INSERT INTO inv_stock_moves (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, picking_id, product_code, source_location_id, destination_location_id, planned_quantity, state, purchase_order_item_id) VALUES
-    (1, now() - interval '9 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'SKU-A001', 3, 1, 1000, 'DONE', 1),
-    (2, now() - interval '6 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 2, 'SKU-A001', 1, 2, 1000, 'DRAFT', 0)
+INSERT INTO inv_stock_moves (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, picking_id, product_code, source_location_id, destination_location_id, planned_quantity, state) VALUES
+    (1, now() - interval '9 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'SKU-A001', 3, 1, 1000, 'DONE'),
+    (2, now() - interval '6 days', NULL, NULL, NULL, NULL, NULL, NULL, 1, 2, 'SKU-A001', 1, 2, 1000, 'DRAFT')
 ;
 SELECT setval(pg_get_serial_sequence('public.inv_stock_moves','id'), COALESCE((SELECT MAX(id) FROM inv_stock_moves),1), true);
 -- ----------------------------

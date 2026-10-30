@@ -1219,8 +1219,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			stockmove.FieldDestinationLocationID: {Type: field.TypeUint32, Column: stockmove.FieldDestinationLocationID},
 			stockmove.FieldPlannedQuantity:       {Type: field.TypeInt64, Column: stockmove.FieldPlannedQuantity},
 			stockmove.FieldState:                 {Type: field.TypeEnum, Column: stockmove.FieldState},
-			stockmove.FieldPurchaseOrderItemID:   {Type: field.TypeUint32, Column: stockmove.FieldPurchaseOrderItemID},
-			stockmove.FieldSalesOrderItemID:      {Type: field.TypeUint32, Column: stockmove.FieldSalesOrderItemID},
 		},
 	}
 	graph.Nodes[41] = &sqlgraph.Node{
@@ -1273,7 +1271,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			stockpicking.FieldPickingType:           {Type: field.TypeEnum, Column: stockpicking.FieldPickingType},
 			stockpicking.FieldSourceLocationID:      {Type: field.TypeUint32, Column: stockpicking.FieldSourceLocationID},
 			stockpicking.FieldDestinationLocationID: {Type: field.TypeUint32, Column: stockpicking.FieldDestinationLocationID},
-			stockpicking.FieldPurchaseOrderID:       {Type: field.TypeUint32, Column: stockpicking.FieldPurchaseOrderID},
 			stockpicking.FieldAsnID:                 {Type: field.TypeUint32, Column: stockpicking.FieldAsnID},
 			stockpicking.FieldPartnerCode:           {Type: field.TypeString, Column: stockpicking.FieldPartnerCode},
 		},
@@ -6584,16 +6581,6 @@ func (f *StockMoveFilter) WhereState(p entql.StringP) {
 	f.Where(p.Field(stockmove.FieldState))
 }
 
-// WherePurchaseOrderItemID applies the entql uint32 predicate on the purchase_order_item_id field.
-func (f *StockMoveFilter) WherePurchaseOrderItemID(p entql.Uint32P) {
-	f.Where(p.Field(stockmove.FieldPurchaseOrderItemID))
-}
-
-// WhereSalesOrderItemID applies the entql uint32 predicate on the sales_order_item_id field.
-func (f *StockMoveFilter) WhereSalesOrderItemID(p entql.Uint32P) {
-	f.Where(p.Field(stockmove.FieldSalesOrderItemID))
-}
-
 // addPredicate implements the predicateAdder interface.
 func (_q *StockMoveLineQuery) addPredicate(pred func(s *sql.Selector)) {
 	_q.predicates = append(_q.predicates, pred)
@@ -6802,11 +6789,6 @@ func (f *StockPickingFilter) WhereSourceLocationID(p entql.Uint32P) {
 // WhereDestinationLocationID applies the entql uint32 predicate on the destination_location_id field.
 func (f *StockPickingFilter) WhereDestinationLocationID(p entql.Uint32P) {
 	f.Where(p.Field(stockpicking.FieldDestinationLocationID))
-}
-
-// WherePurchaseOrderID applies the entql uint32 predicate on the purchase_order_id field.
-func (f *StockPickingFilter) WherePurchaseOrderID(p entql.Uint32P) {
-	f.Where(p.Field(stockpicking.FieldPurchaseOrderID))
 }
 
 // WhereAsnID applies the entql uint32 predicate on the asn_id field.

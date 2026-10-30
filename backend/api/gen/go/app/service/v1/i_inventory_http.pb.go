@@ -264,8 +264,6 @@ func (c *StockQuantServiceHTTPClientImpl) List(ctx context.Context, in *v1.Pagin
 const OperationStockPickingServiceCancel = "/app.service.v1.StockPickingService/Cancel"
 const OperationStockPickingServiceConfirm = "/app.service.v1.StockPickingService/Confirm"
 const OperationStockPickingServiceCreate = "/app.service.v1.StockPickingService/Create"
-const OperationStockPickingServiceCreatePurchaseReturn = "/app.service.v1.StockPickingService/CreatePurchaseReturn"
-const OperationStockPickingServiceCreateSalesReturn = "/app.service.v1.StockPickingService/CreateSalesReturn"
 const OperationStockPickingServiceGet = "/app.service.v1.StockPickingService/Get"
 const OperationStockPickingServiceList = "/app.service.v1.StockPickingService/List"
 const OperationStockPickingServiceValidate = "/app.service.v1.StockPickingService/Validate"
@@ -277,10 +275,6 @@ type StockPickingServiceHTTPServer interface {
 	Confirm(context.Context, *v11.ConfirmStockPickingRequest) (*emptypb.Empty, error)
 	// Create 创建拣货单（扫码调拨 / 盘点：type=INVENTORY_ADJUSTMENT + 带符号差异明细）
 	Create(context.Context, *v11.CreateStockPickingRequest) (*emptypb.Empty, error)
-	// CreatePurchaseReturn 创建采购退货拣货单（OUTGOING：仓库→供应商，负向回写收货数）
-	CreatePurchaseReturn(context.Context, *v11.CreatePurchaseReturnRequest) (*emptypb.Empty, error)
-	// CreateSalesReturn 创建销售退货拣货单（INCOMING：客户→仓库，负向回写履约数）
-	CreateSalesReturn(context.Context, *v11.CreateSalesReturnRequest) (*emptypb.Empty, error)
 	// Get 查询拣货单详情
 	Get(context.Context, *v11.GetStockPickingRequest) (*v11.StockPicking, error)
 	// List 查询拣货单列表
@@ -294,8 +288,6 @@ func RegisterStockPickingServiceHTTPServer(s *http.Server, srv StockPickingServi
 	r.GET("/app/v1/stock-pickings", _StockPickingService_List4_HTTP_Handler(srv))
 	r.GET("/app/v1/stock-pickings/{id}", _StockPickingService_Get4_HTTP_Handler(srv))
 	r.POST("/app/v1/stock-pickings", _StockPickingService_Create0_HTTP_Handler(srv))
-	r.POST("/app/v1/stock-pickings:sales-return", _StockPickingService_CreateSalesReturn0_HTTP_Handler(srv))
-	r.POST("/app/v1/stock-pickings:purchase-return", _StockPickingService_CreatePurchaseReturn0_HTTP_Handler(srv))
 	r.POST("/app/v1/stock-pickings/{id}:confirm", _StockPickingService_Confirm0_HTTP_Handler(srv))
 	r.POST("/app/v1/stock-pickings/{id}:validate", _StockPickingService_Validate0_HTTP_Handler(srv))
 	r.POST("/app/v1/stock-pickings/{id}:cancel", _StockPickingService_Cancel1_HTTP_Handler(srv))
@@ -354,50 +346,6 @@ func _StockPickingService_Create0_HTTP_Handler(srv StockPickingServiceHTTPServer
 		http.SetOperation(ctx, OperationStockPickingServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.Create(ctx, req.(*v11.CreateStockPickingRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _StockPickingService_CreateSalesReturn0_HTTP_Handler(srv StockPickingServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.CreateSalesReturnRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationStockPickingServiceCreateSalesReturn)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateSalesReturn(ctx, req.(*v11.CreateSalesReturnRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _StockPickingService_CreatePurchaseReturn0_HTTP_Handler(srv StockPickingServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.CreatePurchaseReturnRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationStockPickingServiceCreatePurchaseReturn)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreatePurchaseReturn(ctx, req.(*v11.CreatePurchaseReturnRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -490,10 +438,6 @@ type StockPickingServiceHTTPClient interface {
 	Confirm(ctx context.Context, req *v11.ConfirmStockPickingRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// Create 创建拣货单（扫码调拨 / 盘点：type=INVENTORY_ADJUSTMENT + 带符号差异明细）
 	Create(ctx context.Context, req *v11.CreateStockPickingRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	// CreatePurchaseReturn 创建采购退货拣货单（OUTGOING：仓库→供应商，负向回写收货数）
-	CreatePurchaseReturn(ctx context.Context, req *v11.CreatePurchaseReturnRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	// CreateSalesReturn 创建销售退货拣货单（INCOMING：客户→仓库，负向回写履约数）
-	CreateSalesReturn(ctx context.Context, req *v11.CreateSalesReturnRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// Get 查询拣货单详情
 	Get(ctx context.Context, req *v11.GetStockPickingRequest, opts ...http.CallOption) (rsp *v11.StockPicking, err error)
 	// List 查询拣货单列表
@@ -544,34 +488,6 @@ func (c *StockPickingServiceHTTPClientImpl) Create(ctx context.Context, in *v11.
 	pattern := "/app/v1/stock-pickings"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationStockPickingServiceCreate))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-// CreatePurchaseReturn 创建采购退货拣货单（OUTGOING：仓库→供应商，负向回写收货数）
-func (c *StockPickingServiceHTTPClientImpl) CreatePurchaseReturn(ctx context.Context, in *v11.CreatePurchaseReturnRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
-	var out emptypb.Empty
-	pattern := "/app/v1/stock-pickings:purchase-return"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationStockPickingServiceCreatePurchaseReturn))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-// CreateSalesReturn 创建销售退货拣货单（INCOMING：客户→仓库，负向回写履约数）
-func (c *StockPickingServiceHTTPClientImpl) CreateSalesReturn(ctx context.Context, in *v11.CreateSalesReturnRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
-	var out emptypb.Empty
-	pattern := "/app/v1/stock-pickings:sales-return"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationStockPickingServiceCreateSalesReturn))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

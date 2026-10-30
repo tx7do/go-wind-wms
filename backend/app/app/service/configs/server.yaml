@@ -18,7 +18,7 @@ server:
         - "OPTIONS"
       origins:
         - "*"
-        - "https://api.erp.gowind.cloud"
+        - "https://api.wms.gowind.cloud"
     middleware:
       auth:
         method: "HS256"

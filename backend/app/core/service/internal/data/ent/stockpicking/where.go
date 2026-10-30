@@ -109,11 +109,6 @@ func DestinationLocationID(v uint32) predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldEQ(FieldDestinationLocationID, v))
 }
 
-// PurchaseOrderID applies equality check predicate on the "purchase_order_id" field. It's identical to PurchaseOrderIDEQ.
-func PurchaseOrderID(v uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldEQ(FieldPurchaseOrderID, v))
-}
-
 // AsnID applies equality check predicate on the "asn_id" field. It's identical to AsnIDEQ.
 func AsnID(v uint32) predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldEQ(FieldAsnID, v))
@@ -752,56 +747,6 @@ func DestinationLocationIDIsNil() predicate.StockPicking {
 // DestinationLocationIDNotNil applies the NotNil predicate on the "destination_location_id" field.
 func DestinationLocationIDNotNil() predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldNotNull(FieldDestinationLocationID))
-}
-
-// PurchaseOrderIDEQ applies the EQ predicate on the "purchase_order_id" field.
-func PurchaseOrderIDEQ(v uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldEQ(FieldPurchaseOrderID, v))
-}
-
-// PurchaseOrderIDNEQ applies the NEQ predicate on the "purchase_order_id" field.
-func PurchaseOrderIDNEQ(v uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldNEQ(FieldPurchaseOrderID, v))
-}
-
-// PurchaseOrderIDIn applies the In predicate on the "purchase_order_id" field.
-func PurchaseOrderIDIn(vs ...uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldIn(FieldPurchaseOrderID, vs...))
-}
-
-// PurchaseOrderIDNotIn applies the NotIn predicate on the "purchase_order_id" field.
-func PurchaseOrderIDNotIn(vs ...uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldNotIn(FieldPurchaseOrderID, vs...))
-}
-
-// PurchaseOrderIDGT applies the GT predicate on the "purchase_order_id" field.
-func PurchaseOrderIDGT(v uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldGT(FieldPurchaseOrderID, v))
-}
-
-// PurchaseOrderIDGTE applies the GTE predicate on the "purchase_order_id" field.
-func PurchaseOrderIDGTE(v uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldGTE(FieldPurchaseOrderID, v))
-}
-
-// PurchaseOrderIDLT applies the LT predicate on the "purchase_order_id" field.
-func PurchaseOrderIDLT(v uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldLT(FieldPurchaseOrderID, v))
-}
-
-// PurchaseOrderIDLTE applies the LTE predicate on the "purchase_order_id" field.
-func PurchaseOrderIDLTE(v uint32) predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldLTE(FieldPurchaseOrderID, v))
-}
-
-// PurchaseOrderIDIsNil applies the IsNil predicate on the "purchase_order_id" field.
-func PurchaseOrderIDIsNil() predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldIsNull(FieldPurchaseOrderID))
-}
-
-// PurchaseOrderIDNotNil applies the NotNil predicate on the "purchase_order_id" field.
-func PurchaseOrderIDNotNil() predicate.StockPicking {
-	return predicate.StockPicking(sql.FieldNotNull(FieldPurchaseOrderID))
 }
 
 // AsnIDEQ applies the EQ predicate on the "asn_id" field.

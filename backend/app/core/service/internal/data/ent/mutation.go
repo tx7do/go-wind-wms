@@ -63040,10 +63040,6 @@ type StockMoveMutation struct {
 	planned_quantity           *int64
 	addplanned_quantity        *int64
 	state                      *stockmove.State
-	purchase_order_item_id     *uint32
-	addpurchase_order_item_id  *int32
-	sales_order_item_id        *uint32
-	addsales_order_item_id     *int32
 	clearedFields              map[string]struct{}
 	done                       bool
 	oldValue                   func(context.Context) (*StockMove, error)
@@ -64008,146 +64004,6 @@ func (m *StockMoveMutation) ResetState() {
 	delete(m.clearedFields, stockmove.FieldState)
 }
 
-// SetPurchaseOrderItemID sets the "purchase_order_item_id" field.
-func (m *StockMoveMutation) SetPurchaseOrderItemID(u uint32) {
-	m.purchase_order_item_id = &u
-	m.addpurchase_order_item_id = nil
-}
-
-// PurchaseOrderItemID returns the value of the "purchase_order_item_id" field in the mutation.
-func (m *StockMoveMutation) PurchaseOrderItemID() (r uint32, exists bool) {
-	v := m.purchase_order_item_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPurchaseOrderItemID returns the old "purchase_order_item_id" field's value of the StockMove entity.
-// If the StockMove object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *StockMoveMutation) OldPurchaseOrderItemID(ctx context.Context) (v *uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPurchaseOrderItemID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPurchaseOrderItemID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPurchaseOrderItemID: %w", err)
-	}
-	return oldValue.PurchaseOrderItemID, nil
-}
-
-// AddPurchaseOrderItemID adds u to the "purchase_order_item_id" field.
-func (m *StockMoveMutation) AddPurchaseOrderItemID(u int32) {
-	if m.addpurchase_order_item_id != nil {
-		*m.addpurchase_order_item_id += u
-	} else {
-		m.addpurchase_order_item_id = &u
-	}
-}
-
-// AddedPurchaseOrderItemID returns the value that was added to the "purchase_order_item_id" field in this mutation.
-func (m *StockMoveMutation) AddedPurchaseOrderItemID() (r int32, exists bool) {
-	v := m.addpurchase_order_item_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearPurchaseOrderItemID clears the value of the "purchase_order_item_id" field.
-func (m *StockMoveMutation) ClearPurchaseOrderItemID() {
-	m.purchase_order_item_id = nil
-	m.addpurchase_order_item_id = nil
-	m.clearedFields[stockmove.FieldPurchaseOrderItemID] = struct{}{}
-}
-
-// PurchaseOrderItemIDCleared returns if the "purchase_order_item_id" field was cleared in this mutation.
-func (m *StockMoveMutation) PurchaseOrderItemIDCleared() bool {
-	_, ok := m.clearedFields[stockmove.FieldPurchaseOrderItemID]
-	return ok
-}
-
-// ResetPurchaseOrderItemID resets all changes to the "purchase_order_item_id" field.
-func (m *StockMoveMutation) ResetPurchaseOrderItemID() {
-	m.purchase_order_item_id = nil
-	m.addpurchase_order_item_id = nil
-	delete(m.clearedFields, stockmove.FieldPurchaseOrderItemID)
-}
-
-// SetSalesOrderItemID sets the "sales_order_item_id" field.
-func (m *StockMoveMutation) SetSalesOrderItemID(u uint32) {
-	m.sales_order_item_id = &u
-	m.addsales_order_item_id = nil
-}
-
-// SalesOrderItemID returns the value of the "sales_order_item_id" field in the mutation.
-func (m *StockMoveMutation) SalesOrderItemID() (r uint32, exists bool) {
-	v := m.sales_order_item_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSalesOrderItemID returns the old "sales_order_item_id" field's value of the StockMove entity.
-// If the StockMove object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *StockMoveMutation) OldSalesOrderItemID(ctx context.Context) (v *uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSalesOrderItemID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSalesOrderItemID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSalesOrderItemID: %w", err)
-	}
-	return oldValue.SalesOrderItemID, nil
-}
-
-// AddSalesOrderItemID adds u to the "sales_order_item_id" field.
-func (m *StockMoveMutation) AddSalesOrderItemID(u int32) {
-	if m.addsales_order_item_id != nil {
-		*m.addsales_order_item_id += u
-	} else {
-		m.addsales_order_item_id = &u
-	}
-}
-
-// AddedSalesOrderItemID returns the value that was added to the "sales_order_item_id" field in this mutation.
-func (m *StockMoveMutation) AddedSalesOrderItemID() (r int32, exists bool) {
-	v := m.addsales_order_item_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearSalesOrderItemID clears the value of the "sales_order_item_id" field.
-func (m *StockMoveMutation) ClearSalesOrderItemID() {
-	m.sales_order_item_id = nil
-	m.addsales_order_item_id = nil
-	m.clearedFields[stockmove.FieldSalesOrderItemID] = struct{}{}
-}
-
-// SalesOrderItemIDCleared returns if the "sales_order_item_id" field was cleared in this mutation.
-func (m *StockMoveMutation) SalesOrderItemIDCleared() bool {
-	_, ok := m.clearedFields[stockmove.FieldSalesOrderItemID]
-	return ok
-}
-
-// ResetSalesOrderItemID resets all changes to the "sales_order_item_id" field.
-func (m *StockMoveMutation) ResetSalesOrderItemID() {
-	m.sales_order_item_id = nil
-	m.addsales_order_item_id = nil
-	delete(m.clearedFields, stockmove.FieldSalesOrderItemID)
-}
-
 // Where appends a list predicates to the StockMoveMutation builder.
 func (m *StockMoveMutation) Where(ps ...predicate.StockMove) {
 	m.predicates = append(m.predicates, ps...)
@@ -64182,7 +64038,7 @@ func (m *StockMoveMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StockMoveMutation) Fields() []string {
-	fields := make([]string, 0, 16)
+	fields := make([]string, 0, 14)
 	if m.created_at != nil {
 		fields = append(fields, stockmove.FieldCreatedAt)
 	}
@@ -64225,12 +64081,6 @@ func (m *StockMoveMutation) Fields() []string {
 	if m.state != nil {
 		fields = append(fields, stockmove.FieldState)
 	}
-	if m.purchase_order_item_id != nil {
-		fields = append(fields, stockmove.FieldPurchaseOrderItemID)
-	}
-	if m.sales_order_item_id != nil {
-		fields = append(fields, stockmove.FieldSalesOrderItemID)
-	}
 	return fields
 }
 
@@ -64267,10 +64117,6 @@ func (m *StockMoveMutation) Field(name string) (ent.Value, bool) {
 		return m.PlannedQuantity()
 	case stockmove.FieldState:
 		return m.State()
-	case stockmove.FieldPurchaseOrderItemID:
-		return m.PurchaseOrderItemID()
-	case stockmove.FieldSalesOrderItemID:
-		return m.SalesOrderItemID()
 	}
 	return nil, false
 }
@@ -64308,10 +64154,6 @@ func (m *StockMoveMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldPlannedQuantity(ctx)
 	case stockmove.FieldState:
 		return m.OldState(ctx)
-	case stockmove.FieldPurchaseOrderItemID:
-		return m.OldPurchaseOrderItemID(ctx)
-	case stockmove.FieldSalesOrderItemID:
-		return m.OldSalesOrderItemID(ctx)
 	}
 	return nil, fmt.Errorf("unknown StockMove field %s", name)
 }
@@ -64419,20 +64261,6 @@ func (m *StockMoveMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetState(v)
 		return nil
-	case stockmove.FieldPurchaseOrderItemID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPurchaseOrderItemID(v)
-		return nil
-	case stockmove.FieldSalesOrderItemID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSalesOrderItemID(v)
-		return nil
 	}
 	return fmt.Errorf("unknown StockMove field %s", name)
 }
@@ -64465,12 +64293,6 @@ func (m *StockMoveMutation) AddedFields() []string {
 	if m.addplanned_quantity != nil {
 		fields = append(fields, stockmove.FieldPlannedQuantity)
 	}
-	if m.addpurchase_order_item_id != nil {
-		fields = append(fields, stockmove.FieldPurchaseOrderItemID)
-	}
-	if m.addsales_order_item_id != nil {
-		fields = append(fields, stockmove.FieldSalesOrderItemID)
-	}
 	return fields
 }
 
@@ -64495,10 +64317,6 @@ func (m *StockMoveMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedDestinationLocationID()
 	case stockmove.FieldPlannedQuantity:
 		return m.AddedPlannedQuantity()
-	case stockmove.FieldPurchaseOrderItemID:
-		return m.AddedPurchaseOrderItemID()
-	case stockmove.FieldSalesOrderItemID:
-		return m.AddedSalesOrderItemID()
 	}
 	return nil, false
 }
@@ -64564,20 +64382,6 @@ func (m *StockMoveMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddPlannedQuantity(v)
 		return nil
-	case stockmove.FieldPurchaseOrderItemID:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddPurchaseOrderItemID(v)
-		return nil
-	case stockmove.FieldSalesOrderItemID:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddSalesOrderItemID(v)
-		return nil
 	}
 	return fmt.Errorf("unknown StockMove numeric field %s", name)
 }
@@ -64627,12 +64431,6 @@ func (m *StockMoveMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(stockmove.FieldState) {
 		fields = append(fields, stockmove.FieldState)
-	}
-	if m.FieldCleared(stockmove.FieldPurchaseOrderItemID) {
-		fields = append(fields, stockmove.FieldPurchaseOrderItemID)
-	}
-	if m.FieldCleared(stockmove.FieldSalesOrderItemID) {
-		fields = append(fields, stockmove.FieldSalesOrderItemID)
 	}
 	return fields
 }
@@ -64690,12 +64488,6 @@ func (m *StockMoveMutation) ClearField(name string) error {
 	case stockmove.FieldState:
 		m.ClearState()
 		return nil
-	case stockmove.FieldPurchaseOrderItemID:
-		m.ClearPurchaseOrderItemID()
-		return nil
-	case stockmove.FieldSalesOrderItemID:
-		m.ClearSalesOrderItemID()
-		return nil
 	}
 	return fmt.Errorf("unknown StockMove nullable field %s", name)
 }
@@ -64745,12 +64537,6 @@ func (m *StockMoveMutation) ResetField(name string) error {
 		return nil
 	case stockmove.FieldState:
 		m.ResetState()
-		return nil
-	case stockmove.FieldPurchaseOrderItemID:
-		m.ResetPurchaseOrderItemID()
-		return nil
-	case stockmove.FieldSalesOrderItemID:
-		m.ResetSalesOrderItemID()
 		return nil
 	}
 	return fmt.Errorf("unknown StockMove field %s", name)
@@ -66508,8 +66294,6 @@ type StockPickingMutation struct {
 	addsource_location_id      *int32
 	destination_location_id    *uint32
 	adddestination_location_id *int32
-	purchase_order_id          *uint32
-	addpurchase_order_id       *int32
 	asn_id                     *uint32
 	addasn_id                  *int32
 	partner_code               *string
@@ -67337,76 +67121,6 @@ func (m *StockPickingMutation) ResetDestinationLocationID() {
 	delete(m.clearedFields, stockpicking.FieldDestinationLocationID)
 }
 
-// SetPurchaseOrderID sets the "purchase_order_id" field.
-func (m *StockPickingMutation) SetPurchaseOrderID(u uint32) {
-	m.purchase_order_id = &u
-	m.addpurchase_order_id = nil
-}
-
-// PurchaseOrderID returns the value of the "purchase_order_id" field in the mutation.
-func (m *StockPickingMutation) PurchaseOrderID() (r uint32, exists bool) {
-	v := m.purchase_order_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPurchaseOrderID returns the old "purchase_order_id" field's value of the StockPicking entity.
-// If the StockPicking object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *StockPickingMutation) OldPurchaseOrderID(ctx context.Context) (v *uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPurchaseOrderID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPurchaseOrderID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPurchaseOrderID: %w", err)
-	}
-	return oldValue.PurchaseOrderID, nil
-}
-
-// AddPurchaseOrderID adds u to the "purchase_order_id" field.
-func (m *StockPickingMutation) AddPurchaseOrderID(u int32) {
-	if m.addpurchase_order_id != nil {
-		*m.addpurchase_order_id += u
-	} else {
-		m.addpurchase_order_id = &u
-	}
-}
-
-// AddedPurchaseOrderID returns the value that was added to the "purchase_order_id" field in this mutation.
-func (m *StockPickingMutation) AddedPurchaseOrderID() (r int32, exists bool) {
-	v := m.addpurchase_order_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearPurchaseOrderID clears the value of the "purchase_order_id" field.
-func (m *StockPickingMutation) ClearPurchaseOrderID() {
-	m.purchase_order_id = nil
-	m.addpurchase_order_id = nil
-	m.clearedFields[stockpicking.FieldPurchaseOrderID] = struct{}{}
-}
-
-// PurchaseOrderIDCleared returns if the "purchase_order_id" field was cleared in this mutation.
-func (m *StockPickingMutation) PurchaseOrderIDCleared() bool {
-	_, ok := m.clearedFields[stockpicking.FieldPurchaseOrderID]
-	return ok
-}
-
-// ResetPurchaseOrderID resets all changes to the "purchase_order_id" field.
-func (m *StockPickingMutation) ResetPurchaseOrderID() {
-	m.purchase_order_id = nil
-	m.addpurchase_order_id = nil
-	delete(m.clearedFields, stockpicking.FieldPurchaseOrderID)
-}
-
 // SetAsnID sets the "asn_id" field.
 func (m *StockPickingMutation) SetAsnID(u uint32) {
 	m.asn_id = &u
@@ -67560,7 +67274,7 @@ func (m *StockPickingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StockPickingMutation) Fields() []string {
-	fields := make([]string, 0, 15)
+	fields := make([]string, 0, 14)
 	if m.created_at != nil {
 		fields = append(fields, stockpicking.FieldCreatedAt)
 	}
@@ -67596,9 +67310,6 @@ func (m *StockPickingMutation) Fields() []string {
 	}
 	if m.destination_location_id != nil {
 		fields = append(fields, stockpicking.FieldDestinationLocationID)
-	}
-	if m.purchase_order_id != nil {
-		fields = append(fields, stockpicking.FieldPurchaseOrderID)
 	}
 	if m.asn_id != nil {
 		fields = append(fields, stockpicking.FieldAsnID)
@@ -67638,8 +67349,6 @@ func (m *StockPickingMutation) Field(name string) (ent.Value, bool) {
 		return m.SourceLocationID()
 	case stockpicking.FieldDestinationLocationID:
 		return m.DestinationLocationID()
-	case stockpicking.FieldPurchaseOrderID:
-		return m.PurchaseOrderID()
 	case stockpicking.FieldAsnID:
 		return m.AsnID()
 	case stockpicking.FieldPartnerCode:
@@ -67677,8 +67386,6 @@ func (m *StockPickingMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldSourceLocationID(ctx)
 	case stockpicking.FieldDestinationLocationID:
 		return m.OldDestinationLocationID(ctx)
-	case stockpicking.FieldPurchaseOrderID:
-		return m.OldPurchaseOrderID(ctx)
 	case stockpicking.FieldAsnID:
 		return m.OldAsnID(ctx)
 	case stockpicking.FieldPartnerCode:
@@ -67776,13 +67483,6 @@ func (m *StockPickingMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetDestinationLocationID(v)
 		return nil
-	case stockpicking.FieldPurchaseOrderID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPurchaseOrderID(v)
-		return nil
 	case stockpicking.FieldAsnID:
 		v, ok := value.(uint32)
 		if !ok {
@@ -67823,9 +67523,6 @@ func (m *StockPickingMutation) AddedFields() []string {
 	if m.adddestination_location_id != nil {
 		fields = append(fields, stockpicking.FieldDestinationLocationID)
 	}
-	if m.addpurchase_order_id != nil {
-		fields = append(fields, stockpicking.FieldPurchaseOrderID)
-	}
 	if m.addasn_id != nil {
 		fields = append(fields, stockpicking.FieldAsnID)
 	}
@@ -67849,8 +67546,6 @@ func (m *StockPickingMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedSourceLocationID()
 	case stockpicking.FieldDestinationLocationID:
 		return m.AddedDestinationLocationID()
-	case stockpicking.FieldPurchaseOrderID:
-		return m.AddedPurchaseOrderID()
 	case stockpicking.FieldAsnID:
 		return m.AddedAsnID()
 	}
@@ -67904,13 +67599,6 @@ func (m *StockPickingMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddDestinationLocationID(v)
 		return nil
-	case stockpicking.FieldPurchaseOrderID:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddPurchaseOrderID(v)
-		return nil
 	case stockpicking.FieldAsnID:
 		v, ok := value.(int32)
 		if !ok {
@@ -67961,9 +67649,6 @@ func (m *StockPickingMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(stockpicking.FieldDestinationLocationID) {
 		fields = append(fields, stockpicking.FieldDestinationLocationID)
-	}
-	if m.FieldCleared(stockpicking.FieldPurchaseOrderID) {
-		fields = append(fields, stockpicking.FieldPurchaseOrderID)
 	}
 	if m.FieldCleared(stockpicking.FieldAsnID) {
 		fields = append(fields, stockpicking.FieldAsnID)
@@ -68021,9 +67706,6 @@ func (m *StockPickingMutation) ClearField(name string) error {
 	case stockpicking.FieldDestinationLocationID:
 		m.ClearDestinationLocationID()
 		return nil
-	case stockpicking.FieldPurchaseOrderID:
-		m.ClearPurchaseOrderID()
-		return nil
 	case stockpicking.FieldAsnID:
 		m.ClearAsnID()
 		return nil
@@ -68073,9 +67755,6 @@ func (m *StockPickingMutation) ResetField(name string) error {
 		return nil
 	case stockpicking.FieldDestinationLocationID:
 		m.ResetDestinationLocationID()
-		return nil
-	case stockpicking.FieldPurchaseOrderID:
-		m.ResetPurchaseOrderID()
 		return nil
 	case stockpicking.FieldAsnID:
 		m.ResetAsnID()

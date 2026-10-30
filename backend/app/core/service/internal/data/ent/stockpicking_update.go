@@ -264,33 +264,6 @@ func (_u *StockPickingUpdate) ClearDestinationLocationID() *StockPickingUpdate {
 	return _u
 }
 
-// SetPurchaseOrderID sets the "purchase_order_id" field.
-func (_u *StockPickingUpdate) SetPurchaseOrderID(v uint32) *StockPickingUpdate {
-	_u.mutation.ResetPurchaseOrderID()
-	_u.mutation.SetPurchaseOrderID(v)
-	return _u
-}
-
-// SetNillablePurchaseOrderID sets the "purchase_order_id" field if the given value is not nil.
-func (_u *StockPickingUpdate) SetNillablePurchaseOrderID(v *uint32) *StockPickingUpdate {
-	if v != nil {
-		_u.SetPurchaseOrderID(*v)
-	}
-	return _u
-}
-
-// AddPurchaseOrderID adds value to the "purchase_order_id" field.
-func (_u *StockPickingUpdate) AddPurchaseOrderID(v int32) *StockPickingUpdate {
-	_u.mutation.AddPurchaseOrderID(v)
-	return _u
-}
-
-// ClearPurchaseOrderID clears the value of the "purchase_order_id" field.
-func (_u *StockPickingUpdate) ClearPurchaseOrderID() *StockPickingUpdate {
-	_u.mutation.ClearPurchaseOrderID()
-	return _u
-}
-
 // SetAsnID sets the "asn_id" field.
 func (_u *StockPickingUpdate) SetAsnID(v uint32) *StockPickingUpdate {
 	_u.mutation.ResetAsnID()
@@ -478,15 +451,6 @@ func (_u *StockPickingUpdate) sqlSave(ctx context.Context) (_node int, err error
 	}
 	if _u.mutation.DestinationLocationIDCleared() {
 		_spec.ClearField(stockpicking.FieldDestinationLocationID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.PurchaseOrderID(); ok {
-		_spec.SetField(stockpicking.FieldPurchaseOrderID, field.TypeUint32, value)
-	}
-	if value, ok := _u.mutation.AddedPurchaseOrderID(); ok {
-		_spec.AddField(stockpicking.FieldPurchaseOrderID, field.TypeUint32, value)
-	}
-	if _u.mutation.PurchaseOrderIDCleared() {
-		_spec.ClearField(stockpicking.FieldPurchaseOrderID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.AsnID(); ok {
 		_spec.SetField(stockpicking.FieldAsnID, field.TypeUint32, value)
@@ -760,33 +724,6 @@ func (_u *StockPickingUpdateOne) ClearDestinationLocationID() *StockPickingUpdat
 	return _u
 }
 
-// SetPurchaseOrderID sets the "purchase_order_id" field.
-func (_u *StockPickingUpdateOne) SetPurchaseOrderID(v uint32) *StockPickingUpdateOne {
-	_u.mutation.ResetPurchaseOrderID()
-	_u.mutation.SetPurchaseOrderID(v)
-	return _u
-}
-
-// SetNillablePurchaseOrderID sets the "purchase_order_id" field if the given value is not nil.
-func (_u *StockPickingUpdateOne) SetNillablePurchaseOrderID(v *uint32) *StockPickingUpdateOne {
-	if v != nil {
-		_u.SetPurchaseOrderID(*v)
-	}
-	return _u
-}
-
-// AddPurchaseOrderID adds value to the "purchase_order_id" field.
-func (_u *StockPickingUpdateOne) AddPurchaseOrderID(v int32) *StockPickingUpdateOne {
-	_u.mutation.AddPurchaseOrderID(v)
-	return _u
-}
-
-// ClearPurchaseOrderID clears the value of the "purchase_order_id" field.
-func (_u *StockPickingUpdateOne) ClearPurchaseOrderID() *StockPickingUpdateOne {
-	_u.mutation.ClearPurchaseOrderID()
-	return _u
-}
-
 // SetAsnID sets the "asn_id" field.
 func (_u *StockPickingUpdateOne) SetAsnID(v uint32) *StockPickingUpdateOne {
 	_u.mutation.ResetAsnID()
@@ -1004,15 +941,6 @@ func (_u *StockPickingUpdateOne) sqlSave(ctx context.Context) (_node *StockPicki
 	}
 	if _u.mutation.DestinationLocationIDCleared() {
 		_spec.ClearField(stockpicking.FieldDestinationLocationID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.PurchaseOrderID(); ok {
-		_spec.SetField(stockpicking.FieldPurchaseOrderID, field.TypeUint32, value)
-	}
-	if value, ok := _u.mutation.AddedPurchaseOrderID(); ok {
-		_spec.AddField(stockpicking.FieldPurchaseOrderID, field.TypeUint32, value)
-	}
-	if _u.mutation.PurchaseOrderIDCleared() {
-		_spec.ClearField(stockpicking.FieldPurchaseOrderID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.AsnID(); ok {
 		_spec.SetField(stockpicking.FieldAsnID, field.TypeUint32, value)

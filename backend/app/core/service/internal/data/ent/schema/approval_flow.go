@@ -36,7 +36,7 @@ func (ApprovalFlow) Annotations() []schema.Annotation {
 func (ApprovalFlow) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("biz_type").
-			Comment("业务类型：PURCHASE_ORDER/SALES_ORDER/PAYMENT/RECEIPT").
+			Comment("业务类型标识（如 WMS_ADJUSTMENT / WMS_COUNT_DIFF，由业务方定义）").
 			NotEmpty().
 			Optional().
 			Nillable(),

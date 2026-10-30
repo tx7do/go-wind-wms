@@ -29,12 +29,10 @@ final class DashboardReady extends DashboardState {
 
   /// 财务汇总（本月收入/成本/利润 + 应收应付）。拉取失败时为 null——
   /// 库存看板不因此不可用。
-  final FinanceSummaryInfo? finance;
-
-  const DashboardReady(this.overview, {this.finance});
+  const DashboardReady(this.overview);
 
   @override
-  List<Object?> get props => [overview, finance];
+  List<Object?> get props => [overview];
 }
 
 final class DashboardFailureState extends DashboardState {

@@ -14,7 +14,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=*Abcd123456
-      - POSTGRES_DB=go_wind_erp
+      - POSTGRES_DB=go_wind_wms
     ulimits:
       nofile:
         soft: 65535
@@ -33,7 +33,7 @@ services:
   #      - MARIADB_ROOT_PASSWORD=*Abcd123456
   #      - MARIADB_USER=admin
   #      - MARIADB_PASSWORD=*Abcd123456
-  #      - MARIADB_DATABASE=go_wind_erp
+  #      - MARIADB_DATABASE=go_wind_wms
   #      - ALLOW_EMPTY_PASSWORD=yes
   #      - TZ=Asia/Shanghai
   #    command:

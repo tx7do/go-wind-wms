@@ -172,8 +172,6 @@ func (s *StockPickingService) createAdjustmentPicking(ctx context.Context, req *
 			absMoves = append(absMoves, &inventoryV1.StockMove{
 				ProductCode:         m.ProductCode,
 				PlannedQuantity:     trans.Ptr(-m.GetPlannedQuantity()),
-				PurchaseOrderItemId: m.PurchaseOrderItemId,
-				SalesOrderItemId:    m.SalesOrderItemId,
 			})
 		}
 	}

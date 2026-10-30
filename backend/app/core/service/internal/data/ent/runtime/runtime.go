@@ -1465,14 +1465,6 @@ func init() {
 	stockmoveDescPlannedQuantity := stockmoveFields[4].Descriptor()
 	// stockmove.DefaultPlannedQuantity holds the default value on creation for the planned_quantity field.
 	stockmove.DefaultPlannedQuantity = stockmoveDescPlannedQuantity.Default.(int64)
-	// stockmoveDescPurchaseOrderItemID is the schema descriptor for purchase_order_item_id field.
-	stockmoveDescPurchaseOrderItemID := stockmoveFields[6].Descriptor()
-	// stockmove.DefaultPurchaseOrderItemID holds the default value on creation for the purchase_order_item_id field.
-	stockmove.DefaultPurchaseOrderItemID = stockmoveDescPurchaseOrderItemID.Default.(uint32)
-	// stockmoveDescSalesOrderItemID is the schema descriptor for sales_order_item_id field.
-	stockmoveDescSalesOrderItemID := stockmoveFields[7].Descriptor()
-	// stockmove.DefaultSalesOrderItemID holds the default value on creation for the sales_order_item_id field.
-	stockmove.DefaultSalesOrderItemID = stockmoveDescSalesOrderItemID.Default.(uint32)
 	// stockmoveDescID is the schema descriptor for id field.
 	stockmoveDescID := stockmoveMixinFields0[0].Descriptor()
 	// stockmove.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -1559,12 +1551,8 @@ func init() {
 	stockpickingDescDestinationLocationID := stockpickingFields[3].Descriptor()
 	// stockpicking.DefaultDestinationLocationID holds the default value on creation for the destination_location_id field.
 	stockpicking.DefaultDestinationLocationID = stockpickingDescDestinationLocationID.Default.(uint32)
-	// stockpickingDescPurchaseOrderID is the schema descriptor for purchase_order_id field.
-	stockpickingDescPurchaseOrderID := stockpickingFields[4].Descriptor()
-	// stockpicking.DefaultPurchaseOrderID holds the default value on creation for the purchase_order_id field.
-	stockpicking.DefaultPurchaseOrderID = stockpickingDescPurchaseOrderID.Default.(uint32)
 	// stockpickingDescAsnID is the schema descriptor for asn_id field.
-	stockpickingDescAsnID := stockpickingFields[5].Descriptor()
+	stockpickingDescAsnID := stockpickingFields[4].Descriptor()
 	// stockpicking.DefaultAsnID holds the default value on creation for the asn_id field.
 	stockpicking.DefaultAsnID = stockpickingDescAsnID.Default.(uint32)
 	// stockpickingDescID is the schema descriptor for id field.

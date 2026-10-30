@@ -50,7 +50,7 @@ core-service (gRPC，真正干活)
 ```
 backend/
 ├── api/                          # 接口契约层（proto 源 + 生成代码，无业务逻辑）
-│   ├── protos/                   # ★ proto 源文件（人工维护，128 个）
+│   ├── protos/                   # ★ proto 源文件（人工维护）
 │   │   └── <domain>/service/v1/  # 按领域组织：admin/app/identity/permission/content/audit/...
 │   └── gen/go/                   # ← protoc 生成（禁止手改）
 ├── app/                          # 应用实现层（3 个独立微服务）
@@ -411,7 +411,7 @@ YAML 多文件，放 `configs/`（`server.yaml` / `data.yaml` / `client.yaml` / 
 data:
   database:
     driver: "postgres"
-    source: "host=postgres port=5432 user=postgres password=*** dbname=go_wind_erp sslmode=disable"
+    source: "host=postgres port=5432 user=postgres password=*** dbname=go_wind_wms sslmode=disable"
     migrate: true
   redis:
     addr: "redis:6379"

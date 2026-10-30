@@ -42,10 +42,6 @@ const (
 	FieldPlannedQuantity = "planned_quantity"
 	// FieldState holds the string denoting the state field in the database.
 	FieldState = "state"
-	// FieldPurchaseOrderItemID holds the string denoting the purchase_order_item_id field in the database.
-	FieldPurchaseOrderItemID = "purchase_order_item_id"
-	// FieldSalesOrderItemID holds the string denoting the sales_order_item_id field in the database.
-	FieldSalesOrderItemID = "sales_order_item_id"
 	// Table holds the table name of the stockmove in the database.
 	Table = "inv_stock_moves"
 )
@@ -67,8 +63,6 @@ var Columns = []string{
 	FieldDestinationLocationID,
 	FieldPlannedQuantity,
 	FieldState,
-	FieldPurchaseOrderItemID,
-	FieldSalesOrderItemID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -100,10 +94,6 @@ var (
 	DefaultDestinationLocationID uint32
 	// DefaultPlannedQuantity holds the default value on creation for the "planned_quantity" field.
 	DefaultPlannedQuantity int64
-	// DefaultPurchaseOrderItemID holds the default value on creation for the "purchase_order_item_id" field.
-	DefaultPurchaseOrderItemID uint32
-	// DefaultSalesOrderItemID holds the default value on creation for the "sales_order_item_id" field.
-	DefaultSalesOrderItemID uint32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -212,14 +202,4 @@ func ByPlannedQuantity(opts ...sql.OrderTermOption) OrderOption {
 // ByState orders the results by the state field.
 func ByState(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldState, opts...).ToFunc()
-}
-
-// ByPurchaseOrderItemID orders the results by the purchase_order_item_id field.
-func ByPurchaseOrderItemID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPurchaseOrderItemID, opts...).ToFunc()
-}
-
-// BySalesOrderItemID orders the results by the sales_order_item_id field.
-func BySalesOrderItemID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSalesOrderItemID, opts...).ToFunc()
 }

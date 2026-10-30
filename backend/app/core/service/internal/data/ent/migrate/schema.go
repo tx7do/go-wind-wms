@@ -2570,8 +2570,6 @@ var (
 		{Name: "destination_location_id", Type: field.TypeUint32, Nullable: true, Comment: "目的位置ID", Default: 0},
 		{Name: "planned_quantity", Type: field.TypeInt64, Nullable: true, Comment: "计划数量", Default: 0},
 		{Name: "state", Type: field.TypeEnum, Nullable: true, Comment: "移动状态", Enums: []string{"DRAFT", "CONFIRMED", "DONE", "CANCELLED"}, Default: "DRAFT"},
-		{Name: "purchase_order_item_id", Type: field.TypeUint32, Nullable: true, Comment: "关联采购明细ID（仅入库，Odoo purchase_line_id）", Default: 0},
-		{Name: "sales_order_item_id", Type: field.TypeUint32, Nullable: true, Comment: "关联销售明细ID（仅出库）", Default: 0},
 	}
 	// InvStockMovesTable holds the schema information for the "inv_stock_moves" table.
 	InvStockMovesTable = &schema.Table{
@@ -2589,16 +2587,6 @@ var (
 				Name:    "idx_inv_stock_move_tenant_state",
 				Unique:  false,
 				Columns: []*schema.Column{InvStockMovesColumns[8], InvStockMovesColumns[14]},
-			},
-			{
-				Name:    "idx_inv_stock_move_tenant_po_item",
-				Unique:  false,
-				Columns: []*schema.Column{InvStockMovesColumns[8], InvStockMovesColumns[15]},
-			},
-			{
-				Name:    "idx_inv_stock_move_tenant_so_item",
-				Unique:  false,
-				Columns: []*schema.Column{InvStockMovesColumns[8], InvStockMovesColumns[16]},
 			},
 		},
 	}
@@ -2659,7 +2647,6 @@ var (
 		{Name: "picking_type", Type: field.TypeEnum, Nullable: true, Comment: "拣货类型：INCOMING=入库，INTERNAL=调拨，OUTGOING=出库，INVENTORY_ADJUSTMENT=盘点", Enums: []string{"INCOMING", "INTERNAL", "OUTGOING", "INVENTORY_ADJUSTMENT"}, Default: "INCOMING"},
 		{Name: "source_location_id", Type: field.TypeUint32, Nullable: true, Comment: "源位置ID", Default: 0},
 		{Name: "destination_location_id", Type: field.TypeUint32, Nullable: true, Comment: "目的位置ID", Default: 0},
-		{Name: "purchase_order_id", Type: field.TypeUint32, Nullable: true, Comment: "关联采购单ID（仅入库）", Default: 0},
 		{Name: "asn_id", Type: field.TypeUint32, Nullable: true, Comment: "关联到货通知单ID", Default: 0},
 		{Name: "partner_code", Type: field.TypeString, Nullable: true, Comment: "交易方编码（供应商/客户）"},
 	}
@@ -2676,14 +2663,9 @@ var (
 				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[1]},
 			},
 			{
-				Name:    "idx_inv_stock_picking_tenant_po",
-				Unique:  false,
-				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[13]},
-			},
-			{
 				Name:    "idx_inv_stock_picking_tenant_asn",
 				Unique:  false,
-				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[14]},
+				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[13]},
 			},
 		},
 	}

@@ -638,6 +638,356 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/asns:
+        get:
+            tags:
+                - AsnService
+            description: 查询到货通知单列表
+            operationId: AsnService_List
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码（从1开始，默认1）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  description: 每页条数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: query
+                  in: query
+                  description: JSON字符串过滤条件，基础语法：{"field1":"val1", "field2___icontains":"val2"}，具体请参见：https://github.com/tx7do/go-crud/tree/main/pagination/filter/README.md
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: Google AIP规范字符串过滤条件
+                  schema:
+                    type: string
+                - name: filterExpr.type
+                  in: query
+                  description: 过滤表达式类型
+                  schema:
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
+                - name: orderBy
+                  in: query
+                  description: 排序条件
+                  schema:
+                    type: string
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/asn.service.v1.ListAsnResponse'
+        post:
+            tags:
+                - AsnService
+            description: 创建到货通知单（草稿）
+            operationId: AsnService_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/asn.service.v1.CreateAsnRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/asns/count:
+        get:
+            tags:
+                - AsnService
+            description: 统计到货通知单数量
+            operationId: AsnService_Count
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码（从1开始，默认1）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  description: 每页条数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: query
+                  in: query
+                  description: JSON字符串过滤条件，基础语法：{"field1":"val1", "field2___icontains":"val2"}，具体请参见：https://github.com/tx7do/go-crud/tree/main/pagination/filter/README.md
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: Google AIP规范字符串过滤条件
+                  schema:
+                    type: string
+                - name: filterExpr.type
+                  in: query
+                  description: 过滤表达式类型
+                  schema:
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
+                - name: orderBy
+                  in: query
+                  description: 排序条件
+                  schema:
+                    type: string
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/asn.service.v1.CountAsnResponse'
+    /admin/v1/asns/{asnId}/putaway:
+        post:
+            tags:
+                - AsnService
+            description: 上架（质检通过数量 → 目标库位）
+            operationId: AsnService_Putaway
+            parameters:
+                - name: asnId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/asn.service.v1.PutawayAsnRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/asn.service.v1.PutawayAsnResponse'
+    /admin/v1/asns/{asnId}/receive:
+        post:
+            tags:
+                - AsnService
+            description: 收货（防超收，生成入库拣货单并自动确认）
+            operationId: AsnService_Receive
+            parameters:
+                - name: asnId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/asn.service.v1.ReceiveAsnRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/asn.service.v1.ReceiveAsnResponse'
+    /admin/v1/asns/{id}:
+        get:
+            tags:
+                - AsnService
+            description: 查询到货通知单详情（含明细）
+            operationId: AsnService_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/asn.service.v1.Asn'
+        put:
+            tags:
+                - AsnService
+            description: 更新到货通知单（仅草稿可改）
+            operationId: AsnService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/asn.service.v1.UpdateAsnRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+        delete:
+            tags:
+                - AsnService
+            description: 删除到货通知单（仅草稿/已取消）
+            operationId: AsnService_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/asns/{id}/announce:
+        post:
+            tags:
+                - AsnService
+            description: 宣告到货
+            operationId: AsnService_Announce
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/asn.service.v1.AnnounceAsnRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/asns/{id}/cancel:
+        post:
+            tags:
+                - AsnService
+            description: 取消到货通知单
+            operationId: AsnService_Cancel
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/asn.service.v1.CancelAsnRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/asns/{id}/close:
+        post:
+            tags:
+                - AsnService
+            description: 完结到货通知单
+            operationId: AsnService_Close
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/asn.service.v1.CloseAsnRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/billing/my-subscription:
         get:
             tags:
@@ -4683,38 +5033,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/stock-pickings:purchase-return:
-        post:
-            tags:
-                - StockPickingService
-            description: 创建采购退货拣货单
-            operationId: StockPickingService_CreatePurchaseReturn
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/inventory.service.v1.CreatePurchaseReturnRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/stock-pickings:sales-return:
-        post:
-            tags:
-                - StockPickingService
-            description: 创建销售退货拣货单
-            operationId: StockPickingService_CreateSalesReturn
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/inventory.service.v1.CreateSalesReturnRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/stock-quants:
         get:
             tags:
@@ -6024,6 +6342,218 @@ components:
                 allowMissing:
                     type: boolean
                     description: 不存在时是否创建
+        asn.service.v1.AnnounceAsnRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+        asn.service.v1.Asn:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 到货通知单ID
+                    format: uint32
+                asnNumber:
+                    type: string
+                    description: 单号，租户范围内唯一，服务端生成
+                warehouseCode:
+                    type: string
+                    description: 目的仓库编码
+                partnerCode:
+                    type: string
+                    description: 发货方编码（供应商/上游仓库）
+                status:
+                    enum:
+                        - ASN_DRAFT
+                        - ASN_ANNOUNCED
+                        - ASN_RECEIVING
+                        - ASN_COMPLETED
+                        - ASN_CANCELLED
+                    type: string
+                    description: 单据状态
+                    format: enum
+                expectedDate:
+                    type: string
+                    description: 预计到货时间
+                    format: date-time
+                lines:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/asn.service.v1.AsnLine'
+                    description: 到货明细
+                remark:
+                    type: string
+                    description: 备注
+                tenantId:
+                    type: integer
+                    description: 租户ID，0代表系统全局
+                    format: uint32
+                createdBy:
+                    type: integer
+                    description: 创建者用户ID
+                    format: uint32
+                updatedBy:
+                    type: integer
+                    description: 更新者用户ID
+                    format: uint32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+            description: 到货通知单
+        asn.service.v1.AsnLine:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 明细ID
+                    format: uint32
+                asnId:
+                    type: integer
+                    description: 所属到货通知单ID
+                    format: uint32
+                skuCode:
+                    type: string
+                    description: SKU 编码
+                expectedQty:
+                    type: string
+                    description: 预期数量
+                receivedQty:
+                    type: string
+                    description: 已收数量（累计）
+                putawayQty:
+                    type: string
+                    description: 已上架数量（累计）
+                qcStatus:
+                    enum:
+                        - QC_PENDING
+                        - QC_PASS
+                        - QC_FAIL
+                    type: string
+                    description: 质检状态（最近一次收货）
+                    format: enum
+                lotName:
+                    type: string
+                    description: 批次号（可选，收货时登记）
+                remark:
+                    type: string
+                    description: 备注
+            description: 到货明细
+        asn.service.v1.CancelAsnRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+        asn.service.v1.CloseAsnRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+        asn.service.v1.CountAsnResponse:
+            type: object
+            properties:
+                count:
+                    type: string
+        asn.service.v1.CreateAsnRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/asn.service.v1.Asn'
+        asn.service.v1.ListAsnResponse:
+            type: object
+            properties:
+                total:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/asn.service.v1.Asn'
+        asn.service.v1.PutawayAsnLine:
+            type: object
+            properties:
+                asnLineId:
+                    type: integer
+                    format: uint32
+                quantity:
+                    type: string
+                targetLocationId:
+                    type: integer
+                    format: uint32
+            description: 上架明细
+        asn.service.v1.PutawayAsnRequest:
+            type: object
+            properties:
+                asnId:
+                    type: integer
+                    format: uint32
+                lines:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/asn.service.v1.PutawayAsnLine'
+            description: 上架请求：质检通过的在库数量 → 目标库位
+        asn.service.v1.PutawayAsnResponse:
+            type: object
+            properties:
+                pickingId:
+                    type: integer
+                    format: uint32
+        asn.service.v1.ReceiveAsnLine:
+            type: object
+            properties:
+                asnLineId:
+                    type: integer
+                    format: uint32
+                quantity:
+                    type: string
+                qcStatus:
+                    enum:
+                        - QC_PENDING
+                        - QC_PASS
+                        - QC_FAIL
+                    type: string
+                    description: 质检状态（缺省按质检通过处理）
+                    format: enum
+                lotName:
+                    type: string
+                    description: 批次号（可选，多批次分多次收）
+            description: 收货明细（本次增量）
+        asn.service.v1.ReceiveAsnRequest:
+            type: object
+            properties:
+                asnId:
+                    type: integer
+                    format: uint32
+                lines:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/asn.service.v1.ReceiveAsnLine'
+            description: 收货请求：按明细收货（数量为本次增量）
+        asn.service.v1.ReceiveAsnResponse:
+            type: object
+            properties:
+                pickingId:
+                    type: integer
+                    format: uint32
+        asn.service.v1.UpdateAsnRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/asn.service.v1.Asn'
+                updateMask:
+                    type: string
+                    description: 更新字段掩码
+                    format: field-mask
         audit.service.v1.ApiAuditLog:
             type: object
             properties:
@@ -8567,38 +9097,6 @@ components:
             properties:
                 data:
                     $ref: '#/components/schemas/inventory.service.v1.StockLocation'
-        inventory.service.v1.CreatePurchaseReturnRequest:
-            type: object
-            properties:
-                purchaseOrderId:
-                    type: integer
-                    description: 采购单ID（仓库与供应商从中推导）
-                    format: uint32
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/inventory.service.v1.PurchaseReturnItem'
-                    description: 退货明细
-                remark:
-                    type: string
-                    description: 备注
-            description: 创建采购退货 - 请求
-        inventory.service.v1.CreateSalesReturnRequest:
-            type: object
-            properties:
-                salesOrderId:
-                    type: integer
-                    description: 销售单ID（仓库与客户从中推导）
-                    format: uint32
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/inventory.service.v1.SalesReturnItem'
-                    description: 退货明细
-                remark:
-                    type: string
-                    description: 备注
-            description: 创建销售退货 - 请求
         inventory.service.v1.CreateStockPickingRequest:
             type: object
             properties:
@@ -8689,28 +9187,6 @@ components:
                         $ref: '#/components/schemas/inventory.service.v1.MovementTrendPoint'
                     description: 近 30 日每日执行记录条数（无记录的日期补 0）
             description: 库存流水趋势 - 回应
-        inventory.service.v1.PurchaseReturnItem:
-            type: object
-            properties:
-                purchaseOrderItemId:
-                    type: integer
-                    description: 采购单明细ID
-                    format: uint32
-                quantity:
-                    type: string
-                    description: 退货数量（正数，≤已收数）
-            description: 采购退货明细项
-        inventory.service.v1.SalesReturnItem:
-            type: object
-            properties:
-                salesOrderItemId:
-                    type: integer
-                    description: 销售单明细ID
-                    format: uint32
-                quantity:
-                    type: string
-                    description: 退货数量（正数，≤已履约数）
-            description: 销售退货明细项
         inventory.service.v1.StockLocation:
             type: object
             properties:
@@ -8845,14 +9321,6 @@ components:
                     type: string
                     description: 移动状态
                     format: enum
-                purchaseOrderItemId:
-                    type: integer
-                    description: 关联采购明细ID（仅入库）
-                    format: uint32
-                salesOrderItemId:
-                    type: integer
-                    description: 关联销售明细ID（仅出库）
-                    format: uint32
                 remark:
                     type: string
                     description: 备注
@@ -8913,9 +9381,9 @@ components:
                     type: string
                     description: 派生态（从子 moves 聚合，不存储）
                     format: enum
-                purchaseOrderId:
+                asnId:
                     type: integer
-                    description: 关联采购单ID（仅入库）
+                    description: 关联到货通知单ID
                     format: uint32
                 partnerCode:
                     type: string
@@ -10336,6 +10804,8 @@ tags:
       description: 审批流模板服务（多级审批配置）
     - name: ApprovalRequestService
       description: 审批请求管理服务
+    - name: AsnService
+      description: 到货通知单服务（管理后台）
     - name: AuthenticationService
       description: 用户后台登录认证服务
     - name: BillingService

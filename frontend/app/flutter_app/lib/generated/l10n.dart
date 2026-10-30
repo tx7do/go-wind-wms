@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -88,41 +87,6 @@ class S {
   /// `过期`
   String get lotExpired {
     return Intl.message('过期', name: 'lotExpired', desc: '', args: []);
-  }
-
-  /// `本月收入（元）`
-  String get metricRevenueMonth {
-    return Intl.message(
-      '本月收入（元）',
-      name: 'metricRevenueMonth',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `本月成本（元）`
-  String get metricCogsMonth {
-    return Intl.message('本月成本（元）', name: 'metricCogsMonth', desc: '', args: []);
-  }
-
-  /// `本月利润（元）`
-  String get metricProfitMonth {
-    return Intl.message(
-      '本月利润（元）',
-      name: 'metricProfitMonth',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `应收 / 应付（元）`
-  String get metricArApBalance {
-    return Intl.message(
-      '应收 / 应付（元）',
-      name: 'metricArApBalance',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `GoWind WMS`
@@ -665,156 +629,6 @@ class S {
     );
   }
 
-  /// `销售`
-  String get navSales {
-    return Intl.message('销售', name: 'navSales', desc: '', args: []);
-  }
-
-  /// `暂无销售单`
-  String get salesEmpty {
-    return Intl.message('暂无销售单', name: 'salesEmpty', desc: '', args: []);
-  }
-
-  /// `客户`
-  String get salesCustomer {
-    return Intl.message('客户', name: 'salesCustomer', desc: '', args: []);
-  }
-
-  /// `仓库`
-  String get salesWarehouse {
-    return Intl.message('仓库', name: 'salesWarehouse', desc: '', args: []);
-  }
-
-  /// `总额`
-  String get salesTotal {
-    return Intl.message('总额', name: 'salesTotal', desc: '', args: []);
-  }
-
-  /// `状态`
-  String get salesStatus {
-    return Intl.message('状态', name: 'salesStatus', desc: '', args: []);
-  }
-
-  /// `备注`
-  String get salesRemark {
-    return Intl.message('备注', name: 'salesRemark', desc: '', args: []);
-  }
-
-  /// `明细`
-  String get salesItems {
-    return Intl.message('明细', name: 'salesItems', desc: '', args: []);
-  }
-
-  /// `数量`
-  String get salesQuantity {
-    return Intl.message('数量', name: 'salesQuantity', desc: '', args: []);
-  }
-
-  /// `已履约`
-  String get salesFulfilled {
-    return Intl.message('已履约', name: 'salesFulfilled', desc: '', args: []);
-  }
-
-  /// `销售单`
-  String get salesDetailTitle {
-    return Intl.message('销售单', name: 'salesDetailTitle', desc: '', args: []);
-  }
-
-  /// `全部`
-  String get salesFilterAll {
-    return Intl.message('全部', name: 'salesFilterAll', desc: '', args: []);
-  }
-
-  /// `草稿`
-  String get salesStatusDraft {
-    return Intl.message('草稿', name: 'salesStatusDraft', desc: '', args: []);
-  }
-
-  /// `待审批`
-  String get salesStatusSubmitted {
-    return Intl.message(
-      '待审批',
-      name: 'salesStatusSubmitted',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `已通过`
-  String get salesStatusApproved {
-    return Intl.message('已通过', name: 'salesStatusApproved', desc: '', args: []);
-  }
-
-  /// `已驳回`
-  String get salesStatusRejected {
-    return Intl.message('已驳回', name: 'salesStatusRejected', desc: '', args: []);
-  }
-
-  /// `已完结`
-  String get salesStatusCompleted {
-    return Intl.message(
-      '已完结',
-      name: 'salesStatusCompleted',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `已取消`
-  String get salesStatusCancelled {
-    return Intl.message(
-      '已取消',
-      name: 'salesStatusCancelled',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `退货`
-  String get salesReturn {
-    return Intl.message('退货', name: 'salesReturn', desc: '', args: []);
-  }
-
-  /// `退货数量`
-  String get salesReturnQuantity {
-    return Intl.message(
-      '退货数量',
-      name: 'salesReturnQuantity',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `退货数量须在 1..已履约 范围内`
-  String get salesReturnQtyInvalid {
-    return Intl.message(
-      '退货数量须在 1..已履约 范围内',
-      name: 'salesReturnQtyInvalid',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `退货拣货单已创建，请到拣货单列表执行确认与校验`
-  String get salesReturnCreated {
-    return Intl.message(
-      '退货拣货单已创建，请到拣货单列表执行确认与校验',
-      name: 'salesReturnCreated',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `退货单创建失败`
-  String get salesReturnFailed {
-    return Intl.message(
-      '退货单创建失败',
-      name: 'salesReturnFailed',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `盘点`
   String get stocktakeAction {
     return Intl.message('盘点', name: 'stocktakeAction', desc: '', args: []);
@@ -858,21 +672,6 @@ class S {
   /// `SKU`
   String get skuLabel {
     return Intl.message('SKU', name: 'skuLabel', desc: '', args: []);
-  }
-
-  /// `采购单`
-  String get poDetailTitle {
-    return Intl.message('采购单', name: 'poDetailTitle', desc: '', args: []);
-  }
-
-  /// `供应商`
-  String get poSupplier {
-    return Intl.message('供应商', name: 'poSupplier', desc: '', args: []);
-  }
-
-  /// `已收`
-  String get poReceived {
-    return Intl.message('已收', name: 'poReceived', desc: '', args: []);
   }
 }
 

@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	ProjectPrefix = "go_wind_erp:"
+	ProjectPrefix = "go_wind_wms:"
 
 	// AccessTokenKeyFormat 访问令牌键前缀格式 at:{ct}:{uid}
 	AccessTokenKeyFormat = ProjectPrefix + "at:%d:%d"

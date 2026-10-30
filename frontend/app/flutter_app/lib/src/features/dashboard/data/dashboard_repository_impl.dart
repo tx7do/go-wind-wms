@@ -52,22 +52,6 @@ class DashboardRepositoryImpl implements DashboardRepository {
     }
   }
 
-  @override
-  Future<FinanceSummaryInfo> fetchFinanceSummary() async {
-    try {
-      final resp = await _api.financeSummaryService
-          .getFinanceSummary(const {});
-      return FinanceSummaryInfo(
-        revenueMonth: _parseInt(resp.revenueMonth),
-        cogsMonth: _parseInt(resp.cogsMonth),
-        profitMonth: _parseInt(resp.profitMonth),
-        arBalance: _parseInt(resp.arBalance),
-        apBalance: _parseInt(resp.apBalance),
-      );
-    } on DioException catch (e) {
-      throw _toFailure(e);
-    }
-  }
 
   /// protojson 的 int64 是字符串，兼容两种编码。
   static int _parseInt(Object? v) {

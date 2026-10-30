@@ -107,7 +107,7 @@ GoWind WMS は GoWind ERP の在庫モジュールと汎用基盤から派生し
 ## プロジェクト構造
 
 ```
-go-wind-erp/
+go-wind-wms/
 ├── backend/                        # バックエンドサービス
 │   ├── api/                        # Protobuf API 定義 & 生成コード
 │   │   ├── protos/                 # .proto ソースファイル
@@ -194,7 +194,7 @@ make test
 
 ## お問い合わせ
 
-- WeChat 個人アカウント：`yang_lin_bo`（備考：`go-wind-erp`）
+- WeChat 個人アカウント：`yang_lin_bo`（備考：`go-wind-wms`）
 
 ## コントリビューション
 

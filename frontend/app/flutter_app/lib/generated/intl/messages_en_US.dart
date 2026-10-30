@@ -83,15 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "lotSection": MessageLookupByLibrary.simpleMessage("Stock Lots"),
     "lowStockEmpty": MessageLookupByLibrary.simpleMessage("No low-stock items"),
     "lowStockTitle": MessageLookupByLibrary.simpleMessage("Low Stock"),
-    "metricArApBalance": MessageLookupByLibrary.simpleMessage(
-      "AR / AP Balance",
-    ),
-    "metricCogsMonth": MessageLookupByLibrary.simpleMessage("COGS (Month)"),
     "metricMovements": MessageLookupByLibrary.simpleMessage("Movements"),
-    "metricProfitMonth": MessageLookupByLibrary.simpleMessage("Profit (Month)"),
-    "metricRevenueMonth": MessageLookupByLibrary.simpleMessage(
-      "Revenue (Month)",
-    ),
     "metricSkus": MessageLookupByLibrary.simpleMessage("SKUs in Stock"),
     "metricTotalQuantity": MessageLookupByLibrary.simpleMessage(
       "Total Quantity",
@@ -99,7 +91,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "metricWarehouses": MessageLookupByLibrary.simpleMessage("Warehouses"),
     "navApproval": MessageLookupByLibrary.simpleMessage("Approval"),
     "navDashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
-    "navSales": MessageLookupByLibrary.simpleMessage("Sales"),
     "navWms": MessageLookupByLibrary.simpleMessage("WMS"),
     "negativeStock": MessageLookupByLibrary.simpleMessage(
       "Outbound quantity exceeds current stock",
@@ -125,9 +116,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "pickingTypeInternal": MessageLookupByLibrary.simpleMessage(
       "Internal Transfer",
     ),
-    "poDetailTitle": MessageLookupByLibrary.simpleMessage("Purchase Order"),
-    "poReceived": MessageLookupByLibrary.simpleMessage("Received"),
-    "poSupplier": MessageLookupByLibrary.simpleMessage("Supplier"),
     "quantityInvalid": MessageLookupByLibrary.simpleMessage(
       "Enter a positive whole number",
     ),
@@ -142,34 +130,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Enter a reversal reason",
     ),
     "reverseSuccess": MessageLookupByLibrary.simpleMessage("Reversed"),
-    "salesCustomer": MessageLookupByLibrary.simpleMessage("Customer"),
-    "salesDetailTitle": MessageLookupByLibrary.simpleMessage("Sales Order"),
-    "salesEmpty": MessageLookupByLibrary.simpleMessage("No sales orders"),
-    "salesFilterAll": MessageLookupByLibrary.simpleMessage("All"),
-    "salesFulfilled": MessageLookupByLibrary.simpleMessage("Fulfilled"),
-    "salesItems": MessageLookupByLibrary.simpleMessage("Items"),
-    "salesQuantity": MessageLookupByLibrary.simpleMessage("Qty"),
-    "salesRemark": MessageLookupByLibrary.simpleMessage("Remark"),
-    "salesReturn": MessageLookupByLibrary.simpleMessage("Return"),
-    "salesReturnCreated": MessageLookupByLibrary.simpleMessage(
-      "Return picking created; confirm & validate it in the picking list",
-    ),
-    "salesReturnFailed": MessageLookupByLibrary.simpleMessage(
-      "Failed to create return picking",
-    ),
-    "salesReturnQtyInvalid": MessageLookupByLibrary.simpleMessage(
-      "Return qty must be 1..fulfilled",
-    ),
-    "salesReturnQuantity": MessageLookupByLibrary.simpleMessage("Return qty"),
-    "salesStatus": MessageLookupByLibrary.simpleMessage("Status"),
-    "salesStatusApproved": MessageLookupByLibrary.simpleMessage("Approved"),
-    "salesStatusCancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
-    "salesStatusCompleted": MessageLookupByLibrary.simpleMessage("Completed"),
-    "salesStatusDraft": MessageLookupByLibrary.simpleMessage("Draft"),
-    "salesStatusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
-    "salesStatusSubmitted": MessageLookupByLibrary.simpleMessage("Submitted"),
-    "salesTotal": MessageLookupByLibrary.simpleMessage("Total"),
-    "salesWarehouse": MessageLookupByLibrary.simpleMessage("Warehouse"),
     "sameWarehouse": MessageLookupByLibrary.simpleMessage(
       "Source and destination warehouses must differ",
     ),

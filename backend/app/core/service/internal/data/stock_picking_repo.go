@@ -207,7 +207,6 @@ func (r *StockPickingRepo) Create(ctx context.Context, req *inventoryV1.CreateSt
 		SetNillablePickingType(r.pickingTypeConverter.ToEntity(req.Data.PickingType)).
 		SetNillableSourceLocationID(req.Data.SourceLocationId).
 		SetNillableDestinationLocationID(req.Data.DestinationLocationId).
-		SetNillablePurchaseOrderID(req.Data.PurchaseOrderId).
 		SetNillableAsnID(req.Data.AsnId).
 		SetNillablePartnerCode(req.Data.PartnerCode).
 		SetNillableRemark(req.Data.Remark).

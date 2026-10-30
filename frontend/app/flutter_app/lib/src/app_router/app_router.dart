@@ -26,12 +26,6 @@ import 'package:go_wind_wms/src/features/wms/domain/wms_repository.dart'
     show WmsRepository;
 import 'package:go_wind_wms/src/features/wms/presentation/wms_cubit.dart';
 import 'package:go_wind_wms/src/features/wms/presentation/wms_page.dart';
-import 'package:go_wind_wms/src/features/sales/domain/sales_repository.dart'
-    show SalesRepository;
-import 'package:go_wind_wms/src/features/sales/presentation/sales_cubit.dart';
-import 'package:go_wind_wms/src/features/sales/presentation/sales_page.dart';
-import 'package:go_wind_wms/src/features/sales/presentation/sales_order_detail_page.dart';
-import 'package:go_wind_wms/src/features/procurement/presentation/purchase_order_detail_page.dart';
 
 /// 路由构造。
 ///
@@ -99,48 +93,6 @@ GoRouter createAppRouter() {
                   )..load(),
                   child: const WmsPage(),
                 ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                name: RouteNames.sales,
-                path: AppRoutePath.sales,
-                builder: (context, state) => BlocProvider(
-                  create: (_) => SalesCubit(
-                    GetIt.instance<SalesRepository>(),
-                  )..load(),
-                  child: const SalesPage(),
-                ),
-                routes: [
-                  GoRoute(
-                    name: RouteNames.salesDetail,
-                    path: 'detail/:id',
-                    builder: (context, state) {
-                      final id = int.tryParse(
-                            state.pathParameters['id'] ?? '',
-                          ) ??
-                          0;
-                      return SalesOrderDetailPage(orderId: id);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                name: RouteNames.poDetail,
-                path: '${AppRoutePath.poDetailPrefix}:id',
-                builder: (context, state) {
-                  final id = int.tryParse(
-                        state.pathParameters['id'] ?? '',
-                      ) ??
-                      0;
-                  return PurchaseOrderDetailPage(orderId: id);
-                },
               ),
             ],
           ),

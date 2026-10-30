@@ -19,12 +19,12 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-*Abcd123456}
-      - POSTGRES_DB=go_wind_erp
+      - POSTGRES_DB=go_wind_wms
       - TZ=Asia/Shanghai
     volumes:
       - ${APP_ROOT:-/root/app}/postgres/data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d go_wind_erp"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d go_wind_wms"]
       interval: 5s
       timeout: 3s
       retries: 12
@@ -46,7 +46,7 @@ services:
 #      - MARIADB_ROOT_PASSWORD=*Abcd123456
 #      - MARIADB_USER=admin
 #      - MARIADB_PASSWORD=*Abcd123456
-#      - MARIADB_DATABASE=go_wind_erp
+#      - MARIADB_DATABASE=go_wind_wms
 #      - ALLOW_EMPTY_PASSWORD=yes
 #      - TZ=Asia/Shanghai
 #    command:

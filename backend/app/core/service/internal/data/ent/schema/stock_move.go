@@ -16,7 +16,6 @@ import (
 // 计划移动（借鉴 Odoo stock.move 的计划角色）。记录“把 N 个产品从 source
 // location 移到 dest location”的意图，带状态机 DRAFT→CONFIRMED→DONE/CANCELLED。
 // 与执行记录 StockMoveLine 分离——后者是唯一实际变更 StockQuant 的东西。
-// purchase_order_item_id 仅入库 move 有值（Odoo purchase_line_id）。
 type StockMove struct {
 	ent.Schema
 }
@@ -80,19 +79,6 @@ func (StockMove) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		// purchase_order_item_id：入库 move 关联的采购明细（Odoo purchase_line_id）。
-		field.Uint32("purchase_order_item_id").
-			Comment("关联采购明细ID（仅入库，Odoo purchase_line_id）").
-			Default(0).
-			Optional().
-			Nillable(),
-
-		// sales_order_item_id：出库 move 关联的销售明细（镜像 purchase_order_item_id）。
-		field.Uint32("sales_order_item_id").
-			Comment("关联销售明细ID（仅出库）").
-			Default(0).
-			Optional().
-			Nillable(),
 	}
 }
 
@@ -116,12 +102,5 @@ func (StockMove) Indexes() []ent.Index {
 		index.Fields("tenant_id", "state").
 			StorageKey("idx_inv_stock_move_tenant_state"),
 
-		// 按采购明细回溯（PO→收货链）
-		index.Fields("tenant_id", "purchase_order_item_id").
-			StorageKey("idx_inv_stock_move_tenant_po_item"),
-
-		// 按销售明细回溯（SO→出库链）
-		index.Fields("tenant_id", "sales_order_item_id").
-			StorageKey("idx_inv_stock_move_tenant_so_item"),
 	}
 }

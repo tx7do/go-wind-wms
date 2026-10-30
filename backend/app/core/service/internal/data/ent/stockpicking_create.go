@@ -190,20 +190,6 @@ func (_c *StockPickingCreate) SetNillableDestinationLocationID(v *uint32) *Stock
 	return _c
 }
 
-// SetPurchaseOrderID sets the "purchase_order_id" field.
-func (_c *StockPickingCreate) SetPurchaseOrderID(v uint32) *StockPickingCreate {
-	_c.mutation.SetPurchaseOrderID(v)
-	return _c
-}
-
-// SetNillablePurchaseOrderID sets the "purchase_order_id" field if the given value is not nil.
-func (_c *StockPickingCreate) SetNillablePurchaseOrderID(v *uint32) *StockPickingCreate {
-	if v != nil {
-		_c.SetPurchaseOrderID(*v)
-	}
-	return _c
-}
-
 // SetAsnID sets the "asn_id" field.
 func (_c *StockPickingCreate) SetAsnID(v uint32) *StockPickingCreate {
 	_c.mutation.SetAsnID(v)
@@ -290,10 +276,6 @@ func (_c *StockPickingCreate) defaults() error {
 	if _, ok := _c.mutation.DestinationLocationID(); !ok {
 		v := stockpicking.DefaultDestinationLocationID
 		_c.mutation.SetDestinationLocationID(v)
-	}
-	if _, ok := _c.mutation.PurchaseOrderID(); !ok {
-		v := stockpicking.DefaultPurchaseOrderID
-		_c.mutation.SetPurchaseOrderID(v)
 	}
 	if _, ok := _c.mutation.AsnID(); !ok {
 		v := stockpicking.DefaultAsnID
@@ -394,10 +376,6 @@ func (_c *StockPickingCreate) createSpec() (*StockPicking, *sqlgraph.CreateSpec)
 	if value, ok := _c.mutation.DestinationLocationID(); ok {
 		_spec.SetField(stockpicking.FieldDestinationLocationID, field.TypeUint32, value)
 		_node.DestinationLocationID = &value
-	}
-	if value, ok := _c.mutation.PurchaseOrderID(); ok {
-		_spec.SetField(stockpicking.FieldPurchaseOrderID, field.TypeUint32, value)
-		_node.PurchaseOrderID = &value
 	}
 	if value, ok := _c.mutation.AsnID(); ok {
 		_spec.SetField(stockpicking.FieldAsnID, field.TypeUint32, value)
@@ -666,30 +644,6 @@ func (u *StockPickingUpsert) AddDestinationLocationID(v uint32) *StockPickingUps
 // ClearDestinationLocationID clears the value of the "destination_location_id" field.
 func (u *StockPickingUpsert) ClearDestinationLocationID() *StockPickingUpsert {
 	u.SetNull(stockpicking.FieldDestinationLocationID)
-	return u
-}
-
-// SetPurchaseOrderID sets the "purchase_order_id" field.
-func (u *StockPickingUpsert) SetPurchaseOrderID(v uint32) *StockPickingUpsert {
-	u.Set(stockpicking.FieldPurchaseOrderID, v)
-	return u
-}
-
-// UpdatePurchaseOrderID sets the "purchase_order_id" field to the value that was provided on create.
-func (u *StockPickingUpsert) UpdatePurchaseOrderID() *StockPickingUpsert {
-	u.SetExcluded(stockpicking.FieldPurchaseOrderID)
-	return u
-}
-
-// AddPurchaseOrderID adds v to the "purchase_order_id" field.
-func (u *StockPickingUpsert) AddPurchaseOrderID(v uint32) *StockPickingUpsert {
-	u.Add(stockpicking.FieldPurchaseOrderID, v)
-	return u
-}
-
-// ClearPurchaseOrderID clears the value of the "purchase_order_id" field.
-func (u *StockPickingUpsert) ClearPurchaseOrderID() *StockPickingUpsert {
-	u.SetNull(stockpicking.FieldPurchaseOrderID)
 	return u
 }
 
@@ -1031,34 +985,6 @@ func (u *StockPickingUpsertOne) UpdateDestinationLocationID() *StockPickingUpser
 func (u *StockPickingUpsertOne) ClearDestinationLocationID() *StockPickingUpsertOne {
 	return u.Update(func(s *StockPickingUpsert) {
 		s.ClearDestinationLocationID()
-	})
-}
-
-// SetPurchaseOrderID sets the "purchase_order_id" field.
-func (u *StockPickingUpsertOne) SetPurchaseOrderID(v uint32) *StockPickingUpsertOne {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.SetPurchaseOrderID(v)
-	})
-}
-
-// AddPurchaseOrderID adds v to the "purchase_order_id" field.
-func (u *StockPickingUpsertOne) AddPurchaseOrderID(v uint32) *StockPickingUpsertOne {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.AddPurchaseOrderID(v)
-	})
-}
-
-// UpdatePurchaseOrderID sets the "purchase_order_id" field to the value that was provided on create.
-func (u *StockPickingUpsertOne) UpdatePurchaseOrderID() *StockPickingUpsertOne {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.UpdatePurchaseOrderID()
-	})
-}
-
-// ClearPurchaseOrderID clears the value of the "purchase_order_id" field.
-func (u *StockPickingUpsertOne) ClearPurchaseOrderID() *StockPickingUpsertOne {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.ClearPurchaseOrderID()
 	})
 }
 
@@ -1573,34 +1499,6 @@ func (u *StockPickingUpsertBulk) UpdateDestinationLocationID() *StockPickingUpse
 func (u *StockPickingUpsertBulk) ClearDestinationLocationID() *StockPickingUpsertBulk {
 	return u.Update(func(s *StockPickingUpsert) {
 		s.ClearDestinationLocationID()
-	})
-}
-
-// SetPurchaseOrderID sets the "purchase_order_id" field.
-func (u *StockPickingUpsertBulk) SetPurchaseOrderID(v uint32) *StockPickingUpsertBulk {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.SetPurchaseOrderID(v)
-	})
-}
-
-// AddPurchaseOrderID adds v to the "purchase_order_id" field.
-func (u *StockPickingUpsertBulk) AddPurchaseOrderID(v uint32) *StockPickingUpsertBulk {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.AddPurchaseOrderID(v)
-	})
-}
-
-// UpdatePurchaseOrderID sets the "purchase_order_id" field to the value that was provided on create.
-func (u *StockPickingUpsertBulk) UpdatePurchaseOrderID() *StockPickingUpsertBulk {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.UpdatePurchaseOrderID()
-	})
-}
-
-// ClearPurchaseOrderID clears the value of the "purchase_order_id" field.
-func (u *StockPickingUpsertBulk) ClearPurchaseOrderID() *StockPickingUpsertBulk {
-	return u.Update(func(s *StockPickingUpsert) {
-		s.ClearPurchaseOrderID()
 	})
 }
 

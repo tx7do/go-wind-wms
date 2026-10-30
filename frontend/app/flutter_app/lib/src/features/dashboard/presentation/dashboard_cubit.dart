@@ -16,16 +16,9 @@ class DashboardCubit extends Cubit<DashboardState> {
   Future<void> load() async {
     emit(const DashboardLoading());
     try {
-      // 财务汇总软失败：失败不阻塞库存看板（finance 置空）。
       final overview = await _repository.fetchOverview();
-      FinanceSummaryInfo? finance;
-      try {
-        finance = await _repository.fetchFinanceSummary();
-      } on DashboardFailure {
-        finance = null;
-      }
       if (!isClosed) {
-        emit(DashboardReady(overview, finance: finance));
+        emit(DashboardReady(overview));
       }
     } on DashboardFailure catch (e) {
       if (!isClosed) emit(DashboardFailureState(e));

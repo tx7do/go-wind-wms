@@ -16,7 +16,6 @@ import (
 // 拣货单（借鉴 Odoo stock.picking：一等文档，有自己的生命周期）。
 // 不存储 state——状态从子 StockMove 派生（服务层每次读取时聚合）。
 // source/dest location 由服务层按 picking_type + 仓库推导，客户端不提供。
-// purchase_order_id 仅入库拣货单有值（Odoo PO→receipt 桥接）。
 type StockPicking struct {
 	ent.Schema
 }
@@ -68,13 +67,6 @@ func (StockPicking) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		// purchase_order_id：入库拣货单关联的采购单（Odoo PO→receipt 桥接）。
-		field.Uint32("purchase_order_id").
-			Comment("关联采购单ID（仅入库）").
-			Default(0).
-			Optional().
-			Nillable(),
-
 		// asn_id：入库/上架拣货单关联的到货通知单（ASN→收货/上架 桥接）。
 		field.Uint32("asn_id").
 			Comment("关联到货通知单ID").
@@ -105,9 +97,6 @@ func (StockPicking) Indexes() []ent.Index {
 		index.Fields("tenant_id", "created_at").
 			StorageKey("idx_inv_stock_picking_tenant_created_at"),
 
-		// 按采购单回溯收货拣货单
-		index.Fields("tenant_id", "purchase_order_id").
-			StorageKey("idx_inv_stock_picking_tenant_po"),
 
 		// 按到货通知单回溯收货/上架拣货单
 		index.Fields("tenant_id", "asn_id").
