@@ -1,0 +1,202 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+import "inventory/service/v1/inventory.proto";
+
+// 仓库管理服务
+service WarehouseService {
+  // 查询仓库列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListWarehouseResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/warehouses"
+    };
+  }
+
+  // 查询仓库详情
+  rpc Get (inventory.service.v1.GetWarehouseRequest) returns (inventory.service.v1.Warehouse) {
+    option (google.api.http) = {
+      get: "/admin/v1/warehouses/{id}"
+    };
+  }
+
+  // 创建仓库
+  rpc Create (inventory.service.v1.CreateWarehouseRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/warehouses"
+      body: "*"
+    };
+  }
+
+  // 更新仓库
+  rpc Update (inventory.service.v1.UpdateWarehouseRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/warehouses/{id}"
+      body: "*"
+    };
+  }
+
+  // 删除仓库
+  rpc Delete (inventory.service.v1.DeleteWarehouseRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/warehouses/{id}"
+    };
+  }
+}
+
+// 库存位置服务
+service LocationService {
+  // 查询位置列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListLocationResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-locations"
+    };
+  }
+
+  // 查询位置详情
+  rpc Get (inventory.service.v1.GetLocationRequest) returns (inventory.service.v1.StockLocation) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-locations/{id}"
+    };
+  }
+
+  // 创建位置
+  rpc Create (inventory.service.v1.CreateLocationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-locations"
+      body: "*"
+    };
+  }
+
+  // 更新位置
+  rpc Update (inventory.service.v1.UpdateLocationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/stock-locations/{id}"
+      body: "*"
+    };
+  }
+
+  // 删除位置
+  rpc Delete (inventory.service.v1.DeleteLocationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/stock-locations/{id}"
+    };
+  }
+}
+
+// 库存量服务（只读）
+service StockQuantService {
+  // 查询库存量列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListStockQuantResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-quants"
+    };
+  }
+
+  // 查询库存量详情
+  rpc Get (inventory.service.v1.GetStockQuantRequest) returns (inventory.service.v1.StockQuant) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-quants/{id}"
+    };
+  }
+
+  // 库存经营总览
+  rpc GetOverview (inventory.service.v1.GetStockQuantOverviewRequest) returns (inventory.service.v1.StockQuantOverview) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-quants:overview"
+    };
+  }
+
+  // 库存流水趋势
+  rpc GetMovementTrend (inventory.service.v1.GetMovementTrendRequest) returns (inventory.service.v1.MovementTrendResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-quants:movement-trend"
+    };
+  }
+}
+
+// 拣货单服务
+service StockPickingService {
+  // 查询拣货单列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListStockPickingResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-pickings"
+    };
+  }
+
+  // 查询拣货单详情
+  rpc Get (inventory.service.v1.GetStockPickingRequest) returns (inventory.service.v1.StockPicking) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-pickings/{id}"
+    };
+  }
+
+  // 创建拣货单
+  rpc Create (inventory.service.v1.CreateStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-pickings"
+      body: "*"
+    };
+  }
+
+  // 创建销售退货拣货单
+  rpc CreateSalesReturn (inventory.service.v1.CreateSalesReturnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-pickings:sales-return"
+      body: "*"
+    };
+  }
+
+  // 创建采购退货拣货单
+  rpc CreatePurchaseReturn (inventory.service.v1.CreatePurchaseReturnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-pickings:purchase-return"
+      body: "*"
+    };
+  }
+
+  // 确认拣货单
+  rpc Confirm (inventory.service.v1.ConfirmStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-pickings/{id}:confirm"
+      body: "*"
+    };
+  }
+
+  // 校验拣货单
+  rpc Validate (inventory.service.v1.ValidateStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-pickings/{id}:validate"
+      body: "*"
+    };
+  }
+
+  // 取消拣货单
+  rpc Cancel (inventory.service.v1.CancelStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-pickings/{id}:cancel"
+      body: "*"
+    };
+  }
+
+  // 删除拣货单
+  rpc Delete (inventory.service.v1.DeleteStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/stock-pickings/{id}"
+    };
+  }
+}
+
+// 批次服务（只读；批次在收货 Validate 时登记）
+service StockLotService {
+  // 批次库存列表（含剩余数量与效期状态）
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListStockLotResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-lots"
+    };
+  }
+}

@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+import "approval/service/v1/approval.proto";
+
+// 审批请求管理服务
+service ApprovalRequestService {
+  // 查询审批请求列表
+  rpc List (pagination.PagingRequest) returns (approval.service.v1.ListApprovalRequestResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/approvals"
+    };
+  }
+
+  // 查询审批请求详情
+  rpc Get (approval.service.v1.GetApprovalRequestRequest) returns (approval.service.v1.ApprovalRequest) {
+    option (google.api.http) = {
+      get: "/admin/v1/approvals/{id}"
+    };
+  }
+
+  // 创建审批请求
+  rpc Create (approval.service.v1.CreateApprovalRequestRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/approvals"
+      body: "*"
+    };
+  }
+
+  // 删除审批请求
+  rpc Delete (approval.service.v1.DeleteApprovalRequestRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/approvals/{id}"
+    };
+  }
+
+  // 通过审批
+  rpc Approve (approval.service.v1.ApproveApprovalRequestRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/approvals:approve"
+      body: "*"
+    };
+  }
+
+  // 驳回审批
+  rpc Reject (approval.service.v1.RejectApprovalRequestRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/approvals:reject"
+      body: "*"
+    };
+  }
+
+  // 撤销审批
+  rpc Cancel (approval.service.v1.CancelApprovalRequestRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/approvals:cancel"
+      body: "*"
+    };
+  }
+}
+
+// 审批流模板服务（多级审批配置）
+service ApprovalFlowService {
+  // 查询审批流列表
+  rpc List (pagination.PagingRequest) returns (approval.service.v1.ListApprovalFlowResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/approval-flows"
+    };
+  }
+
+  // 查询审批流详情
+  rpc Get (approval.service.v1.GetApprovalFlowRequest) returns (approval.service.v1.ApprovalFlow) {
+    option (google.api.http) = {
+      get: "/admin/v1/approval-flows/{id}"
+    };
+  }
+
+  // 创建审批流
+  rpc Create (approval.service.v1.CreateApprovalFlowRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/approval-flows"
+      body: "*"
+    };
+  }
+
+  // 更新审批流（级整体替换）
+  rpc Update (approval.service.v1.UpdateApprovalFlowRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/approval-flows/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除审批流
+  rpc Delete (approval.service.v1.DeleteApprovalFlowRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/approval-flows/{id}"
+    };
+  }
+}

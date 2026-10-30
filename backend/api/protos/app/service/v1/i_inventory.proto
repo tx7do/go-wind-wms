@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package app.service.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+import "inventory/service/v1/inventory.proto";
+
+// 仓库服务（移动端只读：扫码场景选择仓库）
+service WarehouseService {
+  // 查询仓库列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListWarehouseResponse) {
+    option (google.api.http) = {
+      get: "/app/v1/warehouses"
+    };
+  }
+
+  // 查询仓库详情
+  rpc Get (inventory.service.v1.GetWarehouseRequest) returns (inventory.service.v1.Warehouse) {
+    option (google.api.http) = {
+      get: "/app/v1/warehouses/{id}"
+    };
+  }
+}
+
+// 库存量服务（移动端只读：按仓库/SKU 查询库存）
+service StockQuantService {
+  // 查询库存量列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListStockQuantResponse) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-quants"
+    };
+  }
+
+  // 查询库存量详情
+  rpc Get (inventory.service.v1.GetStockQuantRequest) returns (inventory.service.v1.StockQuant) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-quants/{id}"
+    };
+  }
+
+  // 库存经营总览（看板聚合）
+  rpc GetOverview (inventory.service.v1.GetStockQuantOverviewRequest) returns (inventory.service.v1.StockQuantOverview) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-quants:overview"
+    };
+  }
+}
+
+// 拣货单服务（移动端：扫码创建调拨拣货单，确认与校验）
+service StockPickingService {
+  // 查询拣货单列表
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListStockPickingResponse) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-pickings"
+    };
+  }
+
+  // 查询拣货单详情
+  rpc Get (inventory.service.v1.GetStockPickingRequest) returns (inventory.service.v1.StockPicking) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-pickings/{id}"
+    };
+  }
+
+  // 创建拣货单（扫码调拨 / 盘点：type=INVENTORY_ADJUSTMENT + 带符号差异明细）
+  rpc Create (inventory.service.v1.CreateStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/app/v1/stock-pickings"
+      body: "*"
+    };
+  }
+
+  // 创建销售退货拣货单（INCOMING：客户→仓库，负向回写履约数）
+  rpc CreateSalesReturn (inventory.service.v1.CreateSalesReturnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/app/v1/stock-pickings:sales-return"
+      body: "*"
+    };
+  }
+
+  // 创建采购退货拣货单（OUTGOING：仓库→供应商，负向回写收货数）
+  rpc CreatePurchaseReturn (inventory.service.v1.CreatePurchaseReturnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/app/v1/stock-pickings:purchase-return"
+      body: "*"
+    };
+  }
+
+  // 确认拣货单
+  rpc Confirm (inventory.service.v1.ConfirmStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/app/v1/stock-pickings/{id}:confirm"
+      body: "*"
+    };
+  }
+
+  // 校验拣货单
+  rpc Validate (inventory.service.v1.ValidateStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/app/v1/stock-pickings/{id}:validate"
+      body: "*"
+    };
+  }
+
+  // 取消拣货单
+  rpc Cancel (inventory.service.v1.CancelStockPickingRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/app/v1/stock-pickings/{id}:cancel"
+      body: "*"
+    };
+  }
+}
+
+// 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
+service StockLotService {
+  rpc List (pagination.PagingRequest) returns (inventory.service.v1.ListStockLotResponse) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-lots"
+    };
+  }
+}

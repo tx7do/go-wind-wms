@@ -1,0 +1,966 @@
+{
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "codeLogin": "验证码登录",
+    "qrcodeLogin": "二维码登录",
+    "forgetPassword": "忘记密码"
+  },
+  "dashboard": {
+    "title": "概览",
+    "inventoryOverview": "库存总览",
+    "warehouseCount": "仓库数",
+    "skuCount": "在库 SKU",
+    "totalQuantity": "库存总量",
+    "movementCount": "流水数",
+    "lowStockTitle": "低库存清单",
+    "lowStockEmpty": "暂无低库存项",
+    "movementTrendTitle": "近 30 日库存流水趋势",
+    "revenueMonth": "本月收入（元）",
+    "cogsMonth": "本月成本（元）",
+    "profitMonth": "本月利润（元）",
+    "arApBalance": "应收 / 应付余额（元）",
+    "expiringLotsTitle": "临期批次预警（30 天内到期）",
+    "expiringLotsCount": "{count} 个批次待处理"
+  },
+  "user": {
+    "moduleName": "用户",
+    "form": {
+      "username": "用户名",
+      "nickname": "昵称",
+      "realname": "真实姓名",
+      "email": "电子邮箱",
+      "mobile": "手机号码",
+      "tenant": "所属租户",
+      "role": "角色",
+      "orgUnit": "所属组织",
+      "position": "所属岗位",
+      "oldPassword": "旧密码",
+      "newPassword": "新密码",
+      "confirmPassword": "确认密码",
+      "status": "状态"
+    },
+    "table": {
+      "seq": "编号",
+      "username": "用户名",
+      "nickname": "昵称",
+      "realname": "姓名",
+      "password": "密码",
+      "avatar": "头像",
+      "email": "邮箱",
+      "mobile": "手机号",
+      "telephone": "座机号",
+      "gender": "性别",
+      "address": "住址",
+      "region": "国家地区",
+      "description": "个人描述",
+      "lastLoginAt": "最后登录时间",
+      "lastLoginIp": "最后登录IP",
+      "roleId": "角色",
+      "tenantId": "所属租户",
+      "orgUnitId": "所属组织",
+      "positionId": "所属岗位",
+      "workId": "工号",
+      "status": "状态"
+    },
+    "button": {
+      "create": "创建账号",
+      "editPassword": "修改密码",
+      "banAccount": "禁用账号",
+      "updateUserInfo": "更新基本信息",
+      "updatePassword": "更新密码",
+      "uploadAvatar": "上传头像",
+      "deleteAvatar": "删除头像",
+      "resetMfa": "重置 MFA"
+    },
+    "profile": {
+      "tab": {
+        "basicSettings": "基本设置",
+        "securitySettings": "安全设置",
+        "editPassword": "修改密码",
+        "accountBind": "账号绑定",
+        "notification": "消息通知"
+      }
+    },
+    "detail": {
+      "title": "用户{userId}的资料",
+      "tab": {
+        "basicInfo": "基础信息",
+        "permission": "权限信息",
+        "apiAuditLog": "API日志",
+        "internalMessage": "收件箱"
+      },
+      "desc": {
+        "username": "用户名",
+        "realname": "真实姓名",
+        "nickname": "昵称",
+        "gender": "性别",
+        "mobile": "手机号",
+        "email": "电子邮箱",
+        "region": "国家地区",
+        "address": "住址",
+        "roleNames": "角色列表",
+        "tenantName": "所属租户",
+        "orgUnitName": "所属组织",
+        "positionName": "所属岗位",
+        "lastLoginAt": "最后登录时间",
+        "lastLoginIp": "最后登录IP"
+      }
+    }
+  },
+  "role": {
+    "moduleName": "角色",
+    "name": "角色名称",
+    "code": "角色值",
+    "description": "角色描述",
+    "isProtected": "内置角色",
+    "apis": "分配API",
+    "permissions": "分配权限",
+    "tenantName": "所属租户",
+    "button": {
+      "create": "创建角色"
+    },
+    "dataScope": "数据权限范围",
+    "orgUnits": "授权组织单元",
+    "fieldPerm": {
+      "title": "字段权限",
+      "userTitle": "字段权限（User）",
+      "roleTitle": "字段权限（Role）",
+      "hint": "勾选的字段对该角色用户不可见：列表/详情不再显示，且不能通过创建/编辑写入（重新登录后生效）。",
+      "field": {
+        "email": "邮箱",
+        "mobile": "手机号",
+        "telephone": "固定电话",
+        "address": "地址",
+        "region": "区域",
+        "lastLoginAt": "最后登录时间",
+        "lastLoginIp": "最后登录 IP",
+        "permissions": "权限集（角色绑定的权限列表）"
+      }
+    }
+  },
+  "permission": {
+    "moduleName": "权限",
+    "name": "权限名称",
+    "code": "权限编码",
+    "path": "树路径",
+    "groupId": "分组",
+    "groupName": "分组名称",
+    "menuIds": "关联菜单",
+    "apiIds": "关联API",
+    "menuIdsPlaceholder": "请选择关联菜单",
+    "apiIdsPlaceholder": "请选择关联API",
+    "treeExpandAll": "展开",
+    "treeCollapseAll": "折叠",
+    "selectAll": "全选",
+    "deselectAll": "取选",
+    "description": "权限描述",
+    "button": {
+      "create": "创建权限",
+      "syncPermissions": "同步权限"
+    }
+  },
+  "permissionGroup": {
+    "moduleName": "权限分组",
+    "name": "分组名称",
+    "module": "业务模块",
+    "parentId": "上级分组",
+    "button": {
+      "create": "创建分组"
+    },
+    "moduleOther": "其他"
+  },
+  "dict": {
+    "moduleName": "字典",
+    "dictType": "字典类型",
+    "dictEntry": "字典项",
+    "dictTypeList": "字典类型列表",
+    "dictEntryList": "字典项列表",
+    "typeCode": "编码",
+    "typeName": "类型名称",
+    "entryLabel": "标签",
+    "entryValue": "值",
+    "numericValue": "数值",
+    "typeId": "字典类型",
+    "languageCode": "语言代码",
+    "languageName": "语言名称",
+    "button": {
+      "create": "新增"
+    }
+  },
+  "menu": {
+    "moduleName": "菜单",
+    "name": "标题",
+    "type": "类型",
+    "icon": "图标",
+    "path": "路由地址",
+    "component": "组件路径",
+    "show": "是否显示",
+    "isExt": "是否外链",
+    "keepAlive": "缓存标签页",
+    "affixTab": "固定在标签",
+    "hideInMenu": "隐藏菜单",
+    "hideChildrenInMenu": "隐藏子菜单",
+    "hideInTab": "在标签栏中不隐藏",
+    "hideInBreadcrumb": "在面包屑中隐藏",
+    "parentId": "上级菜单",
+    "authority": "权限标识",
+    "order": "排序",
+    "title": "菜单标题",
+    "advancedSettings": "其他设置",
+    "tips": {
+      "authority": "多个权限用逗号隔开，如：sys:user:add,sys:user:edit"
+    },
+    "button": {
+      "create": "创建菜单"
+    }
+  },
+  "orgUnit": {
+    "moduleName": "组织列表",
+    "name": "组织名称",
+    "code": "唯一编码",
+    "parentId": "上级组织",
+    "type": "组织类型",
+    "isLegalEntity": "是否为法定主体",
+    "businessScope": "核心业务范围",
+    "registrationNumber": "注册号",
+    "taxId": "税号",
+    "address": "详细地址",
+    "phone": "联系电话",
+    "email": "联系邮箱",
+    "timezone": "时区",
+    "country": "地区代码",
+    "leaderId": "负责人ID",
+    "leaderName": "负责人名称",
+    "contactUserId": "业务联系人ID",
+    "contactUserName": "业务联系人名称",
+    "description": "组织描述",
+    "button": {
+      "create": "创建组织"
+    }
+  },
+  "position": {
+    "moduleName": "职位",
+    "name": "职位名称",
+    "parentId": "上级职位",
+    "orgUnit": "所属组织",
+    "orgUnitId": "所属组织ID",
+    "orgUnitName": "所属组织名称",
+    "description": "职责描述",
+    "type": "职位类型",
+    "code": "唯一编码",
+    "headcount": "编制人数",
+    "button": {
+      "create": "创建职位"
+    }
+  },
+  "tenant": {
+    "moduleName": "租户",
+    "name": "租户名称",
+    "code": "租户编码",
+    "type": "租户类型",
+    "auditStatus": "审核状态",
+    "adminSetting": "管理员账号配置",
+    "lastLoginAt": "最后登录时间",
+    "lastLoginIp": "最后登录IP",
+    "logoUrl": "LOGO地址",
+    "industry": "所属行业",
+    "subscriptionPlan": "订阅套餐",
+    "expiredAt": "到期时间",
+    "memberCount": "成员数量",
+    "subscriptionAt": "订阅时间",
+    "unsubscribeAt": "退订时间",
+    "adminUserName": "管理员用户名",
+    "adminPassword": "初始密码",
+    "adminPasswordConfirm": "确认密码",
+    "adminMobile": "手机号",
+    "adminEmail": "电子邮箱",
+    "button": {
+      "create": "创建租户"
+    },
+    "notification": {
+      "tenant_code_exists": "租户编码已存在，请更换后重新创建！",
+      "user_username_exists": "管理员用户名已存在，请更换后重新创建！"
+    },
+    "tenant_code_exists": "租户编码已存在"
+  },
+  "file": {
+    "moduleName": "文件",
+    "fileName": "原始文件名",
+    "saveFileName": "存储名",
+    "bucketName": "存储桶",
+    "fileDirectory": "目录",
+    "provider": "OSS提供商",
+    "fileGuid": "GUID",
+    "extension": "文件扩展名",
+    "size": "大小",
+    "createdBy": "上传人",
+    "createdAt": "上传时间",
+    "button": {
+      "create": "创建文件",
+      "upload": "上传文件",
+      "download": "下载文件"
+    }
+  },
+  "task": {
+    "moduleName": "任务",
+    "type": "调度类型",
+    "typeName": "调度方法",
+    "taskPayload": "任务数据",
+    "taskOptions": "任务选项",
+    "taskOptionsMaxRetry": "重试次数",
+    "taskOptionsTimeout": "超时时间",
+    "taskOptionsDeadline": "截止时间",
+    "taskOptionsProcessIn": "延迟时间",
+    "taskOptionsProcessAt": "执行时间",
+    "cronSpec": "cron表达式",
+    "enable": "启用状态",
+    "button": {
+      "create": "创建任务",
+      "start": "启动",
+      "restart": "重启",
+      "stop": "停止",
+      "startAll": "全部启动",
+      "restartAll": "全部重启",
+      "stopAll": "全部停止"
+    },
+    "text": {
+      "do_you_want_start_all_task": "您确定要启动全部任务吗？",
+      "do_you_want_restart_all_task": "您确定要重启全部任务吗？",
+      "do_you_want_stop_all_task": "您确定要停止全部任务吗？",
+      "do_you_want_start_task": "您确定要启动该任务吗？",
+      "do_you_want_restart_task": "您确定要重启该任务吗？",
+      "do_you_want_stop_task": "您确定要停止该任务吗？"
+    }
+  },
+  "internalMessage": {
+    "moduleName": "站内信",
+    "title": "消息标题",
+    "content": "消息内容",
+    "type": "消息类型",
+    "status": "状态",
+    "categoryName": "消息分类",
+    "senderName": "发送人",
+    "senderSystem": "系统",
+    "categoryId": "消息分类",
+    "createdAt": "接收时间",
+    "readAt": "已读时间",
+    "button": {
+      "create": "创建消息",
+      "markAsRead": "标记为已读",
+      "markAllRead": "全部已读"
+    },
+    "drawer": {
+      "create": "创建消息",
+      "update": "更新消息"
+    },
+    "sendScope": "发送范围",
+    "sendScopeAll": "全员",
+    "sendScopeUsers": "指定用户",
+    "targetUsers": "接收用户"
+  },
+  "internalMessageCategory": {
+    "moduleName": "消息分类",
+    "name": "分类名称",
+    "code": "分类编码",
+    "parentId": "父节点",
+    "button": {
+      "create": "创建分类"
+    }
+  },
+  "privateMessage": {
+    "moduleName": "私信消息",
+    "subject": "私信主题",
+    "button": {
+      "create": "创建私信"
+    }
+  },
+  "loginAuditLog": {
+    "moduleName": "登录审计日志",
+    "username": "登录名",
+    "status": "登录状态",
+    "actionType": "事件动作",
+    "geoLocation": "地理位置",
+    "platform": "登录平台",
+    "ipAddress": "IP地址",
+    "failureReason": "失败原因",
+    "riskScore": "风险评分",
+    "riskLevel": "风险等级",
+    "riskFactors": "风险因素",
+    "createdAt": "日志时间"
+  },
+  "apiAuditLog": {
+    "moduleName": "API日志",
+    "username": "操作者名",
+    "success": "操作状态",
+    "geoLocation": "地理位置",
+    "platform": "操作平台",
+    "ipAddress": "IP地址",
+    "createdAt": "日志时间",
+    "path": "请求路径",
+    "httpMethod": "请求方法",
+    "latencyMs": "耗时（毫秒）",
+    "sectionBasic": "基本信息",
+    "sectionDevice": "设备信息",
+    "sectionApi": "接口信息",
+    "sectionOther": "其他信息",
+    "userId": "用户ID",
+    "statusCode": "状态码",
+    "tenantName": "所属租户",
+    "requestUri": "请求URI",
+    "apiModule": "API模块",
+    "apiOperation": "API操作",
+    "apiDescription": "API描述",
+    "requestBody": "请求体",
+    "requestHeader": "请求头",
+    "response": "响应内容",
+    "reason": "原因",
+    "referer": "来源页",
+    "spanId": "Span ID",
+    "requestId": "请求ID",
+    "traceId": "链路ID",
+    "logHash": "日志哈希",
+    "signature": "签名",
+    "osName": "操作系统",
+    "browserName": "浏览器",
+    "userAgent": "User-Agent"
+  },
+  "dataAccessAuditLog": {
+    "moduleName": "数据访问日志",
+    "createdAt": "日志时间",
+    "username": "操作者名",
+    "requestId": "请求ID",
+    "ipAddress": "IP地址",
+    "geoLocation": "地理位置",
+    "latencyMs": "耗时（毫秒）",
+    "success": "操作状态",
+    "sensitiveLevel": "敏感等级",
+    "dataSource": "数据源类型",
+    "tableName": "数据表名",
+    "dataId": "数据主键ID",
+    "accessType": "访问类型",
+    "sqlDigest": "SQL语句摘要",
+    "sqlText": "SQL语句",
+    "affectedRows": "影响行数",
+    "dataMasked": "是否已脱敏",
+    "maskingRules": "脱敏规则",
+    "businessPurpose": "业务处理目的",
+    "dataCategory": "数据分类",
+    "dbUser": "数据库用户"
+  },
+  "operationAuditLog": {
+    "moduleName": "操作日志",
+    "createdAt": "日志时间",
+    "username": "操作者名",
+    "resourceType": "资源类型",
+    "resourceId": "资源ID",
+    "action": "动作",
+    "beforeData": "动作",
+    "afterData": "动作",
+    "sensitiveLevel": "敏感等级",
+    "requestId": "请求ID",
+    "success": "操作状态",
+    "ipAddress": "IP地址",
+    "geoLocation": "地理位置"
+  },
+  "permissionAuditLog": {
+    "moduleName": "权限变更日志",
+    "createdAt": "日志时间",
+    "username": "操作者名",
+    "requestId": "请求ID",
+    "ipAddress": "IP地址",
+    "geoLocation": "地理位置",
+    "operatorId": "操作者ID",
+    "operatorName": "操作者用户名",
+    "targetType": "目标类型",
+    "targetId": "目标ID",
+    "targetName": "目标名称",
+    "action": "动作",
+    "reason": "变更原因"
+  },
+  "api": {
+    "moduleName": "API资源",
+    "path": "路径",
+    "method": "方法",
+    "module": "模块",
+    "moduleDescription": "模块描述",
+    "operation": "操作",
+    "button": {
+      "create": "创建API",
+      "sync": "同步API"
+    }
+  },
+  "loginPolicy": {
+    "moduleName": "登录策略",
+    "targetId": "目标用户ID",
+    "type": "限制类型",
+    "method": "限制方式",
+    "value": "限制值",
+    "reason": "限制原因",
+    "button": {
+      "create": "创建限制"
+    }
+  },
+  "language": {
+    "moduleName": "语言",
+    "languageName": "语言名称",
+    "languageCode": "语言代码",
+    "nativeName": "本地名称",
+    "isEnabled": "是否启用",
+    "isDefault": "是否默认",
+    "button": {
+      "create": "创建语言",
+      "update": "更新语言"
+    }
+  },
+  "navigationItem": {
+    "moduleName": "导航项管理",
+    "title": "显示文本",
+    "description": "描述文本",
+    "icon": "图标",
+    "url": "链接URL",
+    "linkType": "链接类型",
+    "objectId": "关联对象",
+    "sortOrder": "排序优先级",
+    "isOpenNewTab": "新标签页打开",
+    "isInvalid": "是否无效",
+    "cssClass": "自定义CSS类",
+    "requiredPermission": "访问权限",
+    "button": {
+      "create": "创建导航项"
+    }
+  },
+  "warehouse": {
+    "moduleName": "仓库",
+    "code": "仓库编码",
+    "name": "仓库名称",
+    "location": "仓库地址",
+    "enable": "启用状态",
+    "button": {
+      "create": "创建仓库"
+    }
+  },
+  "stockQuant": {
+    "moduleName": "库存量",
+    "locationId": "库位ID",
+    "productCode": "产品编码",
+    "quantity": "库存数量"
+  },
+  "stockPicking": {
+    "moduleName": "拣货单",
+    "pickingNumber": "拣货单号",
+    "pickingType": "拣货类型",
+    "derivedState": "派生态",
+    "productCode": "产品编码",
+    "plannedQuantity": "计划数量",
+    "deleteNotAllowed": "仅草稿或已取消的拣货单可删除",
+    "transfer": {
+      "title": "内部调拨",
+      "remark": "备注",
+      "fromWarehouse": "源仓库",
+      "toWarehouse": "目的仓库",
+      "sameWarehouse": "源仓库和目的仓库不能相同"
+    },
+    "button": {
+      "create": "创建拣货单",
+      "transfer": "调拨",
+      "confirm": "确认",
+      "validate": "执行",
+      "adjustment": "盘点"
+    },
+    "adjustment": {
+      "title": "库存盘点",
+      "warehouse": "仓库",
+      "diff": "差异数量",
+      "diffTip": "正数=盘盈，负数=盘亏",
+      "diffNonZero": "差异数量不能为 0",
+      "remark": "备注"
+    },
+    "return": {
+      "salesTitle": "销售退货",
+      "purchaseTitle": "采购退货",
+      "quantity": "退货数量",
+      "returnable": "可退",
+      "salesSuccess": "销售退货单已创建，请到拣货单列表确认并执行",
+      "purchaseSuccess": "采购退货单已创建，请到拣货单列表确认并执行",
+      "failed": "退货单创建失败"
+    }
+  },
+  "approval": {
+    "moduleName": "审批",
+    "title": "审批标题",
+    "bizType": "业务类型",
+    "bizRef": "业务单据",
+    "summary": "事由摘要",
+    "status": "审批状态",
+    "comment": "审批意见",
+    "commentHint": "填写审批意见（可选）",
+    "button": {
+      "create": "发起审批",
+      "approve": "通过",
+      "reject": "驳回",
+      "cancelRequest": "撤销"
+    },
+    "progress": "审批进度",
+    "stepOf": "第 {current}/{total} 级"
+  },
+  "supplier": {
+    "moduleName": "供应商",
+    "code": "供应商编码",
+    "name": "供应商名称",
+    "contact": "联系人",
+    "phone": "联系电话",
+    "enable": "启用状态",
+    "button": {
+      "create": "创建供应商"
+    }
+  },
+  "doc": {
+    "purchaseTitle": "采 购 单",
+    "salesTitle": "销 售 单",
+    "docNumber": "单据编号",
+    "printTime": "打印时间",
+    "supplier": "供应商",
+    "customer": "客户",
+    "warehouse": "仓库",
+    "status": "状态",
+    "sku": "SKU编码",
+    "productName": "品名",
+    "spec": "规格",
+    "unit": "单位",
+    "quantity": "数量",
+    "unitPrice": "单价（元）",
+    "amount": "金额（元）",
+    "receivedQuantity": "已收数量",
+    "fulfilledQuantity": "已发数量",
+    "totalUpper": "合计（大写）",
+    "remark": "备注",
+    "sign": {
+      "creator": "制单人",
+      "approver": "审批人",
+      "supplierConfirm": "供应商确认",
+      "receiver": "收货人",
+      "customerConfirm": "客户确认",
+      "dispatcher": "发货人",
+      "warehouseKeeper": "仓管员",
+      "checker": "复核人"
+    },
+    "pickingType": "类型",
+    "partner": "往来单位",
+    "fromWarehouse": "源仓库",
+    "toWarehouse": "目的仓库"
+  },
+  "purchaseOrder": {
+    "moduleName": "采购单",
+    "poNumber": "采购单号",
+    "supplierCode": "供应商",
+    "warehouseCode": "收货仓库",
+    "status": "状态",
+    "totalAmount": "总额（元）",
+    "items": "采购明细",
+    "skuCode": "SKU",
+    "quantity": "数量",
+    "unitPrice": "单价（元）",
+    "unitPriceCents": "单价（分）",
+    "amount": "金额（元）",
+    "addItem": "添加明细",
+    "itemsRequired": "至少需要一条明细",
+    "itemInvalid": "请完整填写 SKU 与正整数数量",
+    "receivedQuantity": "已收数量",
+    "receive": {
+      "title": "采购收货",
+      "warehouse": "收货仓库",
+      "quantity": "收货数量",
+      "quantityHint": "默认为未收完的剩余数量",
+      "exceedsRemaining": "收货数量超过剩余未收数量",
+      "lotSection": "批次登记（可选）",
+      "lotHint": "填写批次号后按批次收货并在批次库存页跟踪余量与效期；留空则不跟踪",
+      "lotName": "批次号",
+      "expiryDate": "效期（可选）"
+    },
+    "button": {
+      "create": "创建采购单",
+      "submit": "提交审批",
+      "approve": "通过",
+      "reject": "驳回",
+      "cancel": "取消",
+      "complete": "完结",
+      "receive": "收货",
+      "print": "打印"
+    }
+  },
+  "payable": {
+    "moduleName": "应付单",
+    "payableNumber": "应付单号",
+    "poRef": "来源采购单",
+    "supplierCode": "供应商",
+    "amount": "应付总额（元）",
+    "amountCents": "应付总额（分）",
+    "paidAmount": "已付（元）",
+    "status": "状态",
+    "recordPayment": "记录付款",
+    "paymentAmountCents": "付款金额（分）",
+    "paymentInvalid": "请输入正整数付款金额（分）",
+    "button": {
+      "create": "手工建账",
+      "pay": "付款",
+      "cancel": "取消"
+    }
+  },
+  "payment": {
+    "moduleName": "付款",
+    "paymentNumber": "付款单号",
+    "payableId": "应付单ID",
+    "amount": "金额（元）",
+    "method": "付款方式",
+    "status": "状态"
+  },
+  "product": {
+    "moduleName": "商品",
+    "code": "SKU编码",
+    "name": "商品名称",
+    "spec": "规格",
+    "unit": "单位",
+    "enable": "启用状态",
+    "button": {
+      "create": "创建商品"
+    }
+  },
+  "aging": {
+    "title": "应付账龄报表",
+    "disclaimer": "本报表按账期到期日对未结清应付分桶统计，逾期桶（红色）需优先处置。金额单位元。",
+    "bucket": "分桶",
+    "count": "笔数",
+    "totalAmount": "金额（元）",
+    "bucketLabel": {
+      "overdue": "已逾期",
+      "0_7": "0-7 天",
+      "8_30": "8-30 天",
+      "31_90": "31-90 天",
+      "over_90": "90 天以上",
+      "no_due_date": "无账期"
+    }
+  },
+  "receivable": {
+    "amount": "应收总额（元）",
+    "amountCents": "应收总额（分）",
+    "button": {
+      "create": "手工建账",
+      "receipt": "收款",
+      "cancel": "取消"
+    },
+    "moduleName": "应收单",
+    "paidAmount": "已收（元）",
+    "receivableNumber": "应收单号",
+    "receiptAmountCents": "收款金额（分）",
+    "receiptInvalid": "请输入正整数收款金额（分）",
+    "soRef": "来源销售单",
+    "recordReceipt": "记录收款",
+    "status": "状态",
+    "customerCode": "客户"
+  },
+  "receipt": {
+    "amount": "金额（元）",
+    "method": "收款方式",
+    "moduleName": "收款",
+    "receivableId": "应收单ID",
+    "receiptNumber": "收款单号",
+    "status": "状态"
+  },
+  "agingAr": {
+    "title": "应收账龄报表",
+    "disclaimer": "本报表按账期到期日对未结清应收分桶统计，逾期桶（红色）需优先处置。金额单位元。",
+    "bucket": "分桶",
+    "count": "笔数",
+    "totalAmount": "金额（元）",
+    "bucketLabel": {
+      "overdue": "已逾期",
+      "0_7": "0-7 天",
+      "8_30": "8-30 天",
+      "31_90": "31-90 天",
+      "over_90": "90 天以上",
+      "no_due_date": "无账期"
+    }
+  },
+  "profit": {
+    "title": "利润报表",
+    "month": "月份",
+    "revenue": "收入（元）",
+    "cogs": "销售成本（元）",
+    "profit": "利润（元）",
+    "disclaimer": "本报表仅供经营参考，不构成财务审计依据。"
+  },
+  "salesOrder": {
+    "addItem": "添加明细",
+    "amount": "金额（元）",
+    "button": {
+      "create": "创建销售单",
+      "submit": "提交审批",
+      "approve": "通过",
+      "reject": "驳回",
+      "cancel": "取消",
+      "complete": "完结",
+      "print": "打印"
+    },
+    "itemInvalid": "请完整填写 SKU 与正整数数量",
+    "items": "销售明细",
+    "itemsRequired": "至少需要一条明细",
+    "moduleName": "销售单",
+    "soNumber": "销售单号",
+    "quantity": "数量",
+    "fulfillQuantity": "已发数量",
+    "skuCode": "SKU",
+    "status": "状态",
+    "customerCode": "客户",
+    "totalAmount": "总额（元）",
+    "unitPrice": "单价（元）",
+    "unitPriceCents": "单价（分）",
+    "warehouseCode": "发货仓库"
+  },
+  "customer": {
+    "button": {
+      "create": "创建客户"
+    },
+    "code": "客户编码",
+    "contact": "联系人",
+    "enable": "启用状态",
+    "moduleName": "客户",
+    "name": "客户名称",
+    "phone": "联系电话",
+    "creditLimit": "信用额度（元）",
+    "creditLimitHint": "0 或留空 = 不限",
+    "unlimited": "不限"
+  },
+  "register": {
+    "tenantName": "企业名称",
+    "tenantNameTip": "请输入企业名称",
+    "tenantCode": "租户编码",
+    "tenantCodeTip": "登录用编码（字母/数字/横线，2位以上）",
+    "tenantCodeInvalid": "租户编码仅限字母、数字、下划线和横线",
+    "adminUsername": "管理员账号",
+    "passwordMin": "密码至少 6 位",
+    "successTitle": "注册成功",
+    "successDesc": "租户 {tenantCode} 已开通，请使用管理员账号 {username} 登录"
+  },
+  "onboarding": {
+    "title": "初始化向导",
+    "desc": "按引导完成基础数据，即可开始第一笔业务",
+    "autoTitle": "已自动完成",
+    "autoDesc": "注册时已自动创建：管理员账号与权限、默认仓库 MAIN、供应商/客户虚拟库存位置——无需手动配置即可开单。",
+    "stepProduct": "添加商品",
+    "stepProductDesc": "录入商品 SKU、规格与单位，采购销售均按 SKU 流转",
+    "stepSupplier": "添加供应商",
+    "stepSupplierDesc": "供应商是采购单的往来单位，审批通过后自动生成应付",
+    "stepCustomer": "添加客户",
+    "stepCustomerDesc": "客户是销售单的往来单位，审批通过后自动生成应收",
+    "stepPo": "创建首张采购单",
+    "stepPoDesc": "采购入库自动增加库存并按单价记录加权成本",
+    "stepSo": "创建首张销售单",
+    "stepSoDesc": "销售出库自动扣减库存、冻结成本，利润报表实时可见"
+  },
+  "billing": {
+    "moduleName": "订阅与定价",
+    "currentPlan": "当前套餐",
+    "userUsage": "用户数",
+    "orderUsage": "本月单量",
+    "expiry": "到期时间",
+    "permanent": "永久",
+    "renew": "续费30天",
+    "renewed": "续费成功",
+    "renewFailed": "续费失败",
+    "choosePlan": "选择套餐",
+    "current": "当前",
+    "upgrade": "升级",
+    "downgrade": "降级",
+    "planChanged": "套餐已切换",
+    "planChangeFailed": "套餐切换失败",
+    "expiredBanner": "订阅已到期：数据保留（只读），续费后恢复",
+    "code": "编码",
+    "name": "名称",
+    "price": "月价",
+    "maxUsers": "用户上限",
+    "maxOrders": "月单量上限",
+    "planManagement": "套餐管理"
+  },
+  "stockLot": {
+    "moduleName": "批次库存",
+    "name": "批次号",
+    "skuCode": "产品编码",
+    "expiryDate": "效期",
+    "remainingQuantity": "批次余量",
+    "lotStatus": "效期状态"
+  },
+  "approvalFlow": {
+    "moduleName": "审批流配置",
+    "stepsCount": "级数",
+    "stepsOverview": "级定义",
+    "steps": "审批级（按顺序逐级推进）",
+    "stepName": "级名称（如：主管复核）",
+    "stepRole": "审批角色（持有者可审本级）",
+    "addStep": "添加级",
+    "stepsRequired": "至少需要一级审批",
+    "formInvalid": "请填写业务类型与流程名称",
+    "bizType": {
+      "PURCHASE_ORDER": "采购单",
+      "SALES_ORDER": "销售单",
+      "PAYMENT": "付款",
+      "RECEIPT": "收款"
+    },
+    "name": "流程名称",
+    "button": {
+      "create": "创建审批流"
+    },
+    "bizTypeLabel": "业务类型"
+  },
+  "trialBalance": {
+    "accountCode": "科目编码",
+    "accountName": "科目名称",
+    "category": "类别",
+    "debitTotal": "借方累计",
+    "creditTotal": "贷方累计",
+    "balance": "期末余额",
+    "fromDate": "起始日期",
+    "toDate": "截止日期"
+  },
+  "journal": {
+    "entryNumber": "凭证号",
+    "entryDate": "记账日期",
+    "summary": "摘要",
+    "bizRef": "业务来源",
+    "amount": "金额",
+    "showLines": "分录",
+    "hideLines": "收起",
+    "account": "科目",
+    "lineSummary": "摘要",
+    "debit": "借方",
+    "credit": "贷方"
+  },
+  "statement": {
+    "title": "往来对账单",
+    "customer": "客户",
+    "supplier": "供应商",
+    "partnerPlaceholder": "请选择往来单位",
+    "partnerRequired": "请先选择往来单位",
+    "date": "日期",
+    "docType": "类型",
+    "docRef": "单据",
+    "summary": "摘要",
+    "debit": "发生额（元）",
+    "credit": "核销额（元）",
+    "totalDebit": "发生合计",
+    "totalCredit": "核销合计",
+    "balance": "期末余额",
+    "partnerConfirm": "对方确认",
+    "empty": "暂无对账数据"
+  },
+  "salesRanking": {
+    "bySku": "按商品",
+    "byCustomer": "按客户",
+    "rank": "排名",
+    "name": "名称",
+    "quantity": "销量",
+    "amount": "金额（元）",
+    "export": "导出 Excel",
+    "chartTitle": "金额排行（元）"
+  }
+}
