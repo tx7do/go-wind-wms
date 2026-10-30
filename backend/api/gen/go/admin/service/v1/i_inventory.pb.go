@@ -40,12 +40,15 @@ const file_admin_service_v1_i_inventory_proto_rawDesc = "" +
 	"\x03Get\x12(.inventory.service.v1.GetLocationRequest\x1a#.inventory.service.v1.StockLocation\"&\x82\xd3\xe4\x93\x02 \x12\x1e/admin/v1/stock-locations/{id}\x12s\n" +
 	"\x06Create\x12+.inventory.service.v1.CreateLocationRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/admin/v1/stock-locations\x12x\n" +
 	"\x06Update\x12+.inventory.service.v1.UpdateLocationRequest\x1a\x16.google.protobuf.Empty\")\x82\xd3\xe4\x93\x02#:\x01*\x1a\x1e/admin/v1/stock-locations/{id}\x12u\n" +
-	"\x06Delete\x12+.inventory.service.v1.DeleteLocationRequest\x1a\x16.google.protobuf.Empty\"&\x82\xd3\xe4\x93\x02 *\x1e/admin/v1/stock-locations/{id}2\xb5\x04\n" +
+	"\x06Delete\x12+.inventory.service.v1.DeleteLocationRequest\x1a\x16.google.protobuf.Empty\"&\x82\xd3\xe4\x93\x02 *\x1e/admin/v1/stock-locations/{id}2\xb8\a\n" +
 	"\x11StockQuantService\x12o\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a,.inventory.service.v1.ListStockQuantResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/admin/v1/stock-quants\x12x\n" +
 	"\x03Get\x12*.inventory.service.v1.GetStockQuantRequest\x1a .inventory.service.v1.StockQuant\"#\x82\xd3\xe4\x93\x02\x1d\x12\x1b/admin/v1/stock-quants/{id}\x12\x94\x01\n" +
 	"\vGetOverview\x122.inventory.service.v1.GetStockQuantOverviewRequest\x1a(.inventory.service.v1.StockQuantOverview\"'\x82\xd3\xe4\x93\x02!\x12\x1f/admin/v1/stock-quants:overview\x12\x9d\x01\n" +
-	"\x10GetMovementTrend\x12-.inventory.service.v1.GetMovementTrendRequest\x1a+.inventory.service.v1.MovementTrendResponse\"-\x82\xd3\xe4\x93\x02'\x12%/admin/v1/stock-quants:movement-trend2\x94\a\n" +
+	"\x10GetMovementTrend\x12-.inventory.service.v1.GetMovementTrendRequest\x1a+.inventory.service.v1.MovementTrendResponse\"-\x82\xd3\xe4\x93\x02'\x12%/admin/v1/stock-quants:movement-trend\x12y\n" +
+	"\x06Freeze\x12(.inventory.service.v1.FreezeQuantRequest\x1a\x16.google.protobuf.Empty\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/admin/v1/stock-quants/{id}:freeze\x12\x7f\n" +
+	"\bUnfreeze\x12*.inventory.service.v1.UnfreezeQuantRequest\x1a\x16.google.protobuf.Empty\"/\x82\xd3\xe4\x93\x02):\x01*\"$/admin/v1/stock-quants/{id}:unfreeze\x12\x84\x01\n" +
+	"\rGetStockAging\x12*.inventory.service.v1.GetStockAgingRequest\x1a(.inventory.service.v1.StockAgingResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/admin/v1/stock-aging2\x94\a\n" +
 	"\x13StockPickingService\x12s\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a..inventory.service.v1.ListStockPickingResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/admin/v1/stock-pickings\x12~\n" +
 	"\x03Get\x12,.inventory.service.v1.GetStockPickingRequest\x1a\".inventory.service.v1.StockPicking\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/admin/v1/stock-pickings/{id}\x12v\n" +
@@ -71,24 +74,28 @@ var file_admin_service_v1_i_inventory_proto_goTypes = []any{
 	(*v11.GetStockQuantRequest)(nil),         // 9: inventory.service.v1.GetStockQuantRequest
 	(*v11.GetStockQuantOverviewRequest)(nil), // 10: inventory.service.v1.GetStockQuantOverviewRequest
 	(*v11.GetMovementTrendRequest)(nil),      // 11: inventory.service.v1.GetMovementTrendRequest
-	(*v11.GetStockPickingRequest)(nil),       // 12: inventory.service.v1.GetStockPickingRequest
-	(*v11.CreateStockPickingRequest)(nil),    // 13: inventory.service.v1.CreateStockPickingRequest
-	(*v11.ConfirmStockPickingRequest)(nil),   // 14: inventory.service.v1.ConfirmStockPickingRequest
-	(*v11.ValidateStockPickingRequest)(nil),  // 15: inventory.service.v1.ValidateStockPickingRequest
-	(*v11.CancelStockPickingRequest)(nil),    // 16: inventory.service.v1.CancelStockPickingRequest
-	(*v11.DeleteStockPickingRequest)(nil),    // 17: inventory.service.v1.DeleteStockPickingRequest
-	(*v11.ListWarehouseResponse)(nil),        // 18: inventory.service.v1.ListWarehouseResponse
-	(*v11.Warehouse)(nil),                    // 19: inventory.service.v1.Warehouse
-	(*emptypb.Empty)(nil),                    // 20: google.protobuf.Empty
-	(*v11.ListLocationResponse)(nil),         // 21: inventory.service.v1.ListLocationResponse
-	(*v11.StockLocation)(nil),                // 22: inventory.service.v1.StockLocation
-	(*v11.ListStockQuantResponse)(nil),       // 23: inventory.service.v1.ListStockQuantResponse
-	(*v11.StockQuant)(nil),                   // 24: inventory.service.v1.StockQuant
-	(*v11.StockQuantOverview)(nil),           // 25: inventory.service.v1.StockQuantOverview
-	(*v11.MovementTrendResponse)(nil),        // 26: inventory.service.v1.MovementTrendResponse
-	(*v11.ListStockPickingResponse)(nil),     // 27: inventory.service.v1.ListStockPickingResponse
-	(*v11.StockPicking)(nil),                 // 28: inventory.service.v1.StockPicking
-	(*v11.ListStockLotResponse)(nil),         // 29: inventory.service.v1.ListStockLotResponse
+	(*v11.FreezeQuantRequest)(nil),           // 12: inventory.service.v1.FreezeQuantRequest
+	(*v11.UnfreezeQuantRequest)(nil),         // 13: inventory.service.v1.UnfreezeQuantRequest
+	(*v11.GetStockAgingRequest)(nil),         // 14: inventory.service.v1.GetStockAgingRequest
+	(*v11.GetStockPickingRequest)(nil),       // 15: inventory.service.v1.GetStockPickingRequest
+	(*v11.CreateStockPickingRequest)(nil),    // 16: inventory.service.v1.CreateStockPickingRequest
+	(*v11.ConfirmStockPickingRequest)(nil),   // 17: inventory.service.v1.ConfirmStockPickingRequest
+	(*v11.ValidateStockPickingRequest)(nil),  // 18: inventory.service.v1.ValidateStockPickingRequest
+	(*v11.CancelStockPickingRequest)(nil),    // 19: inventory.service.v1.CancelStockPickingRequest
+	(*v11.DeleteStockPickingRequest)(nil),    // 20: inventory.service.v1.DeleteStockPickingRequest
+	(*v11.ListWarehouseResponse)(nil),        // 21: inventory.service.v1.ListWarehouseResponse
+	(*v11.Warehouse)(nil),                    // 22: inventory.service.v1.Warehouse
+	(*emptypb.Empty)(nil),                    // 23: google.protobuf.Empty
+	(*v11.ListLocationResponse)(nil),         // 24: inventory.service.v1.ListLocationResponse
+	(*v11.StockLocation)(nil),                // 25: inventory.service.v1.StockLocation
+	(*v11.ListStockQuantResponse)(nil),       // 26: inventory.service.v1.ListStockQuantResponse
+	(*v11.StockQuant)(nil),                   // 27: inventory.service.v1.StockQuant
+	(*v11.StockQuantOverview)(nil),           // 28: inventory.service.v1.StockQuantOverview
+	(*v11.MovementTrendResponse)(nil),        // 29: inventory.service.v1.MovementTrendResponse
+	(*v11.StockAgingResponse)(nil),           // 30: inventory.service.v1.StockAgingResponse
+	(*v11.ListStockPickingResponse)(nil),     // 31: inventory.service.v1.ListStockPickingResponse
+	(*v11.StockPicking)(nil),                 // 32: inventory.service.v1.StockPicking
+	(*v11.ListStockLotResponse)(nil),         // 33: inventory.service.v1.ListStockLotResponse
 }
 var file_admin_service_v1_i_inventory_proto_depIdxs = []int32{
 	0,  // 0: admin.service.v1.WarehouseService.List:input_type -> pagination.PagingRequest
@@ -105,38 +112,44 @@ var file_admin_service_v1_i_inventory_proto_depIdxs = []int32{
 	9,  // 11: admin.service.v1.StockQuantService.Get:input_type -> inventory.service.v1.GetStockQuantRequest
 	10, // 12: admin.service.v1.StockQuantService.GetOverview:input_type -> inventory.service.v1.GetStockQuantOverviewRequest
 	11, // 13: admin.service.v1.StockQuantService.GetMovementTrend:input_type -> inventory.service.v1.GetMovementTrendRequest
-	0,  // 14: admin.service.v1.StockPickingService.List:input_type -> pagination.PagingRequest
-	12, // 15: admin.service.v1.StockPickingService.Get:input_type -> inventory.service.v1.GetStockPickingRequest
-	13, // 16: admin.service.v1.StockPickingService.Create:input_type -> inventory.service.v1.CreateStockPickingRequest
-	14, // 17: admin.service.v1.StockPickingService.Confirm:input_type -> inventory.service.v1.ConfirmStockPickingRequest
-	15, // 18: admin.service.v1.StockPickingService.Validate:input_type -> inventory.service.v1.ValidateStockPickingRequest
-	16, // 19: admin.service.v1.StockPickingService.Cancel:input_type -> inventory.service.v1.CancelStockPickingRequest
-	17, // 20: admin.service.v1.StockPickingService.Delete:input_type -> inventory.service.v1.DeleteStockPickingRequest
-	0,  // 21: admin.service.v1.StockLotService.List:input_type -> pagination.PagingRequest
-	18, // 22: admin.service.v1.WarehouseService.List:output_type -> inventory.service.v1.ListWarehouseResponse
-	19, // 23: admin.service.v1.WarehouseService.Get:output_type -> inventory.service.v1.Warehouse
-	20, // 24: admin.service.v1.WarehouseService.Create:output_type -> google.protobuf.Empty
-	20, // 25: admin.service.v1.WarehouseService.Update:output_type -> google.protobuf.Empty
-	20, // 26: admin.service.v1.WarehouseService.Delete:output_type -> google.protobuf.Empty
-	21, // 27: admin.service.v1.LocationService.List:output_type -> inventory.service.v1.ListLocationResponse
-	22, // 28: admin.service.v1.LocationService.Get:output_type -> inventory.service.v1.StockLocation
-	20, // 29: admin.service.v1.LocationService.Create:output_type -> google.protobuf.Empty
-	20, // 30: admin.service.v1.LocationService.Update:output_type -> google.protobuf.Empty
-	20, // 31: admin.service.v1.LocationService.Delete:output_type -> google.protobuf.Empty
-	23, // 32: admin.service.v1.StockQuantService.List:output_type -> inventory.service.v1.ListStockQuantResponse
-	24, // 33: admin.service.v1.StockQuantService.Get:output_type -> inventory.service.v1.StockQuant
-	25, // 34: admin.service.v1.StockQuantService.GetOverview:output_type -> inventory.service.v1.StockQuantOverview
-	26, // 35: admin.service.v1.StockQuantService.GetMovementTrend:output_type -> inventory.service.v1.MovementTrendResponse
-	27, // 36: admin.service.v1.StockPickingService.List:output_type -> inventory.service.v1.ListStockPickingResponse
-	28, // 37: admin.service.v1.StockPickingService.Get:output_type -> inventory.service.v1.StockPicking
-	20, // 38: admin.service.v1.StockPickingService.Create:output_type -> google.protobuf.Empty
-	20, // 39: admin.service.v1.StockPickingService.Confirm:output_type -> google.protobuf.Empty
-	20, // 40: admin.service.v1.StockPickingService.Validate:output_type -> google.protobuf.Empty
-	20, // 41: admin.service.v1.StockPickingService.Cancel:output_type -> google.protobuf.Empty
-	20, // 42: admin.service.v1.StockPickingService.Delete:output_type -> google.protobuf.Empty
-	29, // 43: admin.service.v1.StockLotService.List:output_type -> inventory.service.v1.ListStockLotResponse
-	22, // [22:44] is the sub-list for method output_type
-	0,  // [0:22] is the sub-list for method input_type
+	12, // 14: admin.service.v1.StockQuantService.Freeze:input_type -> inventory.service.v1.FreezeQuantRequest
+	13, // 15: admin.service.v1.StockQuantService.Unfreeze:input_type -> inventory.service.v1.UnfreezeQuantRequest
+	14, // 16: admin.service.v1.StockQuantService.GetStockAging:input_type -> inventory.service.v1.GetStockAgingRequest
+	0,  // 17: admin.service.v1.StockPickingService.List:input_type -> pagination.PagingRequest
+	15, // 18: admin.service.v1.StockPickingService.Get:input_type -> inventory.service.v1.GetStockPickingRequest
+	16, // 19: admin.service.v1.StockPickingService.Create:input_type -> inventory.service.v1.CreateStockPickingRequest
+	17, // 20: admin.service.v1.StockPickingService.Confirm:input_type -> inventory.service.v1.ConfirmStockPickingRequest
+	18, // 21: admin.service.v1.StockPickingService.Validate:input_type -> inventory.service.v1.ValidateStockPickingRequest
+	19, // 22: admin.service.v1.StockPickingService.Cancel:input_type -> inventory.service.v1.CancelStockPickingRequest
+	20, // 23: admin.service.v1.StockPickingService.Delete:input_type -> inventory.service.v1.DeleteStockPickingRequest
+	0,  // 24: admin.service.v1.StockLotService.List:input_type -> pagination.PagingRequest
+	21, // 25: admin.service.v1.WarehouseService.List:output_type -> inventory.service.v1.ListWarehouseResponse
+	22, // 26: admin.service.v1.WarehouseService.Get:output_type -> inventory.service.v1.Warehouse
+	23, // 27: admin.service.v1.WarehouseService.Create:output_type -> google.protobuf.Empty
+	23, // 28: admin.service.v1.WarehouseService.Update:output_type -> google.protobuf.Empty
+	23, // 29: admin.service.v1.WarehouseService.Delete:output_type -> google.protobuf.Empty
+	24, // 30: admin.service.v1.LocationService.List:output_type -> inventory.service.v1.ListLocationResponse
+	25, // 31: admin.service.v1.LocationService.Get:output_type -> inventory.service.v1.StockLocation
+	23, // 32: admin.service.v1.LocationService.Create:output_type -> google.protobuf.Empty
+	23, // 33: admin.service.v1.LocationService.Update:output_type -> google.protobuf.Empty
+	23, // 34: admin.service.v1.LocationService.Delete:output_type -> google.protobuf.Empty
+	26, // 35: admin.service.v1.StockQuantService.List:output_type -> inventory.service.v1.ListStockQuantResponse
+	27, // 36: admin.service.v1.StockQuantService.Get:output_type -> inventory.service.v1.StockQuant
+	28, // 37: admin.service.v1.StockQuantService.GetOverview:output_type -> inventory.service.v1.StockQuantOverview
+	29, // 38: admin.service.v1.StockQuantService.GetMovementTrend:output_type -> inventory.service.v1.MovementTrendResponse
+	23, // 39: admin.service.v1.StockQuantService.Freeze:output_type -> google.protobuf.Empty
+	23, // 40: admin.service.v1.StockQuantService.Unfreeze:output_type -> google.protobuf.Empty
+	30, // 41: admin.service.v1.StockQuantService.GetStockAging:output_type -> inventory.service.v1.StockAgingResponse
+	31, // 42: admin.service.v1.StockPickingService.List:output_type -> inventory.service.v1.ListStockPickingResponse
+	32, // 43: admin.service.v1.StockPickingService.Get:output_type -> inventory.service.v1.StockPicking
+	23, // 44: admin.service.v1.StockPickingService.Create:output_type -> google.protobuf.Empty
+	23, // 45: admin.service.v1.StockPickingService.Confirm:output_type -> google.protobuf.Empty
+	23, // 46: admin.service.v1.StockPickingService.Validate:output_type -> google.protobuf.Empty
+	23, // 47: admin.service.v1.StockPickingService.Cancel:output_type -> google.protobuf.Empty
+	23, // 48: admin.service.v1.StockPickingService.Delete:output_type -> google.protobuf.Empty
+	33, // 49: admin.service.v1.StockLotService.List:output_type -> inventory.service.v1.ListStockLotResponse
+	25, // [25:50] is the sub-list for method output_type
+	0,  // [0:25] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

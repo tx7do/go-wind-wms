@@ -4410,6 +4410,18 @@ export interface StockQuantService {
   GetMovementTrend(
     request: inventoryservicev1_GetMovementTrendRequest,
   ): Promise<inventoryservicev1_MovementTrendResponse>;
+  // 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+  Freeze(
+    request: inventoryservicev1_FreezeQuantRequest,
+  ): Promise<wellKnownEmpty>;
+  // 解冻库存行
+  Unfreeze(
+    request: inventoryservicev1_UnfreezeQuantRequest,
+  ): Promise<wellKnownEmpty>;
+  // 库龄报表（在库数量按最近入库时间分桶）
+  GetStockAging(
+    request: inventoryservicev1_GetStockAgingRequest,
+  ): Promise<inventoryservicev1_StockAgingResponse>;
 }
 
 export function createStockQuantServiceClient(
@@ -4536,6 +4548,50 @@ export function createStockQuantServiceClient(
         method: 'GetMovementTrend',
       }) as Promise<inventoryservicev1_MovementTrendResponse>;
     },
+    Freeze(request) {
+      if (request.id === undefined || request.id === null) {
+        throw new Error('missing required field request.id');
+      }
+      const path = `/admin/v1/stock-quants/${request.id}:freeze`;
+      const bodyMap = { ...request } as Record<string, unknown>;
+      delete bodyMap["id"];
+      const body = JSON.stringify(bodyMap);
+      return transport.unary(path, 'POST', body, {
+        service: 'StockQuantService',
+        method: 'Freeze',
+      }) as Promise<wellKnownEmpty>;
+    },
+    Unfreeze(request) {
+      if (request.id === undefined || request.id === null) {
+        throw new Error('missing required field request.id');
+      }
+      const path = `/admin/v1/stock-quants/${request.id}:unfreeze`;
+      const bodyMap = { ...request } as Record<string, unknown>;
+      delete bodyMap["id"];
+      const body = JSON.stringify(bodyMap);
+      return transport.unary(path, 'POST', body, {
+        service: 'StockQuantService',
+        method: 'Unfreeze',
+      }) as Promise<wellKnownEmpty>;
+    },
+    GetStockAging(request) {
+      const path = `/admin/v1/stock-aging`;
+      const body = null;
+      const queryParams: string[] = [];
+      if (request.warehouseCode) {
+        queryParams.push(
+          `warehouseCode=${encodeURIComponent(request.warehouseCode.toString())}`,
+        );
+      }
+      let uri = path;
+      if (queryParams.length > 0) {
+        uri += `?${queryParams.join('&')}`;
+      }
+      return transport.unary(uri, 'GET', body, {
+        service: 'StockQuantService',
+        method: 'GetStockAging',
+      }) as Promise<inventoryservicev1_StockAgingResponse>;
+    },
   };
 }
 export type inventoryservicev1_ListStockQuantResponse = {
@@ -4552,6 +4608,8 @@ export type inventoryservicev1_StockQuant = {
   createdBy?: number;
   deletedAt?: wellKnownTimestamp;
   deletedBy?: number;
+  // frozen：冻结标记（冻结行不可出库扣减；盘点/移库不受限）。
+  frozen?: boolean;
   //
   // Behaviors: OPTIONAL
   id?: number;
@@ -4575,7 +4633,6 @@ export type inventoryservicev1_GetStockQuantRequest = {
   viewMask?: wellKnownFieldMask;
 };
 
-// 库存经营总览 - 请求
 export type inventoryservicev1_GetStockQuantOverviewRequest = {
   lowStockLimit?: number;
   lowStockThreshold?: number;
@@ -4603,6 +4660,35 @@ export type inventoryservicev1_MovementTrendResponse = {
 export type inventoryservicev1_MovementTrendPoint = {
   count: number | undefined;
   date: string | undefined;
+};
+
+// 库存经营总览 - 请求
+// 冻结/解冻 - 请求
+export type inventoryservicev1_FreezeQuantRequest = {
+  id: number | undefined;
+};
+
+export type inventoryservicev1_UnfreezeQuantRequest = {
+  id: number | undefined;
+};
+
+// 库龄请求（可按仓库编码过滤）
+export type inventoryservicev1_GetStockAgingRequest = {
+  warehouseCode?: string;
+};
+
+export type inventoryservicev1_StockAgingResponse = {
+  rows: inventoryservicev1_StockAgingRow[] | undefined;
+};
+
+// 库龄行：当前在库 + 最近入库时间 + 分桶
+export type inventoryservicev1_StockAgingRow = {
+  bucketDays: number | undefined;
+  frozen: boolean | undefined;
+  lastInboundAt?: wellKnownTimestamp;
+  quantity: number | undefined;
+  skuCode: string | undefined;
+  warehouseCode: string | undefined;
 };
 
 // 拣货单服务

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"time"
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -9,12 +10,68 @@ import (
 
 	"go-wind-wms/app/core/service/internal/data"
 
+	"google.golang.org/protobuf/types/known/emptypb"
+
 	inventoryV1 "go-wind-wms/api/gen/go/inventory/service/v1"
 )
 
 // defaultLowStockThreshold 低库存阈值缺省值（看板 GetOverview 使用；
 // 请求未显式携带阈值时生效）。
 const defaultLowStockThreshold int64 = 10
+
+// Freeze 冻结库存行：冻结后出库扣减被拦截（Validate 出库腿检查），
+// 盘点/调拨不受限。
+func (s *StockQuantService) Freeze(ctx context.Context, req *inventoryV1.FreezeQuantRequest) (*emptypb.Empty, error) {
+	if req == nil || req.GetId() == 0 {
+		return nil, inventoryV1.ErrorBadRequest("invalid parameter")
+	}
+	if err := s.stockQuantRepo.SetFrozen(ctx, req.GetId(), true); err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
+}
+
+// Unfreeze 解冻库存行。
+func (s *StockQuantService) Unfreeze(ctx context.Context, req *inventoryV1.UnfreezeQuantRequest) (*emptypb.Empty, error) {
+	if req == nil || req.GetId() == 0 {
+		return nil, inventoryV1.ErrorBadRequest("invalid parameter")
+	}
+	if err := s.stockQuantRepo.SetFrozen(ctx, req.GetId(), false); err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
+}
+
+// GetStockAging 库龄报表：在库数量按最近入库时间分桶（30/60/90/180+ 天）。
+// 口径：quant 行（location+product）关联最近一条 INCOMING move-line 的
+// 创建时间；无入库记录（种子/盘点）的行按 quant.updated_at 兜底。
+func (s *StockQuantService) GetStockAging(ctx context.Context, req *inventoryV1.GetStockAgingRequest) (*inventoryV1.StockAgingResponse, error) {
+	rows, err := s.stockQuantRepo.ListAging(ctx, req.GetWarehouseCode())
+	if err != nil {
+		return nil, err
+	}
+	now := time.Now()
+	resp := &inventoryV1.StockAgingResponse{Rows: rows}
+	for _, r := range rows {
+		days := 180
+		if r.LastInboundAt != nil {
+			days = int(now.Sub(r.LastInboundAt.AsTime()).Hours() / 24)
+		}
+		switch {
+		case days < 30:
+			r.BucketDays = 0
+		case days < 60:
+			r.BucketDays = 30
+		case days < 90:
+			r.BucketDays = 60
+		case days < 180:
+			r.BucketDays = 90
+		default:
+			r.BucketDays = 180
+		}
+	}
+	return resp, nil
+}
 
 // StockQuantService 库存量服务（借鉴 Odoo stock.quant，只读——quantity 仅由
 // 拣货校验变更）。提供看板聚合（GetOverview）与流水趋势（GetMovementTrend）。

@@ -117,6 +117,29 @@ service StockQuantService {
       get: "/admin/v1/stock-quants:movement-trend"
     };
   }
+
+  // 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+  rpc Freeze (inventory.service.v1.FreezeQuantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-quants/{id}:freeze"
+      body: "*"
+    };
+  }
+
+  // 解冻库存行
+  rpc Unfreeze (inventory.service.v1.UnfreezeQuantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/stock-quants/{id}:unfreeze"
+      body: "*"
+    };
+  }
+
+  // 库龄报表（在库数量按最近入库时间分桶）
+  rpc GetStockAging (inventory.service.v1.GetStockAgingRequest) returns (inventory.service.v1.StockAgingResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/stock-aging"
+    };
+  }
 }
 
 // 拣货单服务

@@ -6852,6 +6852,8 @@ class InventoryServiceV1StockQuant {
   int? createdBy;
   String? deletedAt;
   int? deletedBy;
+  /// frozen：冻结标记（冻结行不可出库扣减；盘点/移库不受限）。
+  bool? frozen;
   ///
   /// Behaviors: OPTIONAL
   int? id;
@@ -6875,6 +6877,7 @@ class InventoryServiceV1StockQuant {
     this.createdBy,
     this.deletedAt,
     this.deletedBy,
+    this.frozen,
     this.id,
     this.locationId,
     this.productCode,
@@ -6892,6 +6895,7 @@ class InventoryServiceV1StockQuant {
       createdBy: json['createdBy'] as int?,
       deletedAt: json['deletedAt'] as String?,
       deletedBy: json['deletedBy'] as int?,
+      frozen: json['frozen'] as bool?,
       id: json['id'] as int?,
       locationId: json['locationId'] as int?,
       productCode: json['productCode'] as String?,
@@ -6910,6 +6914,7 @@ class InventoryServiceV1StockQuant {
     if (createdBy != null) json['createdBy'] = createdBy;
     if (deletedAt != null) json['deletedAt'] = deletedAt;
     if (deletedBy != null) json['deletedBy'] = deletedBy;
+    if (frozen != null) json['frozen'] = frozen;
     if (id != null) json['id'] = id;
     if (locationId != null) json['locationId'] = locationId;
     if (productCode != null) json['productCode'] = productCode;
@@ -6923,7 +6928,7 @@ class InventoryServiceV1StockQuant {
 
   @override
   String toString() {
-    return 'InventoryServiceV1StockQuant(costPrice: $costPrice, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, deletedBy: $deletedBy, id: $id, locationId: $locationId, productCode: $productCode, quantity: $quantity, remark: $remark, tenantId: $tenantId, updatedAt: $updatedAt, updatedBy: $updatedBy)';
+    return 'InventoryServiceV1StockQuant(costPrice: $costPrice, createdAt: $createdAt, createdBy: $createdBy, deletedAt: $deletedAt, deletedBy: $deletedBy, frozen: $frozen, id: $id, locationId: $locationId, productCode: $productCode, quantity: $quantity, remark: $remark, tenantId: $tenantId, updatedAt: $updatedAt, updatedBy: $updatedBy)';
   }
 
   @override
@@ -6936,6 +6941,7 @@ class InventoryServiceV1StockQuant {
       && createdBy == other.createdBy
       && deletedAt == other.deletedAt
       && deletedBy == other.deletedBy
+      && frozen == other.frozen
       && id == other.id
       && locationId == other.locationId
       && productCode == other.productCode
@@ -6953,6 +6959,7 @@ class InventoryServiceV1StockQuant {
     createdBy,
     deletedAt,
     deletedBy,
+    frozen,
     id,
     locationId,
     productCode,
@@ -6969,6 +6976,7 @@ class InventoryServiceV1StockQuant {
     int? createdBy,
     String? deletedAt,
     int? deletedBy,
+    bool? frozen,
     int? id,
     int? locationId,
     String? productCode,
@@ -6984,6 +6992,7 @@ class InventoryServiceV1StockQuant {
       createdBy: createdBy ?? this.createdBy,
       deletedAt: deletedAt ?? this.deletedAt,
       deletedBy: deletedBy ?? this.deletedBy,
+      frozen: frozen ?? this.frozen,
       id: id ?? this.id,
       locationId: locationId ?? this.locationId,
       productCode: productCode ?? this.productCode,
@@ -7027,6 +7036,11 @@ class InventoryServiceV1StockQuant {
     final f5 = costPrice;
     if (f5 != null) {
       w.writeInt64(5, f5!);
+    }
+    // field 10: frozen
+    final f10 = frozen;
+    if (f10 != null) {
+      w.writeBool(10, f10!);
     }
     // field 11: remark
     final f11 = remark;
@@ -7101,6 +7115,11 @@ class InventoryServiceV1StockQuant {
         // field 5: costPrice
         case 5: {
           m.costPrice = r.readInt64();
+          break;
+        }
+        // field 10: frozen
+        case 10: {
+          m.frozen = r.readBool();
           break;
         }
         // field 11: remark
@@ -7254,7 +7273,6 @@ class InventoryServiceV1GetStockQuantRequest {
 
 }
 
-/// 库存经营总览 - 请求
 class InventoryServiceV1GetStockQuantOverviewRequest {
   int? lowStockLimit;
   int? lowStockThreshold;

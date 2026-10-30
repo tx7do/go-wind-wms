@@ -34,6 +34,8 @@ const (
 	FieldProductCode = "product_code"
 	// FieldQuantity holds the string denoting the quantity field in the database.
 	FieldQuantity = "quantity"
+	// FieldFrozen holds the string denoting the frozen field in the database.
+	FieldFrozen = "frozen"
 	// FieldCostPrice holds the string denoting the cost_price field in the database.
 	FieldCostPrice = "cost_price"
 	// Table holds the table name of the stockquant in the database.
@@ -54,6 +56,7 @@ var Columns = []string{
 	FieldLocationID,
 	FieldProductCode,
 	FieldQuantity,
+	FieldFrozen,
 	FieldCostPrice,
 }
 
@@ -82,6 +85,8 @@ var (
 	DefaultLocationID uint32
 	// DefaultQuantity holds the default value on creation for the "quantity" field.
 	DefaultQuantity int64
+	// DefaultFrozen holds the default value on creation for the "frozen" field.
+	DefaultFrozen bool
 	// DefaultCostPrice holds the default value on creation for the "cost_price" field.
 	DefaultCostPrice int64
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -149,6 +154,11 @@ func ByProductCode(opts ...sql.OrderTermOption) OrderOption {
 // ByQuantity orders the results by the quantity field.
 func ByQuantity(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldQuantity, opts...).ToFunc()
+}
+
+// ByFrozen orders the results by the frozen field.
+func ByFrozen(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFrozen, opts...).ToFunc()
 }
 
 // ByCostPrice orders the results by the cost_price field.

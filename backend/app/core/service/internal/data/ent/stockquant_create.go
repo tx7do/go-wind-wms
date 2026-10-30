@@ -176,6 +176,20 @@ func (_c *StockQuantCreate) SetNillableQuantity(v *int64) *StockQuantCreate {
 	return _c
 }
 
+// SetFrozen sets the "frozen" field.
+func (_c *StockQuantCreate) SetFrozen(v bool) *StockQuantCreate {
+	_c.mutation.SetFrozen(v)
+	return _c
+}
+
+// SetNillableFrozen sets the "frozen" field if the given value is not nil.
+func (_c *StockQuantCreate) SetNillableFrozen(v *bool) *StockQuantCreate {
+	if v != nil {
+		_c.SetFrozen(*v)
+	}
+	return _c
+}
+
 // SetCostPrice sets the "cost_price" field.
 func (_c *StockQuantCreate) SetCostPrice(v int64) *StockQuantCreate {
 	_c.mutation.SetCostPrice(v)
@@ -244,6 +258,10 @@ func (_c *StockQuantCreate) defaults() error {
 	if _, ok := _c.mutation.Quantity(); !ok {
 		v := stockquant.DefaultQuantity
 		_c.mutation.SetQuantity(v)
+	}
+	if _, ok := _c.mutation.Frozen(); !ok {
+		v := stockquant.DefaultFrozen
+		_c.mutation.SetFrozen(v)
 	}
 	if _, ok := _c.mutation.CostPrice(); !ok {
 		v := stockquant.DefaultCostPrice
@@ -335,6 +353,10 @@ func (_c *StockQuantCreate) createSpec() (*StockQuant, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Quantity(); ok {
 		_spec.SetField(stockquant.FieldQuantity, field.TypeInt64, value)
 		_node.Quantity = &value
+	}
+	if value, ok := _c.mutation.Frozen(); ok {
+		_spec.SetField(stockquant.FieldFrozen, field.TypeBool, value)
+		_node.Frozen = &value
 	}
 	if value, ok := _c.mutation.CostPrice(); ok {
 		_spec.SetField(stockquant.FieldCostPrice, field.TypeInt64, value)
@@ -581,6 +603,24 @@ func (u *StockQuantUpsert) AddQuantity(v int64) *StockQuantUpsert {
 // ClearQuantity clears the value of the "quantity" field.
 func (u *StockQuantUpsert) ClearQuantity() *StockQuantUpsert {
 	u.SetNull(stockquant.FieldQuantity)
+	return u
+}
+
+// SetFrozen sets the "frozen" field.
+func (u *StockQuantUpsert) SetFrozen(v bool) *StockQuantUpsert {
+	u.Set(stockquant.FieldFrozen, v)
+	return u
+}
+
+// UpdateFrozen sets the "frozen" field to the value that was provided on create.
+func (u *StockQuantUpsert) UpdateFrozen() *StockQuantUpsert {
+	u.SetExcluded(stockquant.FieldFrozen)
+	return u
+}
+
+// ClearFrozen clears the value of the "frozen" field.
+func (u *StockQuantUpsert) ClearFrozen() *StockQuantUpsert {
+	u.SetNull(stockquant.FieldFrozen)
 	return u
 }
 
@@ -883,6 +923,27 @@ func (u *StockQuantUpsertOne) UpdateQuantity() *StockQuantUpsertOne {
 func (u *StockQuantUpsertOne) ClearQuantity() *StockQuantUpsertOne {
 	return u.Update(func(s *StockQuantUpsert) {
 		s.ClearQuantity()
+	})
+}
+
+// SetFrozen sets the "frozen" field.
+func (u *StockQuantUpsertOne) SetFrozen(v bool) *StockQuantUpsertOne {
+	return u.Update(func(s *StockQuantUpsert) {
+		s.SetFrozen(v)
+	})
+}
+
+// UpdateFrozen sets the "frozen" field to the value that was provided on create.
+func (u *StockQuantUpsertOne) UpdateFrozen() *StockQuantUpsertOne {
+	return u.Update(func(s *StockQuantUpsert) {
+		s.UpdateFrozen()
+	})
+}
+
+// ClearFrozen clears the value of the "frozen" field.
+func (u *StockQuantUpsertOne) ClearFrozen() *StockQuantUpsertOne {
+	return u.Update(func(s *StockQuantUpsert) {
+		s.ClearFrozen()
 	})
 }
 
@@ -1355,6 +1416,27 @@ func (u *StockQuantUpsertBulk) UpdateQuantity() *StockQuantUpsertBulk {
 func (u *StockQuantUpsertBulk) ClearQuantity() *StockQuantUpsertBulk {
 	return u.Update(func(s *StockQuantUpsert) {
 		s.ClearQuantity()
+	})
+}
+
+// SetFrozen sets the "frozen" field.
+func (u *StockQuantUpsertBulk) SetFrozen(v bool) *StockQuantUpsertBulk {
+	return u.Update(func(s *StockQuantUpsert) {
+		s.SetFrozen(v)
+	})
+}
+
+// UpdateFrozen sets the "frozen" field to the value that was provided on create.
+func (u *StockQuantUpsertBulk) UpdateFrozen() *StockQuantUpsertBulk {
+	return u.Update(func(s *StockQuantUpsert) {
+		s.UpdateFrozen()
+	})
+}
+
+// ClearFrozen clears the value of the "frozen" field.
+func (u *StockQuantUpsertBulk) ClearFrozen() *StockQuantUpsertBulk {
+	return u.Update(func(s *StockQuantUpsert) {
+		s.ClearFrozen()
 	})
 }
 

@@ -244,6 +244,26 @@ func (_u *StockQuantUpdate) ClearQuantity() *StockQuantUpdate {
 	return _u
 }
 
+// SetFrozen sets the "frozen" field.
+func (_u *StockQuantUpdate) SetFrozen(v bool) *StockQuantUpdate {
+	_u.mutation.SetFrozen(v)
+	return _u
+}
+
+// SetNillableFrozen sets the "frozen" field if the given value is not nil.
+func (_u *StockQuantUpdate) SetNillableFrozen(v *bool) *StockQuantUpdate {
+	if v != nil {
+		_u.SetFrozen(*v)
+	}
+	return _u
+}
+
+// ClearFrozen clears the value of the "frozen" field.
+func (_u *StockQuantUpdate) ClearFrozen() *StockQuantUpdate {
+	_u.mutation.ClearFrozen()
+	return _u
+}
+
 // SetCostPrice sets the "cost_price" field.
 func (_u *StockQuantUpdate) SetCostPrice(v int64) *StockQuantUpdate {
 	_u.mutation.ResetCostPrice()
@@ -392,6 +412,12 @@ func (_u *StockQuantUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 	}
 	if _u.mutation.QuantityCleared() {
 		_spec.ClearField(stockquant.FieldQuantity, field.TypeInt64)
+	}
+	if value, ok := _u.mutation.Frozen(); ok {
+		_spec.SetField(stockquant.FieldFrozen, field.TypeBool, value)
+	}
+	if _u.mutation.FrozenCleared() {
+		_spec.ClearField(stockquant.FieldFrozen, field.TypeBool)
 	}
 	if value, ok := _u.mutation.CostPrice(); ok {
 		_spec.SetField(stockquant.FieldCostPrice, field.TypeInt64, value)
@@ -639,6 +665,26 @@ func (_u *StockQuantUpdateOne) ClearQuantity() *StockQuantUpdateOne {
 	return _u
 }
 
+// SetFrozen sets the "frozen" field.
+func (_u *StockQuantUpdateOne) SetFrozen(v bool) *StockQuantUpdateOne {
+	_u.mutation.SetFrozen(v)
+	return _u
+}
+
+// SetNillableFrozen sets the "frozen" field if the given value is not nil.
+func (_u *StockQuantUpdateOne) SetNillableFrozen(v *bool) *StockQuantUpdateOne {
+	if v != nil {
+		_u.SetFrozen(*v)
+	}
+	return _u
+}
+
+// ClearFrozen clears the value of the "frozen" field.
+func (_u *StockQuantUpdateOne) ClearFrozen() *StockQuantUpdateOne {
+	_u.mutation.ClearFrozen()
+	return _u
+}
+
 // SetCostPrice sets the "cost_price" field.
 func (_u *StockQuantUpdateOne) SetCostPrice(v int64) *StockQuantUpdateOne {
 	_u.mutation.ResetCostPrice()
@@ -817,6 +863,12 @@ func (_u *StockQuantUpdateOne) sqlSave(ctx context.Context) (_node *StockQuant, 
 	}
 	if _u.mutation.QuantityCleared() {
 		_spec.ClearField(stockquant.FieldQuantity, field.TypeInt64)
+	}
+	if value, ok := _u.mutation.Frozen(); ok {
+		_spec.SetField(stockquant.FieldFrozen, field.TypeBool, value)
+	}
+	if _u.mutation.FrozenCleared() {
+		_spec.ClearField(stockquant.FieldFrozen, field.TypeBool)
 	}
 	if value, ok := _u.mutation.CostPrice(); ok {
 		_spec.SetField(stockquant.FieldCostPrice, field.TypeInt64, value)

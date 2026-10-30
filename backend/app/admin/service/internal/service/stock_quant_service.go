@@ -9,6 +9,8 @@ import (
 	paginationV1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 
 	adminV1 "go-wind-wms/api/gen/go/admin/service/v1"
+	"google.golang.org/protobuf/types/known/emptypb"
+
 	inventoryV1 "go-wind-wms/api/gen/go/inventory/service/v1"
 )
 
@@ -29,6 +31,27 @@ func NewStockQuantService(
 		log:                     l,
 		stockQuantServiceClient: stockQuantServiceClient,
 	}
+}
+
+// Freeze 冻结库存行（转发）。
+func (s *StockQuantService) Freeze(ctx context.Context, req *inventoryV1.FreezeQuantRequest) (*emptypb.Empty, error) {
+	if req == nil || req.GetId() == 0 {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+	return s.stockQuantServiceClient.Freeze(ctx, req)
+}
+
+// Unfreeze 解冻库存行（转发）。
+func (s *StockQuantService) Unfreeze(ctx context.Context, req *inventoryV1.UnfreezeQuantRequest) (*emptypb.Empty, error) {
+	if req == nil || req.GetId() == 0 {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+	return s.stockQuantServiceClient.Unfreeze(ctx, req)
+}
+
+// GetStockAging 库龄报表（转发）。
+func (s *StockQuantService) GetStockAging(ctx context.Context, req *inventoryV1.GetStockAgingRequest) (*inventoryV1.StockAgingResponse, error) {
+	return s.stockQuantServiceClient.GetStockAging(ctx, req)
 }
 
 func (s *StockQuantService) List(ctx context.Context, req *paginationV1.PagingRequest) (*inventoryV1.ListStockQuantResponse, error) {

@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
@@ -16,7 +17,10 @@ import (
 
 	"go-wind-wms/app/core/service/internal/data/ent"
 	"go-wind-wms/app/core/service/internal/data/ent/predicate"
+	"go-wind-wms/app/core/service/internal/data/ent/stocklocation"
 	"go-wind-wms/app/core/service/internal/data/ent/stockquant"
+
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	inventoryV1 "go-wind-wms/api/gen/go/inventory/service/v1"
 )
@@ -199,7 +203,10 @@ func (r *StockQuantRepo) FindByLocationProductTx(
 		}
 		return nil, inventoryV1.ErrorInternalServerError("query stock_quant failed")
 	}
-	return r.mapper.ToDTO(row), nil
+	dto := r.mapper.ToDTO(row)
+	// frozen：Nillable 指针字段 copier 静默丢——显式回填。
+	dto.Frozen = row.Frozen
+	return dto, nil
 }
 
 // EnsureForLocation 入库前确保库存行存在（不存在则以 0 创建；已存在则无动作）。
@@ -469,4 +476,137 @@ func (r *StockQuantRepo) ListLowStock(ctx context.Context, threshold int64, limi
 		items = append(items, r.mapper.ToDTO(row))
 	}
 	return items, nil
+}
+
+
+// SetFrozen 冻结/解冻库存行（条件更新）。
+func derefStr(p *string) string {
+	if p == nil {
+		return ""
+	}
+	return *p
+}
+
+func derefInt64(p *int64) int64 {
+	if p == nil {
+		return 0
+	}
+	return *p
+}
+
+func (r *StockQuantRepo) SetFrozen(ctx context.Context, id uint32, frozen bool) error {
+	q := r.entClient.Client().StockQuant.Update().
+		Where(stockquant.IDEQ(id))
+	if frozen {
+		q.SetFrozen(true)
+	} else {
+		q.ClearFrozen()
+	}
+	n, err := q.SetUpdatedAt(time.Now()).Save(ctx)
+	if err != nil {
+		r.log.Errorf("set frozen failed: %s", err.Error())
+		return inventoryV1.ErrorInternalServerError("set frozen failed")
+	}
+	if n == 0 {
+		return inventoryV1.ErrorNotFound("stock_quant not found")
+	}
+	return nil
+}
+
+// agingRow 库龄聚合查询行。
+type agingRow struct {
+	LocationID    uint32     `json:"location_id"`
+	WarehouseCode *string    `json:"warehouse_code"`
+	SkuCode       *string    `json:"sku_code"`
+	Quantity      int64      `json:"quantity"`
+	Frozen        bool       `json:"frozen"`
+	LastInbound   *time.Time `json:"last_inbound"`
+}
+
+// ListAging 库龄聚合：quant 行 + 最近 INCOMING move-line 时间。
+// 纯 ent 实现：三步查询 + 内存聚合（quant/location/move-line），规模可控；
+// 生产量大时再换物化视图。
+func (r *StockQuantRepo) ListAging(ctx context.Context, warehouseCode string) ([]*inventoryV1.StockAgingRow, error) {
+	tid, hasTenant := maybeTenantFromViewer(ctx)
+
+	// 1) 在库 quant 行（quantity > 0）
+	q := r.entClient.Client().StockQuant.Query().
+		Where(stockquant.QuantityGT(0))
+	if hasTenant {
+		q.Where(stockquant.TenantIDEQ(tid))
+	}
+	quants, err := q.All(ctx)
+	if err != nil {
+		r.log.Errorf("query aging quants failed: %s", err.Error())
+		return nil, inventoryV1.ErrorInternalServerError("query aging failed")
+	}
+	if len(quants) == 0 {
+		return []*inventoryV1.StockAgingRow{}, nil
+	}
+
+	// 2) 位置（INTERNAL）映射 warehouse_code
+	locIDs := make([]uint32, 0, len(quants))
+	for _, qt := range quants {
+		if qt.LocationID != nil {
+			locIDs = append(locIDs, *qt.LocationID)
+		}
+	}
+	locs, err := r.entClient.Client().StockLocation.Query().
+		Where(stocklocation.IDIn(locIDs...), stocklocation.UsageEQ(stocklocation.UsageInternal)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query aging locations failed: %s", err.Error())
+		return nil, inventoryV1.ErrorInternalServerError("query aging failed")
+	}
+	whByLoc := make(map[uint32]string, len(locs))
+	for _, l := range locs {
+		if l.WarehouseCode != nil {
+			whByLoc[l.ID] = *l.WarehouseCode
+		}
+	}
+
+	// 3) 最近入库时间：product_code + source_location_id 聚合
+	ml, err := r.entClient.Client().StockMoveLine.Query().All(ctx)
+	if err != nil {
+		r.log.Errorf("query aging move-lines failed: %s", err.Error())
+		return nil, inventoryV1.ErrorInternalServerError("query aging failed")
+	}
+	lastInbound := make(map[string]time.Time, len(ml))
+	for _, l := range ml {
+		if l.SourceLocationID == nil || l.ProductCode == nil || l.CreatedAt == nil {
+			continue
+		}
+		key := *l.ProductCode + "|" + fmt.Sprintf("%d", *l.SourceLocationID)
+		if prev, ok := lastInbound[key]; !ok || l.CreatedAt.After(prev) {
+			lastInbound[key] = *l.CreatedAt
+		}
+	}
+
+	// 4) 装配（warehouseCode 过滤在内存侧）
+	out := make([]*inventoryV1.StockAgingRow, 0, len(quants))
+	for _, qt := range quants {
+		if qt.LocationID == nil {
+			continue
+		}
+		wh := whByLoc[*qt.LocationID]
+		if warehouseCode != "" && wh != warehouseCode {
+			continue
+		}
+		dto := &inventoryV1.StockAgingRow{
+			SkuCode:       derefStr(qt.ProductCode),
+			WarehouseCode: wh,
+			Quantity:      derefInt64(qt.Quantity),
+			Frozen:        qt.Frozen != nil && *qt.Frozen,
+		}
+		if qt.CreatedAt != nil {
+			dto.LastInboundAt = timestamppb.New(*qt.CreatedAt)
+		}
+		if qt.ProductCode != nil {
+			if t, ok := lastInbound[*qt.ProductCode+"|"+fmt.Sprintf("%d", *qt.LocationID)]; ok {
+				dto.LastInboundAt = timestamppb.New(t)
+			}
+		}
+		out = append(out, dto)
+	}
+	return out, nil
 }

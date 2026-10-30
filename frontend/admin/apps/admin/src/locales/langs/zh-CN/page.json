@@ -540,7 +540,12 @@
     "moduleName": "库存量",
     "locationId": "库位ID",
     "productCode": "产品编码",
-    "quantity": "库存数量"
+    "quantity": "库存数量",
+    "frozen": "冻结",
+    "frozenYes": "已冻结",
+    "frozenNo": "正常",
+    "freeze": "冻结",
+    "unfreeze": "解冻"
   },
   "stockPicking": {
     "moduleName": "拣货单",

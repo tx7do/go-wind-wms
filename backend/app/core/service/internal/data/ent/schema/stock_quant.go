@@ -52,6 +52,13 @@ func (StockQuant) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
+		// frozen：冻结标记（冻结行不可出库扣减；盘点/移库不受限）。
+		field.Bool("frozen").
+			Comment("是否冻结").
+			Default(false).
+			Optional().
+			Nillable(),
+
 		// cost_price：加权平均成本（分）。入库时按采购单价做加权平均更新，
 		// 出库时冻结到 stock_move_line.unit_cost 用于 COGS 核算。
 		field.Int64("cost_price").

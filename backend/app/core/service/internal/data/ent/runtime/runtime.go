@@ -1594,8 +1594,12 @@ func init() {
 	stockquantDescQuantity := stockquantFields[2].Descriptor()
 	// stockquant.DefaultQuantity holds the default value on creation for the quantity field.
 	stockquant.DefaultQuantity = stockquantDescQuantity.Default.(int64)
+	// stockquantDescFrozen is the schema descriptor for frozen field.
+	stockquantDescFrozen := stockquantFields[3].Descriptor()
+	// stockquant.DefaultFrozen holds the default value on creation for the frozen field.
+	stockquant.DefaultFrozen = stockquantDescFrozen.Default.(bool)
 	// stockquantDescCostPrice is the schema descriptor for cost_price field.
-	stockquantDescCostPrice := stockquantFields[3].Descriptor()
+	stockquantDescCostPrice := stockquantFields[4].Descriptor()
 	// stockquant.DefaultCostPrice holds the default value on creation for the cost_price field.
 	stockquant.DefaultCostPrice = stockquantDescCostPrice.Default.(int64)
 	// stockquantDescID is the schema descriptor for id field.

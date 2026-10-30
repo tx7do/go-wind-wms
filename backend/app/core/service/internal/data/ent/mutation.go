@@ -68165,6 +68165,7 @@ type StockQuantMutation struct {
 	product_code   *string
 	quantity       *int64
 	addquantity    *int64
+	frozen         *bool
 	cost_price     *int64
 	addcost_price  *int64
 	clearedFields  map[string]struct{}
@@ -68942,6 +68943,55 @@ func (m *StockQuantMutation) ResetQuantity() {
 	delete(m.clearedFields, stockquant.FieldQuantity)
 }
 
+// SetFrozen sets the "frozen" field.
+func (m *StockQuantMutation) SetFrozen(b bool) {
+	m.frozen = &b
+}
+
+// Frozen returns the value of the "frozen" field in the mutation.
+func (m *StockQuantMutation) Frozen() (r bool, exists bool) {
+	v := m.frozen
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFrozen returns the old "frozen" field's value of the StockQuant entity.
+// If the StockQuant object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockQuantMutation) OldFrozen(ctx context.Context) (v *bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFrozen is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFrozen requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFrozen: %w", err)
+	}
+	return oldValue.Frozen, nil
+}
+
+// ClearFrozen clears the value of the "frozen" field.
+func (m *StockQuantMutation) ClearFrozen() {
+	m.frozen = nil
+	m.clearedFields[stockquant.FieldFrozen] = struct{}{}
+}
+
+// FrozenCleared returns if the "frozen" field was cleared in this mutation.
+func (m *StockQuantMutation) FrozenCleared() bool {
+	_, ok := m.clearedFields[stockquant.FieldFrozen]
+	return ok
+}
+
+// ResetFrozen resets all changes to the "frozen" field.
+func (m *StockQuantMutation) ResetFrozen() {
+	m.frozen = nil
+	delete(m.clearedFields, stockquant.FieldFrozen)
+}
+
 // SetCostPrice sets the "cost_price" field.
 func (m *StockQuantMutation) SetCostPrice(i int64) {
 	m.cost_price = &i
@@ -69046,7 +69096,7 @@ func (m *StockQuantMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StockQuantMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 13)
 	if m.created_at != nil {
 		fields = append(fields, stockquant.FieldCreatedAt)
 	}
@@ -69079,6 +69129,9 @@ func (m *StockQuantMutation) Fields() []string {
 	}
 	if m.quantity != nil {
 		fields = append(fields, stockquant.FieldQuantity)
+	}
+	if m.frozen != nil {
+		fields = append(fields, stockquant.FieldFrozen)
 	}
 	if m.cost_price != nil {
 		fields = append(fields, stockquant.FieldCostPrice)
@@ -69113,6 +69166,8 @@ func (m *StockQuantMutation) Field(name string) (ent.Value, bool) {
 		return m.ProductCode()
 	case stockquant.FieldQuantity:
 		return m.Quantity()
+	case stockquant.FieldFrozen:
+		return m.Frozen()
 	case stockquant.FieldCostPrice:
 		return m.CostPrice()
 	}
@@ -69146,6 +69201,8 @@ func (m *StockQuantMutation) OldField(ctx context.Context, name string) (ent.Val
 		return m.OldProductCode(ctx)
 	case stockquant.FieldQuantity:
 		return m.OldQuantity(ctx)
+	case stockquant.FieldFrozen:
+		return m.OldFrozen(ctx)
 	case stockquant.FieldCostPrice:
 		return m.OldCostPrice(ctx)
 	}
@@ -69233,6 +69290,13 @@ func (m *StockQuantMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetQuantity(v)
+		return nil
+	case stockquant.FieldFrozen:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFrozen(v)
 		return nil
 	case stockquant.FieldCostPrice:
 		v, ok := value.(int64)
@@ -69391,6 +69455,9 @@ func (m *StockQuantMutation) ClearedFields() []string {
 	if m.FieldCleared(stockquant.FieldQuantity) {
 		fields = append(fields, stockquant.FieldQuantity)
 	}
+	if m.FieldCleared(stockquant.FieldFrozen) {
+		fields = append(fields, stockquant.FieldFrozen)
+	}
 	if m.FieldCleared(stockquant.FieldCostPrice) {
 		fields = append(fields, stockquant.FieldCostPrice)
 	}
@@ -69441,6 +69508,9 @@ func (m *StockQuantMutation) ClearField(name string) error {
 	case stockquant.FieldQuantity:
 		m.ClearQuantity()
 		return nil
+	case stockquant.FieldFrozen:
+		m.ClearFrozen()
+		return nil
 	case stockquant.FieldCostPrice:
 		m.ClearCostPrice()
 		return nil
@@ -69484,6 +69554,9 @@ func (m *StockQuantMutation) ResetField(name string) error {
 		return nil
 	case stockquant.FieldQuantity:
 		m.ResetQuantity()
+		return nil
+	case stockquant.FieldFrozen:
+		m.ResetFrozen()
 		return nil
 	case stockquant.FieldCostPrice:
 		m.ResetCostPrice()

@@ -550,6 +550,10 @@ func (m *StockQuant) validate(all bool) error {
 		// no validation rules for Quantity
 	}
 
+	if m.Frozen != nil {
+		// no validation rules for Frozen
+	}
+
 	if m.CostPrice != nil {
 		// no validation rules for CostPrice
 	}
@@ -3342,6 +3346,599 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CountStockQuantResponseValidationError{}
+
+// Validate checks the field values on FreezeQuantRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *FreezeQuantRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FreezeQuantRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// FreezeQuantRequestMultiError, or nil if none found.
+func (m *FreezeQuantRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FreezeQuantRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return FreezeQuantRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// FreezeQuantRequestMultiError is an error wrapping multiple validation errors
+// returned by FreezeQuantRequest.ValidateAll() if the designated constraints
+// aren't met.
+type FreezeQuantRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FreezeQuantRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FreezeQuantRequestMultiError) AllErrors() []error { return m }
+
+// FreezeQuantRequestValidationError is the validation error returned by
+// FreezeQuantRequest.Validate if the designated constraints aren't met.
+type FreezeQuantRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FreezeQuantRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FreezeQuantRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FreezeQuantRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FreezeQuantRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FreezeQuantRequestValidationError) ErrorName() string {
+	return "FreezeQuantRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e FreezeQuantRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFreezeQuantRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FreezeQuantRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FreezeQuantRequestValidationError{}
+
+// Validate checks the field values on UnfreezeQuantRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UnfreezeQuantRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UnfreezeQuantRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UnfreezeQuantRequestMultiError, or nil if none found.
+func (m *UnfreezeQuantRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UnfreezeQuantRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return UnfreezeQuantRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UnfreezeQuantRequestMultiError is an error wrapping multiple validation
+// errors returned by UnfreezeQuantRequest.ValidateAll() if the designated
+// constraints aren't met.
+type UnfreezeQuantRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UnfreezeQuantRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UnfreezeQuantRequestMultiError) AllErrors() []error { return m }
+
+// UnfreezeQuantRequestValidationError is the validation error returned by
+// UnfreezeQuantRequest.Validate if the designated constraints aren't met.
+type UnfreezeQuantRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UnfreezeQuantRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UnfreezeQuantRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UnfreezeQuantRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UnfreezeQuantRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UnfreezeQuantRequestValidationError) ErrorName() string {
+	return "UnfreezeQuantRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UnfreezeQuantRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUnfreezeQuantRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UnfreezeQuantRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UnfreezeQuantRequestValidationError{}
+
+// Validate checks the field values on GetStockAgingRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetStockAgingRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetStockAgingRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetStockAgingRequestMultiError, or nil if none found.
+func (m *GetStockAgingRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetStockAgingRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.WarehouseCode != nil {
+		// no validation rules for WarehouseCode
+	}
+
+	if len(errors) > 0 {
+		return GetStockAgingRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetStockAgingRequestMultiError is an error wrapping multiple validation
+// errors returned by GetStockAgingRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetStockAgingRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetStockAgingRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetStockAgingRequestMultiError) AllErrors() []error { return m }
+
+// GetStockAgingRequestValidationError is the validation error returned by
+// GetStockAgingRequest.Validate if the designated constraints aren't met.
+type GetStockAgingRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetStockAgingRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetStockAgingRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetStockAgingRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetStockAgingRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetStockAgingRequestValidationError) ErrorName() string {
+	return "GetStockAgingRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetStockAgingRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetStockAgingRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetStockAgingRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetStockAgingRequestValidationError{}
+
+// Validate checks the field values on StockAgingRow with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *StockAgingRow) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StockAgingRow with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in StockAgingRowMultiError, or
+// nil if none found.
+func (m *StockAgingRow) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StockAgingRow) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for SkuCode
+
+	// no validation rules for WarehouseCode
+
+	// no validation rules for Quantity
+
+	// no validation rules for BucketDays
+
+	// no validation rules for Frozen
+
+	if m.LastInboundAt != nil {
+
+		if all {
+			switch v := interface{}(m.GetLastInboundAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, StockAgingRowValidationError{
+						field:  "LastInboundAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, StockAgingRowValidationError{
+						field:  "LastInboundAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetLastInboundAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return StockAgingRowValidationError{
+					field:  "LastInboundAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return StockAgingRowMultiError(errors)
+	}
+
+	return nil
+}
+
+// StockAgingRowMultiError is an error wrapping multiple validation errors
+// returned by StockAgingRow.ValidateAll() if the designated constraints
+// aren't met.
+type StockAgingRowMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StockAgingRowMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StockAgingRowMultiError) AllErrors() []error { return m }
+
+// StockAgingRowValidationError is the validation error returned by
+// StockAgingRow.Validate if the designated constraints aren't met.
+type StockAgingRowValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StockAgingRowValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StockAgingRowValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StockAgingRowValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StockAgingRowValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StockAgingRowValidationError) ErrorName() string { return "StockAgingRowValidationError" }
+
+// Error satisfies the builtin error interface
+func (e StockAgingRowValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStockAgingRow.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StockAgingRowValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StockAgingRowValidationError{}
+
+// Validate checks the field values on StockAgingResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *StockAgingResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StockAgingResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// StockAgingResponseMultiError, or nil if none found.
+func (m *StockAgingResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StockAgingResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetRows() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, StockAgingResponseValidationError{
+						field:  fmt.Sprintf("Rows[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, StockAgingResponseValidationError{
+						field:  fmt.Sprintf("Rows[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return StockAgingResponseValidationError{
+					field:  fmt.Sprintf("Rows[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return StockAgingResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// StockAgingResponseMultiError is an error wrapping multiple validation errors
+// returned by StockAgingResponse.ValidateAll() if the designated constraints
+// aren't met.
+type StockAgingResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StockAgingResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StockAgingResponseMultiError) AllErrors() []error { return m }
+
+// StockAgingResponseValidationError is the validation error returned by
+// StockAgingResponse.Validate if the designated constraints aren't met.
+type StockAgingResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StockAgingResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StockAgingResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StockAgingResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StockAgingResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StockAgingResponseValidationError) ErrorName() string {
+	return "StockAgingResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e StockAgingResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStockAgingResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StockAgingResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StockAgingResponseValidationError{}
 
 // Validate checks the field values on GetStockQuantOverviewRequest with the
 // rules defined in the proto definition for this message. If any rules are

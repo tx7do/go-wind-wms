@@ -71,6 +71,15 @@ service StockQuantService {
 
   // 库存流水趋势（近 30 日每日执行记录条数，用于看板折线图）
   rpc GetMovementTrend (GetMovementTrendRequest) returns (MovementTrendResponse) {}
+
+  // 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+  rpc Freeze (FreezeQuantRequest) returns (google.protobuf.Empty) {}
+
+  // 解冻库存行
+  rpc Unfreeze (UnfreezeQuantRequest) returns (google.protobuf.Empty) {}
+
+  // 库龄报表（在库数量按最近入库时间分桶：0-30/30-60/60-90/90+ 天）
+  rpc GetStockAging (GetStockAgingRequest) returns (StockAgingResponse) {}
 }
 
 // 拣货单服务（借鉴 Odoo stock.picking：一等文档，有生命周期）
@@ -273,6 +282,12 @@ message StockQuant {
           description: "在手数量"
         }
   ]; // 在手数量
+
+  // frozen：冻结标记（冻结行不可出库扣减；盘点/移库不受限）。
+  optional bool frozen = 10 [
+    json_name = "frozen",
+    (gnostic.openapi.v3.property) = {description: "是否冻结"}
+  ]; // 是否冻结
 
   optional int64 cost_price = 5 [
     json_name = "costPrice",
@@ -679,6 +694,45 @@ message CountStockQuantResponse {
 }
 
 // 库存经营总览 - 请求
+// 冻结/解冻 - 请求
+message FreezeQuantRequest {
+  uint32 id = 1 [json_name = "id"]; // 库存量行ID
+}
+
+message UnfreezeQuantRequest {
+  uint32 id = 1 [json_name = "id"]; // 库存量行ID
+}
+
+// 库龄请求（可按仓库编码过滤）
+message GetStockAgingRequest {
+  optional string warehouse_code = 1 [
+    json_name = "warehouseCode",
+    (gnostic.openapi.v3.property) = {description: "仓库编码（空=全部仓库）"}
+  ]; // 仓库编码（空=全部仓库）
+}
+
+// 库龄行：当前在库 + 最近入库时间 + 分桶
+message StockAgingRow {
+  string sku_code = 1 [json_name = "skuCode"]; // SKU 编码
+
+  string warehouse_code = 2 [json_name = "warehouseCode"]; // 仓库编码
+
+  int64 quantity = 3 [json_name = "quantity"]; // 在库数量
+
+  optional google.protobuf.Timestamp last_inbound_at = 4 [
+    json_name = "lastInboundAt",
+    (gnostic.openapi.v3.property) = {description: "最近入库时间"}
+  ]; // 最近入库时间
+
+  int32 bucket_days = 5 [json_name = "bucketDays"]; // 库龄桶（30/60/90/180+，取下界天数）
+
+  bool frozen = 6 [json_name = "frozen"]; // 是否冻结
+}
+
+message StockAgingResponse {
+  repeated StockAgingRow rows = 1 [json_name = "rows"]; // 库龄行
+}
+
 message GetStockQuantOverviewRequest {
   optional int64 low_stock_threshold = 1 [
     json_name = "lowStockThreshold",

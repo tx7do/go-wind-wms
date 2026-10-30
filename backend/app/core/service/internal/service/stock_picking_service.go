@@ -490,6 +490,12 @@ func (s *StockPickingService) Validate(ctx context.Context, req *inventoryV1.Val
 				err = qerr
 				return nil, err
 			}
+			// 冻结拦截：冻结行不可出库扣减（盘点/调拨不受限）。
+			if srcQuant.Frozen != nil && *srcQuant.Frozen {
+				err = inventoryV1.ErrorConflict(
+					"stock at location %d for %s is frozen", sourceLocID, productCode)
+				return nil, err
+			}
 			if _, err = s.stockQuantRepo.ApplyDeltaTx(ctx, tx, srcQuant.GetId(), -executedQty); err != nil {
 				return nil, err
 			}

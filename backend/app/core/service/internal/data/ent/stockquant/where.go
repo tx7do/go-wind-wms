@@ -109,6 +109,11 @@ func Quantity(v int64) predicate.StockQuant {
 	return predicate.StockQuant(sql.FieldEQ(FieldQuantity, v))
 }
 
+// Frozen applies equality check predicate on the "frozen" field. It's identical to FrozenEQ.
+func Frozen(v bool) predicate.StockQuant {
+	return predicate.StockQuant(sql.FieldEQ(FieldFrozen, v))
+}
+
 // CostPrice applies equality check predicate on the "cost_price" field. It's identical to CostPriceEQ.
 func CostPrice(v int64) predicate.StockQuant {
 	return predicate.StockQuant(sql.FieldEQ(FieldCostPrice, v))
@@ -712,6 +717,26 @@ func QuantityIsNil() predicate.StockQuant {
 // QuantityNotNil applies the NotNil predicate on the "quantity" field.
 func QuantityNotNil() predicate.StockQuant {
 	return predicate.StockQuant(sql.FieldNotNull(FieldQuantity))
+}
+
+// FrozenEQ applies the EQ predicate on the "frozen" field.
+func FrozenEQ(v bool) predicate.StockQuant {
+	return predicate.StockQuant(sql.FieldEQ(FieldFrozen, v))
+}
+
+// FrozenNEQ applies the NEQ predicate on the "frozen" field.
+func FrozenNEQ(v bool) predicate.StockQuant {
+	return predicate.StockQuant(sql.FieldNEQ(FieldFrozen, v))
+}
+
+// FrozenIsNil applies the IsNil predicate on the "frozen" field.
+func FrozenIsNil() predicate.StockQuant {
+	return predicate.StockQuant(sql.FieldIsNull(FieldFrozen))
+}
+
+// FrozenNotNil applies the NotNil predicate on the "frozen" field.
+func FrozenNotNil() predicate.StockQuant {
+	return predicate.StockQuant(sql.FieldNotNull(FieldFrozen))
 }
 
 // CostPriceEQ applies the EQ predicate on the "cost_price" field.

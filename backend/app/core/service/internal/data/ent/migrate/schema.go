@@ -2692,6 +2692,7 @@ var (
 		{Name: "location_id", Type: field.TypeUint32, Nullable: true, Comment: "所在位置ID", Default: 0},
 		{Name: "product_code", Type: field.TypeString, Nullable: true, Comment: "产品编码"},
 		{Name: "quantity", Type: field.TypeInt64, Nullable: true, Comment: "在手数量", Default: 0},
+		{Name: "frozen", Type: field.TypeBool, Nullable: true, Comment: "是否冻结", Default: false},
 		{Name: "cost_price", Type: field.TypeInt64, Nullable: true, Comment: "加权平均成本（分）", Default: 0},
 	}
 	// InvStockQuantsTable holds the schema information for the "inv_stock_quants" table.

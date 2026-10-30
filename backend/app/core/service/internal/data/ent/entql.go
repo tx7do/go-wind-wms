@@ -1302,6 +1302,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			stockquant.FieldLocationID:  {Type: field.TypeUint32, Column: stockquant.FieldLocationID},
 			stockquant.FieldProductCode: {Type: field.TypeString, Column: stockquant.FieldProductCode},
 			stockquant.FieldQuantity:    {Type: field.TypeInt64, Column: stockquant.FieldQuantity},
+			stockquant.FieldFrozen:      {Type: field.TypeBool, Column: stockquant.FieldFrozen},
 			stockquant.FieldCostPrice:   {Type: field.TypeInt64, Column: stockquant.FieldCostPrice},
 		},
 	}
@@ -6942,6 +6943,11 @@ func (f *StockQuantFilter) WhereProductCode(p entql.StringP) {
 // WhereQuantity applies the entql int64 predicate on the quantity field.
 func (f *StockQuantFilter) WhereQuantity(p entql.Int64P) {
 	f.Where(p.Field(stockquant.FieldQuantity))
+}
+
+// WhereFrozen applies the entql bool predicate on the frozen field.
+func (f *StockQuantFilter) WhereFrozen(p entql.BoolP) {
+	f.Where(p.Field(stockquant.FieldFrozen))
 }
 
 // WhereCostPrice applies the entql int64 predicate on the cost_price field.

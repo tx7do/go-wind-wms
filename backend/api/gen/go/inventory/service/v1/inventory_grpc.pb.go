@@ -642,6 +642,9 @@ const (
 	StockQuantService_Get_FullMethodName              = "/inventory.service.v1.StockQuantService/Get"
 	StockQuantService_GetOverview_FullMethodName      = "/inventory.service.v1.StockQuantService/GetOverview"
 	StockQuantService_GetMovementTrend_FullMethodName = "/inventory.service.v1.StockQuantService/GetMovementTrend"
+	StockQuantService_Freeze_FullMethodName           = "/inventory.service.v1.StockQuantService/Freeze"
+	StockQuantService_Unfreeze_FullMethodName         = "/inventory.service.v1.StockQuantService/Unfreeze"
+	StockQuantService_GetStockAging_FullMethodName    = "/inventory.service.v1.StockQuantService/GetStockAging"
 )
 
 // StockQuantServiceClient is the client API for StockQuantService service.
@@ -660,6 +663,12 @@ type StockQuantServiceClient interface {
 	GetOverview(ctx context.Context, in *GetStockQuantOverviewRequest, opts ...grpc.CallOption) (*StockQuantOverview, error)
 	// 库存流水趋势（近 30 日每日执行记录条数，用于看板折线图）
 	GetMovementTrend(ctx context.Context, in *GetMovementTrendRequest, opts ...grpc.CallOption) (*MovementTrendResponse, error)
+	// 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+	Freeze(ctx context.Context, in *FreezeQuantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 解冻库存行
+	Unfreeze(ctx context.Context, in *UnfreezeQuantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 库龄报表（在库数量按最近入库时间分桶：0-30/30-60/60-90/90+ 天）
+	GetStockAging(ctx context.Context, in *GetStockAgingRequest, opts ...grpc.CallOption) (*StockAgingResponse, error)
 }
 
 type stockQuantServiceClient struct {
@@ -720,6 +729,36 @@ func (c *stockQuantServiceClient) GetMovementTrend(ctx context.Context, in *GetM
 	return out, nil
 }
 
+func (c *stockQuantServiceClient) Freeze(ctx context.Context, in *FreezeQuantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, StockQuantService_Freeze_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stockQuantServiceClient) Unfreeze(ctx context.Context, in *UnfreezeQuantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, StockQuantService_Unfreeze_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stockQuantServiceClient) GetStockAging(ctx context.Context, in *GetStockAgingRequest, opts ...grpc.CallOption) (*StockAgingResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StockAgingResponse)
+	err := c.cc.Invoke(ctx, StockQuantService_GetStockAging_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StockQuantServiceServer is the server API for StockQuantService service.
 // All implementations must embed UnimplementedStockQuantServiceServer
 // for forward compatibility.
@@ -736,6 +775,12 @@ type StockQuantServiceServer interface {
 	GetOverview(context.Context, *GetStockQuantOverviewRequest) (*StockQuantOverview, error)
 	// 库存流水趋势（近 30 日每日执行记录条数，用于看板折线图）
 	GetMovementTrend(context.Context, *GetMovementTrendRequest) (*MovementTrendResponse, error)
+	// 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+	Freeze(context.Context, *FreezeQuantRequest) (*emptypb.Empty, error)
+	// 解冻库存行
+	Unfreeze(context.Context, *UnfreezeQuantRequest) (*emptypb.Empty, error)
+	// 库龄报表（在库数量按最近入库时间分桶：0-30/30-60/60-90/90+ 天）
+	GetStockAging(context.Context, *GetStockAgingRequest) (*StockAgingResponse, error)
 	mustEmbedUnimplementedStockQuantServiceServer()
 }
 
@@ -760,6 +805,15 @@ func (UnimplementedStockQuantServiceServer) GetOverview(context.Context, *GetSto
 }
 func (UnimplementedStockQuantServiceServer) GetMovementTrend(context.Context, *GetMovementTrendRequest) (*MovementTrendResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetMovementTrend not implemented")
+}
+func (UnimplementedStockQuantServiceServer) Freeze(context.Context, *FreezeQuantRequest) (*emptypb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method Freeze not implemented")
+}
+func (UnimplementedStockQuantServiceServer) Unfreeze(context.Context, *UnfreezeQuantRequest) (*emptypb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method Unfreeze not implemented")
+}
+func (UnimplementedStockQuantServiceServer) GetStockAging(context.Context, *GetStockAgingRequest) (*StockAgingResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetStockAging not implemented")
 }
 func (UnimplementedStockQuantServiceServer) mustEmbedUnimplementedStockQuantServiceServer() {}
 func (UnimplementedStockQuantServiceServer) testEmbeddedByValue()                           {}
@@ -872,6 +926,60 @@ func _StockQuantService_GetMovementTrend_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StockQuantService_Freeze_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FreezeQuantRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StockQuantServiceServer).Freeze(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StockQuantService_Freeze_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StockQuantServiceServer).Freeze(ctx, req.(*FreezeQuantRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StockQuantService_Unfreeze_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnfreezeQuantRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StockQuantServiceServer).Unfreeze(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StockQuantService_Unfreeze_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StockQuantServiceServer).Unfreeze(ctx, req.(*UnfreezeQuantRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StockQuantService_GetStockAging_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStockAgingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StockQuantServiceServer).GetStockAging(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StockQuantService_GetStockAging_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StockQuantServiceServer).GetStockAging(ctx, req.(*GetStockAgingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StockQuantService_ServiceDesc is the grpc.ServiceDesc for StockQuantService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -898,6 +1006,18 @@ var StockQuantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMovementTrend",
 			Handler:    _StockQuantService_GetMovementTrend_Handler,
+		},
+		{
+			MethodName: "Freeze",
+			Handler:    _StockQuantService_Freeze_Handler,
+		},
+		{
+			MethodName: "Unfreeze",
+			Handler:    _StockQuantService_Unfreeze_Handler,
+		},
+		{
+			MethodName: "GetStockAging",
+			Handler:    _StockQuantService_GetStockAging_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

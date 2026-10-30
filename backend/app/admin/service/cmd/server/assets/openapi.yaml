@@ -4596,6 +4596,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/admin.service.v1.ListRouteResponse'
+    /admin/v1/stock-aging:
+        get:
+            tags:
+                - StockQuantService
+            description: 库龄报表（在库数量按最近入库时间分桶）
+            operationId: StockQuantService_GetStockAging
+            parameters:
+                - name: warehouseCode
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/inventory.service.v1.StockAgingResponse'
     /admin/v1/stock-locations:
         get:
             tags:
@@ -5136,6 +5154,52 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/inventory.service.v1.StockQuant'
+    /admin/v1/stock-quants/{id}:freeze:
+        post:
+            tags:
+                - StockQuantService
+            description: 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+            operationId: StockQuantService_Freeze
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/inventory.service.v1.FreezeQuantRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/stock-quants/{id}:unfreeze:
+        post:
+            tags:
+                - StockQuantService
+            description: 解冻库存行
+            operationId: StockQuantService_Unfreeze
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/inventory.service.v1.UnfreezeQuantRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/stock-quants:movement-trend:
         get:
             tags:
@@ -9356,6 +9420,15 @@ components:
                 data:
                     $ref: '#/components/schemas/inventory.service.v1.Warehouse'
             description: 创建仓库 - 请求
+        inventory.service.v1.FreezeQuantRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+            description: |-
+                库存经营总览 - 请求
+                 冻结/解冻 - 请求
         inventory.service.v1.ListLocationResponse:
             type: object
             properties:
@@ -9435,6 +9508,32 @@ components:
                         $ref: '#/components/schemas/inventory.service.v1.MovementTrendPoint'
                     description: 近 30 日每日执行记录条数（无记录的日期补 0）
             description: 库存流水趋势 - 回应
+        inventory.service.v1.StockAgingResponse:
+            type: object
+            properties:
+                rows:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/inventory.service.v1.StockAgingRow'
+        inventory.service.v1.StockAgingRow:
+            type: object
+            properties:
+                skuCode:
+                    type: string
+                warehouseCode:
+                    type: string
+                quantity:
+                    type: string
+                lastInboundAt:
+                    type: string
+                    description: 最近入库时间
+                    format: date-time
+                bucketDays:
+                    type: integer
+                    format: int32
+                frozen:
+                    type: boolean
+            description: 库龄行：当前在库 + 最近入库时间 + 分桶
         inventory.service.v1.StockLocation:
             type: object
             properties:
@@ -9600,6 +9699,13 @@ components:
                     type: string
                     description: 删除时间
                     format: date-time
+                lotName:
+                    type: string
+                    description: 收货批次号（ASN 入库 move）
+                expiryDate:
+                    type: string
+                    description: 批次效期（ASN 入库 move）
+                    format: date-time
             description: 库存移动计划（借鉴 Odoo stock.move 的计划角色）
         inventory.service.v1.StockPicking:
             type: object
@@ -9708,6 +9814,9 @@ components:
                 quantity:
                     type: string
                     description: 在手数量
+                frozen:
+                    type: boolean
+                    description: 是否冻结
                 costPrice:
                     type: string
                     description: 加权平均成本（分）
@@ -9764,6 +9873,12 @@ components:
                         $ref: '#/components/schemas/inventory.service.v1.StockQuant'
                     description: 低库存清单（按数量升序）
             description: 库存经营总览 - 回应
+        inventory.service.v1.UnfreezeQuantRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
         inventory.service.v1.UpdateLocationRequest:
             type: object
             properties:

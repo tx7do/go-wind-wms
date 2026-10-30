@@ -480,20 +480,29 @@ func (c *LocationServiceHTTPClientImpl) Update(ctx context.Context, in *v11.Upda
 	return &out, nil
 }
 
+const OperationStockQuantServiceFreeze = "/admin.service.v1.StockQuantService/Freeze"
 const OperationStockQuantServiceGet = "/admin.service.v1.StockQuantService/Get"
 const OperationStockQuantServiceGetMovementTrend = "/admin.service.v1.StockQuantService/GetMovementTrend"
 const OperationStockQuantServiceGetOverview = "/admin.service.v1.StockQuantService/GetOverview"
+const OperationStockQuantServiceGetStockAging = "/admin.service.v1.StockQuantService/GetStockAging"
 const OperationStockQuantServiceList = "/admin.service.v1.StockQuantService/List"
+const OperationStockQuantServiceUnfreeze = "/admin.service.v1.StockQuantService/Unfreeze"
 
 type StockQuantServiceHTTPServer interface {
+	// Freeze 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+	Freeze(context.Context, *v11.FreezeQuantRequest) (*emptypb.Empty, error)
 	// Get 查询库存量详情
 	Get(context.Context, *v11.GetStockQuantRequest) (*v11.StockQuant, error)
 	// GetMovementTrend 库存流水趋势
 	GetMovementTrend(context.Context, *v11.GetMovementTrendRequest) (*v11.MovementTrendResponse, error)
 	// GetOverview 库存经营总览
 	GetOverview(context.Context, *v11.GetStockQuantOverviewRequest) (*v11.StockQuantOverview, error)
+	// GetStockAging 库龄报表（在库数量按最近入库时间分桶）
+	GetStockAging(context.Context, *v11.GetStockAgingRequest) (*v11.StockAgingResponse, error)
 	// List 查询库存量列表
 	List(context.Context, *v1.PagingRequest) (*v11.ListStockQuantResponse, error)
+	// Unfreeze 解冻库存行
+	Unfreeze(context.Context, *v11.UnfreezeQuantRequest) (*emptypb.Empty, error)
 }
 
 func RegisterStockQuantServiceHTTPServer(s *http.Server, srv StockQuantServiceHTTPServer) {
@@ -502,6 +511,9 @@ func RegisterStockQuantServiceHTTPServer(s *http.Server, srv StockQuantServiceHT
 	r.GET("/admin/v1/stock-quants/{id}", _StockQuantService_Get13_HTTP_Handler(srv))
 	r.GET("/admin/v1/stock-quants:overview", _StockQuantService_GetOverview0_HTTP_Handler(srv))
 	r.GET("/admin/v1/stock-quants:movement-trend", _StockQuantService_GetMovementTrend0_HTTP_Handler(srv))
+	r.POST("/admin/v1/stock-quants/{id}:freeze", _StockQuantService_Freeze0_HTTP_Handler(srv))
+	r.POST("/admin/v1/stock-quants/{id}:unfreeze", _StockQuantService_Unfreeze0_HTTP_Handler(srv))
+	r.GET("/admin/v1/stock-aging", _StockQuantService_GetStockAging0_HTTP_Handler(srv))
 }
 
 func _StockQuantService_List13_HTTP_Handler(srv StockQuantServiceHTTPServer) func(ctx http.Context) error {
@@ -583,15 +595,90 @@ func _StockQuantService_GetMovementTrend0_HTTP_Handler(srv StockQuantServiceHTTP
 	}
 }
 
+func _StockQuantService_Freeze0_HTTP_Handler(srv StockQuantServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.FreezeQuantRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationStockQuantServiceFreeze)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.Freeze(ctx, req.(*v11.FreezeQuantRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _StockQuantService_Unfreeze0_HTTP_Handler(srv StockQuantServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.UnfreezeQuantRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationStockQuantServiceUnfreeze)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.Unfreeze(ctx, req.(*v11.UnfreezeQuantRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _StockQuantService_GetStockAging0_HTTP_Handler(srv StockQuantServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.GetStockAgingRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationStockQuantServiceGetStockAging)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetStockAging(ctx, req.(*v11.GetStockAgingRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*v11.StockAgingResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type StockQuantServiceHTTPClient interface {
+	// Freeze 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+	Freeze(ctx context.Context, req *v11.FreezeQuantRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// Get 查询库存量详情
 	Get(ctx context.Context, req *v11.GetStockQuantRequest, opts ...http.CallOption) (rsp *v11.StockQuant, err error)
 	// GetMovementTrend 库存流水趋势
 	GetMovementTrend(ctx context.Context, req *v11.GetMovementTrendRequest, opts ...http.CallOption) (rsp *v11.MovementTrendResponse, err error)
 	// GetOverview 库存经营总览
 	GetOverview(ctx context.Context, req *v11.GetStockQuantOverviewRequest, opts ...http.CallOption) (rsp *v11.StockQuantOverview, err error)
+	// GetStockAging 库龄报表（在库数量按最近入库时间分桶）
+	GetStockAging(ctx context.Context, req *v11.GetStockAgingRequest, opts ...http.CallOption) (rsp *v11.StockAgingResponse, err error)
 	// List 查询库存量列表
 	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListStockQuantResponse, err error)
+	// Unfreeze 解冻库存行
+	Unfreeze(ctx context.Context, req *v11.UnfreezeQuantRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type StockQuantServiceHTTPClientImpl struct {
@@ -600,6 +687,20 @@ type StockQuantServiceHTTPClientImpl struct {
 
 func NewStockQuantServiceHTTPClient(client *http.Client) StockQuantServiceHTTPClient {
 	return &StockQuantServiceHTTPClientImpl{client}
+}
+
+// Freeze 冻结库存行（冻结后出库扣减被拦截，盘点/移库不受限）
+func (c *StockQuantServiceHTTPClientImpl) Freeze(ctx context.Context, in *v11.FreezeQuantRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/stock-quants/{id}:freeze"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationStockQuantServiceFreeze))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 // Get 查询库存量详情
@@ -644,6 +745,20 @@ func (c *StockQuantServiceHTTPClientImpl) GetOverview(ctx context.Context, in *v
 	return &out, nil
 }
 
+// GetStockAging 库龄报表（在库数量按最近入库时间分桶）
+func (c *StockQuantServiceHTTPClientImpl) GetStockAging(ctx context.Context, in *v11.GetStockAgingRequest, opts ...http.CallOption) (*v11.StockAgingResponse, error) {
+	var out v11.StockAgingResponse
+	pattern := "/admin/v1/stock-aging"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationStockQuantServiceGetStockAging))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 // List 查询库存量列表
 func (c *StockQuantServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListStockQuantResponse, error) {
 	var out v11.ListStockQuantResponse
@@ -652,6 +767,20 @@ func (c *StockQuantServiceHTTPClientImpl) List(ctx context.Context, in *v1.Pagin
 	opts = append(opts, http.Operation(OperationStockQuantServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// Unfreeze 解冻库存行
+func (c *StockQuantServiceHTTPClientImpl) Unfreeze(ctx context.Context, in *v11.UnfreezeQuantRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/stock-quants/{id}:unfreeze"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationStockQuantServiceUnfreeze))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

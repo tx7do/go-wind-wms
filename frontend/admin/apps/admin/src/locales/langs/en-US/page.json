@@ -531,7 +531,12 @@
     "moduleName": "Stock Quant",
     "locationId": "Location ID",
     "productCode": "Product Code",
-    "quantity": "Quantity"
+    "quantity": "Quantity",
+    "frozen": "Frozen",
+    "frozenYes": "Frozen",
+    "frozenNo": "Normal",
+    "freeze": "Freeze",
+    "unfreeze": "Unfreeze"
   },
   "stockPicking": {
     "moduleName": "Stock Picking",
