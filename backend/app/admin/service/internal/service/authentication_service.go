@@ -25,7 +25,7 @@ const (
 
 // CaptchaEnabled 控制登录是否强制校验验证码。
 // 开发/无 Redis 等环境可改为 false 跳过验证码校验，避免登录被 400 invalid or missing captcha 阻断。
-const CaptchaEnabled = true
+const CaptchaEnabled = false
 
 type AuthenticationService struct {
 	adminV1.AuthenticationServiceHTTPServer

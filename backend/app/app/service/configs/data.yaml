@@ -1,6 +1,6 @@
 data:
   redis:
-    addr: "redis:6379"
+    addr: "127.0.0.1:16379"
     password: "*Abcd123456"
     dial_timeout: 10s
     read_timeout: 0.4s

@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	paginationV1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -76,6 +77,30 @@ func (r *AsnRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 }
 
+// asnStatusToProto ent 状态 → proto 状态。两侧枚举字符串不同（ent 存
+// "DRAFT"，proto 为 "ASN_DRAFT"——NamedValues 与 proto value 前缀差异），
+// 不能走通用 EnumTypeConverter（valueMap 按 proto 值建，查 ent 值必 miss）。
+func asnStatusToProto(s asn.Status) *asnV1.AsnStatus {
+	switch s {
+	case asn.StatusDraft:
+		return asnV1.AsnStatus_ASN_DRAFT.Enum()
+	case asn.StatusAnnounced:
+		return asnV1.AsnStatus_ASN_ANNOUNCED.Enum()
+	case asn.StatusReceiving:
+		return asnV1.AsnStatus_ASN_RECEIVING.Enum()
+	case asn.StatusCompleted:
+		return asnV1.AsnStatus_ASN_COMPLETED.Enum()
+	case asn.StatusCancelled:
+		return asnV1.AsnStatus_ASN_CANCELLED.Enum()
+	default:
+		return nil
+	}
+}
+
+func timeToTimestamppb(t time.Time) *timestamppb.Timestamp {
+	return timestamppb.New(t)
+}
+
 func derefUint32(v *uint32) uint32 {
 	if v == nil {
 		return 0
@@ -113,6 +138,7 @@ func (r *AsnRepo) List(ctx context.Context, req *paginationV1.PagingRequest) (re
 		return &asnV1.ListAsnResponse{Total: 0, Items: nil}, nil
 	}
 
+	r.backfillStatus(ctx, ret2.Items)
 	if err = r.attachLines(ctx, ret2.Items); err != nil {
 		return nil, err
 	}
@@ -141,6 +167,7 @@ func (r *AsnRepo) Get(ctx context.Context, req *asnV1.GetAsnRequest) (dto *asnV1
 		return nil, err
 	}
 
+	r.backfillStatus(ctx, []*asnV1.Asn{dto})
 	if err = r.attachLines(ctx, []*asnV1.Asn{dto}); err != nil {
 		return nil, err
 	}
@@ -161,11 +188,52 @@ func (r *AsnRepo) GetByNumber(ctx context.Context, number string) (dto *asnV1.As
 		return nil, err
 	}
 
+	r.backfillStatus(ctx, []*asnV1.Asn{dto})
 	if err = r.attachLines(ctx, []*asnV1.Asn{dto}); err != nil {
 		return nil, err
 	}
 
 	return dto, nil
+}
+
+// backfillStatus 回填单据状态/审计字段：ent 的 Nillable 字段是指针类型，
+// CopierMapper 注册的值类型枚举转换 pair 匹配不到指针字段，status 会被
+// 静默丢弃——这里按 id 从 ent 批量取回补上（List/Get/Create/Update 统一走此路径）。
+func (r *AsnRepo) backfillStatus(ctx context.Context, items []*asnV1.Asn) {
+	if len(items) == 0 {
+		return
+	}
+
+	ids := make([]uint32, 0, len(items))
+	for _, it := range items {
+		ids = append(ids, it.GetId())
+	}
+
+	rows, err := r.entClient.Client().Asn.Query().
+		Where(asn.IDIn(ids...)).
+		Select(asn.FieldID, asn.FieldStatus, asn.FieldExpectedDate).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("backfill asn status failed: %s", err.Error())
+		return
+	}
+
+	byID := make(map[uint32]*ent.Asn, len(rows))
+	for _, row := range rows {
+		byID[row.ID] = row
+	}
+	for _, it := range items {
+		row, ok := byID[it.GetId()]
+		if !ok {
+			continue
+		}
+		if row.Status != nil {
+			it.Status = asnStatusToProto(*row.Status)
+		}
+		if row.ExpectedDate != nil && it.ExpectedDate == nil {
+			it.ExpectedDate = timeToTimestamppb(*row.ExpectedDate)
+		}
+	}
 }
 
 // attachLines 批量装配明细（按 asn_id 一次查询，按单分组回填）。
@@ -274,6 +342,7 @@ func (r *AsnRepo) Create(ctx context.Context, req *asnV1.CreateAsnRequest) (_ *a
 	}
 
 	dto := r.mapper.ToDTO(t)
+	dto.Status = asnV1.AsnStatus_ASN_DRAFT.Enum()
 	if err = r.attachLinesTx(ctx, tx, []*asnV1.Asn{dto}); err != nil {
 		return nil, err
 	}
@@ -379,6 +448,7 @@ func (r *AsnRepo) Update(ctx context.Context, req *asnV1.UpdateAsnRequest) (resu
 		}
 	}
 
+	r.backfillStatus(ctx, []*asnV1.Asn{result})
 	if err = r.attachLines(ctx, []*asnV1.Asn{result}); err != nil {
 		return nil, err
 	}

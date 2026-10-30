@@ -293,7 +293,11 @@ func (r *LocationRepo) GetUsageTx(
 	locationID uint32,
 ) (inventoryV1.StockLocation_Usage, error) {
 	tid, hasTenant := maybeTenantFromViewer(ctx)
-	q := tx.StockLocation.Query().
+	client := r.entClient.Client()
+	if tx != nil {
+		client = tx.Client()
+	}
+	q := client.StockLocation.Query().
 		Where(stocklocation.IDEQ(locationID))
 	if hasTenant {
 		q.Where(stocklocation.TenantIDEQ(tid))
