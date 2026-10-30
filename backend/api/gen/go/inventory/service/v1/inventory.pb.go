@@ -723,6 +723,7 @@ type StockPicking struct {
 	// derived_state：从子 moves 聚合计算，不存储（借鉴 Odoo _compute_state）。
 	DerivedState *StockPicking_DerivedState `protobuf:"varint,4,opt,name=derived_state,json=derivedState,proto3,enum=inventory.service.v1.StockPicking_DerivedState,oneof" json:"derived_state,omitempty"` // 派生态
 	AsnId        *uint32                    `protobuf:"varint,14,opt,name=asn_id,json=asnId,proto3,oneof" json:"asn_id,omitempty"`                                                                         // 关联到货通知单ID
+	WaveId       *uint32                    `protobuf:"varint,15,opt,name=wave_id,json=waveId,proto3,oneof" json:"wave_id,omitempty"`                                                                      // 所属波次ID
 	PartnerCode  *string                    `protobuf:"bytes,6,opt,name=partner_code,json=partnerCode,proto3,oneof" json:"partner_code,omitempty"`                                                         // 交易方编码
 	// source/dest location：由服务层按 picking_type + 仓库推导落库（客户端不提供）。
 	SourceLocationId      *uint32 `protobuf:"varint,9,opt,name=source_location_id,json=sourceLocationId,proto3,oneof" json:"source_location_id,omitempty"`                 // 源位置ID（服务端推导，不存储客户端传值）
@@ -806,6 +807,13 @@ func (x *StockPicking) GetDerivedState() StockPicking_DerivedState {
 func (x *StockPicking) GetAsnId() uint32 {
 	if x != nil && x.AsnId != nil {
 		return *x.AsnId
+	}
+	return 0
+}
+
+func (x *StockPicking) GetWaveId() uint32 {
+	if x != nil && x.WaveId != nil {
+		return *x.WaveId
 	}
 	return 0
 }
@@ -2253,6 +2261,50 @@ func (x *ListStockPickingResponse) GetTotal() uint64 {
 	return 0
 }
 
+type GetStockPickingByNumberRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Number        string                 `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"` // 拣货单号
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetStockPickingByNumberRequest) Reset() {
+	*x = GetStockPickingByNumberRequest{}
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetStockPickingByNumberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetStockPickingByNumberRequest) ProtoMessage() {}
+
+func (x *GetStockPickingByNumberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetStockPickingByNumberRequest.ProtoReflect.Descriptor instead.
+func (*GetStockPickingByNumberRequest) Descriptor() ([]byte, []int) {
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *GetStockPickingByNumberRequest) GetNumber() string {
+	if x != nil {
+		return x.Number
+	}
+	return ""
+}
+
 type GetStockPickingRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to QueryBy:
@@ -2266,7 +2318,7 @@ type GetStockPickingRequest struct {
 
 func (x *GetStockPickingRequest) Reset() {
 	*x = GetStockPickingRequest{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[26]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2278,7 +2330,7 @@ func (x *GetStockPickingRequest) String() string {
 func (*GetStockPickingRequest) ProtoMessage() {}
 
 func (x *GetStockPickingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[26]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2291,7 +2343,7 @@ func (x *GetStockPickingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetStockPickingRequest.ProtoReflect.Descriptor instead.
 func (*GetStockPickingRequest) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{26}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *GetStockPickingRequest) GetQueryBy() isGetStockPickingRequest_QueryBy {
@@ -2336,7 +2388,7 @@ type CreateStockPickingRequest struct {
 
 func (x *CreateStockPickingRequest) Reset() {
 	*x = CreateStockPickingRequest{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[27]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2348,7 +2400,7 @@ func (x *CreateStockPickingRequest) String() string {
 func (*CreateStockPickingRequest) ProtoMessage() {}
 
 func (x *CreateStockPickingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[27]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2361,7 +2413,7 @@ func (x *CreateStockPickingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateStockPickingRequest.ProtoReflect.Descriptor instead.
 func (*CreateStockPickingRequest) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{27}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *CreateStockPickingRequest) GetData() *StockPicking {
@@ -2383,7 +2435,7 @@ type DeleteStockPickingRequest struct {
 
 func (x *DeleteStockPickingRequest) Reset() {
 	*x = DeleteStockPickingRequest{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[28]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2395,7 +2447,7 @@ func (x *DeleteStockPickingRequest) String() string {
 func (*DeleteStockPickingRequest) ProtoMessage() {}
 
 func (x *DeleteStockPickingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[28]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2408,7 +2460,7 @@ func (x *DeleteStockPickingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteStockPickingRequest.ProtoReflect.Descriptor instead.
 func (*DeleteStockPickingRequest) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{28}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *DeleteStockPickingRequest) GetQueryBy() isDeleteStockPickingRequest_QueryBy {
@@ -2446,7 +2498,7 @@ type CountStockPickingResponse struct {
 
 func (x *CountStockPickingResponse) Reset() {
 	*x = CountStockPickingResponse{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[29]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2458,7 +2510,7 @@ func (x *CountStockPickingResponse) String() string {
 func (*CountStockPickingResponse) ProtoMessage() {}
 
 func (x *CountStockPickingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[29]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2471,7 +2523,7 @@ func (x *CountStockPickingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CountStockPickingResponse.ProtoReflect.Descriptor instead.
 func (*CountStockPickingResponse) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{29}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *CountStockPickingResponse) GetCount() uint64 {
@@ -2490,7 +2542,7 @@ type ConfirmStockPickingRequest struct {
 
 func (x *ConfirmStockPickingRequest) Reset() {
 	*x = ConfirmStockPickingRequest{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[30]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2502,7 +2554,7 @@ func (x *ConfirmStockPickingRequest) String() string {
 func (*ConfirmStockPickingRequest) ProtoMessage() {}
 
 func (x *ConfirmStockPickingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[30]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2515,7 +2567,7 @@ func (x *ConfirmStockPickingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfirmStockPickingRequest.ProtoReflect.Descriptor instead.
 func (*ConfirmStockPickingRequest) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{30}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *ConfirmStockPickingRequest) GetId() uint32 {
@@ -2537,7 +2589,7 @@ type ValidateStockPickingRequest struct {
 
 func (x *ValidateStockPickingRequest) Reset() {
 	*x = ValidateStockPickingRequest{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[31]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2549,7 +2601,7 @@ func (x *ValidateStockPickingRequest) String() string {
 func (*ValidateStockPickingRequest) ProtoMessage() {}
 
 func (x *ValidateStockPickingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[31]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2562,7 +2614,7 @@ func (x *ValidateStockPickingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateStockPickingRequest.ProtoReflect.Descriptor instead.
 func (*ValidateStockPickingRequest) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{31}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ValidateStockPickingRequest) GetId() uint32 {
@@ -2588,7 +2640,7 @@ type CancelStockPickingRequest struct {
 
 func (x *CancelStockPickingRequest) Reset() {
 	*x = CancelStockPickingRequest{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[32]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2600,7 +2652,7 @@ func (x *CancelStockPickingRequest) String() string {
 func (*CancelStockPickingRequest) ProtoMessage() {}
 
 func (x *CancelStockPickingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[32]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2613,7 +2665,7 @@ func (x *CancelStockPickingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelStockPickingRequest.ProtoReflect.Descriptor instead.
 func (*CancelStockPickingRequest) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{32}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *CancelStockPickingRequest) GetId() uint32 {
@@ -2643,7 +2695,7 @@ type StockLot struct {
 
 func (x *StockLot) Reset() {
 	*x = StockLot{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[33]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2655,7 +2707,7 @@ func (x *StockLot) String() string {
 func (*StockLot) ProtoMessage() {}
 
 func (x *StockLot) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[33]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2668,7 +2720,7 @@ func (x *StockLot) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StockLot.ProtoReflect.Descriptor instead.
 func (*StockLot) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{33}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *StockLot) GetId() uint32 {
@@ -2751,7 +2803,7 @@ type ListStockLotResponse struct {
 
 func (x *ListStockLotResponse) Reset() {
 	*x = ListStockLotResponse{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[34]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2763,7 +2815,7 @@ func (x *ListStockLotResponse) String() string {
 func (*ListStockLotResponse) ProtoMessage() {}
 
 func (x *ListStockLotResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[34]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2776,7 +2828,7 @@ func (x *ListStockLotResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListStockLotResponse.ProtoReflect.Descriptor instead.
 func (*ListStockLotResponse) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{34}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *ListStockLotResponse) GetItems() []*StockLot {
@@ -2805,7 +2857,7 @@ type LotAssignment struct {
 
 func (x *LotAssignment) Reset() {
 	*x = LotAssignment{}
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[35]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2817,7 +2869,7 @@ func (x *LotAssignment) String() string {
 func (*LotAssignment) ProtoMessage() {}
 
 func (x *LotAssignment) ProtoReflect() protoreflect.Message {
-	mi := &file_inventory_service_v1_inventory_proto_msgTypes[35]
+	mi := &file_inventory_service_v1_inventory_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2830,7 +2882,7 @@ func (x *LotAssignment) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LotAssignment.ProtoReflect.Descriptor instead.
 func (*LotAssignment) Descriptor() ([]byte, []int) {
-	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{35}
+	return file_inventory_service_v1_inventory_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *LotAssignment) GetProductCode() string {
@@ -2972,35 +3024,36 @@ const file_inventory_service_v1_inventory_proto_rawDesc = "" +
 	"\v_deleted_byB\r\n" +
 	"\v_created_atB\r\n" +
 	"\v_updated_atB\r\n" +
-	"\v_deleted_at\"\xbe\x0f\n" +
+	"\v_deleted_at\"\x95\x10\n" +
 	"\fStockPicking\x12)\n" +
 	"\x02id\x18\x01 \x01(\rB\x14\xe0A\x01\xbaG\x0e\x92\x02\v拣货单IDH\x00R\x02id\x88\x01\x01\x12V\n" +
 	"\x0epicking_number\x18\x02 \x01(\tB*\xe0A\x01\xbaG$\x92\x02!拣货单号（服务端生成）H\x01R\rpickingNumber\x88\x01\x01\x12m\n" +
 	"\fpicking_type\x18\x03 \x01(\x0e2..inventory.service.v1.StockPicking.PickingTypeB\x15\xe0A\x01\xbaG\x0f\x92\x02\f拣货类型H\x02R\vpickingType\x88\x01\x01\x12\x8f\x01\n" +
 	"\rderived_state\x18\x04 \x01(\x0e2/.inventory.service.v1.StockPicking.DerivedStateB4\xbaG1\x92\x02.派生态（从子 moves 聚合，不存储）H\x03R\fderivedState\x88\x01\x01\x12<\n" +
-	"\x06asn_id\x18\x0e \x01(\rB \xe0A\x01\xbaG\x1a\x92\x02\x17关联到货通知单IDH\x04R\x05asnId\x88\x01\x01\x12@\n" +
-	"\fpartner_code\x18\x06 \x01(\tB\x18\xe0A\x01\xbaG\x12\x92\x02\x0f交易方编码H\x05R\vpartnerCode\x88\x01\x01\x12Y\n" +
-	"\x12source_location_id\x18\t \x01(\rB&\xbaG#\x92\x02 源位置ID（服务端推导）H\x06R\x10sourceLocationId\x88\x01\x01\x12f\n" +
+	"\x06asn_id\x18\x0e \x01(\rB \xe0A\x01\xbaG\x1a\x92\x02\x17关联到货通知单IDH\x04R\x05asnId\x88\x01\x01\x12I\n" +
+	"\awave_id\x18\x0f \x01(\rB+\xe0A\x01\xbaG%\x92\x02\"所属波次ID（0=未入波次）H\x05R\x06waveId\x88\x01\x01\x12@\n" +
+	"\fpartner_code\x18\x06 \x01(\tB\x18\xe0A\x01\xbaG\x12\x92\x02\x0f交易方编码H\x06R\vpartnerCode\x88\x01\x01\x12Y\n" +
+	"\x12source_location_id\x18\t \x01(\rB&\xbaG#\x92\x02 源位置ID（服务端推导）H\aR\x10sourceLocationId\x88\x01\x01\x12f\n" +
 	"\x17destination_location_id\x18\n" +
-	" \x01(\rB)\xbaG&\x92\x02#目的位置ID（服务端推导）H\aR\x15destinationLocationId\x88\x01\x01\x12R\n" +
+	" \x01(\rB)\xbaG&\x92\x02#目的位置ID（服务端推导）H\bR\x15destinationLocationId\x88\x01\x01\x12R\n" +
 	"\x05moves\x18\a \x03(\v2\x1f.inventory.service.v1.StockMoveB\x1b\xbaG\x18\x92\x02\x15子移动计划列表R\x05moves\x12)\n" +
-	"\x06remark\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06备注H\bR\x06remark\x88\x01\x01\x12S\n" +
-	"\x13from_warehouse_code\x18\f \x01(\tB\x1e\xe0A\x01\xbaG\x18\x92\x02\x15调拨源仓库编码H\tR\x11fromWarehouseCode\x88\x01\x01\x12R\n" +
-	"\x11to_warehouse_code\x18\r \x01(\tB!\xe0A\x01\xbaG\x1b\x92\x02\x18调拨目的仓库编码H\n" +
-	"R\x0ftoWarehouseCode\x88\x01\x01\x12F\n" +
-	"\ttenant_id\x18\x14 \x01(\rB$\xbaG!\x92\x02\x1e租户ID，0代表系统全局H\vR\btenantId\x88\x01\x01\x12;\n" +
+	"\x06remark\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06备注H\tR\x06remark\x88\x01\x01\x12S\n" +
+	"\x13from_warehouse_code\x18\f \x01(\tB\x1e\xe0A\x01\xbaG\x18\x92\x02\x15调拨源仓库编码H\n" +
+	"R\x11fromWarehouseCode\x88\x01\x01\x12R\n" +
+	"\x11to_warehouse_code\x18\r \x01(\tB!\xe0A\x01\xbaG\x1b\x92\x02\x18调拨目的仓库编码H\vR\x0ftoWarehouseCode\x88\x01\x01\x12F\n" +
+	"\ttenant_id\x18\x14 \x01(\rB$\xbaG!\x92\x02\x1e租户ID，0代表系统全局H\fR\btenantId\x88\x01\x01\x12;\n" +
 	"\n" +
-	"created_by\x18d \x01(\rB\x17\xbaG\x14\x92\x02\x11创建者用户IDH\fR\tcreatedBy\x88\x01\x01\x12;\n" +
+	"created_by\x18d \x01(\rB\x17\xbaG\x14\x92\x02\x11创建者用户IDH\rR\tcreatedBy\x88\x01\x01\x12;\n" +
 	"\n" +
-	"updated_by\x18e \x01(\rB\x17\xbaG\x14\x92\x02\x11更新者用户IDH\rR\tupdatedBy\x88\x01\x01\x12;\n" +
+	"updated_by\x18e \x01(\rB\x17\xbaG\x14\x92\x02\x11更新者用户IDH\x0eR\tupdatedBy\x88\x01\x01\x12;\n" +
 	"\n" +
-	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\x0eR\tdeletedBy\x88\x01\x01\x12S\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\x0fR\tdeletedBy\x88\x01\x01\x12S\n" +
 	"\n" +
-	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x0fR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x10R\tcreatedAt\x88\x01\x01\x12S\n" +
 	"\n" +
-	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x10R\tupdatedAt\x88\x01\x01\x12S\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x11R\tupdatedAt\x88\x01\x01\x12S\n" +
 	"\n" +
-	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x11R\tdeletedAt\x88\x01\x01\"Q\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x12R\tdeletedAt\x88\x01\x01\"Q\n" +
 	"\vPickingType\x12\f\n" +
 	"\bINCOMING\x10\x00\x12\f\n" +
 	"\bINTERNAL\x10\x01\x12\f\n" +
@@ -3015,7 +3068,9 @@ const file_inventory_service_v1_inventory_proto_rawDesc = "" +
 	"\x0f_picking_numberB\x0f\n" +
 	"\r_picking_typeB\x10\n" +
 	"\x0e_derived_stateB\t\n" +
-	"\a_asn_idB\x0f\n" +
+	"\a_asn_idB\n" +
+	"\n" +
+	"\b_wave_idB\x0f\n" +
 	"\r_partner_codeB\x15\n" +
 	"\x13_source_location_idB\x1a\n" +
 	"\x18_destination_location_idB\t\n" +
@@ -3162,7 +3217,9 @@ const file_inventory_service_v1_inventory_proto_rawDesc = "" +
 	"\x06points\x18\x01 \x03(\v2(.inventory.service.v1.MovementTrendPointBE\xbaGB\x92\x02?近 30 日每日执行记录条数（无记录的日期补 0）R\x06points\"j\n" +
 	"\x18ListStockPickingResponse\x128\n" +
 	"\x05items\x18\x01 \x03(\v2\".inventory.service.v1.StockPickingR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x04R\x05total\"\xc9\x01\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"8\n" +
+	"\x1eGetStockPickingByNumberRequest\x12\x16\n" +
+	"\x06number\x18\x01 \x01(\tR\x06number\"\xc9\x01\n" +
 	"\x16GetStockPickingRequest\x12\x1c\n" +
 	"\x02id\x18\x01 \x01(\rB\n" +
 	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
@@ -3249,11 +3306,12 @@ const file_inventory_service_v1_inventory_proto_rawDesc = "" +
 	"\x05Count\x12\x19.pagination.PagingRequest\x1a-.inventory.service.v1.CountStockQuantResponse\"\x00\x12U\n" +
 	"\x03Get\x12*.inventory.service.v1.GetStockQuantRequest\x1a .inventory.service.v1.StockQuant\"\x00\x12m\n" +
 	"\vGetOverview\x122.inventory.service.v1.GetStockQuantOverviewRequest\x1a(.inventory.service.v1.StockQuantOverview\"\x00\x12p\n" +
-	"\x10GetMovementTrend\x12-.inventory.service.v1.GetMovementTrendRequest\x1a+.inventory.service.v1.MovementTrendResponse\"\x002\xcb\x05\n" +
+	"\x10GetMovementTrend\x12-.inventory.service.v1.GetMovementTrendRequest\x1a+.inventory.service.v1.MovementTrendResponse\"\x002\xc2\x06\n" +
 	"\x13StockPickingService\x12S\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a..inventory.service.v1.ListStockPickingResponse\"\x00\x12U\n" +
 	"\x05Count\x12\x19.pagination.PagingRequest\x1a/.inventory.service.v1.CountStockPickingResponse\"\x00\x12Y\n" +
-	"\x03Get\x12,.inventory.service.v1.GetStockPickingRequest\x1a\".inventory.service.v1.StockPicking\"\x00\x12S\n" +
+	"\x03Get\x12,.inventory.service.v1.GetStockPickingRequest\x1a\".inventory.service.v1.StockPicking\"\x00\x12u\n" +
+	"\x17GetStockPickingByNumber\x124.inventory.service.v1.GetStockPickingByNumberRequest\x1a\".inventory.service.v1.StockPicking\"\x00\x12S\n" +
 	"\x06Create\x12/.inventory.service.v1.CreateStockPickingRequest\x1a\x16.google.protobuf.Empty\"\x00\x12U\n" +
 	"\aConfirm\x120.inventory.service.v1.ConfirmStockPickingRequest\x1a\x16.google.protobuf.Empty\"\x00\x12W\n" +
 	"\bValidate\x121.inventory.service.v1.ValidateStockPickingRequest\x1a\x16.google.protobuf.Empty\"\x00\x12S\n" +
@@ -3276,152 +3334,155 @@ func file_inventory_service_v1_inventory_proto_rawDescGZIP() []byte {
 }
 
 var file_inventory_service_v1_inventory_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
-var file_inventory_service_v1_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
+var file_inventory_service_v1_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
 var file_inventory_service_v1_inventory_proto_goTypes = []any{
-	(LotStatus)(0),                       // 0: inventory.service.v1.LotStatus
-	(StockLocation_Usage)(0),             // 1: inventory.service.v1.StockLocation.Usage
-	(StockPicking_PickingType)(0),        // 2: inventory.service.v1.StockPicking.PickingType
-	(StockPicking_DerivedState)(0),       // 3: inventory.service.v1.StockPicking.DerivedState
-	(StockMove_State)(0),                 // 4: inventory.service.v1.StockMove.State
-	(*Warehouse)(nil),                    // 5: inventory.service.v1.Warehouse
-	(*StockLocation)(nil),                // 6: inventory.service.v1.StockLocation
-	(*StockQuant)(nil),                   // 7: inventory.service.v1.StockQuant
-	(*StockPicking)(nil),                 // 8: inventory.service.v1.StockPicking
-	(*StockMove)(nil),                    // 9: inventory.service.v1.StockMove
-	(*ListWarehouseResponse)(nil),        // 10: inventory.service.v1.ListWarehouseResponse
-	(*GetWarehouseRequest)(nil),          // 11: inventory.service.v1.GetWarehouseRequest
-	(*CreateWarehouseRequest)(nil),       // 12: inventory.service.v1.CreateWarehouseRequest
-	(*UpdateWarehouseRequest)(nil),       // 13: inventory.service.v1.UpdateWarehouseRequest
-	(*DeleteWarehouseRequest)(nil),       // 14: inventory.service.v1.DeleteWarehouseRequest
-	(*CountWarehouseResponse)(nil),       // 15: inventory.service.v1.CountWarehouseResponse
-	(*ListLocationResponse)(nil),         // 16: inventory.service.v1.ListLocationResponse
-	(*GetLocationRequest)(nil),           // 17: inventory.service.v1.GetLocationRequest
-	(*CreateLocationRequest)(nil),        // 18: inventory.service.v1.CreateLocationRequest
-	(*UpdateLocationRequest)(nil),        // 19: inventory.service.v1.UpdateLocationRequest
-	(*DeleteLocationRequest)(nil),        // 20: inventory.service.v1.DeleteLocationRequest
-	(*CountLocationResponse)(nil),        // 21: inventory.service.v1.CountLocationResponse
-	(*ListStockQuantResponse)(nil),       // 22: inventory.service.v1.ListStockQuantResponse
-	(*GetStockQuantRequest)(nil),         // 23: inventory.service.v1.GetStockQuantRequest
-	(*CountStockQuantResponse)(nil),      // 24: inventory.service.v1.CountStockQuantResponse
-	(*GetStockQuantOverviewRequest)(nil), // 25: inventory.service.v1.GetStockQuantOverviewRequest
-	(*StockQuantOverview)(nil),           // 26: inventory.service.v1.StockQuantOverview
-	(*GetMovementTrendRequest)(nil),      // 27: inventory.service.v1.GetMovementTrendRequest
-	(*MovementTrendPoint)(nil),           // 28: inventory.service.v1.MovementTrendPoint
-	(*MovementTrendResponse)(nil),        // 29: inventory.service.v1.MovementTrendResponse
-	(*ListStockPickingResponse)(nil),     // 30: inventory.service.v1.ListStockPickingResponse
-	(*GetStockPickingRequest)(nil),       // 31: inventory.service.v1.GetStockPickingRequest
-	(*CreateStockPickingRequest)(nil),    // 32: inventory.service.v1.CreateStockPickingRequest
-	(*DeleteStockPickingRequest)(nil),    // 33: inventory.service.v1.DeleteStockPickingRequest
-	(*CountStockPickingResponse)(nil),    // 34: inventory.service.v1.CountStockPickingResponse
-	(*ConfirmStockPickingRequest)(nil),   // 35: inventory.service.v1.ConfirmStockPickingRequest
-	(*ValidateStockPickingRequest)(nil),  // 36: inventory.service.v1.ValidateStockPickingRequest
-	(*CancelStockPickingRequest)(nil),    // 37: inventory.service.v1.CancelStockPickingRequest
-	(*StockLot)(nil),                     // 38: inventory.service.v1.StockLot
-	(*ListStockLotResponse)(nil),         // 39: inventory.service.v1.ListStockLotResponse
-	(*LotAssignment)(nil),                // 40: inventory.service.v1.LotAssignment
-	(*timestamppb.Timestamp)(nil),        // 41: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),        // 42: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),             // 43: pagination.PagingRequest
-	(*emptypb.Empty)(nil),                // 44: google.protobuf.Empty
+	(LotStatus)(0),                         // 0: inventory.service.v1.LotStatus
+	(StockLocation_Usage)(0),               // 1: inventory.service.v1.StockLocation.Usage
+	(StockPicking_PickingType)(0),          // 2: inventory.service.v1.StockPicking.PickingType
+	(StockPicking_DerivedState)(0),         // 3: inventory.service.v1.StockPicking.DerivedState
+	(StockMove_State)(0),                   // 4: inventory.service.v1.StockMove.State
+	(*Warehouse)(nil),                      // 5: inventory.service.v1.Warehouse
+	(*StockLocation)(nil),                  // 6: inventory.service.v1.StockLocation
+	(*StockQuant)(nil),                     // 7: inventory.service.v1.StockQuant
+	(*StockPicking)(nil),                   // 8: inventory.service.v1.StockPicking
+	(*StockMove)(nil),                      // 9: inventory.service.v1.StockMove
+	(*ListWarehouseResponse)(nil),          // 10: inventory.service.v1.ListWarehouseResponse
+	(*GetWarehouseRequest)(nil),            // 11: inventory.service.v1.GetWarehouseRequest
+	(*CreateWarehouseRequest)(nil),         // 12: inventory.service.v1.CreateWarehouseRequest
+	(*UpdateWarehouseRequest)(nil),         // 13: inventory.service.v1.UpdateWarehouseRequest
+	(*DeleteWarehouseRequest)(nil),         // 14: inventory.service.v1.DeleteWarehouseRequest
+	(*CountWarehouseResponse)(nil),         // 15: inventory.service.v1.CountWarehouseResponse
+	(*ListLocationResponse)(nil),           // 16: inventory.service.v1.ListLocationResponse
+	(*GetLocationRequest)(nil),             // 17: inventory.service.v1.GetLocationRequest
+	(*CreateLocationRequest)(nil),          // 18: inventory.service.v1.CreateLocationRequest
+	(*UpdateLocationRequest)(nil),          // 19: inventory.service.v1.UpdateLocationRequest
+	(*DeleteLocationRequest)(nil),          // 20: inventory.service.v1.DeleteLocationRequest
+	(*CountLocationResponse)(nil),          // 21: inventory.service.v1.CountLocationResponse
+	(*ListStockQuantResponse)(nil),         // 22: inventory.service.v1.ListStockQuantResponse
+	(*GetStockQuantRequest)(nil),           // 23: inventory.service.v1.GetStockQuantRequest
+	(*CountStockQuantResponse)(nil),        // 24: inventory.service.v1.CountStockQuantResponse
+	(*GetStockQuantOverviewRequest)(nil),   // 25: inventory.service.v1.GetStockQuantOverviewRequest
+	(*StockQuantOverview)(nil),             // 26: inventory.service.v1.StockQuantOverview
+	(*GetMovementTrendRequest)(nil),        // 27: inventory.service.v1.GetMovementTrendRequest
+	(*MovementTrendPoint)(nil),             // 28: inventory.service.v1.MovementTrendPoint
+	(*MovementTrendResponse)(nil),          // 29: inventory.service.v1.MovementTrendResponse
+	(*ListStockPickingResponse)(nil),       // 30: inventory.service.v1.ListStockPickingResponse
+	(*GetStockPickingByNumberRequest)(nil), // 31: inventory.service.v1.GetStockPickingByNumberRequest
+	(*GetStockPickingRequest)(nil),         // 32: inventory.service.v1.GetStockPickingRequest
+	(*CreateStockPickingRequest)(nil),      // 33: inventory.service.v1.CreateStockPickingRequest
+	(*DeleteStockPickingRequest)(nil),      // 34: inventory.service.v1.DeleteStockPickingRequest
+	(*CountStockPickingResponse)(nil),      // 35: inventory.service.v1.CountStockPickingResponse
+	(*ConfirmStockPickingRequest)(nil),     // 36: inventory.service.v1.ConfirmStockPickingRequest
+	(*ValidateStockPickingRequest)(nil),    // 37: inventory.service.v1.ValidateStockPickingRequest
+	(*CancelStockPickingRequest)(nil),      // 38: inventory.service.v1.CancelStockPickingRequest
+	(*StockLot)(nil),                       // 39: inventory.service.v1.StockLot
+	(*ListStockLotResponse)(nil),           // 40: inventory.service.v1.ListStockLotResponse
+	(*LotAssignment)(nil),                  // 41: inventory.service.v1.LotAssignment
+	(*timestamppb.Timestamp)(nil),          // 42: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),          // 43: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),               // 44: pagination.PagingRequest
+	(*emptypb.Empty)(nil),                  // 45: google.protobuf.Empty
 }
 var file_inventory_service_v1_inventory_proto_depIdxs = []int32{
-	41, // 0: inventory.service.v1.Warehouse.created_at:type_name -> google.protobuf.Timestamp
-	41, // 1: inventory.service.v1.Warehouse.updated_at:type_name -> google.protobuf.Timestamp
-	41, // 2: inventory.service.v1.Warehouse.deleted_at:type_name -> google.protobuf.Timestamp
+	42, // 0: inventory.service.v1.Warehouse.created_at:type_name -> google.protobuf.Timestamp
+	42, // 1: inventory.service.v1.Warehouse.updated_at:type_name -> google.protobuf.Timestamp
+	42, // 2: inventory.service.v1.Warehouse.deleted_at:type_name -> google.protobuf.Timestamp
 	1,  // 3: inventory.service.v1.StockLocation.usage:type_name -> inventory.service.v1.StockLocation.Usage
-	41, // 4: inventory.service.v1.StockLocation.created_at:type_name -> google.protobuf.Timestamp
-	41, // 5: inventory.service.v1.StockLocation.updated_at:type_name -> google.protobuf.Timestamp
-	41, // 6: inventory.service.v1.StockLocation.deleted_at:type_name -> google.protobuf.Timestamp
-	41, // 7: inventory.service.v1.StockQuant.created_at:type_name -> google.protobuf.Timestamp
-	41, // 8: inventory.service.v1.StockQuant.updated_at:type_name -> google.protobuf.Timestamp
-	41, // 9: inventory.service.v1.StockQuant.deleted_at:type_name -> google.protobuf.Timestamp
+	42, // 4: inventory.service.v1.StockLocation.created_at:type_name -> google.protobuf.Timestamp
+	42, // 5: inventory.service.v1.StockLocation.updated_at:type_name -> google.protobuf.Timestamp
+	42, // 6: inventory.service.v1.StockLocation.deleted_at:type_name -> google.protobuf.Timestamp
+	42, // 7: inventory.service.v1.StockQuant.created_at:type_name -> google.protobuf.Timestamp
+	42, // 8: inventory.service.v1.StockQuant.updated_at:type_name -> google.protobuf.Timestamp
+	42, // 9: inventory.service.v1.StockQuant.deleted_at:type_name -> google.protobuf.Timestamp
 	2,  // 10: inventory.service.v1.StockPicking.picking_type:type_name -> inventory.service.v1.StockPicking.PickingType
 	3,  // 11: inventory.service.v1.StockPicking.derived_state:type_name -> inventory.service.v1.StockPicking.DerivedState
 	9,  // 12: inventory.service.v1.StockPicking.moves:type_name -> inventory.service.v1.StockMove
-	41, // 13: inventory.service.v1.StockPicking.created_at:type_name -> google.protobuf.Timestamp
-	41, // 14: inventory.service.v1.StockPicking.updated_at:type_name -> google.protobuf.Timestamp
-	41, // 15: inventory.service.v1.StockPicking.deleted_at:type_name -> google.protobuf.Timestamp
+	42, // 13: inventory.service.v1.StockPicking.created_at:type_name -> google.protobuf.Timestamp
+	42, // 14: inventory.service.v1.StockPicking.updated_at:type_name -> google.protobuf.Timestamp
+	42, // 15: inventory.service.v1.StockPicking.deleted_at:type_name -> google.protobuf.Timestamp
 	4,  // 16: inventory.service.v1.StockMove.state:type_name -> inventory.service.v1.StockMove.State
-	41, // 17: inventory.service.v1.StockMove.created_at:type_name -> google.protobuf.Timestamp
-	41, // 18: inventory.service.v1.StockMove.updated_at:type_name -> google.protobuf.Timestamp
-	41, // 19: inventory.service.v1.StockMove.deleted_at:type_name -> google.protobuf.Timestamp
+	42, // 17: inventory.service.v1.StockMove.created_at:type_name -> google.protobuf.Timestamp
+	42, // 18: inventory.service.v1.StockMove.updated_at:type_name -> google.protobuf.Timestamp
+	42, // 19: inventory.service.v1.StockMove.deleted_at:type_name -> google.protobuf.Timestamp
 	5,  // 20: inventory.service.v1.ListWarehouseResponse.items:type_name -> inventory.service.v1.Warehouse
-	42, // 21: inventory.service.v1.GetWarehouseRequest.view_mask:type_name -> google.protobuf.FieldMask
+	43, // 21: inventory.service.v1.GetWarehouseRequest.view_mask:type_name -> google.protobuf.FieldMask
 	5,  // 22: inventory.service.v1.CreateWarehouseRequest.data:type_name -> inventory.service.v1.Warehouse
 	5,  // 23: inventory.service.v1.UpdateWarehouseRequest.data:type_name -> inventory.service.v1.Warehouse
-	42, // 24: inventory.service.v1.UpdateWarehouseRequest.update_mask:type_name -> google.protobuf.FieldMask
+	43, // 24: inventory.service.v1.UpdateWarehouseRequest.update_mask:type_name -> google.protobuf.FieldMask
 	6,  // 25: inventory.service.v1.ListLocationResponse.items:type_name -> inventory.service.v1.StockLocation
-	42, // 26: inventory.service.v1.GetLocationRequest.view_mask:type_name -> google.protobuf.FieldMask
+	43, // 26: inventory.service.v1.GetLocationRequest.view_mask:type_name -> google.protobuf.FieldMask
 	6,  // 27: inventory.service.v1.CreateLocationRequest.data:type_name -> inventory.service.v1.StockLocation
 	6,  // 28: inventory.service.v1.UpdateLocationRequest.data:type_name -> inventory.service.v1.StockLocation
-	42, // 29: inventory.service.v1.UpdateLocationRequest.update_mask:type_name -> google.protobuf.FieldMask
+	43, // 29: inventory.service.v1.UpdateLocationRequest.update_mask:type_name -> google.protobuf.FieldMask
 	7,  // 30: inventory.service.v1.ListStockQuantResponse.items:type_name -> inventory.service.v1.StockQuant
-	42, // 31: inventory.service.v1.GetStockQuantRequest.view_mask:type_name -> google.protobuf.FieldMask
+	43, // 31: inventory.service.v1.GetStockQuantRequest.view_mask:type_name -> google.protobuf.FieldMask
 	7,  // 32: inventory.service.v1.StockQuantOverview.low_stock_items:type_name -> inventory.service.v1.StockQuant
 	28, // 33: inventory.service.v1.MovementTrendResponse.points:type_name -> inventory.service.v1.MovementTrendPoint
 	8,  // 34: inventory.service.v1.ListStockPickingResponse.items:type_name -> inventory.service.v1.StockPicking
-	42, // 35: inventory.service.v1.GetStockPickingRequest.view_mask:type_name -> google.protobuf.FieldMask
+	43, // 35: inventory.service.v1.GetStockPickingRequest.view_mask:type_name -> google.protobuf.FieldMask
 	8,  // 36: inventory.service.v1.CreateStockPickingRequest.data:type_name -> inventory.service.v1.StockPicking
-	40, // 37: inventory.service.v1.ValidateStockPickingRequest.lot_assignments:type_name -> inventory.service.v1.LotAssignment
-	41, // 38: inventory.service.v1.StockLot.expiry_date:type_name -> google.protobuf.Timestamp
+	41, // 37: inventory.service.v1.ValidateStockPickingRequest.lot_assignments:type_name -> inventory.service.v1.LotAssignment
+	42, // 38: inventory.service.v1.StockLot.expiry_date:type_name -> google.protobuf.Timestamp
 	0,  // 39: inventory.service.v1.StockLot.lot_status:type_name -> inventory.service.v1.LotStatus
-	41, // 40: inventory.service.v1.StockLot.created_at:type_name -> google.protobuf.Timestamp
-	38, // 41: inventory.service.v1.ListStockLotResponse.items:type_name -> inventory.service.v1.StockLot
-	41, // 42: inventory.service.v1.LotAssignment.expiry_date:type_name -> google.protobuf.Timestamp
-	43, // 43: inventory.service.v1.WarehouseService.List:input_type -> pagination.PagingRequest
-	43, // 44: inventory.service.v1.WarehouseService.Count:input_type -> pagination.PagingRequest
+	42, // 40: inventory.service.v1.StockLot.created_at:type_name -> google.protobuf.Timestamp
+	39, // 41: inventory.service.v1.ListStockLotResponse.items:type_name -> inventory.service.v1.StockLot
+	42, // 42: inventory.service.v1.LotAssignment.expiry_date:type_name -> google.protobuf.Timestamp
+	44, // 43: inventory.service.v1.WarehouseService.List:input_type -> pagination.PagingRequest
+	44, // 44: inventory.service.v1.WarehouseService.Count:input_type -> pagination.PagingRequest
 	11, // 45: inventory.service.v1.WarehouseService.Get:input_type -> inventory.service.v1.GetWarehouseRequest
 	12, // 46: inventory.service.v1.WarehouseService.Create:input_type -> inventory.service.v1.CreateWarehouseRequest
 	13, // 47: inventory.service.v1.WarehouseService.Update:input_type -> inventory.service.v1.UpdateWarehouseRequest
 	14, // 48: inventory.service.v1.WarehouseService.Delete:input_type -> inventory.service.v1.DeleteWarehouseRequest
-	43, // 49: inventory.service.v1.LocationService.List:input_type -> pagination.PagingRequest
-	43, // 50: inventory.service.v1.LocationService.Count:input_type -> pagination.PagingRequest
+	44, // 49: inventory.service.v1.LocationService.List:input_type -> pagination.PagingRequest
+	44, // 50: inventory.service.v1.LocationService.Count:input_type -> pagination.PagingRequest
 	17, // 51: inventory.service.v1.LocationService.Get:input_type -> inventory.service.v1.GetLocationRequest
 	18, // 52: inventory.service.v1.LocationService.Create:input_type -> inventory.service.v1.CreateLocationRequest
 	19, // 53: inventory.service.v1.LocationService.Update:input_type -> inventory.service.v1.UpdateLocationRequest
 	20, // 54: inventory.service.v1.LocationService.Delete:input_type -> inventory.service.v1.DeleteLocationRequest
-	43, // 55: inventory.service.v1.StockQuantService.List:input_type -> pagination.PagingRequest
-	43, // 56: inventory.service.v1.StockQuantService.Count:input_type -> pagination.PagingRequest
+	44, // 55: inventory.service.v1.StockQuantService.List:input_type -> pagination.PagingRequest
+	44, // 56: inventory.service.v1.StockQuantService.Count:input_type -> pagination.PagingRequest
 	23, // 57: inventory.service.v1.StockQuantService.Get:input_type -> inventory.service.v1.GetStockQuantRequest
 	25, // 58: inventory.service.v1.StockQuantService.GetOverview:input_type -> inventory.service.v1.GetStockQuantOverviewRequest
 	27, // 59: inventory.service.v1.StockQuantService.GetMovementTrend:input_type -> inventory.service.v1.GetMovementTrendRequest
-	43, // 60: inventory.service.v1.StockPickingService.List:input_type -> pagination.PagingRequest
-	43, // 61: inventory.service.v1.StockPickingService.Count:input_type -> pagination.PagingRequest
-	31, // 62: inventory.service.v1.StockPickingService.Get:input_type -> inventory.service.v1.GetStockPickingRequest
-	32, // 63: inventory.service.v1.StockPickingService.Create:input_type -> inventory.service.v1.CreateStockPickingRequest
-	35, // 64: inventory.service.v1.StockPickingService.Confirm:input_type -> inventory.service.v1.ConfirmStockPickingRequest
-	36, // 65: inventory.service.v1.StockPickingService.Validate:input_type -> inventory.service.v1.ValidateStockPickingRequest
-	37, // 66: inventory.service.v1.StockPickingService.Cancel:input_type -> inventory.service.v1.CancelStockPickingRequest
-	33, // 67: inventory.service.v1.StockPickingService.Delete:input_type -> inventory.service.v1.DeleteStockPickingRequest
-	43, // 68: inventory.service.v1.StockLotService.List:input_type -> pagination.PagingRequest
-	10, // 69: inventory.service.v1.WarehouseService.List:output_type -> inventory.service.v1.ListWarehouseResponse
-	15, // 70: inventory.service.v1.WarehouseService.Count:output_type -> inventory.service.v1.CountWarehouseResponse
-	5,  // 71: inventory.service.v1.WarehouseService.Get:output_type -> inventory.service.v1.Warehouse
-	44, // 72: inventory.service.v1.WarehouseService.Create:output_type -> google.protobuf.Empty
-	44, // 73: inventory.service.v1.WarehouseService.Update:output_type -> google.protobuf.Empty
-	44, // 74: inventory.service.v1.WarehouseService.Delete:output_type -> google.protobuf.Empty
-	16, // 75: inventory.service.v1.LocationService.List:output_type -> inventory.service.v1.ListLocationResponse
-	21, // 76: inventory.service.v1.LocationService.Count:output_type -> inventory.service.v1.CountLocationResponse
-	6,  // 77: inventory.service.v1.LocationService.Get:output_type -> inventory.service.v1.StockLocation
-	44, // 78: inventory.service.v1.LocationService.Create:output_type -> google.protobuf.Empty
-	44, // 79: inventory.service.v1.LocationService.Update:output_type -> google.protobuf.Empty
-	44, // 80: inventory.service.v1.LocationService.Delete:output_type -> google.protobuf.Empty
-	22, // 81: inventory.service.v1.StockQuantService.List:output_type -> inventory.service.v1.ListStockQuantResponse
-	24, // 82: inventory.service.v1.StockQuantService.Count:output_type -> inventory.service.v1.CountStockQuantResponse
-	7,  // 83: inventory.service.v1.StockQuantService.Get:output_type -> inventory.service.v1.StockQuant
-	26, // 84: inventory.service.v1.StockQuantService.GetOverview:output_type -> inventory.service.v1.StockQuantOverview
-	29, // 85: inventory.service.v1.StockQuantService.GetMovementTrend:output_type -> inventory.service.v1.MovementTrendResponse
-	30, // 86: inventory.service.v1.StockPickingService.List:output_type -> inventory.service.v1.ListStockPickingResponse
-	34, // 87: inventory.service.v1.StockPickingService.Count:output_type -> inventory.service.v1.CountStockPickingResponse
-	8,  // 88: inventory.service.v1.StockPickingService.Get:output_type -> inventory.service.v1.StockPicking
-	44, // 89: inventory.service.v1.StockPickingService.Create:output_type -> google.protobuf.Empty
-	44, // 90: inventory.service.v1.StockPickingService.Confirm:output_type -> google.protobuf.Empty
-	44, // 91: inventory.service.v1.StockPickingService.Validate:output_type -> google.protobuf.Empty
-	44, // 92: inventory.service.v1.StockPickingService.Cancel:output_type -> google.protobuf.Empty
-	44, // 93: inventory.service.v1.StockPickingService.Delete:output_type -> google.protobuf.Empty
-	39, // 94: inventory.service.v1.StockLotService.List:output_type -> inventory.service.v1.ListStockLotResponse
-	69, // [69:95] is the sub-list for method output_type
-	43, // [43:69] is the sub-list for method input_type
+	44, // 60: inventory.service.v1.StockPickingService.List:input_type -> pagination.PagingRequest
+	44, // 61: inventory.service.v1.StockPickingService.Count:input_type -> pagination.PagingRequest
+	32, // 62: inventory.service.v1.StockPickingService.Get:input_type -> inventory.service.v1.GetStockPickingRequest
+	31, // 63: inventory.service.v1.StockPickingService.GetStockPickingByNumber:input_type -> inventory.service.v1.GetStockPickingByNumberRequest
+	33, // 64: inventory.service.v1.StockPickingService.Create:input_type -> inventory.service.v1.CreateStockPickingRequest
+	36, // 65: inventory.service.v1.StockPickingService.Confirm:input_type -> inventory.service.v1.ConfirmStockPickingRequest
+	37, // 66: inventory.service.v1.StockPickingService.Validate:input_type -> inventory.service.v1.ValidateStockPickingRequest
+	38, // 67: inventory.service.v1.StockPickingService.Cancel:input_type -> inventory.service.v1.CancelStockPickingRequest
+	34, // 68: inventory.service.v1.StockPickingService.Delete:input_type -> inventory.service.v1.DeleteStockPickingRequest
+	44, // 69: inventory.service.v1.StockLotService.List:input_type -> pagination.PagingRequest
+	10, // 70: inventory.service.v1.WarehouseService.List:output_type -> inventory.service.v1.ListWarehouseResponse
+	15, // 71: inventory.service.v1.WarehouseService.Count:output_type -> inventory.service.v1.CountWarehouseResponse
+	5,  // 72: inventory.service.v1.WarehouseService.Get:output_type -> inventory.service.v1.Warehouse
+	45, // 73: inventory.service.v1.WarehouseService.Create:output_type -> google.protobuf.Empty
+	45, // 74: inventory.service.v1.WarehouseService.Update:output_type -> google.protobuf.Empty
+	45, // 75: inventory.service.v1.WarehouseService.Delete:output_type -> google.protobuf.Empty
+	16, // 76: inventory.service.v1.LocationService.List:output_type -> inventory.service.v1.ListLocationResponse
+	21, // 77: inventory.service.v1.LocationService.Count:output_type -> inventory.service.v1.CountLocationResponse
+	6,  // 78: inventory.service.v1.LocationService.Get:output_type -> inventory.service.v1.StockLocation
+	45, // 79: inventory.service.v1.LocationService.Create:output_type -> google.protobuf.Empty
+	45, // 80: inventory.service.v1.LocationService.Update:output_type -> google.protobuf.Empty
+	45, // 81: inventory.service.v1.LocationService.Delete:output_type -> google.protobuf.Empty
+	22, // 82: inventory.service.v1.StockQuantService.List:output_type -> inventory.service.v1.ListStockQuantResponse
+	24, // 83: inventory.service.v1.StockQuantService.Count:output_type -> inventory.service.v1.CountStockQuantResponse
+	7,  // 84: inventory.service.v1.StockQuantService.Get:output_type -> inventory.service.v1.StockQuant
+	26, // 85: inventory.service.v1.StockQuantService.GetOverview:output_type -> inventory.service.v1.StockQuantOverview
+	29, // 86: inventory.service.v1.StockQuantService.GetMovementTrend:output_type -> inventory.service.v1.MovementTrendResponse
+	30, // 87: inventory.service.v1.StockPickingService.List:output_type -> inventory.service.v1.ListStockPickingResponse
+	35, // 88: inventory.service.v1.StockPickingService.Count:output_type -> inventory.service.v1.CountStockPickingResponse
+	8,  // 89: inventory.service.v1.StockPickingService.Get:output_type -> inventory.service.v1.StockPicking
+	8,  // 90: inventory.service.v1.StockPickingService.GetStockPickingByNumber:output_type -> inventory.service.v1.StockPicking
+	45, // 91: inventory.service.v1.StockPickingService.Create:output_type -> google.protobuf.Empty
+	45, // 92: inventory.service.v1.StockPickingService.Confirm:output_type -> google.protobuf.Empty
+	45, // 93: inventory.service.v1.StockPickingService.Validate:output_type -> google.protobuf.Empty
+	45, // 94: inventory.service.v1.StockPickingService.Cancel:output_type -> google.protobuf.Empty
+	45, // 95: inventory.service.v1.StockPickingService.Delete:output_type -> google.protobuf.Empty
+	40, // 96: inventory.service.v1.StockLotService.List:output_type -> inventory.service.v1.ListStockLotResponse
+	70, // [70:97] is the sub-list for method output_type
+	43, // [43:70] is the sub-list for method input_type
 	43, // [43:43] is the sub-list for extension type_name
 	43, // [43:43] is the sub-list for extension extendee
 	0,  // [0:43] is the sub-list for field type_name
@@ -3455,21 +3516,21 @@ func file_inventory_service_v1_inventory_proto_init() {
 		(*GetStockQuantRequest_Id)(nil),
 	}
 	file_inventory_service_v1_inventory_proto_msgTypes[20].OneofWrappers = []any{}
-	file_inventory_service_v1_inventory_proto_msgTypes[26].OneofWrappers = []any{
+	file_inventory_service_v1_inventory_proto_msgTypes[27].OneofWrappers = []any{
 		(*GetStockPickingRequest_Id)(nil),
 	}
-	file_inventory_service_v1_inventory_proto_msgTypes[28].OneofWrappers = []any{
+	file_inventory_service_v1_inventory_proto_msgTypes[29].OneofWrappers = []any{
 		(*DeleteStockPickingRequest_Id)(nil),
 	}
-	file_inventory_service_v1_inventory_proto_msgTypes[33].OneofWrappers = []any{}
-	file_inventory_service_v1_inventory_proto_msgTypes[35].OneofWrappers = []any{}
+	file_inventory_service_v1_inventory_proto_msgTypes[34].OneofWrappers = []any{}
+	file_inventory_service_v1_inventory_proto_msgTypes[36].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_inventory_service_v1_inventory_proto_rawDesc), len(file_inventory_service_v1_inventory_proto_rawDesc)),
 			NumEnums:      5,
-			NumMessages:   36,
+			NumMessages:   37,
 			NumExtensions: 0,
 			NumServices:   5,
 		},

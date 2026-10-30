@@ -84,6 +84,9 @@ service StockPickingService {
   // 查询拣货单详情（含 moves）
   rpc Get (GetStockPickingRequest) returns (StockPicking) {}
 
+  // 按拣货单号查询（PDA 扫码入口；含 moves）
+  rpc GetStockPickingByNumber (GetStockPickingByNumberRequest) returns (StockPicking) {}
+
   // 创建拣货单（含嵌套 moves；type=INTERNAL 调拨 / OUTGOING 出库 /
   // INVENTORY_ADJUSTMENT 盘点，客户端提供明细；INCOMING 由 ASN 收货生成）
   rpc Create (CreateStockPickingRequest) returns (google.protobuf.Empty) {}
@@ -353,6 +356,14 @@ message StockPicking {
           description: "关联到货通知单ID"
         }
   ]; // 关联到货通知单ID
+
+  optional uint32 wave_id = 15 [
+    json_name = "waveId",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+          description: "所属波次ID（0=未入波次）"
+        }
+  ]; // 所属波次ID
 
   optional string partner_code = 6 [
     json_name = "partnerCode",
@@ -713,6 +724,10 @@ message MovementTrendResponse {
 message ListStockPickingResponse {
   repeated StockPicking items = 1;
   uint64 total = 2;
+}
+
+message GetStockPickingByNumberRequest {
+  string number = 1 [json_name = "number"]; // 拣货单号
 }
 
 message GetStockPickingRequest {

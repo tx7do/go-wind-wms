@@ -61,7 +61,8 @@
     "stockPicking": "拣货单",
     "product": "商品管理",
     "stockLot": "批次库存",
-    "asn": "到货通知"
+    "asn": "到货通知",
+    "wave": "波次执行"
   },
   "approval": {
     "moduleName": "审批中心",

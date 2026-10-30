@@ -204,6 +204,20 @@ func (_c *StockPickingCreate) SetNillableAsnID(v *uint32) *StockPickingCreate {
 	return _c
 }
 
+// SetWaveID sets the "wave_id" field.
+func (_c *StockPickingCreate) SetWaveID(v uint32) *StockPickingCreate {
+	_c.mutation.SetWaveID(v)
+	return _c
+}
+
+// SetNillableWaveID sets the "wave_id" field if the given value is not nil.
+func (_c *StockPickingCreate) SetNillableWaveID(v *uint32) *StockPickingCreate {
+	if v != nil {
+		_c.SetWaveID(*v)
+	}
+	return _c
+}
+
 // SetPartnerCode sets the "partner_code" field.
 func (_c *StockPickingCreate) SetPartnerCode(v string) *StockPickingCreate {
 	_c.mutation.SetPartnerCode(v)
@@ -280,6 +294,10 @@ func (_c *StockPickingCreate) defaults() error {
 	if _, ok := _c.mutation.AsnID(); !ok {
 		v := stockpicking.DefaultAsnID
 		_c.mutation.SetAsnID(v)
+	}
+	if _, ok := _c.mutation.WaveID(); !ok {
+		v := stockpicking.DefaultWaveID
+		_c.mutation.SetWaveID(v)
 	}
 	return nil
 }
@@ -380,6 +398,10 @@ func (_c *StockPickingCreate) createSpec() (*StockPicking, *sqlgraph.CreateSpec)
 	if value, ok := _c.mutation.AsnID(); ok {
 		_spec.SetField(stockpicking.FieldAsnID, field.TypeUint32, value)
 		_node.AsnID = &value
+	}
+	if value, ok := _c.mutation.WaveID(); ok {
+		_spec.SetField(stockpicking.FieldWaveID, field.TypeUint32, value)
+		_node.WaveID = &value
 	}
 	if value, ok := _c.mutation.PartnerCode(); ok {
 		_spec.SetField(stockpicking.FieldPartnerCode, field.TypeString, value)
@@ -668,6 +690,30 @@ func (u *StockPickingUpsert) AddAsnID(v uint32) *StockPickingUpsert {
 // ClearAsnID clears the value of the "asn_id" field.
 func (u *StockPickingUpsert) ClearAsnID() *StockPickingUpsert {
 	u.SetNull(stockpicking.FieldAsnID)
+	return u
+}
+
+// SetWaveID sets the "wave_id" field.
+func (u *StockPickingUpsert) SetWaveID(v uint32) *StockPickingUpsert {
+	u.Set(stockpicking.FieldWaveID, v)
+	return u
+}
+
+// UpdateWaveID sets the "wave_id" field to the value that was provided on create.
+func (u *StockPickingUpsert) UpdateWaveID() *StockPickingUpsert {
+	u.SetExcluded(stockpicking.FieldWaveID)
+	return u
+}
+
+// AddWaveID adds v to the "wave_id" field.
+func (u *StockPickingUpsert) AddWaveID(v uint32) *StockPickingUpsert {
+	u.Add(stockpicking.FieldWaveID, v)
+	return u
+}
+
+// ClearWaveID clears the value of the "wave_id" field.
+func (u *StockPickingUpsert) ClearWaveID() *StockPickingUpsert {
+	u.SetNull(stockpicking.FieldWaveID)
 	return u
 }
 
@@ -1013,6 +1059,34 @@ func (u *StockPickingUpsertOne) UpdateAsnID() *StockPickingUpsertOne {
 func (u *StockPickingUpsertOne) ClearAsnID() *StockPickingUpsertOne {
 	return u.Update(func(s *StockPickingUpsert) {
 		s.ClearAsnID()
+	})
+}
+
+// SetWaveID sets the "wave_id" field.
+func (u *StockPickingUpsertOne) SetWaveID(v uint32) *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.SetWaveID(v)
+	})
+}
+
+// AddWaveID adds v to the "wave_id" field.
+func (u *StockPickingUpsertOne) AddWaveID(v uint32) *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.AddWaveID(v)
+	})
+}
+
+// UpdateWaveID sets the "wave_id" field to the value that was provided on create.
+func (u *StockPickingUpsertOne) UpdateWaveID() *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.UpdateWaveID()
+	})
+}
+
+// ClearWaveID clears the value of the "wave_id" field.
+func (u *StockPickingUpsertOne) ClearWaveID() *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.ClearWaveID()
 	})
 }
 
@@ -1527,6 +1601,34 @@ func (u *StockPickingUpsertBulk) UpdateAsnID() *StockPickingUpsertBulk {
 func (u *StockPickingUpsertBulk) ClearAsnID() *StockPickingUpsertBulk {
 	return u.Update(func(s *StockPickingUpsert) {
 		s.ClearAsnID()
+	})
+}
+
+// SetWaveID sets the "wave_id" field.
+func (u *StockPickingUpsertBulk) SetWaveID(v uint32) *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.SetWaveID(v)
+	})
+}
+
+// AddWaveID adds v to the "wave_id" field.
+func (u *StockPickingUpsertBulk) AddWaveID(v uint32) *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.AddWaveID(v)
+	})
+}
+
+// UpdateWaveID sets the "wave_id" field to the value that was provided on create.
+func (u *StockPickingUpsertBulk) UpdateWaveID() *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.UpdateWaveID()
+	})
+}
+
+// ClearWaveID clears the value of the "wave_id" field.
+func (u *StockPickingUpsertBulk) ClearWaveID() *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.ClearWaveID()
 	})
 }
 

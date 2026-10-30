@@ -826,6 +826,10 @@ func (m *StockPicking) validate(all bool) error {
 		// no validation rules for AsnId
 	}
 
+	if m.WaveId != nil {
+		// no validation rules for WaveId
+	}
+
 	if m.PartnerCode != nil {
 		// no validation rules for PartnerCode
 	}
@@ -4038,6 +4042,111 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListStockPickingResponseValidationError{}
+
+// Validate checks the field values on GetStockPickingByNumberRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetStockPickingByNumberRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetStockPickingByNumberRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetStockPickingByNumberRequestMultiError, or nil if none found.
+func (m *GetStockPickingByNumberRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetStockPickingByNumberRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Number
+
+	if len(errors) > 0 {
+		return GetStockPickingByNumberRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetStockPickingByNumberRequestMultiError is an error wrapping multiple
+// validation errors returned by GetStockPickingByNumberRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetStockPickingByNumberRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetStockPickingByNumberRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetStockPickingByNumberRequestMultiError) AllErrors() []error { return m }
+
+// GetStockPickingByNumberRequestValidationError is the validation error
+// returned by GetStockPickingByNumberRequest.Validate if the designated
+// constraints aren't met.
+type GetStockPickingByNumberRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetStockPickingByNumberRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetStockPickingByNumberRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetStockPickingByNumberRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetStockPickingByNumberRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetStockPickingByNumberRequestValidationError) ErrorName() string {
+	return "GetStockPickingByNumberRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetStockPickingByNumberRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetStockPickingByNumberRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetStockPickingByNumberRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetStockPickingByNumberRequestValidationError{}
 
 // Validate checks the field values on GetStockPickingRequest with the rules
 // defined in the proto definition for this message. If any rules are

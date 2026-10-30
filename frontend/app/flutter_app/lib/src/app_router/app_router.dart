@@ -27,6 +27,7 @@ import 'package:go_wind_wms/src/features/asn/domain/asn_repository.dart';
 import 'package:go_wind_wms/src/features/asn/presentation/asn_cubit.dart';
 import 'package:go_wind_wms/src/features/asn/presentation/asn_detail_page.dart';
 import 'package:go_wind_wms/src/features/asn/presentation/asn_page.dart';
+import 'package:go_wind_wms/src/features/outbound/outbound_page.dart';
 import 'package:go_wind_wms/src/features/wms/domain/wms_repository.dart'
     show WmsRepository;
 import 'package:go_wind_wms/src/features/wms/presentation/wms_cubit.dart';
@@ -99,6 +100,12 @@ GoRouter createAppRouter() {
                   child: const WmsPage(),
                 ),
                 routes: [
+                  GoRoute(
+                    name: RouteNames.outbound,
+                    path: 'outbound',
+                    builder: (context, state) =>
+                        const OutboundPage(),
+                  ),
                   GoRoute(
                     name: RouteNames.asn,
                     path: 'asn',

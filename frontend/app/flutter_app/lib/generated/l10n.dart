@@ -933,6 +933,106 @@ class S {
       args: [],
     );
   }
+
+  /// `出库作业`
+  String get navOutbound {
+    return Intl.message('出库作业', name: 'navOutbound', desc: '', args: []);
+  }
+
+  /// `扫描/输入拣货单号`
+  String get outboundScanHint {
+    return Intl.message(
+      '扫描/输入拣货单号',
+      name: 'outboundScanHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `拣货单号不存在`
+  String get outboundNotFound {
+    return Intl.message(
+      '拣货单号不存在',
+      name: 'outboundNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `操作被拒绝：请核对库存与单据状态`
+  String get outboundRejected {
+    return Intl.message(
+      '操作被拒绝：请核对库存与单据状态',
+      name: 'outboundRejected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `登录已过期，请重新登录`
+  String get outboundUnauthorized {
+    return Intl.message(
+      '登录已过期，请重新登录',
+      name: 'outboundUnauthorized',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `网络异常，请稍后重试`
+  String get outboundNetwork {
+    return Intl.message(
+      '网络异常，请稍后重试',
+      name: 'outboundNetwork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `操作失败，请稍后重试`
+  String get outboundUnknown {
+    return Intl.message(
+      '操作失败，请稍后重试',
+      name: 'outboundUnknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `收货客户`
+  String get outboundConsignee {
+    return Intl.message('收货客户', name: 'outboundConsignee', desc: '', args: []);
+  }
+
+  /// `确认拣货`
+  String get outboundConfirm {
+    return Intl.message('确认拣货', name: 'outboundConfirm', desc: '', args: []);
+  }
+
+  /// `校验出库`
+  String get outboundValidate {
+    return Intl.message('校验出库', name: 'outboundValidate', desc: '', args: []);
+  }
+
+  /// `已确认，可开始拣货`
+  String get outboundConfirmed {
+    return Intl.message(
+      '已确认，可开始拣货',
+      name: 'outboundConfirmed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `出库完成，库存已扣减`
+  String get outboundValidated {
+    return Intl.message(
+      '出库完成，库存已扣减',
+      name: 'outboundValidated',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

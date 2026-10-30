@@ -265,6 +265,7 @@ const OperationStockPickingServiceCancel = "/app.service.v1.StockPickingService/
 const OperationStockPickingServiceConfirm = "/app.service.v1.StockPickingService/Confirm"
 const OperationStockPickingServiceCreate = "/app.service.v1.StockPickingService/Create"
 const OperationStockPickingServiceGet = "/app.service.v1.StockPickingService/Get"
+const OperationStockPickingServiceGetStockPickingByNumber = "/app.service.v1.StockPickingService/GetStockPickingByNumber"
 const OperationStockPickingServiceList = "/app.service.v1.StockPickingService/List"
 const OperationStockPickingServiceValidate = "/app.service.v1.StockPickingService/Validate"
 
@@ -277,6 +278,8 @@ type StockPickingServiceHTTPServer interface {
 	Create(context.Context, *v11.CreateStockPickingRequest) (*emptypb.Empty, error)
 	// Get 查询拣货单详情
 	Get(context.Context, *v11.GetStockPickingRequest) (*v11.StockPicking, error)
+	// GetStockPickingByNumber 按拣货单号查询（PDA 扫码入口）
+	GetStockPickingByNumber(context.Context, *v11.GetStockPickingByNumberRequest) (*v11.StockPicking, error)
 	// List 查询拣货单列表
 	List(context.Context, *v1.PagingRequest) (*v11.ListStockPickingResponse, error)
 	// Validate 校验拣货单
@@ -287,6 +290,7 @@ func RegisterStockPickingServiceHTTPServer(s *http.Server, srv StockPickingServi
 	r := s.Route("/")
 	r.GET("/app/v1/stock-pickings", _StockPickingService_List4_HTTP_Handler(srv))
 	r.GET("/app/v1/stock-pickings/{id}", _StockPickingService_Get4_HTTP_Handler(srv))
+	r.GET("/app/v1/stock-pickings/by-number/{number}", _StockPickingService_GetStockPickingByNumber0_HTTP_Handler(srv))
 	r.POST("/app/v1/stock-pickings", _StockPickingService_Create0_HTTP_Handler(srv))
 	r.POST("/app/v1/stock-pickings/{id}:confirm", _StockPickingService_Confirm0_HTTP_Handler(srv))
 	r.POST("/app/v1/stock-pickings/{id}:validate", _StockPickingService_Validate0_HTTP_Handler(srv))
@@ -324,6 +328,28 @@ func _StockPickingService_Get4_HTTP_Handler(srv StockPickingServiceHTTPServer) f
 		http.SetOperation(ctx, OperationStockPickingServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.Get(ctx, req.(*v11.GetStockPickingRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*v11.StockPicking)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _StockPickingService_GetStockPickingByNumber0_HTTP_Handler(srv StockPickingServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.GetStockPickingByNumberRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationStockPickingServiceGetStockPickingByNumber)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetStockPickingByNumber(ctx, req.(*v11.GetStockPickingByNumberRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -440,6 +466,8 @@ type StockPickingServiceHTTPClient interface {
 	Create(ctx context.Context, req *v11.CreateStockPickingRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// Get 查询拣货单详情
 	Get(ctx context.Context, req *v11.GetStockPickingRequest, opts ...http.CallOption) (rsp *v11.StockPicking, err error)
+	// GetStockPickingByNumber 按拣货单号查询（PDA 扫码入口）
+	GetStockPickingByNumber(ctx context.Context, req *v11.GetStockPickingByNumberRequest, opts ...http.CallOption) (rsp *v11.StockPicking, err error)
 	// List 查询拣货单列表
 	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListStockPickingResponse, err error)
 	// Validate 校验拣货单
@@ -502,6 +530,20 @@ func (c *StockPickingServiceHTTPClientImpl) Get(ctx context.Context, in *v11.Get
 	pattern := "/app/v1/stock-pickings/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationStockPickingServiceGet))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// GetStockPickingByNumber 按拣货单号查询（PDA 扫码入口）
+func (c *StockPickingServiceHTTPClientImpl) GetStockPickingByNumber(ctx context.Context, in *v11.GetStockPickingByNumberRequest, opts ...http.CallOption) (*v11.StockPicking, error) {
+	var out v11.StockPicking
+	pattern := "/app/v1/stock-pickings/by-number/{number}"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationStockPickingServiceGetStockPickingByNumber))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

@@ -173,7 +173,7 @@ var (
 		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID", Default: 0},
-		{Name: "biz_type", Type: field.TypeString, Nullable: true, Comment: "业务类型：PURCHASE_ORDER/SALES_ORDER/PAYMENT/RECEIPT"},
+		{Name: "biz_type", Type: field.TypeString, Nullable: true, Comment: "业务类型标识（如 WMS_ADJUSTMENT / WMS_COUNT_DIFF，由业务方定义）"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "流程名称"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "启用状态：ON=生效（同业务类型唯一），OFF=停用", Enums: []string{"ON", "OFF"}, Default: "ON"},
 	}
@@ -2648,6 +2648,7 @@ var (
 		{Name: "source_location_id", Type: field.TypeUint32, Nullable: true, Comment: "源位置ID", Default: 0},
 		{Name: "destination_location_id", Type: field.TypeUint32, Nullable: true, Comment: "目的位置ID", Default: 0},
 		{Name: "asn_id", Type: field.TypeUint32, Nullable: true, Comment: "关联到货通知单ID", Default: 0},
+		{Name: "wave_id", Type: field.TypeUint32, Nullable: true, Comment: "所属波次ID（OUTGOING；0=未入波次）", Default: 0},
 		{Name: "partner_code", Type: field.TypeString, Nullable: true, Comment: "交易方编码（供应商/客户）"},
 	}
 	// InvStockPickingsTable holds the schema information for the "inv_stock_pickings" table.
@@ -2666,6 +2667,11 @@ var (
 				Name:    "idx_inv_stock_picking_tenant_asn",
 				Unique:  false,
 				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[13]},
+			},
+			{
+				Name:    "idx_inv_stock_picking_tenant_wave",
+				Unique:  false,
+				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[14]},
 			},
 		},
 	}
@@ -3321,6 +3327,34 @@ var (
 			},
 		},
 	}
+	// WmsWavesColumns holds the columns for the "wms_waves" table.
+	WmsWavesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID", Default: 0},
+		{Name: "wave_number", Type: field.TypeString, Nullable: true, Comment: "波次号（服务端生成，租户范围内唯一）"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态：DRAFT=草稿，RUNNING=执行中，COMPLETED=已完成，CANCELLED=已取消", Enums: []string{"DRAFT", "RUNNING", "COMPLETED", "CANCELLED"}, Default: "DRAFT"},
+	}
+	// WmsWavesTable holds the schema information for the "wms_waves" table.
+	WmsWavesTable = &schema.Table{
+		Name:       "wms_waves",
+		Comment:    "波次表",
+		Columns:    WmsWavesColumns,
+		PrimaryKey: []*schema.Column{WmsWavesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "idx_wms_wave_tenant_number",
+				Unique:  true,
+				Columns: []*schema.Column{WmsWavesColumns[8], WmsWavesColumns[9]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		SysApisTable,
@@ -3376,6 +3410,7 @@ var (
 		SysUserPositionsTable,
 		SysUserRolesTable,
 		InvWarehousesTable,
+		WmsWavesTable,
 	}
 )
 
@@ -3647,6 +3682,11 @@ func init() {
 	}
 	InvWarehousesTable.Annotation = &entsql.Annotation{
 		Table:     "inv_warehouses",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	WmsWavesTable.Annotation = &entsql.Annotation{
+		Table:     "wms_waves",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

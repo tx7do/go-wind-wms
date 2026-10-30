@@ -114,6 +114,11 @@ func AsnID(v uint32) predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldEQ(FieldAsnID, v))
 }
 
+// WaveID applies equality check predicate on the "wave_id" field. It's identical to WaveIDEQ.
+func WaveID(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldEQ(FieldWaveID, v))
+}
+
 // PartnerCode applies equality check predicate on the "partner_code" field. It's identical to PartnerCodeEQ.
 func PartnerCode(v string) predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldEQ(FieldPartnerCode, v))
@@ -797,6 +802,56 @@ func AsnIDIsNil() predicate.StockPicking {
 // AsnIDNotNil applies the NotNil predicate on the "asn_id" field.
 func AsnIDNotNil() predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldNotNull(FieldAsnID))
+}
+
+// WaveIDEQ applies the EQ predicate on the "wave_id" field.
+func WaveIDEQ(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldEQ(FieldWaveID, v))
+}
+
+// WaveIDNEQ applies the NEQ predicate on the "wave_id" field.
+func WaveIDNEQ(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldNEQ(FieldWaveID, v))
+}
+
+// WaveIDIn applies the In predicate on the "wave_id" field.
+func WaveIDIn(vs ...uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldIn(FieldWaveID, vs...))
+}
+
+// WaveIDNotIn applies the NotIn predicate on the "wave_id" field.
+func WaveIDNotIn(vs ...uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldNotIn(FieldWaveID, vs...))
+}
+
+// WaveIDGT applies the GT predicate on the "wave_id" field.
+func WaveIDGT(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldGT(FieldWaveID, v))
+}
+
+// WaveIDGTE applies the GTE predicate on the "wave_id" field.
+func WaveIDGTE(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldGTE(FieldWaveID, v))
+}
+
+// WaveIDLT applies the LT predicate on the "wave_id" field.
+func WaveIDLT(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldLT(FieldWaveID, v))
+}
+
+// WaveIDLTE applies the LTE predicate on the "wave_id" field.
+func WaveIDLTE(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldLTE(FieldWaveID, v))
+}
+
+// WaveIDIsNil applies the IsNil predicate on the "wave_id" field.
+func WaveIDIsNil() predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldIsNull(FieldWaveID))
+}
+
+// WaveIDNotNil applies the NotNil predicate on the "wave_id" field.
+func WaveIDNotNil() predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldNotNull(FieldWaveID))
 }
 
 // PartnerCodeEQ applies the EQ predicate on the "partner_code" field.

@@ -9,5 +9,6 @@ class RouteNames {
   static const String approval = 'approval';
   static const String wms = 'wms';
   static const String asn = 'asn';
+  static const String outbound = 'outbound';
   static const String asnDetail = 'asnDetail';
 }

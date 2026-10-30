@@ -74,6 +74,13 @@ func (StockPicking) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
+		// wave_id：拣货单所属波次（M2b 出库合并执行编排）。
+		field.Uint32("wave_id").
+			Comment("所属波次ID（OUTGOING；0=未入波次）").
+			Default(0).
+			Optional().
+			Nillable(),
+
 		field.String("partner_code").
 			Comment("交易方编码（供应商/客户）").
 			Optional().
@@ -101,5 +108,9 @@ func (StockPicking) Indexes() []ent.Index {
 		// 按到货通知单回溯收货/上架拣货单
 		index.Fields("tenant_id", "asn_id").
 			StorageKey("idx_inv_stock_picking_tenant_asn"),
+
+		// 按波次取成员拣货单
+		index.Fields("tenant_id", "wave_id").
+			StorageKey("idx_inv_stock_picking_tenant_wave"),
 	}
 }

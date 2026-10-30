@@ -912,5 +912,28 @@
       "success": "Putaway done. Picking created",
       "failed": "Putaway failed"
     }
+  },
+  "wave": {
+    "waveNumber": "Wave No.",
+    "status": {
+      "draft": "Draft",
+      "running": "Running",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "button": {
+      "create": "Create Wave"
+    },
+    "action": {
+      "run": "Run",
+      "cancel": "Cancel",
+      "runSuccess": "Wave run finished"
+    },
+    "runSucceeded": "Succeeded",
+    "runFailed": "Failed",
+    "cancelConfirm": "Cancel wave and release member pickings?",
+    "noneSelected": "Select at least one outbound picking",
+    "noCandidates": "No eligible outbound pickings (OUTGOING + CONFIRMED + not in a wave)",
+    "noDelete": "Waves are immutable records; deletion is not supported"
   }
 }

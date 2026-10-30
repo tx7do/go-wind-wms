@@ -644,6 +644,18 @@ func (f WarehouseFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, e
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.WarehouseMutation", m)
 }
 
+// The WaveFunc type is an adapter to allow the use of ordinary
+// function as Wave mutator.
+type WaveFunc func(context.Context, *ent.WaveMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f WaveFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.WaveMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.WaveMutation", m)
+}
+
 // Condition is a hook condition function.
 type Condition func(context.Context, ent.Mutation) bool
 

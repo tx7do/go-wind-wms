@@ -164,3 +164,6 @@ type UserRole func(*sql.Selector)
 
 // Warehouse is the predicate function for warehouse builders.
 type Warehouse func(*sql.Selector)
+
+// Wave is the predicate function for wave builders.
+type Wave func(*sql.Selector)

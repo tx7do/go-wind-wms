@@ -153,5 +153,17 @@
         "type": "String"
       }
     }
-  }
+  },
+  "navOutbound": "出库作业",
+  "outboundScanHint": "扫描/输入拣货单号",
+  "outboundNotFound": "拣货单号不存在",
+  "outboundRejected": "操作被拒绝：请核对库存与单据状态",
+  "outboundUnauthorized": "登录已过期，请重新登录",
+  "outboundNetwork": "网络异常，请稍后重试",
+  "outboundUnknown": "操作失败，请稍后重试",
+  "outboundConsignee": "收货客户",
+  "outboundConfirm": "确认拣货",
+  "outboundValidate": "校验出库",
+  "outboundConfirmed": "已确认，可开始拣货",
+  "outboundValidated": "出库完成，库存已扣减"
 }

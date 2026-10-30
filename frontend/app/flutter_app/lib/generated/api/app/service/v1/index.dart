@@ -7551,6 +7551,19 @@ class StockPickingServiceClient {
     return InventoryServiceV1StockPicking.fromJson(result as Map<String, dynamic>);
   }
 
+  /// 按拣货单号查询（PDA 扫码入口）
+  Future<InventoryServiceV1StockPicking> getStockPickingByNumber(InventoryServiceV1GetStockPickingByNumberRequest request, {Map<String, String>? headers}) async {
+    if (request.number == null) {
+      throw ArgumentError('missing required field request.number');
+    }
+    final path = '/app/v1/stock-pickings/by-number/${request.number}';
+    final result = await _transport.unary(path, 'GET', null, TransportMeta(
+      service: 'StockPickingService',
+      method: 'GetStockPickingByNumber',
+    ), headers: headers);
+    return InventoryServiceV1StockPicking.fromJson(result as Map<String, dynamic>);
+  }
+
   /// 创建拣货单（扫码调拨 / 盘点：type=INVENTORY_ADJUSTMENT + 带符号差异明细）
   Future<Map<String, dynamic>> create(InventoryServiceV1CreateStockPickingRequest request, {Map<String, String>? headers}) async {
     final path = '/app/v1/stock-pickings';
@@ -8638,6 +8651,89 @@ class InventoryServiceV1GetStockPickingRequest {
         // field 100: viewMask
         case 100: {
           m.viewMask = r.readFieldMaskText();
+          break;
+        }
+        default: {
+          r.skip();
+        }
+      }
+    }
+    return m;
+  }
+
+}
+
+class InventoryServiceV1GetStockPickingByNumberRequest {
+  String? number;
+
+  InventoryServiceV1GetStockPickingByNumberRequest({
+    this.number,
+  });
+
+  factory InventoryServiceV1GetStockPickingByNumberRequest.fromJson(Map<String, dynamic> json) {
+    return InventoryServiceV1GetStockPickingByNumberRequest(
+      number: json['number'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (number != null) json['number'] = number;
+    return json;
+  }
+
+  @override
+  String toString() {
+    return 'InventoryServiceV1GetStockPickingByNumberRequest(number: $number)';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+    other is InventoryServiceV1GetStockPickingByNumberRequest &&
+      runtimeType == other.runtimeType
+      && number == other.number
+    ;
+
+  @override
+  int get hashCode => Object.hashAll([
+    number,
+  ]);
+
+  InventoryServiceV1GetStockPickingByNumberRequest copyWith({
+    String? number,
+  }) {
+    return InventoryServiceV1GetStockPickingByNumberRequest(
+      number: number ?? this.number,
+    );
+  }
+
+  /// 二进制 proto 编码（MQTT 等二进制传输用；字段按编号升序写出）
+  Uint8List writeToBuffer() {
+    final w = ProtoWireWriter();
+    _writeTo(w);
+    return w.toBuffer();
+  }
+
+  void _writeTo(ProtoWireWriter w) {
+    // field 1: number
+    final f1 = number;
+    if (f1 != null) {
+      w.writeString(1, f1!);
+    }
+  }
+
+  factory InventoryServiceV1GetStockPickingByNumberRequest.fromBuffer(List<int> bytes) {
+    return InventoryServiceV1GetStockPickingByNumberRequest._readFrom(ProtoWireReader(bytes));
+  }
+
+  static InventoryServiceV1GetStockPickingByNumberRequest _readFrom(ProtoWireReader r) {
+    final m = InventoryServiceV1GetStockPickingByNumberRequest();
+    while (r.next()) {
+      switch (r.fieldNumber) {
+        // field 1: number
+        case 1: {
+          m.number = r.readString();
           break;
         }
         default: {

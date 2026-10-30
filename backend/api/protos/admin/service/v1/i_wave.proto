@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+import "wave/service/v1/wave.proto";
+
+// 波次服务（管理后台）
+service WaveService {
+  // 查询波次列表
+  rpc List (pagination.PagingRequest) returns (wave.service.v1.ListWaveResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/waves"
+    };
+  }
+
+  // 统计波次数量
+  rpc Count (pagination.PagingRequest) returns (wave.service.v1.CountWaveResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/waves/count"
+    };
+  }
+
+  // 查询波次详情（含成员拣货单摘要与 SKU 聚合动线）
+  rpc Get (wave.service.v1.GetWaveRequest) returns (wave.service.v1.Wave) {
+    option (google.api.http) = {
+      get: "/admin/v1/waves/{id}"
+    };
+  }
+
+  // 创建波次
+  rpc Create (wave.service.v1.CreateWaveRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/waves"
+      body: "*"
+    };
+  }
+
+  // 执行波次（逐张校验落账；可重试）
+  rpc Run (wave.service.v1.RunWaveRequest) returns (wave.service.v1.RunWaveResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/waves/{id}/run"
+      body: "*"
+    };
+  }
+
+  // 取消波次
+  rpc Cancel (wave.service.v1.CancelWaveRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/waves/{id}/cancel"
+      body: "*"
+    };
+  }
+}

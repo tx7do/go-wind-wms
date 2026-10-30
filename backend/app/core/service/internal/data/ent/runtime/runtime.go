@@ -59,6 +59,7 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/userposition"
 	"go-wind-wms/app/core/service/internal/data/ent/userrole"
 	"go-wind-wms/app/core/service/internal/data/ent/warehouse"
+	"go-wind-wms/app/core/service/internal/data/ent/wave"
 
 	"entgo.io/ent"
 	"entgo.io/ent/privacy"
@@ -1555,6 +1556,10 @@ func init() {
 	stockpickingDescAsnID := stockpickingFields[4].Descriptor()
 	// stockpicking.DefaultAsnID holds the default value on creation for the asn_id field.
 	stockpicking.DefaultAsnID = stockpickingDescAsnID.Default.(uint32)
+	// stockpickingDescWaveID is the schema descriptor for wave_id field.
+	stockpickingDescWaveID := stockpickingFields[5].Descriptor()
+	// stockpicking.DefaultWaveID holds the default value on creation for the wave_id field.
+	stockpicking.DefaultWaveID = stockpickingDescWaveID.Default.(uint32)
 	// stockpickingDescID is the schema descriptor for id field.
 	stockpickingDescID := stockpickingMixinFields0[0].Descriptor()
 	// stockpicking.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -1904,6 +1909,32 @@ func init() {
 	warehouseDescID := warehouseMixinFields0[0].Descriptor()
 	// warehouse.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	warehouse.IDValidator = warehouseDescID.Validators[0].(func(uint32) error)
+	waveMixin := schema.Wave{}.Mixin()
+	wave.Policy = privacy.NewPolicies(waveMixin[5], schema.Wave{})
+	wave.Hooks[0] = func(next ent.Mutator) ent.Mutator {
+		return ent.MutateFunc(func(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+			if err := wave.Policy.EvalMutation(ctx, m); err != nil {
+				return nil, err
+			}
+			return next.Mutate(ctx, m)
+		})
+	}
+	waveMixinInters2 := waveMixin[2].Interceptors()
+	wave.Interceptors[0] = waveMixinInters2[0]
+	waveMixinFields0 := waveMixin[0].Fields()
+	_ = waveMixinFields0
+	waveMixinFields5 := waveMixin[5].Fields()
+	_ = waveMixinFields5
+	waveFields := schema.Wave{}.Fields()
+	_ = waveFields
+	// waveDescTenantID is the schema descriptor for tenant_id field.
+	waveDescTenantID := waveMixinFields5[0].Descriptor()
+	// wave.DefaultTenantID holds the default value on creation for the tenant_id field.
+	wave.DefaultTenantID = waveDescTenantID.Default.(uint32)
+	// waveDescID is the schema descriptor for id field.
+	waveDescID := waveMixinFields0[0].Descriptor()
+	// wave.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	wave.IDValidator = waveDescID.Validators[0].(func(uint32) error)
 }
 
 const (

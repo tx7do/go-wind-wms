@@ -118,6 +118,8 @@ type Tx struct {
 	UserRole *UserRoleClient
 	// Warehouse is the client for interacting with the Warehouse builders.
 	Warehouse *WarehouseClient
+	// Wave is the client for interacting with the Wave builders.
+	Wave *WaveClient
 
 	// lazily loaded.
 	client     *Client
@@ -302,6 +304,7 @@ func (tx *Tx) init() {
 	tx.UserPosition = NewUserPositionClient(tx.config)
 	tx.UserRole = NewUserRoleClient(tx.config)
 	tx.Warehouse = NewWarehouseClient(tx.config)
+	tx.Wave = NewWaveClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package wave.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+import "pagination/v1/pagination.proto";
+
+// 波次服务（M2b 出库效率编排）：把多张 CONFIRMED 的出库拣货单合并成一个
+// 波次统一执行。波次只做分组与执行编排——库存扣减完全复用拣货校验引擎
+// （逐张 Validate），引擎零改动。
+//
+// 状态机：DRAFT → RUNNING → COMPLETED；DRAFT 可 CANCELLED（释放单据）。
+// Run 可重复调用（重试语义）：每次处理波次内仍为 CONFIRMED 的单据，
+// 单张失败不阻塞其他张；全部 DONE 后波次自动 COMPLETED。
+service WaveService {
+  // 查询波次列表
+  rpc List (pagination.PagingRequest) returns (ListWaveResponse) {}
+
+  // 统计波次数量
+  rpc Count (pagination.PagingRequest) returns (CountWaveResponse) {}
+
+  // 查询波次详情（含成员拣货单摘要与 SKU 聚合动线）
+  rpc Get (GetWaveRequest) returns (Wave) {}
+
+  // 创建波次（从 picking_ids；单据须为 OUTGOING + CONFIRMED 且未入波次）
+  rpc Create (CreateWaveRequest) returns (google.protobuf.Empty) {}
+
+  // 执行波次（逐张校验落账；可重试）
+  rpc Run (RunWaveRequest) returns (RunWaveResponse) {}
+
+  // 取消波次（仅 DRAFT；成员单据释放回 CONFIRMED）
+  rpc Cancel (CancelWaveRequest) returns (google.protobuf.Empty) {}
+}
+
+// 波次状态
+enum WaveStatus {
+  WAVE_DRAFT = 0;      // 草稿（成员可增删语义上即未锁定执行）
+  WAVE_RUNNING = 1;    // 执行中（部分单据可能失败，可重试）
+  WAVE_COMPLETED = 2;  // 已完成（终态：成员全部 DONE）
+  WAVE_CANCELLED = 3;  // 已取消（终态：成员已释放）
+}
+
+// 波次
+message Wave {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (gnostic.openapi.v3.property) = {description: "波次ID"}
+  ]; // 波次ID
+
+  optional string wave_number = 2 [
+    json_name = "waveNumber",
+    (gnostic.openapi.v3.property) = {description: "波次号，租户范围内唯一，服务端生成"}
+  ]; // 波次号
+
+  optional WaveStatus status = 3 [
+    json_name = "status",
+    (gnostic.openapi.v3.property) = {description: "波次状态"}
+  ]; // 波次状态
+
+  repeated WavePicking pickings = 4 [
+    json_name = "pickings",
+    (gnostic.openapi.v3.property) = {description: "成员拣货单摘要（Get 时聚合）"}
+  ]; // 成员拣货单摘要
+
+  optional string remark = 8 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {description: "备注"}
+  ]; // 备注
+
+  optional uint32 tenant_id = 20 [
+    json_name = "tenantId",
+    (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
+  ]; // 租户ID，0代表系统全局
+
+  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional google.protobuf.Timestamp created_at = 102 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}]; // 创建时间
+  optional google.protobuf.Timestamp updated_at = 103 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}]; // 更新时间
+}
+
+// 波次成员拣货单摘要（Get 时聚合）
+message WavePicking {
+  uint32 picking_id = 1 [json_name = "pickingId"]; // 拣货单ID
+
+  string picking_number = 2 [json_name = "pickingNumber"]; // 拣货单号
+
+  string partner_code = 3 [json_name = "partnerCode"]; // 收货客户
+
+  string derived_state = 4 [json_name = "derivedState"]; // 派生态（DRAFT/CONFIRMED/DONE/CANCELLED）
+
+  // lines：按 SKU 聚合的动线（波次拣货一次拿全 SKU）
+  repeated WaveLine lines = 5 [json_name = "lines"]; // SKU 聚合行
+
+  optional string error_message = 6 [
+    json_name = "errorMessage",
+    (gnostic.openapi.v3.property) = {description: "最近一次执行的失败原因（无失败为空）"}
+  ]; // 最近一次执行的失败原因
+}
+
+// 波次动线行（SKU 聚合）
+message WaveLine {
+  string sku_code = 1 [json_name = "skuCode"]; // SKU 编码
+
+  int64 total_qty = 2 [json_name = "totalQty"]; // 合计数量
+}
+
+message GetWaveRequest {
+  oneof query_by {
+    uint32 id = 1 [json_name = "id"];
+  }
+}
+
+message CreateWaveRequest {
+  repeated uint32 picking_ids = 1 [json_name = "pickingIds"]; // 成员拣货单ID（OUTGOING + CONFIRMED）
+
+  optional string remark = 2 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {description: "备注"}
+  ]; // 备注
+}
+
+message ListWaveResponse {
+  uint64 total = 1 [json_name = "total"]; // 总数
+
+  repeated Wave items = 2 [json_name = "items"]; // 波次列表
+}
+
+message CountWaveResponse {
+  uint64 count = 1 [json_name = "count"]; // 数量
+}
+
+message RunWaveRequest {
+  uint32 id = 1 [json_name = "id"]; // 波次ID
+}
+
+message RunWaveResponse {
+  uint32 succeeded = 1 [json_name = "succeeded"]; // 本次成功单数
+
+  uint32 failed = 2 [json_name = "failed"]; // 本次失败单数
+
+  repeated WavePicking failures = 3 [json_name = "failures"]; // 失败明细（picking + error）
+}
+
+message CancelWaveRequest {
+  uint32 id = 1 [json_name = "id"]; // 波次ID
+}

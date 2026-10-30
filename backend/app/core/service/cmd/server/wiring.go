@@ -88,6 +88,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	stockMoveRepo := data.NewStockMoveRepo(ctx, entClient)
 	stockPickingRepo := data.NewStockPickingRepo(ctx, entClient, stockMoveRepo)
 	asnRepo := data.NewAsnRepo(ctx, entClient)
+	waveRepo := data.NewWaveRepo(ctx, entClient)
 	approvalRequestRepo := data.NewApprovalRequestRepo(ctx, entClient)
 	internalMessageRecipientRepo := data.NewInternalMessageRecipientRepo(ctx, entClient)
 	internalMessageRepo := data.NewInternalMessageRepo(ctx, entClient, internalMessageRecipientRepo)
@@ -126,8 +127,9 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	stockQuantService := service.NewStockQuantService(ctx, stockQuantRepo, stockMoveLineRepo, warehouseRepo)
 	billingGuard := service.NewBillingGuard(ctx, subscriptionRepo, planRepo, userRepo, stockPickingRepo)
 	stockLotService := service.NewStockLotService(ctx, stockLotRepo)
-	stockPickingService := service.NewStockPickingService(ctx, stockPickingRepo, stockQuantRepo, stockMoveLineRepo, stockLotRepo, locationRepo, billingGuard)
+	stockPickingService := service.NewStockPickingService(ctx, stockPickingRepo, stockQuantRepo, stockMoveLineRepo, stockLotRepo, locationRepo, asnRepo, billingGuard)
 	asnService := service.NewAsnService(ctx, asnRepo, locationRepo, stockPickingRepo, billingGuard)
+	waveService := service.NewWaveService(ctx, waveRepo, stockPickingRepo, stockPickingService)
 	approvalRequestService := service.NewApprovalRequestService(ctx, approvalRequestRepo, approvalFlowRepo, internalMessageRepo, internalMessageRecipientRepo)
 	approvalFlowService := service.NewApprovalFlowService(ctx, approvalFlowRepo)
 	productService := service.NewProductService(ctx, productRepo)
@@ -175,6 +177,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 		stockLotService,
 		stockPickingService,
 		asnService,
+		waveService,
 		approvalRequestService,
 		approvalFlowService,
 		productService,

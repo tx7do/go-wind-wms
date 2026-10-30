@@ -153,5 +153,17 @@
         "type": "String"
       }
     }
-  }
+  },
+  "navOutbound": "Outbound",
+  "outboundScanHint": "Scan / enter picking number",
+  "outboundNotFound": "Picking number not found",
+  "outboundRejected": "Action rejected: check stock and status",
+  "outboundUnauthorized": "Session expired, please sign in again",
+  "outboundNetwork": "Network error, please retry",
+  "outboundUnknown": "Action failed, please retry",
+  "outboundConsignee": "Consignee",
+  "outboundConfirm": "Confirm",
+  "outboundValidate": "Validate",
+  "outboundConfirmed": "Confirmed. Picking can start",
+  "outboundValidated": "Outbound done. Stock deducted"
 }

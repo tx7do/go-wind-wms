@@ -59,6 +59,7 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/userposition"
 	"go-wind-wms/app/core/service/internal/data/ent/userrole"
 	"go-wind-wms/app/core/service/internal/data/ent/warehouse"
+	"go-wind-wms/app/core/service/internal/data/ent/wave"
 	"reflect"
 	"sync"
 
@@ -178,6 +179,7 @@ func checkColumn(t, c string) error {
 			userposition.Table:             userposition.ValidColumn,
 			userrole.Table:                 userrole.ValidColumn,
 			warehouse.Table:                warehouse.ValidColumn,
+			wave.Table:                     wave.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

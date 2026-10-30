@@ -612,6 +612,109 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/authentication.service.v1.LoginResponse'
+    /app/v1/stock-locations:
+        get:
+            tags:
+                - LocationService
+            description: 查询位置列表
+            operationId: LocationService_List
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码（从1开始，默认1）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  description: 每页条数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: query
+                  in: query
+                  description: JSON字符串过滤条件，基础语法：{"field1":"val1", "field2___icontains":"val2"}，具体请参见：https://github.com/tx7do/go-crud/tree/main/pagination/filter/README.md
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: Google AIP规范字符串过滤条件
+                  schema:
+                    type: string
+                - name: filterExpr.type
+                  in: query
+                  description: 过滤表达式类型
+                  schema:
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
+                - name: orderBy
+                  in: query
+                  description: 排序条件
+                  schema:
+                    type: string
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/inventory.service.v1.ListLocationResponse'
+    /app/v1/stock-locations/{id}:
+        get:
+            tags:
+                - LocationService
+            description: 查询位置详情
+            operationId: LocationService_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/inventory.service.v1.StockLocation'
     /app/v1/stock-lots:
         get:
             tags:
@@ -782,6 +885,25 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /app/v1/stock-pickings/by-number/{number}:
+        get:
+            tags:
+                - StockPickingService
+            description: 按拣货单号查询（PDA 扫码入口）
+            operationId: StockPickingService_GetStockPickingByNumber
+            parameters:
+                - name: number
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/inventory.service.v1.StockPicking'
     /app/v1/stock-pickings/{id}:
         get:
             tags:
@@ -1903,6 +2025,15 @@ components:
             properties:
                 data:
                     $ref: '#/components/schemas/inventory.service.v1.StockPicking'
+        inventory.service.v1.ListLocationResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/inventory.service.v1.StockLocation'
+                total:
+                    type: string
         inventory.service.v1.ListStockLotResponse:
             type: object
             properties:
@@ -1954,6 +2085,60 @@ components:
                     description: 效期（入库新建批次时可选）
                     format: date-time
             description: 批次指派（Validate 入参）：product_code 匹配 picking 中的 move
+        inventory.service.v1.StockLocation:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 位置ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 位置名称
+                usage:
+                    enum:
+                        - INTERNAL
+                        - SUPPLIER
+                        - CUSTOMER
+                        - INVENTORY_LOSS
+                    type: string
+                    description: 位置用途
+                    format: enum
+                warehouseCode:
+                    type: string
+                    description: 归属仓库编码（仅 INTERNAL 位置）
+                remark:
+                    type: string
+                    description: 备注
+                tenantId:
+                    type: integer
+                    description: 租户ID，0代表系统全局
+                    format: uint32
+                createdBy:
+                    type: integer
+                    description: 创建者用户ID
+                    format: uint32
+                updatedBy:
+                    type: integer
+                    description: 更新者用户ID
+                    format: uint32
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deletedAt:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 库存位置（借鉴 Odoo stock.location，简化为扁平结构）
         inventory.service.v1.StockLot:
             type: object
             properties:
@@ -2419,8 +2604,11 @@ tags:
          将后端编码值（如审批单 biz_type）解析为展示文案；不暴露增删改）。
     - name: FileTransferService
       description: 文件传输服务
+    - name: LocationService
+      description: |-
+        批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
+         库存位置服务（移动端只读：上架时选择目标库位）
     - name: StockLotService
-      description: 批次库存（移动端只读：批次余量与效期跟踪，扫码后核对批次场景）。
     - name: StockPickingService
       description: 拣货单服务（移动端：扫码创建调拨拣货单，确认与校验）
     - name: StockQuantService

@@ -40,6 +40,11 @@ class _WmsPageState extends State<WmsPage> {
             tooltip: S.of(context).navInbound,
             onPressed: () => context.push(AppRoutePath.asn),
           ),
+          IconButton(
+            icon: const Icon(Icons.outbound_outlined),
+            tooltip: S.of(context).navOutbound,
+            onPressed: () => context.push(AppRoutePath.outbound),
+          ),
         ],
       ),
       body: BlocConsumer<WmsCubit, WmsState>(

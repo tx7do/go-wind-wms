@@ -34,7 +34,7 @@ type ApprovalFlow struct {
 	Remark *string `json:"remark,omitempty"`
 	// 租户ID
 	TenantID *uint32 `json:"tenant_id,omitempty"`
-	// 业务类型：PURCHASE_ORDER/SALES_ORDER/PAYMENT/RECEIPT
+	// 业务类型标识（如 WMS_ADJUSTMENT / WMS_COUNT_DIFF，由业务方定义）
 	BizType *string `json:"biz_type,omitempty"`
 	// 流程名称
 	Name *string `json:"name,omitempty"`

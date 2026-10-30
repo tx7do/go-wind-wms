@@ -4833,6 +4833,9 @@ export type inventoryservicev1_StockPicking = {
   toWarehouseCode?: string;
   updatedAt?: wellKnownTimestamp;
   updatedBy?: number;
+  //
+  // Behaviors: OPTIONAL
+  waveId?: number;
 };
 
 // 拣货类型（借鉴 Odoo picking_type.code，简化为枚举）
@@ -8950,6 +8953,290 @@ export type identityservicev1_EmailVerification = {
   email: string | undefined;
 };
 
+// 波次服务（管理后台）
+export interface WaveService {
+  // 查询波次列表
+  List(
+    request: pagination_PagingRequest,
+  ): Promise<waveservicev1_ListWaveResponse>;
+  // 统计波次数量
+  Count(
+    request: pagination_PagingRequest,
+  ): Promise<waveservicev1_CountWaveResponse>;
+  // 查询波次详情（含成员拣货单摘要与 SKU 聚合动线）
+  Get(
+    request: waveservicev1_GetWaveRequest,
+  ): Promise<waveservicev1_Wave>;
+  // 创建波次
+  Create(
+    request: waveservicev1_CreateWaveRequest,
+  ): Promise<wellKnownEmpty>;
+  // 执行波次（逐张校验落账；可重试）
+  Run(
+    request: waveservicev1_RunWaveRequest,
+  ): Promise<waveservicev1_RunWaveResponse>;
+  // 取消波次
+  Cancel(
+    request: waveservicev1_CancelWaveRequest,
+  ): Promise<wellKnownEmpty>;
+}
+
+export function createWaveServiceClient(
+  transport: ClientTransport,
+): WaveService {
+  return {
+    List(request) {
+      const path = `/admin/v1/waves`;
+      const body = null;
+      const queryParams: string[] = [];
+      if (request.page) {
+        queryParams.push(
+          `page=${encodeURIComponent(request.page.toString())}`,
+        );
+      }
+      if (request.pageSize) {
+        queryParams.push(
+          `pageSize=${encodeURIComponent(request.pageSize.toString())}`,
+        );
+      }
+      if (request.offset) {
+        queryParams.push(
+          `offset=${encodeURIComponent(request.offset.toString())}`,
+        );
+      }
+      if (request.limit) {
+        queryParams.push(
+          `limit=${encodeURIComponent(request.limit.toString())}`,
+        );
+      }
+      if (request.token) {
+        queryParams.push(
+          `token=${encodeURIComponent(request.token.toString())}`,
+        );
+      }
+      if (request.noPaging) {
+        queryParams.push(
+          `noPaging=${encodeURIComponent(request.noPaging.toString())}`,
+        );
+      }
+      if (request.query) {
+        queryParams.push(
+          `query=${encodeURIComponent(request.query.toString())}`,
+        );
+      }
+      if (request.filter) {
+        queryParams.push(
+          `filter=${encodeURIComponent(request.filter.toString())}`,
+        );
+      }
+      if (request.filterExpr?.type) {
+        queryParams.push(
+          `filterExpr.type=${encodeURIComponent(request.filterExpr.type.toString())}`,
+        );
+      }
+      if (request.orderBy) {
+        queryParams.push(
+          `orderBy=${encodeURIComponent(request.orderBy.toString())}`,
+        );
+      }
+      if (request.fieldMask) {
+        queryParams.push(
+          `fieldMask=${encodeURIComponent(request.fieldMask.toString())}`,
+        );
+      }
+      let uri = path;
+      if (queryParams.length > 0) {
+        uri += `?${queryParams.join('&')}`;
+      }
+      return transport.unary(uri, 'GET', body, {
+        service: 'WaveService',
+        method: 'List',
+      }) as Promise<waveservicev1_ListWaveResponse>;
+    },
+    Count(request) {
+      const path = `/admin/v1/waves/count`;
+      const body = null;
+      const queryParams: string[] = [];
+      if (request.page) {
+        queryParams.push(
+          `page=${encodeURIComponent(request.page.toString())}`,
+        );
+      }
+      if (request.pageSize) {
+        queryParams.push(
+          `pageSize=${encodeURIComponent(request.pageSize.toString())}`,
+        );
+      }
+      if (request.offset) {
+        queryParams.push(
+          `offset=${encodeURIComponent(request.offset.toString())}`,
+        );
+      }
+      if (request.limit) {
+        queryParams.push(
+          `limit=${encodeURIComponent(request.limit.toString())}`,
+        );
+      }
+      if (request.token) {
+        queryParams.push(
+          `token=${encodeURIComponent(request.token.toString())}`,
+        );
+      }
+      if (request.noPaging) {
+        queryParams.push(
+          `noPaging=${encodeURIComponent(request.noPaging.toString())}`,
+        );
+      }
+      if (request.query) {
+        queryParams.push(
+          `query=${encodeURIComponent(request.query.toString())}`,
+        );
+      }
+      if (request.filter) {
+        queryParams.push(
+          `filter=${encodeURIComponent(request.filter.toString())}`,
+        );
+      }
+      if (request.filterExpr?.type) {
+        queryParams.push(
+          `filterExpr.type=${encodeURIComponent(request.filterExpr.type.toString())}`,
+        );
+      }
+      if (request.orderBy) {
+        queryParams.push(
+          `orderBy=${encodeURIComponent(request.orderBy.toString())}`,
+        );
+      }
+      if (request.fieldMask) {
+        queryParams.push(
+          `fieldMask=${encodeURIComponent(request.fieldMask.toString())}`,
+        );
+      }
+      let uri = path;
+      if (queryParams.length > 0) {
+        uri += `?${queryParams.join('&')}`;
+      }
+      return transport.unary(uri, 'GET', body, {
+        service: 'WaveService',
+        method: 'Count',
+      }) as Promise<waveservicev1_CountWaveResponse>;
+    },
+    Get(request) {
+      if (request.id === undefined || request.id === null) {
+        throw new Error('missing required field request.id');
+      }
+      const path = `/admin/v1/waves/${request.id}`;
+      const body = null;
+      return transport.unary(path, 'GET', body, {
+        service: 'WaveService',
+        method: 'Get',
+      }) as Promise<waveservicev1_Wave>;
+    },
+    Create(request) {
+      const path = `/admin/v1/waves`;
+      const body = JSON.stringify(request);
+      return transport.unary(path, 'POST', body, {
+        service: 'WaveService',
+        method: 'Create',
+      }) as Promise<wellKnownEmpty>;
+    },
+    Run(request) {
+      if (request.id === undefined || request.id === null) {
+        throw new Error('missing required field request.id');
+      }
+      const path = `/admin/v1/waves/${request.id}/run`;
+      const bodyMap = { ...request } as Record<string, unknown>;
+      delete bodyMap["id"];
+      const body = JSON.stringify(bodyMap);
+      return transport.unary(path, 'POST', body, {
+        service: 'WaveService',
+        method: 'Run',
+      }) as Promise<waveservicev1_RunWaveResponse>;
+    },
+    Cancel(request) {
+      if (request.id === undefined || request.id === null) {
+        throw new Error('missing required field request.id');
+      }
+      const path = `/admin/v1/waves/${request.id}/cancel`;
+      const bodyMap = { ...request } as Record<string, unknown>;
+      delete bodyMap["id"];
+      const body = JSON.stringify(bodyMap);
+      return transport.unary(path, 'POST', body, {
+        service: 'WaveService',
+        method: 'Cancel',
+      }) as Promise<wellKnownEmpty>;
+    },
+  };
+}
+export type waveservicev1_ListWaveResponse = {
+  items: undefined | waveservicev1_Wave[];
+  total: number | undefined;
+};
+
+// 波次
+export type waveservicev1_Wave = {
+  createdAt?: wellKnownTimestamp;
+  createdBy?: number;
+  id?: number;
+  pickings: undefined | waveservicev1_WavePicking[];
+  remark?: string;
+  status?: waveservicev1_WaveStatus;
+  tenantId?: number;
+  updatedAt?: wellKnownTimestamp;
+  updatedBy?: number;
+  waveNumber?: string;
+};
+
+// 波次状态
+export type waveservicev1_WaveStatus =
+  | 'WAVE_CANCELLED'
+  | 'WAVE_COMPLETED'
+  | 'WAVE_DRAFT'
+  | 'WAVE_RUNNING';
+// 波次成员拣货单摘要（Get 时聚合）
+export type waveservicev1_WavePicking = {
+  derivedState: string | undefined;
+  errorMessage?: string;
+  // lines：按 SKU 聚合的动线（波次拣货一次拿全 SKU）
+  lines: undefined | waveservicev1_WaveLine[];
+  partnerCode: string | undefined;
+  pickingId: number | undefined;
+  pickingNumber: string | undefined;
+};
+
+// 波次动线行（SKU 聚合）
+export type waveservicev1_WaveLine = {
+  skuCode: string | undefined;
+  totalQty: number | undefined;
+};
+
+export type waveservicev1_CountWaveResponse = {
+  count: number | undefined;
+};
+
+export type waveservicev1_GetWaveRequest = {
+  id?: number;
+};
+
+export type waveservicev1_CreateWaveRequest = {
+  pickingIds: number[] | undefined;
+  remark?: string;
+};
+
+export type waveservicev1_RunWaveRequest = {
+  id: number | undefined;
+};
+
+export type waveservicev1_RunWaveResponse = {
+  failed: number | undefined;
+  failures: undefined | waveservicev1_WavePicking[];
+  succeeded: number | undefined;
+};
+
+export type waveservicev1_CancelWaveRequest = {
+  id: number | undefined;
+};
+
 export class ApiClient {
   private _adminPortalService?: AdminPortalService;
   private _apiAuditLogService?: ApiAuditLogService;
@@ -8991,6 +9278,7 @@ export class ApiClient {
   private _userProfileService?: UserProfileService;
   private _userService?: UserService;
   private _warehouseService?: WarehouseService;
+  private _waveService?: WaveService;
 
   constructor(transport: ClientTransport) {
     this._transport = transport;
@@ -9150,6 +9438,10 @@ export class ApiClient {
 
   get warehouseService(): WarehouseService {
     return this._warehouseService ??= createWarehouseServiceClient(this._transport);
+  }
+
+  get waveService(): WaveService {
+    return this._waveService ??= createWaveServiceClient(this._transport);
   }
 }
 

@@ -88,6 +88,18 @@ const warehouse: RouteRecordRaw[] = [
         },
         component: () => import('#/views/app/wms/asn/index.vue'),
       },
+
+      {
+        path: 'waves',
+        name: 'WaveManagement',
+        meta: {
+          order: 6,
+          icon: 'lucide:layers',
+          title: $t('menu.wms.wave'),
+          authority: ['sys:platform_admin', 'sys:tenant_manager', 'sys:warehouse_keeper'],
+        },
+        component: () => import('#/views/app/wms/wave/index.vue'),
+      },
     ],
   },
 ];

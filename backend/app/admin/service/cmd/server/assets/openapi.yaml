@@ -6085,6 +6085,246 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/waves:
+        get:
+            tags:
+                - WaveService
+            description: 查询波次列表
+            operationId: WaveService_List
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码（从1开始，默认1）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  description: 每页条数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: query
+                  in: query
+                  description: JSON字符串过滤条件，基础语法：{"field1":"val1", "field2___icontains":"val2"}，具体请参见：https://github.com/tx7do/go-crud/tree/main/pagination/filter/README.md
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: Google AIP规范字符串过滤条件
+                  schema:
+                    type: string
+                - name: filterExpr.type
+                  in: query
+                  description: 过滤表达式类型
+                  schema:
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
+                - name: orderBy
+                  in: query
+                  description: 排序条件
+                  schema:
+                    type: string
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/wave.service.v1.ListWaveResponse'
+        post:
+            tags:
+                - WaveService
+            description: 创建波次
+            operationId: WaveService_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/wave.service.v1.CreateWaveRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/waves/count:
+        get:
+            tags:
+                - WaveService
+            description: 统计波次数量
+            operationId: WaveService_Count
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码（从1开始，默认1）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  description: 每页条数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: query
+                  in: query
+                  description: JSON字符串过滤条件，基础语法：{"field1":"val1", "field2___icontains":"val2"}，具体请参见：https://github.com/tx7do/go-crud/tree/main/pagination/filter/README.md
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: Google AIP规范字符串过滤条件
+                  schema:
+                    type: string
+                - name: filterExpr.type
+                  in: query
+                  description: 过滤表达式类型
+                  schema:
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
+                - name: orderBy
+                  in: query
+                  description: 排序条件
+                  schema:
+                    type: string
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/wave.service.v1.CountWaveResponse'
+    /admin/v1/waves/{id}:
+        get:
+            tags:
+                - WaveService
+            description: 查询波次详情（含成员拣货单摘要与 SKU 聚合动线）
+            operationId: WaveService_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/wave.service.v1.Wave'
+    /admin/v1/waves/{id}/cancel:
+        post:
+            tags:
+                - WaveService
+            description: 取消波次
+            operationId: WaveService_Cancel
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/wave.service.v1.CancelWaveRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/waves/{id}/run:
+        post:
+            tags:
+                - WaveService
+            description: 执行波次（逐张校验落账；可重试）
+            operationId: WaveService_Run
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/wave.service.v1.RunWaveRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/wave.service.v1.RunWaveResponse'
 components:
     schemas:
         KratosStatus:
@@ -10776,6 +11016,133 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新调度任务 - 请求
+        wave.service.v1.CancelWaveRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+        wave.service.v1.CountWaveResponse:
+            type: object
+            properties:
+                count:
+                    type: string
+        wave.service.v1.CreateWaveRequest:
+            type: object
+            properties:
+                pickingIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                remark:
+                    type: string
+                    description: 备注
+        wave.service.v1.ListWaveResponse:
+            type: object
+            properties:
+                total:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/wave.service.v1.Wave'
+        wave.service.v1.RunWaveRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+        wave.service.v1.RunWaveResponse:
+            type: object
+            properties:
+                succeeded:
+                    type: integer
+                    format: uint32
+                failed:
+                    type: integer
+                    format: uint32
+                failures:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/wave.service.v1.WavePicking'
+        wave.service.v1.Wave:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 波次ID
+                    format: uint32
+                waveNumber:
+                    type: string
+                    description: 波次号，租户范围内唯一，服务端生成
+                status:
+                    enum:
+                        - WAVE_DRAFT
+                        - WAVE_RUNNING
+                        - WAVE_COMPLETED
+                        - WAVE_CANCELLED
+                    type: string
+                    description: 波次状态
+                    format: enum
+                pickings:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/wave.service.v1.WavePicking'
+                    description: 成员拣货单摘要（Get 时聚合）
+                remark:
+                    type: string
+                    description: 备注
+                tenantId:
+                    type: integer
+                    description: 租户ID，0代表系统全局
+                    format: uint32
+                createdBy:
+                    type: integer
+                    description: 创建者用户ID
+                    format: uint32
+                updatedBy:
+                    type: integer
+                    description: 更新者用户ID
+                    format: uint32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+            description: 波次
+        wave.service.v1.WaveLine:
+            type: object
+            properties:
+                skuCode:
+                    type: string
+                totalQty:
+                    type: string
+            description: 波次动线行（SKU 聚合）
+        wave.service.v1.WavePicking:
+            type: object
+            properties:
+                pickingId:
+                    type: integer
+                    format: uint32
+                pickingNumber:
+                    type: string
+                partnerCode:
+                    type: string
+                derivedState:
+                    type: string
+                lines:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/wave.service.v1.WaveLine'
+                    description: lines：按 SKU 聚合的动线（波次拣货一次拿全 SKU）
+                errorMessage:
+                    type: string
+                    description: 最近一次执行的失败原因（无失败为空）
+            description: 波次成员拣货单摘要（Get 时聚合）
     responses:
         default:
             description: default kratos response
@@ -10872,3 +11239,5 @@ tags:
       description: 用户管理服务
     - name: WarehouseService
       description: 仓库管理服务
+    - name: WaveService
+      description: 波次服务（管理后台）

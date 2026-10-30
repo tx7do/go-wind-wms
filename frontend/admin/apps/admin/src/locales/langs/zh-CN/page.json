@@ -909,5 +909,28 @@
       "success": "上架成功，已生成上架拣货单",
       "failed": "上架失败"
     }
+  },
+  "wave": {
+    "waveNumber": "波次号",
+    "status": {
+      "draft": "草稿",
+      "running": "执行中",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "button": {
+      "create": "创建波次"
+    },
+    "action": {
+      "run": "执行",
+      "cancel": "取消",
+      "runSuccess": "波次执行完成"
+    },
+    "runSucceeded": "成功单数",
+    "runFailed": "失败单数",
+    "cancelConfirm": "取消波次并释放成员拣货单？",
+    "noneSelected": "请至少勾选一张出库拣货单",
+    "noCandidates": "没有可入波次的出库拣货单（需 OUTGOING + 已确认 + 未入波次）",
+    "noDelete": "波次为终态留痕，不支持删除"
   }
 }

@@ -111,6 +111,8 @@ func (r *StockPickingRepo) List(ctx context.Context, req *paginationV1.PagingReq
 		return &inventoryV1.ListStockPickingResponse{Total: 0, Items: nil}, nil
 	}
 
+	r.backfillBridgeIds(ctx, ret.Items)
+
 	// 为每个 picking 计算派生态（从子 moves 聚合，不存储）。
 	for _, p := range ret.Items {
 		ds := r.computeDerivedState(ctx, p.GetId())
@@ -132,6 +134,52 @@ func (r *StockPickingRepo) IsExist(ctx context.Context, id uint32) (bool, error)
 		return false, inventoryV1.ErrorInternalServerError("query exist failed")
 	}
 	return exist, nil
+}
+
+// GetByNumber 按拣货单号查单（含 moves；PDA 扫码入口）。
+func (r *StockPickingRepo) GetByNumber(ctx context.Context, number string) (*inventoryV1.StockPicking, error) {
+	if number == "" {
+		return nil, inventoryV1.ErrorBadRequest("invalid parameter")
+	}
+
+	dto, err := r.repository.Get(ctx, r.entClient.Client().StockPicking.Query(), nil,
+		stockpicking.PickingNumberEQ(number))
+	if err != nil {
+		return nil, err
+	}
+
+	dto.Moves = r.moveRepo.GetMovesByPicking(ctx, dto.GetId())
+	return dto, nil
+}
+
+// backfillBridgeIds 批量回填桥接字段（wave_id/asn_id）：Nillable 指针字段
+// 与 CopierMapper 的值类型转换不匹配会被静默丢弃，这里按 id 补齐。
+func (r *StockPickingRepo) backfillBridgeIds(ctx context.Context, items []*inventoryV1.StockPicking) {
+	if len(items) == 0 {
+		return
+	}
+	ids := make([]uint32, 0, len(items))
+	for _, it := range items {
+		ids = append(ids, it.GetId())
+	}
+	rows, err := r.entClient.Client().StockPicking.Query().
+		Where(stockpicking.IDIn(ids...)).
+		Select(stockpicking.FieldID, stockpicking.FieldWaveID, stockpicking.FieldAsnID).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("backfill picking bridge ids failed: %s", err.Error())
+		return
+	}
+	byID := make(map[uint32]*ent.StockPicking, len(rows))
+	for _, row := range rows {
+		byID[row.ID] = row
+	}
+	for _, it := range items {
+		if row := byID[it.GetId()]; row != nil {
+			it.WaveId = row.WaveID
+			it.AsnId = row.AsnID
+		}
+	}
 }
 
 // CountTenantSince 统计租户自 since 起创建的拣货单数量（计费配额用，
@@ -236,6 +284,9 @@ func (r *StockPickingRepo) Create(ctx context.Context, req *inventoryV1.CreateSt
 	dto.Moves = r.moveRepo.GetMovesByPicking(ctx, t.ID)
 	ds := r.deriveStateFromMoves(dto.Moves)
 	dto.DerivedState = &ds
+	// 桥接字段回填（Nillable 指针字段 copier 静默丢弃）：wave_id/asn_id
+	dto.WaveId = t.WaveID
+	dto.AsnId = t.AsnID
 	return dto, nil
 }
 

@@ -7,5 +7,6 @@ class AppRoutePath {
   static const approval = '/approval';
   static const wms = '/wms';
   static const asn = '/wms/asn';
+  static const outbound = '/wms/outbound';
   static const asnDetail = '/wms/asn/detail/';
 }

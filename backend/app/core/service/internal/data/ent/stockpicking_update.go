@@ -291,6 +291,33 @@ func (_u *StockPickingUpdate) ClearAsnID() *StockPickingUpdate {
 	return _u
 }
 
+// SetWaveID sets the "wave_id" field.
+func (_u *StockPickingUpdate) SetWaveID(v uint32) *StockPickingUpdate {
+	_u.mutation.ResetWaveID()
+	_u.mutation.SetWaveID(v)
+	return _u
+}
+
+// SetNillableWaveID sets the "wave_id" field if the given value is not nil.
+func (_u *StockPickingUpdate) SetNillableWaveID(v *uint32) *StockPickingUpdate {
+	if v != nil {
+		_u.SetWaveID(*v)
+	}
+	return _u
+}
+
+// AddWaveID adds value to the "wave_id" field.
+func (_u *StockPickingUpdate) AddWaveID(v int32) *StockPickingUpdate {
+	_u.mutation.AddWaveID(v)
+	return _u
+}
+
+// ClearWaveID clears the value of the "wave_id" field.
+func (_u *StockPickingUpdate) ClearWaveID() *StockPickingUpdate {
+	_u.mutation.ClearWaveID()
+	return _u
+}
+
 // SetPartnerCode sets the "partner_code" field.
 func (_u *StockPickingUpdate) SetPartnerCode(v string) *StockPickingUpdate {
 	_u.mutation.SetPartnerCode(v)
@@ -460,6 +487,15 @@ func (_u *StockPickingUpdate) sqlSave(ctx context.Context) (_node int, err error
 	}
 	if _u.mutation.AsnIDCleared() {
 		_spec.ClearField(stockpicking.FieldAsnID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.WaveID(); ok {
+		_spec.SetField(stockpicking.FieldWaveID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedWaveID(); ok {
+		_spec.AddField(stockpicking.FieldWaveID, field.TypeUint32, value)
+	}
+	if _u.mutation.WaveIDCleared() {
+		_spec.ClearField(stockpicking.FieldWaveID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.PartnerCode(); ok {
 		_spec.SetField(stockpicking.FieldPartnerCode, field.TypeString, value)
@@ -751,6 +787,33 @@ func (_u *StockPickingUpdateOne) ClearAsnID() *StockPickingUpdateOne {
 	return _u
 }
 
+// SetWaveID sets the "wave_id" field.
+func (_u *StockPickingUpdateOne) SetWaveID(v uint32) *StockPickingUpdateOne {
+	_u.mutation.ResetWaveID()
+	_u.mutation.SetWaveID(v)
+	return _u
+}
+
+// SetNillableWaveID sets the "wave_id" field if the given value is not nil.
+func (_u *StockPickingUpdateOne) SetNillableWaveID(v *uint32) *StockPickingUpdateOne {
+	if v != nil {
+		_u.SetWaveID(*v)
+	}
+	return _u
+}
+
+// AddWaveID adds value to the "wave_id" field.
+func (_u *StockPickingUpdateOne) AddWaveID(v int32) *StockPickingUpdateOne {
+	_u.mutation.AddWaveID(v)
+	return _u
+}
+
+// ClearWaveID clears the value of the "wave_id" field.
+func (_u *StockPickingUpdateOne) ClearWaveID() *StockPickingUpdateOne {
+	_u.mutation.ClearWaveID()
+	return _u
+}
+
 // SetPartnerCode sets the "partner_code" field.
 func (_u *StockPickingUpdateOne) SetPartnerCode(v string) *StockPickingUpdateOne {
 	_u.mutation.SetPartnerCode(v)
@@ -950,6 +1013,15 @@ func (_u *StockPickingUpdateOne) sqlSave(ctx context.Context) (_node *StockPicki
 	}
 	if _u.mutation.AsnIDCleared() {
 		_spec.ClearField(stockpicking.FieldAsnID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.WaveID(); ok {
+		_spec.SetField(stockpicking.FieldWaveID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedWaveID(); ok {
+		_spec.AddField(stockpicking.FieldWaveID, field.TypeUint32, value)
+	}
+	if _u.mutation.WaveIDCleared() {
+		_spec.ClearField(stockpicking.FieldWaveID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.PartnerCode(); ok {
 		_spec.SetField(stockpicking.FieldPartnerCode, field.TypeString, value)

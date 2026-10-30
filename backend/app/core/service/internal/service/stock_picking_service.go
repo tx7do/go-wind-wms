@@ -33,6 +33,7 @@ type StockPickingService struct {
 	stockMoveLineRepo *data.StockMoveLineRepo
 	stockLotRepo      *data.StockLotRepo
 	locationRepo      *data.LocationRepo
+	asnRepo           *data.AsnRepo
 	billing           *BillingGuard
 }
 
@@ -43,6 +44,7 @@ func NewStockPickingService(
 	stockMoveLineRepo *data.StockMoveLineRepo,
 	stockLotRepo *data.StockLotRepo,
 	locationRepo *data.LocationRepo,
+	asnRepo *data.AsnRepo,
 	billing *BillingGuard,
 ) *StockPickingService {
 	svc := &StockPickingService{
@@ -52,6 +54,7 @@ func NewStockPickingService(
 		stockMoveLineRepo: stockMoveLineRepo,
 		stockLotRepo:      stockLotRepo,
 		locationRepo:      locationRepo,
+		asnRepo:           asnRepo,
 		billing:           billing,
 	}
 
@@ -78,6 +81,14 @@ func (s *StockPickingService) Get(ctx context.Context, req *inventoryV1.GetStock
 // INVENTORY_ADJUSTMENT 盘点时客户端提供明细；type=INCOMING 入库由 ASN 收货
 // 生成（客户端不应直接调）。source/dest location 由服务层按 type + 仓库
 // 推导（客户端不提供）。
+// GetStockPickingByNumber 按拣货单号查单（PDA 扫码入口；含 moves）。
+func (s *StockPickingService) GetStockPickingByNumber(ctx context.Context, req *inventoryV1.GetStockPickingByNumberRequest) (*inventoryV1.StockPicking, error) {
+	if req == nil || req.GetNumber() == "" {
+		return nil, inventoryV1.ErrorBadRequest("invalid parameter")
+	}
+	return s.stockPickingRepo.GetByNumber(ctx, req.GetNumber())
+}
+
 func (s *StockPickingService) Create(ctx context.Context, req *inventoryV1.CreateStockPickingRequest) (*emptypb.Empty, error) {
 	if req == nil || req.Data == nil {
 		return nil, inventoryV1.ErrorBadRequest("invalid parameter")
@@ -380,6 +391,24 @@ func (s *StockPickingService) Validate(ctx context.Context, req *inventoryV1.Val
 	for _, a := range req.GetLotAssignments() {
 		if a.GetProductCode() != "" && a.GetLotName() != "" {
 			assignments[a.GetProductCode()] = a
+		}
+	}
+
+	// ASN 收货链：调用方未显式指派批次时，自动从到货明细回填
+	// （收货时登记的 lot_name 随 ASN 行持久化）——否则批次表为空，
+	// 后续出库 FEFO 无批次可拆。
+	if picking.GetAsnId() != 0 && len(assignments) == 0 {
+		if _, lines, lerr := s.asnRepo.GetWithLinesTx(ctx, nil, picking.GetAsnId()); lerr == nil {
+			for _, l := range lines {
+				if l.SkuCode != nil && *l.SkuCode != "" && l.LotName != nil && *l.LotName != "" {
+					lotName := *l.LotName
+					sku := *l.SkuCode
+					assignments[sku] = &inventoryV1.LotAssignment{
+						ProductCode: sku,
+						LotName:     lotName,
+					}
+				}
+			}
 		}
 	}
 

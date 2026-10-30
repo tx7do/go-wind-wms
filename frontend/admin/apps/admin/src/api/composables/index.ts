@@ -9,6 +9,8 @@ export * from './api';
 
 export * from './asn';
 
+export * from './wave';
+
 export * from './approval';
 
 export * from './approval-flow';

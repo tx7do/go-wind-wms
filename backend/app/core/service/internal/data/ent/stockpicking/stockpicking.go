@@ -40,6 +40,8 @@ const (
 	FieldDestinationLocationID = "destination_location_id"
 	// FieldAsnID holds the string denoting the asn_id field in the database.
 	FieldAsnID = "asn_id"
+	// FieldWaveID holds the string denoting the wave_id field in the database.
+	FieldWaveID = "wave_id"
 	// FieldPartnerCode holds the string denoting the partner_code field in the database.
 	FieldPartnerCode = "partner_code"
 	// Table holds the table name of the stockpicking in the database.
@@ -62,6 +64,7 @@ var Columns = []string{
 	FieldSourceLocationID,
 	FieldDestinationLocationID,
 	FieldAsnID,
+	FieldWaveID,
 	FieldPartnerCode,
 }
 
@@ -92,6 +95,8 @@ var (
 	DefaultDestinationLocationID uint32
 	// DefaultAsnID holds the default value on creation for the "asn_id" field.
 	DefaultAsnID uint32
+	// DefaultWaveID holds the default value on creation for the "wave_id" field.
+	DefaultWaveID uint32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -195,6 +200,11 @@ func ByDestinationLocationID(opts ...sql.OrderTermOption) OrderOption {
 // ByAsnID orders the results by the asn_id field.
 func ByAsnID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAsnID, opts...).ToFunc()
+}
+
+// ByWaveID orders the results by the wave_id field.
+func ByWaveID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldWaveID, opts...).ToFunc()
 }
 
 // ByPartnerCode orders the results by the partner_code field.

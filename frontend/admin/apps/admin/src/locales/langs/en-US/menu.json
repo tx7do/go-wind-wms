@@ -60,7 +60,8 @@
     "stockPicking": "Stock Pickings",
     "product": "Products",
     "stockLot": "Stock Lots",
-    "asn": "ASN"
+    "asn": "ASN",
+    "wave": "Waves"
   },
   "approval": {
     "moduleName": "Approval Center",

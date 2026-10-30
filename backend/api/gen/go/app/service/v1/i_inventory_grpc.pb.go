@@ -358,12 +358,13 @@ var StockQuantService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	StockPickingService_List_FullMethodName     = "/app.service.v1.StockPickingService/List"
-	StockPickingService_Get_FullMethodName      = "/app.service.v1.StockPickingService/Get"
-	StockPickingService_Create_FullMethodName   = "/app.service.v1.StockPickingService/Create"
-	StockPickingService_Confirm_FullMethodName  = "/app.service.v1.StockPickingService/Confirm"
-	StockPickingService_Validate_FullMethodName = "/app.service.v1.StockPickingService/Validate"
-	StockPickingService_Cancel_FullMethodName   = "/app.service.v1.StockPickingService/Cancel"
+	StockPickingService_List_FullMethodName                    = "/app.service.v1.StockPickingService/List"
+	StockPickingService_Get_FullMethodName                     = "/app.service.v1.StockPickingService/Get"
+	StockPickingService_GetStockPickingByNumber_FullMethodName = "/app.service.v1.StockPickingService/GetStockPickingByNumber"
+	StockPickingService_Create_FullMethodName                  = "/app.service.v1.StockPickingService/Create"
+	StockPickingService_Confirm_FullMethodName                 = "/app.service.v1.StockPickingService/Confirm"
+	StockPickingService_Validate_FullMethodName                = "/app.service.v1.StockPickingService/Validate"
+	StockPickingService_Cancel_FullMethodName                  = "/app.service.v1.StockPickingService/Cancel"
 )
 
 // StockPickingServiceClient is the client API for StockPickingService service.
@@ -376,6 +377,8 @@ type StockPickingServiceClient interface {
 	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListStockPickingResponse, error)
 	// 查询拣货单详情
 	Get(ctx context.Context, in *v11.GetStockPickingRequest, opts ...grpc.CallOption) (*v11.StockPicking, error)
+	// 按拣货单号查询（PDA 扫码入口）
+	GetStockPickingByNumber(ctx context.Context, in *v11.GetStockPickingByNumberRequest, opts ...grpc.CallOption) (*v11.StockPicking, error)
 	// 创建拣货单（扫码调拨 / 盘点：type=INVENTORY_ADJUSTMENT + 带符号差异明细）
 	Create(ctx context.Context, in *v11.CreateStockPickingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 确认拣货单
@@ -408,6 +411,16 @@ func (c *stockPickingServiceClient) Get(ctx context.Context, in *v11.GetStockPic
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.StockPicking)
 	err := c.cc.Invoke(ctx, StockPickingService_Get_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stockPickingServiceClient) GetStockPickingByNumber(ctx context.Context, in *v11.GetStockPickingByNumberRequest, opts ...grpc.CallOption) (*v11.StockPicking, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(v11.StockPicking)
+	err := c.cc.Invoke(ctx, StockPickingService_GetStockPickingByNumber_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -464,6 +477,8 @@ type StockPickingServiceServer interface {
 	List(context.Context, *v1.PagingRequest) (*v11.ListStockPickingResponse, error)
 	// 查询拣货单详情
 	Get(context.Context, *v11.GetStockPickingRequest) (*v11.StockPicking, error)
+	// 按拣货单号查询（PDA 扫码入口）
+	GetStockPickingByNumber(context.Context, *v11.GetStockPickingByNumberRequest) (*v11.StockPicking, error)
 	// 创建拣货单（扫码调拨 / 盘点：type=INVENTORY_ADJUSTMENT + 带符号差异明细）
 	Create(context.Context, *v11.CreateStockPickingRequest) (*emptypb.Empty, error)
 	// 确认拣货单
@@ -487,6 +502,9 @@ func (UnimplementedStockPickingServiceServer) List(context.Context, *v1.PagingRe
 }
 func (UnimplementedStockPickingServiceServer) Get(context.Context, *v11.GetStockPickingRequest) (*v11.StockPicking, error) {
 	return nil, status.Error(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedStockPickingServiceServer) GetStockPickingByNumber(context.Context, *v11.GetStockPickingByNumberRequest) (*v11.StockPicking, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetStockPickingByNumber not implemented")
 }
 func (UnimplementedStockPickingServiceServer) Create(context.Context, *v11.CreateStockPickingRequest) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method Create not implemented")
@@ -553,6 +571,24 @@ func _StockPickingService_Get_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StockPickingServiceServer).Get(ctx, req.(*v11.GetStockPickingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StockPickingService_GetStockPickingByNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.GetStockPickingByNumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StockPickingServiceServer).GetStockPickingByNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StockPickingService_GetStockPickingByNumber_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StockPickingServiceServer).GetStockPickingByNumber(ctx, req.(*v11.GetStockPickingByNumberRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -643,6 +679,10 @@ var StockPickingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Get",
 			Handler:    _StockPickingService_Get_Handler,
+		},
+		{
+			MethodName: "GetStockPickingByNumber",
+			Handler:    _StockPickingService_GetStockPickingByNumber_Handler,
 		},
 		{
 			MethodName: "Create",

@@ -64,6 +64,7 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/userposition"
 	"go-wind-wms/app/core/service/internal/data/ent/userrole"
 	"go-wind-wms/app/core/service/internal/data/ent/warehouse"
+	"go-wind-wms/app/core/service/internal/data/ent/wave"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -182,6 +183,8 @@ type Client struct {
 	UserRole *UserRoleClient
 	// Warehouse is the client for interacting with the Warehouse builders.
 	Warehouse *WarehouseClient
+	// Wave is the client for interacting with the Wave builders.
+	Wave *WaveClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -246,6 +249,7 @@ func (c *Client) init() {
 	c.UserPosition = NewUserPositionClient(c.config)
 	c.UserRole = NewUserRoleClient(c.config)
 	c.Warehouse = NewWarehouseClient(c.config)
+	c.Wave = NewWaveClient(c.config)
 }
 
 type (
@@ -391,6 +395,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		UserPosition:             NewUserPositionClient(cfg),
 		UserRole:                 NewUserRoleClient(cfg),
 		Warehouse:                NewWarehouseClient(cfg),
+		Wave:                     NewWaveClient(cfg),
 	}, nil
 }
 
@@ -463,6 +468,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		UserPosition:             NewUserPositionClient(cfg),
 		UserRole:                 NewUserRoleClient(cfg),
 		Warehouse:                NewWarehouseClient(cfg),
+		Wave:                     NewWaveClient(cfg),
 	}, nil
 }
 
@@ -503,6 +509,7 @@ func (c *Client) Use(hooks ...Hook) {
 		c.RolePermission, c.StockLocation, c.StockLot, c.StockMove, c.StockMoveLine,
 		c.StockPicking, c.StockQuant, c.Subscription, c.Task, c.Tenant, c.User,
 		c.UserCredential, c.UserOrgUnit, c.UserPosition, c.UserRole, c.Warehouse,
+		c.Wave,
 	} {
 		n.Use(hooks...)
 	}
@@ -523,6 +530,7 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.RolePermission, c.StockLocation, c.StockLot, c.StockMove, c.StockMoveLine,
 		c.StockPicking, c.StockQuant, c.Subscription, c.Task, c.Tenant, c.User,
 		c.UserCredential, c.UserOrgUnit, c.UserPosition, c.UserRole, c.Warehouse,
+		c.Wave,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -637,6 +645,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.UserRole.mutate(ctx, m)
 	case *WarehouseMutation:
 		return c.Warehouse.mutate(ctx, m)
+	case *WaveMutation:
+		return c.Wave.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -7947,6 +7957,141 @@ func (c *WarehouseClient) mutate(ctx context.Context, m *WarehouseMutation) (Val
 	}
 }
 
+// WaveClient is a client for the Wave schema.
+type WaveClient struct {
+	config
+}
+
+// NewWaveClient returns a client for the Wave from the given config.
+func NewWaveClient(c config) *WaveClient {
+	return &WaveClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `wave.Hooks(f(g(h())))`.
+func (c *WaveClient) Use(hooks ...Hook) {
+	c.hooks.Wave = append(c.hooks.Wave, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `wave.Intercept(f(g(h())))`.
+func (c *WaveClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Wave = append(c.inters.Wave, interceptors...)
+}
+
+// Create returns a builder for creating a Wave entity.
+func (c *WaveClient) Create() *WaveCreate {
+	mutation := newWaveMutation(c.config, OpCreate)
+	return &WaveCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Wave entities.
+func (c *WaveClient) CreateBulk(builders ...*WaveCreate) *WaveCreateBulk {
+	return &WaveCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *WaveClient) MapCreateBulk(slice any, setFunc func(*WaveCreate, int)) *WaveCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &WaveCreateBulk{err: fmt.Errorf("calling to WaveClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*WaveCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &WaveCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Wave.
+func (c *WaveClient) Update() *WaveUpdate {
+	mutation := newWaveMutation(c.config, OpUpdate)
+	return &WaveUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *WaveClient) UpdateOne(_m *Wave) *WaveUpdateOne {
+	mutation := newWaveMutation(c.config, OpUpdateOne, withWave(_m))
+	return &WaveUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *WaveClient) UpdateOneID(id uint32) *WaveUpdateOne {
+	mutation := newWaveMutation(c.config, OpUpdateOne, withWaveID(id))
+	return &WaveUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Wave.
+func (c *WaveClient) Delete() *WaveDelete {
+	mutation := newWaveMutation(c.config, OpDelete)
+	return &WaveDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *WaveClient) DeleteOne(_m *Wave) *WaveDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *WaveClient) DeleteOneID(id uint32) *WaveDeleteOne {
+	builder := c.Delete().Where(wave.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &WaveDeleteOne{builder}
+}
+
+// Query returns a query builder for Wave.
+func (c *WaveClient) Query() *WaveQuery {
+	return &WaveQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeWave},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Wave entity by its id.
+func (c *WaveClient) Get(ctx context.Context, id uint32) (*Wave, error) {
+	return c.Query().Where(wave.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *WaveClient) GetX(ctx context.Context, id uint32) *Wave {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *WaveClient) Hooks() []Hook {
+	hooks := c.hooks.Wave
+	return append(hooks[:len(hooks):len(hooks)], wave.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *WaveClient) Interceptors() []Interceptor {
+	inters := c.inters.Wave
+	return append(inters[:len(inters):len(inters)], wave.Interceptors[:]...)
+}
+
+func (c *WaveClient) mutate(ctx context.Context, m *WaveMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&WaveCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&WaveUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&WaveUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&WaveDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Wave mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
@@ -7959,7 +8104,7 @@ type (
 		PolicyEvaluationLog, Position, Product, Role, RoleMetadata, RolePermission,
 		StockLocation, StockLot, StockMove, StockMoveLine, StockPicking, StockQuant,
 		Subscription, Task, Tenant, User, UserCredential, UserOrgUnit, UserPosition,
-		UserRole, Warehouse []ent.Hook
+		UserRole, Warehouse, Wave []ent.Hook
 	}
 	inters struct {
 		Api, ApiAuditLog, ApprovalFlow, ApprovalFlowStep, ApprovalRequest, Asn, AsnLine,
@@ -7971,6 +8116,6 @@ type (
 		PolicyEvaluationLog, Position, Product, Role, RoleMetadata, RolePermission,
 		StockLocation, StockLot, StockMove, StockMoveLine, StockPicking, StockQuant,
 		Subscription, Task, Tenant, User, UserCredential, UserOrgUnit, UserPosition,
-		UserRole, Warehouse []ent.Interceptor
+		UserRole, Warehouse, Wave []ent.Interceptor
 	}
 )

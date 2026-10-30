@@ -38,6 +38,14 @@ func (s *StockPickingService) Get(ctx context.Context, req *inventoryV1.GetStock
 	return s.stockPickingServiceClient.Get(ctx, req)
 }
 
+// GetStockPickingByNumber 按拣货单号查单（PDA 扫码入口）。
+func (s *StockPickingService) GetStockPickingByNumber(ctx context.Context, req *inventoryV1.GetStockPickingByNumberRequest) (*inventoryV1.StockPicking, error) {
+	if req == nil || req.GetNumber() == "" {
+		return nil, appV1.ErrorBadRequest("invalid parameter")
+	}
+	return s.stockPickingServiceClient.GetStockPickingByNumber(ctx, req)
+}
+
 func (s *StockPickingService) Create(ctx context.Context, req *inventoryV1.CreateStockPickingRequest) (*emptypb.Empty, error) {
 	return s.stockPickingServiceClient.Create(ctx, req)
 }

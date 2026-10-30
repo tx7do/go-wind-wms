@@ -65,6 +65,13 @@ service StockPickingService {
     };
   }
 
+  // 按拣货单号查询（PDA 扫码入口）
+  rpc GetStockPickingByNumber (inventory.service.v1.GetStockPickingByNumberRequest) returns (inventory.service.v1.StockPicking) {
+    option (google.api.http) = {
+      get: "/app/v1/stock-pickings/by-number/{number}"
+    };
+  }
+
   // 创建拣货单（扫码调拨 / 盘点：type=INVENTORY_ADJUSTMENT + 带符号差异明细）
   rpc Create (inventory.service.v1.CreateStockPickingRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {

@@ -57,6 +57,7 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/userposition"
 	"go-wind-wms/app/core/service/internal/data/ent/userrole"
 	"go-wind-wms/app/core/service/internal/data/ent/warehouse"
+	"go-wind-wms/app/core/service/internal/data/ent/wave"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -66,7 +67,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 53)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 54)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   api.Table,
@@ -1272,6 +1273,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			stockpicking.FieldSourceLocationID:      {Type: field.TypeUint32, Column: stockpicking.FieldSourceLocationID},
 			stockpicking.FieldDestinationLocationID: {Type: field.TypeUint32, Column: stockpicking.FieldDestinationLocationID},
 			stockpicking.FieldAsnID:                 {Type: field.TypeUint32, Column: stockpicking.FieldAsnID},
+			stockpicking.FieldWaveID:                {Type: field.TypeUint32, Column: stockpicking.FieldWaveID},
 			stockpicking.FieldPartnerCode:           {Type: field.TypeString, Column: stockpicking.FieldPartnerCode},
 		},
 	}
@@ -1565,6 +1567,29 @@ var schemaGraph = func() *sqlgraph.Schema {
 			warehouse.FieldLocation:            {Type: field.TypeString, Column: warehouse.FieldLocation},
 			warehouse.FieldEnable:              {Type: field.TypeBool, Column: warehouse.FieldEnable},
 			warehouse.FieldReceivingLocationID: {Type: field.TypeUint32, Column: warehouse.FieldReceivingLocationID},
+		},
+	}
+	graph.Nodes[53] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   wave.Table,
+			Columns: wave.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: wave.FieldID,
+			},
+		},
+		Type: "Wave",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			wave.FieldCreatedAt:  {Type: field.TypeTime, Column: wave.FieldCreatedAt},
+			wave.FieldUpdatedAt:  {Type: field.TypeTime, Column: wave.FieldUpdatedAt},
+			wave.FieldDeletedAt:  {Type: field.TypeTime, Column: wave.FieldDeletedAt},
+			wave.FieldCreatedBy:  {Type: field.TypeUint32, Column: wave.FieldCreatedBy},
+			wave.FieldUpdatedBy:  {Type: field.TypeUint32, Column: wave.FieldUpdatedBy},
+			wave.FieldDeletedBy:  {Type: field.TypeUint32, Column: wave.FieldDeletedBy},
+			wave.FieldRemark:     {Type: field.TypeString, Column: wave.FieldRemark},
+			wave.FieldTenantID:   {Type: field.TypeUint32, Column: wave.FieldTenantID},
+			wave.FieldWaveNumber: {Type: field.TypeString, Column: wave.FieldWaveNumber},
+			wave.FieldStatus:     {Type: field.TypeEnum, Column: wave.FieldStatus},
 		},
 	}
 	graph.MustAddE(
@@ -6796,6 +6821,11 @@ func (f *StockPickingFilter) WhereAsnID(p entql.Uint32P) {
 	f.Where(p.Field(stockpicking.FieldAsnID))
 }
 
+// WhereWaveID applies the entql uint32 predicate on the wave_id field.
+func (f *StockPickingFilter) WhereWaveID(p entql.Uint32P) {
+	f.Where(p.Field(stockpicking.FieldWaveID))
+}
+
 // WherePartnerCode applies the entql string predicate on the partner_code field.
 func (f *StockPickingFilter) WherePartnerCode(p entql.StringP) {
 	f.Where(p.Field(stockpicking.FieldPartnerCode))
@@ -8009,4 +8039,94 @@ func (f *WarehouseFilter) WhereEnable(p entql.BoolP) {
 // WhereReceivingLocationID applies the entql uint32 predicate on the receiving_location_id field.
 func (f *WarehouseFilter) WhereReceivingLocationID(p entql.Uint32P) {
 	f.Where(p.Field(warehouse.FieldReceivingLocationID))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (_q *WaveQuery) addPredicate(pred func(s *sql.Selector)) {
+	_q.predicates = append(_q.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the WaveQuery builder.
+func (_q *WaveQuery) Filter() *WaveFilter {
+	return &WaveFilter{config: _q.config, predicateAdder: _q}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *WaveMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the WaveMutation builder.
+func (m *WaveMutation) Filter() *WaveFilter {
+	return &WaveFilter{config: m.config, predicateAdder: m}
+}
+
+// WaveFilter provides a generic filtering capability at runtime for WaveQuery.
+type WaveFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *WaveFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[53].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *WaveFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(wave.FieldID))
+}
+
+// WhereCreatedAt applies the entql time.Time predicate on the created_at field.
+func (f *WaveFilter) WhereCreatedAt(p entql.TimeP) {
+	f.Where(p.Field(wave.FieldCreatedAt))
+}
+
+// WhereUpdatedAt applies the entql time.Time predicate on the updated_at field.
+func (f *WaveFilter) WhereUpdatedAt(p entql.TimeP) {
+	f.Where(p.Field(wave.FieldUpdatedAt))
+}
+
+// WhereDeletedAt applies the entql time.Time predicate on the deleted_at field.
+func (f *WaveFilter) WhereDeletedAt(p entql.TimeP) {
+	f.Where(p.Field(wave.FieldDeletedAt))
+}
+
+// WhereCreatedBy applies the entql uint32 predicate on the created_by field.
+func (f *WaveFilter) WhereCreatedBy(p entql.Uint32P) {
+	f.Where(p.Field(wave.FieldCreatedBy))
+}
+
+// WhereUpdatedBy applies the entql uint32 predicate on the updated_by field.
+func (f *WaveFilter) WhereUpdatedBy(p entql.Uint32P) {
+	f.Where(p.Field(wave.FieldUpdatedBy))
+}
+
+// WhereDeletedBy applies the entql uint32 predicate on the deleted_by field.
+func (f *WaveFilter) WhereDeletedBy(p entql.Uint32P) {
+	f.Where(p.Field(wave.FieldDeletedBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *WaveFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(wave.FieldRemark))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *WaveFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(wave.FieldTenantID))
+}
+
+// WhereWaveNumber applies the entql string predicate on the wave_number field.
+func (f *WaveFilter) WhereWaveNumber(p entql.StringP) {
+	f.Where(p.Field(wave.FieldWaveNumber))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *WaveFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(wave.FieldStatus))
 }

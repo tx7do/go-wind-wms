@@ -161,6 +161,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "navApproval": MessageLookupByLibrary.simpleMessage("Approval"),
     "navDashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
     "navInbound": MessageLookupByLibrary.simpleMessage("Inbound"),
+    "navOutbound": MessageLookupByLibrary.simpleMessage("Outbound"),
     "navWms": MessageLookupByLibrary.simpleMessage("WMS"),
     "negativeStock": MessageLookupByLibrary.simpleMessage(
       "Outbound quantity exceeds current stock",
@@ -169,6 +170,33 @@ class MessageLookup extends MessageLookupByLibrary {
       "No warehouses available",
     ),
     "outbound": MessageLookupByLibrary.simpleMessage("Outbound"),
+    "outboundConfirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+    "outboundConfirmed": MessageLookupByLibrary.simpleMessage(
+      "Confirmed. Picking can start",
+    ),
+    "outboundConsignee": MessageLookupByLibrary.simpleMessage("Consignee"),
+    "outboundNetwork": MessageLookupByLibrary.simpleMessage(
+      "Network error, please retry",
+    ),
+    "outboundNotFound": MessageLookupByLibrary.simpleMessage(
+      "Picking number not found",
+    ),
+    "outboundRejected": MessageLookupByLibrary.simpleMessage(
+      "Action rejected: check stock and status",
+    ),
+    "outboundScanHint": MessageLookupByLibrary.simpleMessage(
+      "Scan / enter picking number",
+    ),
+    "outboundUnauthorized": MessageLookupByLibrary.simpleMessage(
+      "Session expired, please sign in again",
+    ),
+    "outboundUnknown": MessageLookupByLibrary.simpleMessage(
+      "Action failed, please retry",
+    ),
+    "outboundValidate": MessageLookupByLibrary.simpleMessage("Validate"),
+    "outboundValidated": MessageLookupByLibrary.simpleMessage(
+      "Outbound done. Stock deducted",
+    ),
     "pageNotFound": MessageLookupByLibrary.simpleMessage("Page Not Found"),
     "pageNotFoundDesc": MessageLookupByLibrary.simpleMessage(
       "Sorry, the page you are looking for does not exist or has been moved.",
