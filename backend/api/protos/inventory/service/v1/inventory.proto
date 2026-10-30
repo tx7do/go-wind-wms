@@ -84,7 +84,8 @@ service StockPickingService {
   // 查询拣货单详情（含 moves）
   rpc Get (GetStockPickingRequest) returns (StockPicking) {}
 
-  // 创建拣货单（含嵌套 moves；type=INTERNAL 调拨 / INVENTORY_ADJUSTMENT 盘点，客户端提供明细）
+  // 创建拣货单（含嵌套 moves；type=INTERNAL 调拨 / OUTGOING 出库 /
+  // INVENTORY_ADJUSTMENT 盘点，客户端提供明细；INCOMING 由 ASN 收货生成）
   rpc Create (CreateStockPickingRequest) returns (google.protobuf.Empty) {}
 
   // 确认拣货单（DRAFT moves → CONFIRMED，借鉴 Odoo action_confirm）

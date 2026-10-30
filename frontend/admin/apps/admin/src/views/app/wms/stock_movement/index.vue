@@ -35,6 +35,7 @@ import { printStockPickingById } from '#/utils/order-print';
 import StockPickingDrawer from './stock_movement-drawer.vue';
 import AdjustmentDrawerComponent from './adjustment-drawer.vue';
 import TransferDrawerComponent from './transfer-drawer.vue';
+import OutgoingDrawerComponent from './outgoing-drawer.vue';
 
 const formOptions: VbenFormProps = {
   collapsed: false,
@@ -147,6 +148,15 @@ const [Drawer, drawerApi] = useVbenDrawer({
   },
 });
 
+const [OutgoingDrawer, outgoingDrawerApi] = useVbenDrawer({
+  connectedComponent: OutgoingDrawerComponent,
+  onOpenChange(isOpen: boolean) {
+    if (!isOpen) {
+      gridApi.reload();
+    }
+  },
+});
+
 const [TransferDrawer, transferDrawerApi] = useVbenDrawer({
   connectedComponent: TransferDrawerComponent,
 
@@ -182,6 +192,10 @@ function handleCreate() {
 
 function handleTransfer() {
   transferDrawerApi.open();
+}
+
+function handleOutgoing() {
+  outgoingDrawerApi.open();
 }
 
 function handleAdjustment() {
@@ -273,6 +287,9 @@ async function handleValidatePicking(row: any) {
         <a-button class="mr-2" @click="handleAdjustment">
           {{ $t('page.stockPicking.button.adjustment') }}
         </a-button>
+        <a-button class="mr-2" @click="handleOutgoing">
+          {{ $t('page.stockPicking.outgoing.button') }}
+        </a-button>
       </template>
 
       <template #pickingType="{ row }">
@@ -326,6 +343,7 @@ async function handleValidatePicking(row: any) {
     </Grid>
     <Drawer />
     <TransferDrawer />
+    <OutgoingDrawer />
     <AdjustmentDrawer />
   </Page>
 </template>

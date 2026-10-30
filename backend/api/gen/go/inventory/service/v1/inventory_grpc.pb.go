@@ -927,7 +927,8 @@ type StockPickingServiceClient interface {
 	Count(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*CountStockPickingResponse, error)
 	// 查询拣货单详情（含 moves）
 	Get(ctx context.Context, in *GetStockPickingRequest, opts ...grpc.CallOption) (*StockPicking, error)
-	// 创建拣货单（含嵌套 moves；type=INTERNAL 调拨 / INVENTORY_ADJUSTMENT 盘点，客户端提供明细）
+	// 创建拣货单（含嵌套 moves；type=INTERNAL 调拨 / OUTGOING 出库 /
+	// INVENTORY_ADJUSTMENT 盘点，客户端提供明细；INCOMING 由 ASN 收货生成）
 	Create(ctx context.Context, in *CreateStockPickingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 确认拣货单（DRAFT moves → CONFIRMED，借鉴 Odoo action_confirm）
 	Confirm(ctx context.Context, in *ConfirmStockPickingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -1040,7 +1041,8 @@ type StockPickingServiceServer interface {
 	Count(context.Context, *v1.PagingRequest) (*CountStockPickingResponse, error)
 	// 查询拣货单详情（含 moves）
 	Get(context.Context, *GetStockPickingRequest) (*StockPicking, error)
-	// 创建拣货单（含嵌套 moves；type=INTERNAL 调拨 / INVENTORY_ADJUSTMENT 盘点，客户端提供明细）
+	// 创建拣货单（含嵌套 moves；type=INTERNAL 调拨 / OUTGOING 出库 /
+	// INVENTORY_ADJUSTMENT 盘点，客户端提供明细；INCOMING 由 ASN 收货生成）
 	Create(context.Context, *CreateStockPickingRequest) (*emptypb.Empty, error)
 	// 确认拣货单（DRAFT moves → CONFIRMED，借鉴 Odoo action_confirm）
 	Confirm(context.Context, *ConfirmStockPickingRequest) (*emptypb.Empty, error)

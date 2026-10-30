@@ -580,6 +580,17 @@
       "salesSuccess": "销售退货单已创建，请到拣货单列表确认并执行",
       "purchaseSuccess": "采购退货单已创建，请到拣货单列表确认并执行",
       "failed": "退货单创建失败"
+    },
+    "outgoing": {
+      "title": "出库开单",
+      "fromWarehouse": "出库仓库",
+      "partnerCode": "收货客户",
+      "remark": "备注",
+      "lines": "出库明细",
+      "addLine": "添加明细",
+      "linesRequired": "请至少添加一条出库明细",
+      "lineInvalid": "明细的 SKU 与数量（正数）必须完整",
+      "button": "出库开单"
     }
   },
   "approval": {

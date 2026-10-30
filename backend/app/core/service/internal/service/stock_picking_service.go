@@ -74,9 +74,10 @@ func (s *StockPickingService) Get(ctx context.Context, req *inventoryV1.GetStock
 	return s.stockPickingRepo.Get(ctx, req)
 }
 
-// Create 创建拣货单（含嵌套 moves）。type=INTERNAL 调拨时客户端提供明细；
-// type=INCOMING 入库仅由采购获批自动创建（客户端不应直接调）。
-// source/dest location 由服务层按 type + 仓库推导（客户端不提供）。
+// Create 创建拣货单（含嵌套 moves）。type=INTERNAL 调拨 / OUTGOING 出库 /
+// INVENTORY_ADJUSTMENT 盘点时客户端提供明细；type=INCOMING 入库由 ASN 收货
+// 生成（客户端不应直接调）。source/dest location 由服务层按 type + 仓库
+// 推导（客户端不提供）。
 func (s *StockPickingService) Create(ctx context.Context, req *inventoryV1.CreateStockPickingRequest) (*emptypb.Empty, error) {
 	if req == nil || req.Data == nil {
 		return nil, inventoryV1.ErrorBadRequest("invalid parameter")
@@ -93,14 +94,16 @@ func (s *StockPickingService) Create(ctx context.Context, req *inventoryV1.Creat
 	switch pickingType {
 	case inventoryV1.StockPicking_INCOMING:
 		// 入库：source = 租户供应商位置，dest = 目的仓库对应的
-		// 接收位置。但入库拣货单仅由采购获批自动创建——客户端直接调
-		// 此接口创建入库拣货单不允许（需经采购审批链）。
-		return nil, inventoryV1.ErrorBadRequest("incoming pickings are created automatically on PO approval")
+		// 接收位置。入库拣货单由 ASN 收货生成（M1 入库链）——客户端
+		// 直接调此接口创建入库拣货单不允许。
+		return nil, inventoryV1.ErrorBadRequest("incoming pickings are created automatically on ASN receive")
 
 	case inventoryV1.StockPicking_OUTGOING:
-		// 出库：source = 仓库接收位置，dest = 租户客户位置。出库拣货单
-		// 仅由销售单获批自动创建——客户端直接调此接口不允许。
-		return nil, inventoryV1.ErrorBadRequest("outgoing pickings are created automatically on SO approval")
+		// 出库（M2 直发链）：source = 出库仓库的接收位置（INTERNAL），
+		// dest = 租户客户虚拟位置（CUSTOMER）。客户端提供 from_warehouse_code、
+		// partner_code（收货客户）与 moves（product + planned_quantity）；
+		// FEFO 批次扣减与防负库存由 Validate 统一把关。
+		return s.createOutgoingPicking(ctx, req)
 
 	case inventoryV1.StockPicking_INTERNAL:
 		// 调拨：source = fromWarehouse 的接收位置，dest = toWarehouse 的
@@ -186,6 +189,60 @@ func (s *StockPickingService) createAdjustmentPicking(ctx context.Context, req *
 		},
 	})
 	if err != nil {
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+// createOutgoingPicking 创建出库拣货单（OUTGOING，M2 直发链）：
+// source = 出库仓库接收位置（INTERNAL），dest = 租户客户虚拟位置（CUSTOMER）。
+// moves 由客户端提供（product + planned_quantity）。库存扣减在 Validate
+// 单事务内执行：source quant 原子防负扣减 + FEFO 批次自动拆分（无指派时）
+// + move-line 执行记录。客户虚拟位无 quant，dest 腿自动跳过——库存从
+// 边界"消失"，符合 Odoo 出库语义。
+func (s *StockPickingService) createOutgoingPicking(ctx context.Context, req *inventoryV1.CreateStockPickingRequest) (*emptypb.Empty, error) {
+	whCode := req.Data.GetFromWarehouseCode()
+	partnerCode := req.Data.GetPartnerCode()
+	if whCode == "" {
+		return nil, inventoryV1.ErrorBadRequest("from_warehouse_code is required for outgoing picking")
+	}
+	if partnerCode == "" {
+		return nil, inventoryV1.ErrorBadRequest("partner_code is required for outgoing picking")
+	}
+
+	// source = 出库仓库的接收位置（INTERNAL）。
+	sourceLocID, err := s.locationRepo.GetLocationID(ctx, whCode)
+	if err != nil {
+		return nil, err
+	}
+	// dest = 租户客户虚拟位置（CUSTOMER，无 quant）。
+	destLocID, err := s.locationRepo.GetCustomerLocationID(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// moves：客户端提供 per-move 的 product+planned_quantity。
+	moves := req.Data.GetMoves()
+	if len(moves) == 0 {
+		return nil, inventoryV1.ErrorBadRequest("at least one move is required")
+	}
+	for _, m := range moves {
+		if m == nil || m.GetProductCode() == "" || m.GetPlannedQuantity() <= 0 {
+			return nil, inventoryV1.ErrorBadRequest("each move must have a valid product_code and positive planned_quantity")
+		}
+	}
+
+	if _, err = s.stockPickingRepo.Create(ctx, &inventoryV1.CreateStockPickingRequest{
+		Data: &inventoryV1.StockPicking{
+			PickingType:           inventoryV1.StockPicking_OUTGOING.Enum(),
+			SourceLocationId:      trans.Ptr(sourceLocID),
+			DestinationLocationId: trans.Ptr(destLocID),
+			PartnerCode:           trans.Ptr(partnerCode),
+			Moves:                 moves,
+			Remark:                req.Data.Remark,
+		},
+	}); err != nil {
 		return nil, err
 	}
 
