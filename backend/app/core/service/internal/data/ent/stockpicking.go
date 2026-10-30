@@ -44,6 +44,8 @@ type StockPicking struct {
 	DestinationLocationID *uint32 `json:"destination_location_id,omitempty"`
 	// 关联采购单ID（仅入库）
 	PurchaseOrderID *uint32 `json:"purchase_order_id,omitempty"`
+	// 关联到货通知单ID
+	AsnID *uint32 `json:"asn_id,omitempty"`
 	// 交易方编码（供应商/客户）
 	PartnerCode  *string `json:"partner_code,omitempty"`
 	selectValues sql.SelectValues
@@ -54,7 +56,7 @@ func (*StockPicking) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case stockpicking.FieldID, stockpicking.FieldCreatedBy, stockpicking.FieldUpdatedBy, stockpicking.FieldDeletedBy, stockpicking.FieldTenantID, stockpicking.FieldSourceLocationID, stockpicking.FieldDestinationLocationID, stockpicking.FieldPurchaseOrderID:
+		case stockpicking.FieldID, stockpicking.FieldCreatedBy, stockpicking.FieldUpdatedBy, stockpicking.FieldDeletedBy, stockpicking.FieldTenantID, stockpicking.FieldSourceLocationID, stockpicking.FieldDestinationLocationID, stockpicking.FieldPurchaseOrderID, stockpicking.FieldAsnID:
 			values[i] = new(sql.NullInt64)
 		case stockpicking.FieldRemark, stockpicking.FieldPickingNumber, stockpicking.FieldPickingType, stockpicking.FieldPartnerCode:
 			values[i] = new(sql.NullString)
@@ -172,6 +174,13 @@ func (_m *StockPicking) assignValues(columns []string, values []any) error {
 				_m.PurchaseOrderID = new(uint32)
 				*_m.PurchaseOrderID = uint32(value.Int64)
 			}
+		case stockpicking.FieldAsnID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field asn_id", values[i])
+			} else if value.Valid {
+				_m.AsnID = new(uint32)
+				*_m.AsnID = uint32(value.Int64)
+			}
 		case stockpicking.FieldPartnerCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field partner_code", values[i])
@@ -277,6 +286,11 @@ func (_m *StockPicking) String() string {
 	builder.WriteString(", ")
 	if v := _m.PurchaseOrderID; v != nil {
 		builder.WriteString("purchase_order_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.AsnID; v != nil {
+		builder.WriteString("asn_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

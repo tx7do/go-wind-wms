@@ -114,6 +114,11 @@ func PurchaseOrderID(v uint32) predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldEQ(FieldPurchaseOrderID, v))
 }
 
+// AsnID applies equality check predicate on the "asn_id" field. It's identical to AsnIDEQ.
+func AsnID(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldEQ(FieldAsnID, v))
+}
+
 // PartnerCode applies equality check predicate on the "partner_code" field. It's identical to PartnerCodeEQ.
 func PartnerCode(v string) predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldEQ(FieldPartnerCode, v))
@@ -797,6 +802,56 @@ func PurchaseOrderIDIsNil() predicate.StockPicking {
 // PurchaseOrderIDNotNil applies the NotNil predicate on the "purchase_order_id" field.
 func PurchaseOrderIDNotNil() predicate.StockPicking {
 	return predicate.StockPicking(sql.FieldNotNull(FieldPurchaseOrderID))
+}
+
+// AsnIDEQ applies the EQ predicate on the "asn_id" field.
+func AsnIDEQ(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldEQ(FieldAsnID, v))
+}
+
+// AsnIDNEQ applies the NEQ predicate on the "asn_id" field.
+func AsnIDNEQ(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldNEQ(FieldAsnID, v))
+}
+
+// AsnIDIn applies the In predicate on the "asn_id" field.
+func AsnIDIn(vs ...uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldIn(FieldAsnID, vs...))
+}
+
+// AsnIDNotIn applies the NotIn predicate on the "asn_id" field.
+func AsnIDNotIn(vs ...uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldNotIn(FieldAsnID, vs...))
+}
+
+// AsnIDGT applies the GT predicate on the "asn_id" field.
+func AsnIDGT(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldGT(FieldAsnID, v))
+}
+
+// AsnIDGTE applies the GTE predicate on the "asn_id" field.
+func AsnIDGTE(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldGTE(FieldAsnID, v))
+}
+
+// AsnIDLT applies the LT predicate on the "asn_id" field.
+func AsnIDLT(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldLT(FieldAsnID, v))
+}
+
+// AsnIDLTE applies the LTE predicate on the "asn_id" field.
+func AsnIDLTE(v uint32) predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldLTE(FieldAsnID, v))
+}
+
+// AsnIDIsNil applies the IsNil predicate on the "asn_id" field.
+func AsnIDIsNil() predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldIsNull(FieldAsnID))
+}
+
+// AsnIDNotNil applies the NotNil predicate on the "asn_id" field.
+func AsnIDNotNil() predicate.StockPicking {
+	return predicate.StockPicking(sql.FieldNotNull(FieldAsnID))
 }
 
 // PartnerCodeEQ applies the EQ predicate on the "partner_code" field.

@@ -75,6 +75,13 @@ func (StockPicking) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
+		// asn_id：入库/上架拣货单关联的到货通知单（ASN→收货/上架 桥接）。
+		field.Uint32("asn_id").
+			Comment("关联到货通知单ID").
+			Default(0).
+			Optional().
+			Nillable(),
+
 		field.String("partner_code").
 			Comment("交易方编码（供应商/客户）").
 			Optional().
@@ -101,5 +108,9 @@ func (StockPicking) Indexes() []ent.Index {
 		// 按采购单回溯收货拣货单
 		index.Fields("tenant_id", "purchase_order_id").
 			StorageKey("idx_inv_stock_picking_tenant_po"),
+
+		// 按到货通知单回溯收货/上架拣货单
+		index.Fields("tenant_id", "asn_id").
+			StorageKey("idx_inv_stock_picking_tenant_asn"),
 	}
 }

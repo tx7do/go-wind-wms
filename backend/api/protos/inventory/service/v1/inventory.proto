@@ -361,6 +361,14 @@ message StockPicking {
         }
   ]; // 关联采购单ID
 
+  optional uint32 asn_id = 14 [
+    json_name = "asnId",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+          description: "关联到货通知单ID"
+        }
+  ]; // 关联到货通知单ID
+
   optional string partner_code = 6 [
     json_name = "partnerCode",
     (google.api.field_behavior) = OPTIONAL,

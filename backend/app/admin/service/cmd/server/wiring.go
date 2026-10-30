@@ -75,6 +75,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	stockQuantServiceClient := data.NewStockQuantServiceClient(ctx, discovery)
 	stockLotServiceClient := data.NewStockLotServiceClient(ctx, discovery)
 	stockPickingServiceClient := data.NewStockPickingServiceClient(ctx, discovery)
+	asnServiceClient := data.NewAsnServiceClient(ctx, discovery)
 	approvalRequestServiceClient := data.NewApprovalRequestServiceClient(ctx, discovery)
 	approvalFlowServiceClient := data.NewApprovalFlowServiceClient(ctx, discovery)
 	productServiceClient := data.NewProductServiceClient(ctx, discovery)
@@ -114,6 +115,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	stockQuantService := service.NewStockQuantService(ctx, stockQuantServiceClient)
 	stockLotService := service.NewStockLotService(ctx, stockLotServiceClient)
 	stockPickingService := service.NewStockPickingService(ctx, stockPickingServiceClient)
+	asnService := service.NewAsnService(ctx, asnServiceClient)
 	approvalRequestService := service.NewApprovalRequestService(ctx, approvalRequestServiceClient)
 	approvalFlowService := service.NewApprovalFlowService(ctx, approvalFlowServiceClient)
 	productService := service.NewProductService(ctx, productServiceClient)
@@ -160,6 +162,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 		stockQuantService,
 		stockLotService,
 		stockPickingService,
+		asnService,
 		approvalRequestService,
 		approvalFlowService,
 		productService,

@@ -257,6 +257,80 @@ var (
 			},
 		},
 	}
+	// WmsAsnsColumns holds the columns for the "wms_asns" table.
+	WmsAsnsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID", Default: 0},
+		{Name: "asn_number", Type: field.TypeString, Nullable: true, Comment: "单号（服务端生成，租户范围内唯一）"},
+		{Name: "warehouse_code", Type: field.TypeString, Nullable: true, Comment: "目的仓库编码"},
+		{Name: "partner_code", Type: field.TypeString, Nullable: true, Comment: "发货方编码（供应商/上游仓库）"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态：DRAFT=草稿，ANNOUNCED=已宣告，RECEIVING=收货中，COMPLETED=已完结，CANCELLED=已取消", Enums: []string{"DRAFT", "ANNOUNCED", "RECEIVING", "COMPLETED", "CANCELLED"}, Default: "DRAFT"},
+		{Name: "expected_date", Type: field.TypeTime, Nullable: true, Comment: "预计到货时间"},
+	}
+	// WmsAsnsTable holds the schema information for the "wms_asns" table.
+	WmsAsnsTable = &schema.Table{
+		Name:       "wms_asns",
+		Comment:    "到货通知单表",
+		Columns:    WmsAsnsColumns,
+		PrimaryKey: []*schema.Column{WmsAsnsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "idx_wms_asn_tenant_number",
+				Unique:  true,
+				Columns: []*schema.Column{WmsAsnsColumns[8], WmsAsnsColumns[9]},
+			},
+			{
+				Name:    "idx_wms_asn_tenant_wh_status",
+				Unique:  false,
+				Columns: []*schema.Column{WmsAsnsColumns[8], WmsAsnsColumns[10], WmsAsnsColumns[12]},
+			},
+		},
+	}
+	// WmsAsnLinesColumns holds the columns for the "wms_asn_lines" table.
+	WmsAsnLinesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID", Default: 0},
+		{Name: "asn_id", Type: field.TypeUint32, Nullable: true, Comment: "所属到货通知单ID", Default: 0},
+		{Name: "sku_code", Type: field.TypeString, Nullable: true, Comment: "SKU 编码"},
+		{Name: "expected_qty", Type: field.TypeInt64, Nullable: true, Comment: "预期数量", Default: 0},
+		{Name: "received_qty", Type: field.TypeInt64, Nullable: true, Comment: "已收数量（累计）", Default: 0},
+		{Name: "putaway_qty", Type: field.TypeInt64, Nullable: true, Comment: "已上架数量（累计）", Default: 0},
+		{Name: "qc_status", Type: field.TypeEnum, Nullable: true, Comment: "质检状态：QC_PENDING=未检，QC_PASS=通过，QC_FAIL=不合格", Enums: []string{"QC_PENDING", "QC_PASS", "QC_FAIL"}, Default: "QC_PENDING"},
+		{Name: "lot_name", Type: field.TypeString, Nullable: true, Comment: "批次号（最近一次收货登记，可选）"},
+	}
+	// WmsAsnLinesTable holds the schema information for the "wms_asn_lines" table.
+	WmsAsnLinesTable = &schema.Table{
+		Name:       "wms_asn_lines",
+		Comment:    "到货通知单明细表",
+		Columns:    WmsAsnLinesColumns,
+		PrimaryKey: []*schema.Column{WmsAsnLinesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "idx_wms_asn_line_tenant_asn",
+				Unique:  false,
+				Columns: []*schema.Column{WmsAsnLinesColumns[8], WmsAsnLinesColumns[9]},
+			},
+			{
+				Name:    "idx_wms_asn_line_tenant_sku",
+				Unique:  false,
+				Columns: []*schema.Column{WmsAsnLinesColumns[8], WmsAsnLinesColumns[10]},
+			},
+		},
+	}
 	// SysDataAccessAuditLogsColumns holds the columns for the "sys_data_access_audit_logs" table.
 	SysDataAccessAuditLogsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
@@ -2586,6 +2660,7 @@ var (
 		{Name: "source_location_id", Type: field.TypeUint32, Nullable: true, Comment: "源位置ID", Default: 0},
 		{Name: "destination_location_id", Type: field.TypeUint32, Nullable: true, Comment: "目的位置ID", Default: 0},
 		{Name: "purchase_order_id", Type: field.TypeUint32, Nullable: true, Comment: "关联采购单ID（仅入库）", Default: 0},
+		{Name: "asn_id", Type: field.TypeUint32, Nullable: true, Comment: "关联到货通知单ID", Default: 0},
 		{Name: "partner_code", Type: field.TypeString, Nullable: true, Comment: "交易方编码（供应商/客户）"},
 	}
 	// InvStockPickingsTable holds the schema information for the "inv_stock_pickings" table.
@@ -2604,6 +2679,11 @@ var (
 				Name:    "idx_inv_stock_picking_tenant_po",
 				Unique:  false,
 				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[13]},
+			},
+			{
+				Name:    "idx_inv_stock_picking_tenant_asn",
+				Unique:  false,
+				Columns: []*schema.Column{InvStockPickingsColumns[8], InvStockPickingsColumns[14]},
 			},
 		},
 	}
@@ -3266,6 +3346,8 @@ var (
 		AprApprovalFlowsTable,
 		AprApprovalFlowStepsTable,
 		AprApprovalRequestsTable,
+		WmsAsnsTable,
+		WmsAsnLinesTable,
 		SysDataAccessAuditLogsTable,
 		SysDictEntriesTable,
 		SysDictEntryI18nTable,
@@ -3338,6 +3420,16 @@ func init() {
 	}
 	AprApprovalRequestsTable.Annotation = &entsql.Annotation{
 		Table:     "apr_approval_requests",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	WmsAsnsTable.Annotation = &entsql.Annotation{
+		Table:     "wms_asns",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	WmsAsnLinesTable.Annotation = &entsql.Annotation{
+		Table:     "wms_asn_lines",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

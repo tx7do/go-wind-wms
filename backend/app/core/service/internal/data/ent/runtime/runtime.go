@@ -10,6 +10,8 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflow"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflowstep"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalrequest"
+	"go-wind-wms/app/core/service/internal/data/ent/asn"
+	"go-wind-wms/app/core/service/internal/data/ent/asnline"
 	"go-wind-wms/app/core/service/internal/data/ent/dataaccessauditlog"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentry"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentryi18n"
@@ -234,6 +236,74 @@ func init() {
 	approvalrequestDescID := approvalrequestMixinFields0[0].Descriptor()
 	// approvalrequest.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	approvalrequest.IDValidator = approvalrequestDescID.Validators[0].(func(uint32) error)
+	asnMixin := schema.Asn{}.Mixin()
+	asn.Policy = privacy.NewPolicies(asnMixin[5], schema.Asn{})
+	asn.Hooks[0] = func(next ent.Mutator) ent.Mutator {
+		return ent.MutateFunc(func(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+			if err := asn.Policy.EvalMutation(ctx, m); err != nil {
+				return nil, err
+			}
+			return next.Mutate(ctx, m)
+		})
+	}
+	asnMixinInters2 := asnMixin[2].Interceptors()
+	asn.Interceptors[0] = asnMixinInters2[0]
+	asnMixinFields0 := asnMixin[0].Fields()
+	_ = asnMixinFields0
+	asnMixinFields5 := asnMixin[5].Fields()
+	_ = asnMixinFields5
+	asnFields := schema.Asn{}.Fields()
+	_ = asnFields
+	// asnDescTenantID is the schema descriptor for tenant_id field.
+	asnDescTenantID := asnMixinFields5[0].Descriptor()
+	// asn.DefaultTenantID holds the default value on creation for the tenant_id field.
+	asn.DefaultTenantID = asnDescTenantID.Default.(uint32)
+	// asnDescID is the schema descriptor for id field.
+	asnDescID := asnMixinFields0[0].Descriptor()
+	// asn.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	asn.IDValidator = asnDescID.Validators[0].(func(uint32) error)
+	asnlineMixin := schema.AsnLine{}.Mixin()
+	asnline.Policy = privacy.NewPolicies(asnlineMixin[5], schema.AsnLine{})
+	asnline.Hooks[0] = func(next ent.Mutator) ent.Mutator {
+		return ent.MutateFunc(func(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+			if err := asnline.Policy.EvalMutation(ctx, m); err != nil {
+				return nil, err
+			}
+			return next.Mutate(ctx, m)
+		})
+	}
+	asnlineMixinInters2 := asnlineMixin[2].Interceptors()
+	asnline.Interceptors[0] = asnlineMixinInters2[0]
+	asnlineMixinFields0 := asnlineMixin[0].Fields()
+	_ = asnlineMixinFields0
+	asnlineMixinFields5 := asnlineMixin[5].Fields()
+	_ = asnlineMixinFields5
+	asnlineFields := schema.AsnLine{}.Fields()
+	_ = asnlineFields
+	// asnlineDescTenantID is the schema descriptor for tenant_id field.
+	asnlineDescTenantID := asnlineMixinFields5[0].Descriptor()
+	// asnline.DefaultTenantID holds the default value on creation for the tenant_id field.
+	asnline.DefaultTenantID = asnlineDescTenantID.Default.(uint32)
+	// asnlineDescAsnID is the schema descriptor for asn_id field.
+	asnlineDescAsnID := asnlineFields[0].Descriptor()
+	// asnline.DefaultAsnID holds the default value on creation for the asn_id field.
+	asnline.DefaultAsnID = asnlineDescAsnID.Default.(uint32)
+	// asnlineDescExpectedQty is the schema descriptor for expected_qty field.
+	asnlineDescExpectedQty := asnlineFields[2].Descriptor()
+	// asnline.DefaultExpectedQty holds the default value on creation for the expected_qty field.
+	asnline.DefaultExpectedQty = asnlineDescExpectedQty.Default.(int64)
+	// asnlineDescReceivedQty is the schema descriptor for received_qty field.
+	asnlineDescReceivedQty := asnlineFields[3].Descriptor()
+	// asnline.DefaultReceivedQty holds the default value on creation for the received_qty field.
+	asnline.DefaultReceivedQty = asnlineDescReceivedQty.Default.(int64)
+	// asnlineDescPutawayQty is the schema descriptor for putaway_qty field.
+	asnlineDescPutawayQty := asnlineFields[4].Descriptor()
+	// asnline.DefaultPutawayQty holds the default value on creation for the putaway_qty field.
+	asnline.DefaultPutawayQty = asnlineDescPutawayQty.Default.(int64)
+	// asnlineDescID is the schema descriptor for id field.
+	asnlineDescID := asnlineMixinFields0[0].Descriptor()
+	// asnline.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	asnline.IDValidator = asnlineDescID.Validators[0].(func(uint32) error)
 	dataaccessauditlogMixin := schema.DataAccessAuditLog{}.Mixin()
 	dataaccessauditlog.Policy = privacy.NewPolicies(dataaccessauditlogMixin[2], schema.DataAccessAuditLog{})
 	dataaccessauditlog.Hooks[0] = func(next ent.Mutator) ent.Mutator {
@@ -1493,6 +1563,10 @@ func init() {
 	stockpickingDescPurchaseOrderID := stockpickingFields[4].Descriptor()
 	// stockpicking.DefaultPurchaseOrderID holds the default value on creation for the purchase_order_id field.
 	stockpicking.DefaultPurchaseOrderID = stockpickingDescPurchaseOrderID.Default.(uint32)
+	// stockpickingDescAsnID is the schema descriptor for asn_id field.
+	stockpickingDescAsnID := stockpickingFields[5].Descriptor()
+	// stockpicking.DefaultAsnID holds the default value on creation for the asn_id field.
+	stockpicking.DefaultAsnID = stockpickingDescAsnID.Default.(uint32)
 	// stockpickingDescID is the schema descriptor for id field.
 	stockpickingDescID := stockpickingMixinFields0[0].Descriptor()
 	// stockpicking.IDValidator is a validator for the "id" field. It is called by the builders before save.

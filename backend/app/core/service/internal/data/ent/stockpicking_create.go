@@ -204,6 +204,20 @@ func (_c *StockPickingCreate) SetNillablePurchaseOrderID(v *uint32) *StockPickin
 	return _c
 }
 
+// SetAsnID sets the "asn_id" field.
+func (_c *StockPickingCreate) SetAsnID(v uint32) *StockPickingCreate {
+	_c.mutation.SetAsnID(v)
+	return _c
+}
+
+// SetNillableAsnID sets the "asn_id" field if the given value is not nil.
+func (_c *StockPickingCreate) SetNillableAsnID(v *uint32) *StockPickingCreate {
+	if v != nil {
+		_c.SetAsnID(*v)
+	}
+	return _c
+}
+
 // SetPartnerCode sets the "partner_code" field.
 func (_c *StockPickingCreate) SetPartnerCode(v string) *StockPickingCreate {
 	_c.mutation.SetPartnerCode(v)
@@ -280,6 +294,10 @@ func (_c *StockPickingCreate) defaults() error {
 	if _, ok := _c.mutation.PurchaseOrderID(); !ok {
 		v := stockpicking.DefaultPurchaseOrderID
 		_c.mutation.SetPurchaseOrderID(v)
+	}
+	if _, ok := _c.mutation.AsnID(); !ok {
+		v := stockpicking.DefaultAsnID
+		_c.mutation.SetAsnID(v)
 	}
 	return nil
 }
@@ -380,6 +398,10 @@ func (_c *StockPickingCreate) createSpec() (*StockPicking, *sqlgraph.CreateSpec)
 	if value, ok := _c.mutation.PurchaseOrderID(); ok {
 		_spec.SetField(stockpicking.FieldPurchaseOrderID, field.TypeUint32, value)
 		_node.PurchaseOrderID = &value
+	}
+	if value, ok := _c.mutation.AsnID(); ok {
+		_spec.SetField(stockpicking.FieldAsnID, field.TypeUint32, value)
+		_node.AsnID = &value
 	}
 	if value, ok := _c.mutation.PartnerCode(); ok {
 		_spec.SetField(stockpicking.FieldPartnerCode, field.TypeString, value)
@@ -668,6 +690,30 @@ func (u *StockPickingUpsert) AddPurchaseOrderID(v uint32) *StockPickingUpsert {
 // ClearPurchaseOrderID clears the value of the "purchase_order_id" field.
 func (u *StockPickingUpsert) ClearPurchaseOrderID() *StockPickingUpsert {
 	u.SetNull(stockpicking.FieldPurchaseOrderID)
+	return u
+}
+
+// SetAsnID sets the "asn_id" field.
+func (u *StockPickingUpsert) SetAsnID(v uint32) *StockPickingUpsert {
+	u.Set(stockpicking.FieldAsnID, v)
+	return u
+}
+
+// UpdateAsnID sets the "asn_id" field to the value that was provided on create.
+func (u *StockPickingUpsert) UpdateAsnID() *StockPickingUpsert {
+	u.SetExcluded(stockpicking.FieldAsnID)
+	return u
+}
+
+// AddAsnID adds v to the "asn_id" field.
+func (u *StockPickingUpsert) AddAsnID(v uint32) *StockPickingUpsert {
+	u.Add(stockpicking.FieldAsnID, v)
+	return u
+}
+
+// ClearAsnID clears the value of the "asn_id" field.
+func (u *StockPickingUpsert) ClearAsnID() *StockPickingUpsert {
+	u.SetNull(stockpicking.FieldAsnID)
 	return u
 }
 
@@ -1013,6 +1059,34 @@ func (u *StockPickingUpsertOne) UpdatePurchaseOrderID() *StockPickingUpsertOne {
 func (u *StockPickingUpsertOne) ClearPurchaseOrderID() *StockPickingUpsertOne {
 	return u.Update(func(s *StockPickingUpsert) {
 		s.ClearPurchaseOrderID()
+	})
+}
+
+// SetAsnID sets the "asn_id" field.
+func (u *StockPickingUpsertOne) SetAsnID(v uint32) *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.SetAsnID(v)
+	})
+}
+
+// AddAsnID adds v to the "asn_id" field.
+func (u *StockPickingUpsertOne) AddAsnID(v uint32) *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.AddAsnID(v)
+	})
+}
+
+// UpdateAsnID sets the "asn_id" field to the value that was provided on create.
+func (u *StockPickingUpsertOne) UpdateAsnID() *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.UpdateAsnID()
+	})
+}
+
+// ClearAsnID clears the value of the "asn_id" field.
+func (u *StockPickingUpsertOne) ClearAsnID() *StockPickingUpsertOne {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.ClearAsnID()
 	})
 }
 
@@ -1527,6 +1601,34 @@ func (u *StockPickingUpsertBulk) UpdatePurchaseOrderID() *StockPickingUpsertBulk
 func (u *StockPickingUpsertBulk) ClearPurchaseOrderID() *StockPickingUpsertBulk {
 	return u.Update(func(s *StockPickingUpsert) {
 		s.ClearPurchaseOrderID()
+	})
+}
+
+// SetAsnID sets the "asn_id" field.
+func (u *StockPickingUpsertBulk) SetAsnID(v uint32) *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.SetAsnID(v)
+	})
+}
+
+// AddAsnID adds v to the "asn_id" field.
+func (u *StockPickingUpsertBulk) AddAsnID(v uint32) *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.AddAsnID(v)
+	})
+}
+
+// UpdateAsnID sets the "asn_id" field to the value that was provided on create.
+func (u *StockPickingUpsertBulk) UpdateAsnID() *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.UpdateAsnID()
+	})
+}
+
+// ClearAsnID clears the value of the "asn_id" field.
+func (u *StockPickingUpsertBulk) ClearAsnID() *StockPickingUpsertBulk {
+	return u.Update(func(s *StockPickingUpsert) {
+		s.ClearAsnID()
 	})
 }
 

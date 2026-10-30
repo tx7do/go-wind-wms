@@ -111,6 +111,7 @@ func NewRestServer(
 	stockQuantService *service.StockQuantService,
 	stockLotService   *service.StockLotService,
 	stockPickingService *service.StockPickingService,
+	asnService *service.AsnService,
 
 	approvalRequestService *service.ApprovalRequestService,
 	approvalFlowService   *service.ApprovalFlowService,
@@ -177,6 +178,7 @@ func NewRestServer(
 	adminV1.RegisterApprovalFlowServiceHTTPServer(srv, approvalFlowService)
 
 	adminV1.RegisterProductServiceHTTPServer(srv, productService)
+	adminV1.RegisterAsnServiceHTTPServer(srv, asnService)
 
 
 

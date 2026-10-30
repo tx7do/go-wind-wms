@@ -62,6 +62,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	stockQuantServiceClient := data.NewStockQuantServiceClient(ctx, discovery)
 	stockLotServiceClient := data.NewStockLotServiceClient(ctx, discovery)
 	stockPickingServiceClient := data.NewStockPickingServiceClient(ctx, discovery)
+	asnServiceClient := data.NewAsnServiceClient(ctx, discovery)
 	approvalRequestServiceClient := data.NewApprovalRequestServiceClient(ctx, discovery)
 	dictEntryServiceClient := data.NewDictEntryServiceClient(ctx, discovery)
 
@@ -76,6 +77,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 	stockQuantService := service.NewStockQuantService(ctx, stockQuantServiceClient)
 	stockLotService := service.NewStockLotService(ctx, stockLotServiceClient)
 	stockPickingService := service.NewStockPickingService(ctx, stockPickingServiceClient)
+	asnService := service.NewAsnService(ctx, asnServiceClient)
 	approvalRequestService := service.NewApprovalRequestService(ctx, approvalRequestServiceClient)
 	dictEntryLookup := service.NewDictEntryLookup(ctx, dictEntryServiceClient)
 
@@ -93,6 +95,7 @@ func initApp(ctx *bootstrap.Context) (*kratos.App, func(), error) {
 		stockQuantService,
 		stockLotService,
 		stockPickingService,
+		asnService,
 		approvalRequestService,
 		dictEntryLookup,
 		// register:rest-arg ── 新模块服务实参在此行后追加(make register 工具锚点,勿删)

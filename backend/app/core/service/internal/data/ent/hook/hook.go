@@ -68,6 +68,30 @@ func (f ApprovalRequestFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Va
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ApprovalRequestMutation", m)
 }
 
+// The AsnFunc type is an adapter to allow the use of ordinary
+// function as Asn mutator.
+type AsnFunc func(context.Context, *ent.AsnMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AsnFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AsnMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AsnMutation", m)
+}
+
+// The AsnLineFunc type is an adapter to allow the use of ordinary
+// function as AsnLine mutator.
+type AsnLineFunc func(context.Context, *ent.AsnLineMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AsnLineFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AsnLineMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AsnLineMutation", m)
+}
+
 // The DataAccessAuditLogFunc type is an adapter to allow the use of ordinary
 // function as DataAccessAuditLog mutator.
 type DataAccessAuditLogFunc func(context.Context, *ent.DataAccessAuditLogMutation) (ent.Value, error)

@@ -14,6 +14,8 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflow"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflowstep"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalrequest"
+	"go-wind-wms/app/core/service/internal/data/ent/asn"
+	"go-wind-wms/app/core/service/internal/data/ent/asnline"
 	"go-wind-wms/app/core/service/internal/data/ent/dataaccessauditlog"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentry"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentryi18n"
@@ -82,6 +84,8 @@ const (
 	TypeApprovalFlow             = "ApprovalFlow"
 	TypeApprovalFlowStep         = "ApprovalFlowStep"
 	TypeApprovalRequest          = "ApprovalRequest"
+	TypeAsn                      = "Asn"
+	TypeAsnLine                  = "AsnLine"
 	TypeDataAccessAuditLog       = "DataAccessAuditLog"
 	TypeDictEntry                = "DictEntry"
 	TypeDictEntryI18n            = "DictEntryI18n"
@@ -8039,6 +8043,3026 @@ func (m *ApprovalRequestMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *ApprovalRequestMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown ApprovalRequest edge %s", name)
+}
+
+// AsnMutation represents an operation that mutates the Asn nodes in the graph.
+type AsnMutation struct {
+	config
+	op             Op
+	typ            string
+	id             *uint32
+	created_at     *time.Time
+	updated_at     *time.Time
+	deleted_at     *time.Time
+	created_by     *uint32
+	addcreated_by  *int32
+	updated_by     *uint32
+	addupdated_by  *int32
+	deleted_by     *uint32
+	adddeleted_by  *int32
+	remark         *string
+	tenant_id      *uint32
+	addtenant_id   *int32
+	asn_number     *string
+	warehouse_code *string
+	partner_code   *string
+	status         *asn.Status
+	expected_date  *time.Time
+	clearedFields  map[string]struct{}
+	done           bool
+	oldValue       func(context.Context) (*Asn, error)
+	predicates     []predicate.Asn
+}
+
+var _ ent.Mutation = (*AsnMutation)(nil)
+
+// asnOption allows management of the mutation configuration using functional options.
+type asnOption func(*AsnMutation)
+
+// newAsnMutation creates new mutation for the Asn entity.
+func newAsnMutation(c config, op Op, opts ...asnOption) *AsnMutation {
+	m := &AsnMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeAsn,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withAsnID sets the ID field of the mutation.
+func withAsnID(id uint32) asnOption {
+	return func(m *AsnMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *Asn
+		)
+		m.oldValue = func(ctx context.Context) (*Asn, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().Asn.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withAsn sets the old Asn of the mutation.
+func withAsn(node *Asn) asnOption {
+	return func(m *AsnMutation) {
+		m.oldValue = func(context.Context) (*Asn, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m AsnMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m AsnMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Asn entities.
+func (m *AsnMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *AsnMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *AsnMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().Asn.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *AsnMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *AsnMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldCreatedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *AsnMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.clearedFields[asn.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *AsnMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[asn.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *AsnMutation) ResetCreatedAt() {
+	m.created_at = nil
+	delete(m.clearedFields, asn.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *AsnMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *AsnMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldUpdatedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *AsnMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.clearedFields[asn.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *AsnMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[asn.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *AsnMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	delete(m.clearedFields, asn.FieldUpdatedAt)
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *AsnMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *AsnMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *AsnMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[asn.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *AsnMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[asn.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *AsnMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, asn.FieldDeletedAt)
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (m *AsnMutation) SetCreatedBy(u uint32) {
+	m.created_by = &u
+	m.addcreated_by = nil
+}
+
+// CreatedBy returns the value of the "created_by" field in the mutation.
+func (m *AsnMutation) CreatedBy() (r uint32, exists bool) {
+	v := m.created_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedBy returns the old "created_by" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldCreatedBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedBy: %w", err)
+	}
+	return oldValue.CreatedBy, nil
+}
+
+// AddCreatedBy adds u to the "created_by" field.
+func (m *AsnMutation) AddCreatedBy(u int32) {
+	if m.addcreated_by != nil {
+		*m.addcreated_by += u
+	} else {
+		m.addcreated_by = &u
+	}
+}
+
+// AddedCreatedBy returns the value that was added to the "created_by" field in this mutation.
+func (m *AsnMutation) AddedCreatedBy() (r int32, exists bool) {
+	v := m.addcreated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (m *AsnMutation) ClearCreatedBy() {
+	m.created_by = nil
+	m.addcreated_by = nil
+	m.clearedFields[asn.FieldCreatedBy] = struct{}{}
+}
+
+// CreatedByCleared returns if the "created_by" field was cleared in this mutation.
+func (m *AsnMutation) CreatedByCleared() bool {
+	_, ok := m.clearedFields[asn.FieldCreatedBy]
+	return ok
+}
+
+// ResetCreatedBy resets all changes to the "created_by" field.
+func (m *AsnMutation) ResetCreatedBy() {
+	m.created_by = nil
+	m.addcreated_by = nil
+	delete(m.clearedFields, asn.FieldCreatedBy)
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (m *AsnMutation) SetUpdatedBy(u uint32) {
+	m.updated_by = &u
+	m.addupdated_by = nil
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *AsnMutation) UpdatedBy() (r uint32, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldUpdatedBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// AddUpdatedBy adds u to the "updated_by" field.
+func (m *AsnMutation) AddUpdatedBy(u int32) {
+	if m.addupdated_by != nil {
+		*m.addupdated_by += u
+	} else {
+		m.addupdated_by = &u
+	}
+}
+
+// AddedUpdatedBy returns the value that was added to the "updated_by" field in this mutation.
+func (m *AsnMutation) AddedUpdatedBy() (r int32, exists bool) {
+	v := m.addupdated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *AsnMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.addupdated_by = nil
+	m.clearedFields[asn.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *AsnMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[asn.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *AsnMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	m.addupdated_by = nil
+	delete(m.clearedFields, asn.FieldUpdatedBy)
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (m *AsnMutation) SetDeletedBy(u uint32) {
+	m.deleted_by = &u
+	m.adddeleted_by = nil
+}
+
+// DeletedBy returns the value of the "deleted_by" field in the mutation.
+func (m *AsnMutation) DeletedBy() (r uint32, exists bool) {
+	v := m.deleted_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedBy returns the old "deleted_by" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldDeletedBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedBy: %w", err)
+	}
+	return oldValue.DeletedBy, nil
+}
+
+// AddDeletedBy adds u to the "deleted_by" field.
+func (m *AsnMutation) AddDeletedBy(u int32) {
+	if m.adddeleted_by != nil {
+		*m.adddeleted_by += u
+	} else {
+		m.adddeleted_by = &u
+	}
+}
+
+// AddedDeletedBy returns the value that was added to the "deleted_by" field in this mutation.
+func (m *AsnMutation) AddedDeletedBy() (r int32, exists bool) {
+	v := m.adddeleted_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (m *AsnMutation) ClearDeletedBy() {
+	m.deleted_by = nil
+	m.adddeleted_by = nil
+	m.clearedFields[asn.FieldDeletedBy] = struct{}{}
+}
+
+// DeletedByCleared returns if the "deleted_by" field was cleared in this mutation.
+func (m *AsnMutation) DeletedByCleared() bool {
+	_, ok := m.clearedFields[asn.FieldDeletedBy]
+	return ok
+}
+
+// ResetDeletedBy resets all changes to the "deleted_by" field.
+func (m *AsnMutation) ResetDeletedBy() {
+	m.deleted_by = nil
+	m.adddeleted_by = nil
+	delete(m.clearedFields, asn.FieldDeletedBy)
+}
+
+// SetRemark sets the "remark" field.
+func (m *AsnMutation) SetRemark(s string) {
+	m.remark = &s
+}
+
+// Remark returns the value of the "remark" field in the mutation.
+func (m *AsnMutation) Remark() (r string, exists bool) {
+	v := m.remark
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRemark returns the old "remark" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldRemark(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRemark is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRemark requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRemark: %w", err)
+	}
+	return oldValue.Remark, nil
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (m *AsnMutation) ClearRemark() {
+	m.remark = nil
+	m.clearedFields[asn.FieldRemark] = struct{}{}
+}
+
+// RemarkCleared returns if the "remark" field was cleared in this mutation.
+func (m *AsnMutation) RemarkCleared() bool {
+	_, ok := m.clearedFields[asn.FieldRemark]
+	return ok
+}
+
+// ResetRemark resets all changes to the "remark" field.
+func (m *AsnMutation) ResetRemark() {
+	m.remark = nil
+	delete(m.clearedFields, asn.FieldRemark)
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *AsnMutation) SetTenantID(u uint32) {
+	m.tenant_id = &u
+	m.addtenant_id = nil
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *AsnMutation) TenantID() (r uint32, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// AddTenantID adds u to the "tenant_id" field.
+func (m *AsnMutation) AddTenantID(u int32) {
+	if m.addtenant_id != nil {
+		*m.addtenant_id += u
+	} else {
+		m.addtenant_id = &u
+	}
+}
+
+// AddedTenantID returns the value that was added to the "tenant_id" field in this mutation.
+func (m *AsnMutation) AddedTenantID() (r int32, exists bool) {
+	v := m.addtenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *AsnMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[asn.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *AsnMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[asn.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *AsnMutation) ResetTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	delete(m.clearedFields, asn.FieldTenantID)
+}
+
+// SetAsnNumber sets the "asn_number" field.
+func (m *AsnMutation) SetAsnNumber(s string) {
+	m.asn_number = &s
+}
+
+// AsnNumber returns the value of the "asn_number" field in the mutation.
+func (m *AsnMutation) AsnNumber() (r string, exists bool) {
+	v := m.asn_number
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAsnNumber returns the old "asn_number" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldAsnNumber(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAsnNumber is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAsnNumber requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAsnNumber: %w", err)
+	}
+	return oldValue.AsnNumber, nil
+}
+
+// ClearAsnNumber clears the value of the "asn_number" field.
+func (m *AsnMutation) ClearAsnNumber() {
+	m.asn_number = nil
+	m.clearedFields[asn.FieldAsnNumber] = struct{}{}
+}
+
+// AsnNumberCleared returns if the "asn_number" field was cleared in this mutation.
+func (m *AsnMutation) AsnNumberCleared() bool {
+	_, ok := m.clearedFields[asn.FieldAsnNumber]
+	return ok
+}
+
+// ResetAsnNumber resets all changes to the "asn_number" field.
+func (m *AsnMutation) ResetAsnNumber() {
+	m.asn_number = nil
+	delete(m.clearedFields, asn.FieldAsnNumber)
+}
+
+// SetWarehouseCode sets the "warehouse_code" field.
+func (m *AsnMutation) SetWarehouseCode(s string) {
+	m.warehouse_code = &s
+}
+
+// WarehouseCode returns the value of the "warehouse_code" field in the mutation.
+func (m *AsnMutation) WarehouseCode() (r string, exists bool) {
+	v := m.warehouse_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWarehouseCode returns the old "warehouse_code" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldWarehouseCode(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWarehouseCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWarehouseCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWarehouseCode: %w", err)
+	}
+	return oldValue.WarehouseCode, nil
+}
+
+// ClearWarehouseCode clears the value of the "warehouse_code" field.
+func (m *AsnMutation) ClearWarehouseCode() {
+	m.warehouse_code = nil
+	m.clearedFields[asn.FieldWarehouseCode] = struct{}{}
+}
+
+// WarehouseCodeCleared returns if the "warehouse_code" field was cleared in this mutation.
+func (m *AsnMutation) WarehouseCodeCleared() bool {
+	_, ok := m.clearedFields[asn.FieldWarehouseCode]
+	return ok
+}
+
+// ResetWarehouseCode resets all changes to the "warehouse_code" field.
+func (m *AsnMutation) ResetWarehouseCode() {
+	m.warehouse_code = nil
+	delete(m.clearedFields, asn.FieldWarehouseCode)
+}
+
+// SetPartnerCode sets the "partner_code" field.
+func (m *AsnMutation) SetPartnerCode(s string) {
+	m.partner_code = &s
+}
+
+// PartnerCode returns the value of the "partner_code" field in the mutation.
+func (m *AsnMutation) PartnerCode() (r string, exists bool) {
+	v := m.partner_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPartnerCode returns the old "partner_code" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldPartnerCode(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPartnerCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPartnerCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPartnerCode: %w", err)
+	}
+	return oldValue.PartnerCode, nil
+}
+
+// ClearPartnerCode clears the value of the "partner_code" field.
+func (m *AsnMutation) ClearPartnerCode() {
+	m.partner_code = nil
+	m.clearedFields[asn.FieldPartnerCode] = struct{}{}
+}
+
+// PartnerCodeCleared returns if the "partner_code" field was cleared in this mutation.
+func (m *AsnMutation) PartnerCodeCleared() bool {
+	_, ok := m.clearedFields[asn.FieldPartnerCode]
+	return ok
+}
+
+// ResetPartnerCode resets all changes to the "partner_code" field.
+func (m *AsnMutation) ResetPartnerCode() {
+	m.partner_code = nil
+	delete(m.clearedFields, asn.FieldPartnerCode)
+}
+
+// SetStatus sets the "status" field.
+func (m *AsnMutation) SetStatus(a asn.Status) {
+	m.status = &a
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *AsnMutation) Status() (r asn.Status, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldStatus(ctx context.Context) (v *asn.Status, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ClearStatus clears the value of the "status" field.
+func (m *AsnMutation) ClearStatus() {
+	m.status = nil
+	m.clearedFields[asn.FieldStatus] = struct{}{}
+}
+
+// StatusCleared returns if the "status" field was cleared in this mutation.
+func (m *AsnMutation) StatusCleared() bool {
+	_, ok := m.clearedFields[asn.FieldStatus]
+	return ok
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *AsnMutation) ResetStatus() {
+	m.status = nil
+	delete(m.clearedFields, asn.FieldStatus)
+}
+
+// SetExpectedDate sets the "expected_date" field.
+func (m *AsnMutation) SetExpectedDate(t time.Time) {
+	m.expected_date = &t
+}
+
+// ExpectedDate returns the value of the "expected_date" field in the mutation.
+func (m *AsnMutation) ExpectedDate() (r time.Time, exists bool) {
+	v := m.expected_date
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExpectedDate returns the old "expected_date" field's value of the Asn entity.
+// If the Asn object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnMutation) OldExpectedDate(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExpectedDate is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExpectedDate requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExpectedDate: %w", err)
+	}
+	return oldValue.ExpectedDate, nil
+}
+
+// ClearExpectedDate clears the value of the "expected_date" field.
+func (m *AsnMutation) ClearExpectedDate() {
+	m.expected_date = nil
+	m.clearedFields[asn.FieldExpectedDate] = struct{}{}
+}
+
+// ExpectedDateCleared returns if the "expected_date" field was cleared in this mutation.
+func (m *AsnMutation) ExpectedDateCleared() bool {
+	_, ok := m.clearedFields[asn.FieldExpectedDate]
+	return ok
+}
+
+// ResetExpectedDate resets all changes to the "expected_date" field.
+func (m *AsnMutation) ResetExpectedDate() {
+	m.expected_date = nil
+	delete(m.clearedFields, asn.FieldExpectedDate)
+}
+
+// Where appends a list predicates to the AsnMutation builder.
+func (m *AsnMutation) Where(ps ...predicate.Asn) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the AsnMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *AsnMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.Asn, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *AsnMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *AsnMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (Asn).
+func (m *AsnMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *AsnMutation) Fields() []string {
+	fields := make([]string, 0, 13)
+	if m.created_at != nil {
+		fields = append(fields, asn.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, asn.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, asn.FieldDeletedAt)
+	}
+	if m.created_by != nil {
+		fields = append(fields, asn.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, asn.FieldUpdatedBy)
+	}
+	if m.deleted_by != nil {
+		fields = append(fields, asn.FieldDeletedBy)
+	}
+	if m.remark != nil {
+		fields = append(fields, asn.FieldRemark)
+	}
+	if m.tenant_id != nil {
+		fields = append(fields, asn.FieldTenantID)
+	}
+	if m.asn_number != nil {
+		fields = append(fields, asn.FieldAsnNumber)
+	}
+	if m.warehouse_code != nil {
+		fields = append(fields, asn.FieldWarehouseCode)
+	}
+	if m.partner_code != nil {
+		fields = append(fields, asn.FieldPartnerCode)
+	}
+	if m.status != nil {
+		fields = append(fields, asn.FieldStatus)
+	}
+	if m.expected_date != nil {
+		fields = append(fields, asn.FieldExpectedDate)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *AsnMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case asn.FieldCreatedAt:
+		return m.CreatedAt()
+	case asn.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case asn.FieldDeletedAt:
+		return m.DeletedAt()
+	case asn.FieldCreatedBy:
+		return m.CreatedBy()
+	case asn.FieldUpdatedBy:
+		return m.UpdatedBy()
+	case asn.FieldDeletedBy:
+		return m.DeletedBy()
+	case asn.FieldRemark:
+		return m.Remark()
+	case asn.FieldTenantID:
+		return m.TenantID()
+	case asn.FieldAsnNumber:
+		return m.AsnNumber()
+	case asn.FieldWarehouseCode:
+		return m.WarehouseCode()
+	case asn.FieldPartnerCode:
+		return m.PartnerCode()
+	case asn.FieldStatus:
+		return m.Status()
+	case asn.FieldExpectedDate:
+		return m.ExpectedDate()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *AsnMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case asn.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case asn.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case asn.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case asn.FieldCreatedBy:
+		return m.OldCreatedBy(ctx)
+	case asn.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
+	case asn.FieldDeletedBy:
+		return m.OldDeletedBy(ctx)
+	case asn.FieldRemark:
+		return m.OldRemark(ctx)
+	case asn.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case asn.FieldAsnNumber:
+		return m.OldAsnNumber(ctx)
+	case asn.FieldWarehouseCode:
+		return m.OldWarehouseCode(ctx)
+	case asn.FieldPartnerCode:
+		return m.OldPartnerCode(ctx)
+	case asn.FieldStatus:
+		return m.OldStatus(ctx)
+	case asn.FieldExpectedDate:
+		return m.OldExpectedDate(ctx)
+	}
+	return nil, fmt.Errorf("unknown Asn field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AsnMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case asn.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case asn.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case asn.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case asn.FieldCreatedBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedBy(v)
+		return nil
+	case asn.FieldUpdatedBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
+	case asn.FieldDeletedBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedBy(v)
+		return nil
+	case asn.FieldRemark:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRemark(v)
+		return nil
+	case asn.FieldTenantID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case asn.FieldAsnNumber:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAsnNumber(v)
+		return nil
+	case asn.FieldWarehouseCode:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWarehouseCode(v)
+		return nil
+	case asn.FieldPartnerCode:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPartnerCode(v)
+		return nil
+	case asn.FieldStatus:
+		v, ok := value.(asn.Status)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case asn.FieldExpectedDate:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExpectedDate(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Asn field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *AsnMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_by != nil {
+		fields = append(fields, asn.FieldCreatedBy)
+	}
+	if m.addupdated_by != nil {
+		fields = append(fields, asn.FieldUpdatedBy)
+	}
+	if m.adddeleted_by != nil {
+		fields = append(fields, asn.FieldDeletedBy)
+	}
+	if m.addtenant_id != nil {
+		fields = append(fields, asn.FieldTenantID)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *AsnMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case asn.FieldCreatedBy:
+		return m.AddedCreatedBy()
+	case asn.FieldUpdatedBy:
+		return m.AddedUpdatedBy()
+	case asn.FieldDeletedBy:
+		return m.AddedDeletedBy()
+	case asn.FieldTenantID:
+		return m.AddedTenantID()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AsnMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case asn.FieldCreatedBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedBy(v)
+		return nil
+	case asn.FieldUpdatedBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedBy(v)
+		return nil
+	case asn.FieldDeletedBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeletedBy(v)
+		return nil
+	case asn.FieldTenantID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddTenantID(v)
+		return nil
+	}
+	return fmt.Errorf("unknown Asn numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *AsnMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(asn.FieldCreatedAt) {
+		fields = append(fields, asn.FieldCreatedAt)
+	}
+	if m.FieldCleared(asn.FieldUpdatedAt) {
+		fields = append(fields, asn.FieldUpdatedAt)
+	}
+	if m.FieldCleared(asn.FieldDeletedAt) {
+		fields = append(fields, asn.FieldDeletedAt)
+	}
+	if m.FieldCleared(asn.FieldCreatedBy) {
+		fields = append(fields, asn.FieldCreatedBy)
+	}
+	if m.FieldCleared(asn.FieldUpdatedBy) {
+		fields = append(fields, asn.FieldUpdatedBy)
+	}
+	if m.FieldCleared(asn.FieldDeletedBy) {
+		fields = append(fields, asn.FieldDeletedBy)
+	}
+	if m.FieldCleared(asn.FieldRemark) {
+		fields = append(fields, asn.FieldRemark)
+	}
+	if m.FieldCleared(asn.FieldTenantID) {
+		fields = append(fields, asn.FieldTenantID)
+	}
+	if m.FieldCleared(asn.FieldAsnNumber) {
+		fields = append(fields, asn.FieldAsnNumber)
+	}
+	if m.FieldCleared(asn.FieldWarehouseCode) {
+		fields = append(fields, asn.FieldWarehouseCode)
+	}
+	if m.FieldCleared(asn.FieldPartnerCode) {
+		fields = append(fields, asn.FieldPartnerCode)
+	}
+	if m.FieldCleared(asn.FieldStatus) {
+		fields = append(fields, asn.FieldStatus)
+	}
+	if m.FieldCleared(asn.FieldExpectedDate) {
+		fields = append(fields, asn.FieldExpectedDate)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *AsnMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *AsnMutation) ClearField(name string) error {
+	switch name {
+	case asn.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case asn.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	case asn.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	case asn.FieldCreatedBy:
+		m.ClearCreatedBy()
+		return nil
+	case asn.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
+	case asn.FieldDeletedBy:
+		m.ClearDeletedBy()
+		return nil
+	case asn.FieldRemark:
+		m.ClearRemark()
+		return nil
+	case asn.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case asn.FieldAsnNumber:
+		m.ClearAsnNumber()
+		return nil
+	case asn.FieldWarehouseCode:
+		m.ClearWarehouseCode()
+		return nil
+	case asn.FieldPartnerCode:
+		m.ClearPartnerCode()
+		return nil
+	case asn.FieldStatus:
+		m.ClearStatus()
+		return nil
+	case asn.FieldExpectedDate:
+		m.ClearExpectedDate()
+		return nil
+	}
+	return fmt.Errorf("unknown Asn nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *AsnMutation) ResetField(name string) error {
+	switch name {
+	case asn.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case asn.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case asn.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case asn.FieldCreatedBy:
+		m.ResetCreatedBy()
+		return nil
+	case asn.FieldUpdatedBy:
+		m.ResetUpdatedBy()
+		return nil
+	case asn.FieldDeletedBy:
+		m.ResetDeletedBy()
+		return nil
+	case asn.FieldRemark:
+		m.ResetRemark()
+		return nil
+	case asn.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case asn.FieldAsnNumber:
+		m.ResetAsnNumber()
+		return nil
+	case asn.FieldWarehouseCode:
+		m.ResetWarehouseCode()
+		return nil
+	case asn.FieldPartnerCode:
+		m.ResetPartnerCode()
+		return nil
+	case asn.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case asn.FieldExpectedDate:
+		m.ResetExpectedDate()
+		return nil
+	}
+	return fmt.Errorf("unknown Asn field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *AsnMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *AsnMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *AsnMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *AsnMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *AsnMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *AsnMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *AsnMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown Asn unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *AsnMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown Asn edge %s", name)
+}
+
+// AsnLineMutation represents an operation that mutates the AsnLine nodes in the graph.
+type AsnLineMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *uint32
+	created_at      *time.Time
+	updated_at      *time.Time
+	deleted_at      *time.Time
+	created_by      *uint32
+	addcreated_by   *int32
+	updated_by      *uint32
+	addupdated_by   *int32
+	deleted_by      *uint32
+	adddeleted_by   *int32
+	remark          *string
+	tenant_id       *uint32
+	addtenant_id    *int32
+	asn_id          *uint32
+	addasn_id       *int32
+	sku_code        *string
+	expected_qty    *int64
+	addexpected_qty *int64
+	received_qty    *int64
+	addreceived_qty *int64
+	putaway_qty     *int64
+	addputaway_qty  *int64
+	qc_status       *asnline.QcStatus
+	lot_name        *string
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*AsnLine, error)
+	predicates      []predicate.AsnLine
+}
+
+var _ ent.Mutation = (*AsnLineMutation)(nil)
+
+// asnlineOption allows management of the mutation configuration using functional options.
+type asnlineOption func(*AsnLineMutation)
+
+// newAsnLineMutation creates new mutation for the AsnLine entity.
+func newAsnLineMutation(c config, op Op, opts ...asnlineOption) *AsnLineMutation {
+	m := &AsnLineMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeAsnLine,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withAsnLineID sets the ID field of the mutation.
+func withAsnLineID(id uint32) asnlineOption {
+	return func(m *AsnLineMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *AsnLine
+		)
+		m.oldValue = func(ctx context.Context) (*AsnLine, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().AsnLine.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withAsnLine sets the old AsnLine of the mutation.
+func withAsnLine(node *AsnLine) asnlineOption {
+	return func(m *AsnLineMutation) {
+		m.oldValue = func(context.Context) (*AsnLine, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m AsnLineMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m AsnLineMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of AsnLine entities.
+func (m *AsnLineMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *AsnLineMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *AsnLineMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().AsnLine.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *AsnLineMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *AsnLineMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldCreatedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *AsnLineMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.clearedFields[asnline.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *AsnLineMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldCreatedAt]
+	return ok
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *AsnLineMutation) ResetCreatedAt() {
+	m.created_at = nil
+	delete(m.clearedFields, asnline.FieldCreatedAt)
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *AsnLineMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *AsnLineMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldUpdatedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *AsnLineMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.clearedFields[asnline.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *AsnLineMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldUpdatedAt]
+	return ok
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *AsnLineMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+	delete(m.clearedFields, asnline.FieldUpdatedAt)
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *AsnLineMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *AsnLineMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *AsnLineMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[asnline.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *AsnLineMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *AsnLineMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, asnline.FieldDeletedAt)
+}
+
+// SetCreatedBy sets the "created_by" field.
+func (m *AsnLineMutation) SetCreatedBy(u uint32) {
+	m.created_by = &u
+	m.addcreated_by = nil
+}
+
+// CreatedBy returns the value of the "created_by" field in the mutation.
+func (m *AsnLineMutation) CreatedBy() (r uint32, exists bool) {
+	v := m.created_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedBy returns the old "created_by" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldCreatedBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedBy: %w", err)
+	}
+	return oldValue.CreatedBy, nil
+}
+
+// AddCreatedBy adds u to the "created_by" field.
+func (m *AsnLineMutation) AddCreatedBy(u int32) {
+	if m.addcreated_by != nil {
+		*m.addcreated_by += u
+	} else {
+		m.addcreated_by = &u
+	}
+}
+
+// AddedCreatedBy returns the value that was added to the "created_by" field in this mutation.
+func (m *AsnLineMutation) AddedCreatedBy() (r int32, exists bool) {
+	v := m.addcreated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreatedBy clears the value of the "created_by" field.
+func (m *AsnLineMutation) ClearCreatedBy() {
+	m.created_by = nil
+	m.addcreated_by = nil
+	m.clearedFields[asnline.FieldCreatedBy] = struct{}{}
+}
+
+// CreatedByCleared returns if the "created_by" field was cleared in this mutation.
+func (m *AsnLineMutation) CreatedByCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldCreatedBy]
+	return ok
+}
+
+// ResetCreatedBy resets all changes to the "created_by" field.
+func (m *AsnLineMutation) ResetCreatedBy() {
+	m.created_by = nil
+	m.addcreated_by = nil
+	delete(m.clearedFields, asnline.FieldCreatedBy)
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (m *AsnLineMutation) SetUpdatedBy(u uint32) {
+	m.updated_by = &u
+	m.addupdated_by = nil
+}
+
+// UpdatedBy returns the value of the "updated_by" field in the mutation.
+func (m *AsnLineMutation) UpdatedBy() (r uint32, exists bool) {
+	v := m.updated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedBy returns the old "updated_by" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldUpdatedBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedBy: %w", err)
+	}
+	return oldValue.UpdatedBy, nil
+}
+
+// AddUpdatedBy adds u to the "updated_by" field.
+func (m *AsnLineMutation) AddUpdatedBy(u int32) {
+	if m.addupdated_by != nil {
+		*m.addupdated_by += u
+	} else {
+		m.addupdated_by = &u
+	}
+}
+
+// AddedUpdatedBy returns the value that was added to the "updated_by" field in this mutation.
+func (m *AsnLineMutation) AddedUpdatedBy() (r int32, exists bool) {
+	v := m.addupdated_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (m *AsnLineMutation) ClearUpdatedBy() {
+	m.updated_by = nil
+	m.addupdated_by = nil
+	m.clearedFields[asnline.FieldUpdatedBy] = struct{}{}
+}
+
+// UpdatedByCleared returns if the "updated_by" field was cleared in this mutation.
+func (m *AsnLineMutation) UpdatedByCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldUpdatedBy]
+	return ok
+}
+
+// ResetUpdatedBy resets all changes to the "updated_by" field.
+func (m *AsnLineMutation) ResetUpdatedBy() {
+	m.updated_by = nil
+	m.addupdated_by = nil
+	delete(m.clearedFields, asnline.FieldUpdatedBy)
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (m *AsnLineMutation) SetDeletedBy(u uint32) {
+	m.deleted_by = &u
+	m.adddeleted_by = nil
+}
+
+// DeletedBy returns the value of the "deleted_by" field in the mutation.
+func (m *AsnLineMutation) DeletedBy() (r uint32, exists bool) {
+	v := m.deleted_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedBy returns the old "deleted_by" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldDeletedBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedBy: %w", err)
+	}
+	return oldValue.DeletedBy, nil
+}
+
+// AddDeletedBy adds u to the "deleted_by" field.
+func (m *AsnLineMutation) AddDeletedBy(u int32) {
+	if m.adddeleted_by != nil {
+		*m.adddeleted_by += u
+	} else {
+		m.adddeleted_by = &u
+	}
+}
+
+// AddedDeletedBy returns the value that was added to the "deleted_by" field in this mutation.
+func (m *AsnLineMutation) AddedDeletedBy() (r int32, exists bool) {
+	v := m.adddeleted_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (m *AsnLineMutation) ClearDeletedBy() {
+	m.deleted_by = nil
+	m.adddeleted_by = nil
+	m.clearedFields[asnline.FieldDeletedBy] = struct{}{}
+}
+
+// DeletedByCleared returns if the "deleted_by" field was cleared in this mutation.
+func (m *AsnLineMutation) DeletedByCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldDeletedBy]
+	return ok
+}
+
+// ResetDeletedBy resets all changes to the "deleted_by" field.
+func (m *AsnLineMutation) ResetDeletedBy() {
+	m.deleted_by = nil
+	m.adddeleted_by = nil
+	delete(m.clearedFields, asnline.FieldDeletedBy)
+}
+
+// SetRemark sets the "remark" field.
+func (m *AsnLineMutation) SetRemark(s string) {
+	m.remark = &s
+}
+
+// Remark returns the value of the "remark" field in the mutation.
+func (m *AsnLineMutation) Remark() (r string, exists bool) {
+	v := m.remark
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRemark returns the old "remark" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldRemark(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRemark is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRemark requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRemark: %w", err)
+	}
+	return oldValue.Remark, nil
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (m *AsnLineMutation) ClearRemark() {
+	m.remark = nil
+	m.clearedFields[asnline.FieldRemark] = struct{}{}
+}
+
+// RemarkCleared returns if the "remark" field was cleared in this mutation.
+func (m *AsnLineMutation) RemarkCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldRemark]
+	return ok
+}
+
+// ResetRemark resets all changes to the "remark" field.
+func (m *AsnLineMutation) ResetRemark() {
+	m.remark = nil
+	delete(m.clearedFields, asnline.FieldRemark)
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *AsnLineMutation) SetTenantID(u uint32) {
+	m.tenant_id = &u
+	m.addtenant_id = nil
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *AsnLineMutation) TenantID() (r uint32, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// AddTenantID adds u to the "tenant_id" field.
+func (m *AsnLineMutation) AddTenantID(u int32) {
+	if m.addtenant_id != nil {
+		*m.addtenant_id += u
+	} else {
+		m.addtenant_id = &u
+	}
+}
+
+// AddedTenantID returns the value that was added to the "tenant_id" field in this mutation.
+func (m *AsnLineMutation) AddedTenantID() (r int32, exists bool) {
+	v := m.addtenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *AsnLineMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[asnline.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *AsnLineMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *AsnLineMutation) ResetTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	delete(m.clearedFields, asnline.FieldTenantID)
+}
+
+// SetAsnID sets the "asn_id" field.
+func (m *AsnLineMutation) SetAsnID(u uint32) {
+	m.asn_id = &u
+	m.addasn_id = nil
+}
+
+// AsnID returns the value of the "asn_id" field in the mutation.
+func (m *AsnLineMutation) AsnID() (r uint32, exists bool) {
+	v := m.asn_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAsnID returns the old "asn_id" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldAsnID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAsnID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAsnID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAsnID: %w", err)
+	}
+	return oldValue.AsnID, nil
+}
+
+// AddAsnID adds u to the "asn_id" field.
+func (m *AsnLineMutation) AddAsnID(u int32) {
+	if m.addasn_id != nil {
+		*m.addasn_id += u
+	} else {
+		m.addasn_id = &u
+	}
+}
+
+// AddedAsnID returns the value that was added to the "asn_id" field in this mutation.
+func (m *AsnLineMutation) AddedAsnID() (r int32, exists bool) {
+	v := m.addasn_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearAsnID clears the value of the "asn_id" field.
+func (m *AsnLineMutation) ClearAsnID() {
+	m.asn_id = nil
+	m.addasn_id = nil
+	m.clearedFields[asnline.FieldAsnID] = struct{}{}
+}
+
+// AsnIDCleared returns if the "asn_id" field was cleared in this mutation.
+func (m *AsnLineMutation) AsnIDCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldAsnID]
+	return ok
+}
+
+// ResetAsnID resets all changes to the "asn_id" field.
+func (m *AsnLineMutation) ResetAsnID() {
+	m.asn_id = nil
+	m.addasn_id = nil
+	delete(m.clearedFields, asnline.FieldAsnID)
+}
+
+// SetSkuCode sets the "sku_code" field.
+func (m *AsnLineMutation) SetSkuCode(s string) {
+	m.sku_code = &s
+}
+
+// SkuCode returns the value of the "sku_code" field in the mutation.
+func (m *AsnLineMutation) SkuCode() (r string, exists bool) {
+	v := m.sku_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSkuCode returns the old "sku_code" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldSkuCode(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSkuCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSkuCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSkuCode: %w", err)
+	}
+	return oldValue.SkuCode, nil
+}
+
+// ClearSkuCode clears the value of the "sku_code" field.
+func (m *AsnLineMutation) ClearSkuCode() {
+	m.sku_code = nil
+	m.clearedFields[asnline.FieldSkuCode] = struct{}{}
+}
+
+// SkuCodeCleared returns if the "sku_code" field was cleared in this mutation.
+func (m *AsnLineMutation) SkuCodeCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldSkuCode]
+	return ok
+}
+
+// ResetSkuCode resets all changes to the "sku_code" field.
+func (m *AsnLineMutation) ResetSkuCode() {
+	m.sku_code = nil
+	delete(m.clearedFields, asnline.FieldSkuCode)
+}
+
+// SetExpectedQty sets the "expected_qty" field.
+func (m *AsnLineMutation) SetExpectedQty(i int64) {
+	m.expected_qty = &i
+	m.addexpected_qty = nil
+}
+
+// ExpectedQty returns the value of the "expected_qty" field in the mutation.
+func (m *AsnLineMutation) ExpectedQty() (r int64, exists bool) {
+	v := m.expected_qty
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExpectedQty returns the old "expected_qty" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldExpectedQty(ctx context.Context) (v *int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExpectedQty is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExpectedQty requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExpectedQty: %w", err)
+	}
+	return oldValue.ExpectedQty, nil
+}
+
+// AddExpectedQty adds i to the "expected_qty" field.
+func (m *AsnLineMutation) AddExpectedQty(i int64) {
+	if m.addexpected_qty != nil {
+		*m.addexpected_qty += i
+	} else {
+		m.addexpected_qty = &i
+	}
+}
+
+// AddedExpectedQty returns the value that was added to the "expected_qty" field in this mutation.
+func (m *AsnLineMutation) AddedExpectedQty() (r int64, exists bool) {
+	v := m.addexpected_qty
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearExpectedQty clears the value of the "expected_qty" field.
+func (m *AsnLineMutation) ClearExpectedQty() {
+	m.expected_qty = nil
+	m.addexpected_qty = nil
+	m.clearedFields[asnline.FieldExpectedQty] = struct{}{}
+}
+
+// ExpectedQtyCleared returns if the "expected_qty" field was cleared in this mutation.
+func (m *AsnLineMutation) ExpectedQtyCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldExpectedQty]
+	return ok
+}
+
+// ResetExpectedQty resets all changes to the "expected_qty" field.
+func (m *AsnLineMutation) ResetExpectedQty() {
+	m.expected_qty = nil
+	m.addexpected_qty = nil
+	delete(m.clearedFields, asnline.FieldExpectedQty)
+}
+
+// SetReceivedQty sets the "received_qty" field.
+func (m *AsnLineMutation) SetReceivedQty(i int64) {
+	m.received_qty = &i
+	m.addreceived_qty = nil
+}
+
+// ReceivedQty returns the value of the "received_qty" field in the mutation.
+func (m *AsnLineMutation) ReceivedQty() (r int64, exists bool) {
+	v := m.received_qty
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReceivedQty returns the old "received_qty" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldReceivedQty(ctx context.Context) (v *int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReceivedQty is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReceivedQty requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReceivedQty: %w", err)
+	}
+	return oldValue.ReceivedQty, nil
+}
+
+// AddReceivedQty adds i to the "received_qty" field.
+func (m *AsnLineMutation) AddReceivedQty(i int64) {
+	if m.addreceived_qty != nil {
+		*m.addreceived_qty += i
+	} else {
+		m.addreceived_qty = &i
+	}
+}
+
+// AddedReceivedQty returns the value that was added to the "received_qty" field in this mutation.
+func (m *AsnLineMutation) AddedReceivedQty() (r int64, exists bool) {
+	v := m.addreceived_qty
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearReceivedQty clears the value of the "received_qty" field.
+func (m *AsnLineMutation) ClearReceivedQty() {
+	m.received_qty = nil
+	m.addreceived_qty = nil
+	m.clearedFields[asnline.FieldReceivedQty] = struct{}{}
+}
+
+// ReceivedQtyCleared returns if the "received_qty" field was cleared in this mutation.
+func (m *AsnLineMutation) ReceivedQtyCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldReceivedQty]
+	return ok
+}
+
+// ResetReceivedQty resets all changes to the "received_qty" field.
+func (m *AsnLineMutation) ResetReceivedQty() {
+	m.received_qty = nil
+	m.addreceived_qty = nil
+	delete(m.clearedFields, asnline.FieldReceivedQty)
+}
+
+// SetPutawayQty sets the "putaway_qty" field.
+func (m *AsnLineMutation) SetPutawayQty(i int64) {
+	m.putaway_qty = &i
+	m.addputaway_qty = nil
+}
+
+// PutawayQty returns the value of the "putaway_qty" field in the mutation.
+func (m *AsnLineMutation) PutawayQty() (r int64, exists bool) {
+	v := m.putaway_qty
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPutawayQty returns the old "putaway_qty" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldPutawayQty(ctx context.Context) (v *int64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPutawayQty is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPutawayQty requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPutawayQty: %w", err)
+	}
+	return oldValue.PutawayQty, nil
+}
+
+// AddPutawayQty adds i to the "putaway_qty" field.
+func (m *AsnLineMutation) AddPutawayQty(i int64) {
+	if m.addputaway_qty != nil {
+		*m.addputaway_qty += i
+	} else {
+		m.addputaway_qty = &i
+	}
+}
+
+// AddedPutawayQty returns the value that was added to the "putaway_qty" field in this mutation.
+func (m *AsnLineMutation) AddedPutawayQty() (r int64, exists bool) {
+	v := m.addputaway_qty
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearPutawayQty clears the value of the "putaway_qty" field.
+func (m *AsnLineMutation) ClearPutawayQty() {
+	m.putaway_qty = nil
+	m.addputaway_qty = nil
+	m.clearedFields[asnline.FieldPutawayQty] = struct{}{}
+}
+
+// PutawayQtyCleared returns if the "putaway_qty" field was cleared in this mutation.
+func (m *AsnLineMutation) PutawayQtyCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldPutawayQty]
+	return ok
+}
+
+// ResetPutawayQty resets all changes to the "putaway_qty" field.
+func (m *AsnLineMutation) ResetPutawayQty() {
+	m.putaway_qty = nil
+	m.addputaway_qty = nil
+	delete(m.clearedFields, asnline.FieldPutawayQty)
+}
+
+// SetQcStatus sets the "qc_status" field.
+func (m *AsnLineMutation) SetQcStatus(as asnline.QcStatus) {
+	m.qc_status = &as
+}
+
+// QcStatus returns the value of the "qc_status" field in the mutation.
+func (m *AsnLineMutation) QcStatus() (r asnline.QcStatus, exists bool) {
+	v := m.qc_status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldQcStatus returns the old "qc_status" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldQcStatus(ctx context.Context) (v *asnline.QcStatus, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldQcStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldQcStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldQcStatus: %w", err)
+	}
+	return oldValue.QcStatus, nil
+}
+
+// ClearQcStatus clears the value of the "qc_status" field.
+func (m *AsnLineMutation) ClearQcStatus() {
+	m.qc_status = nil
+	m.clearedFields[asnline.FieldQcStatus] = struct{}{}
+}
+
+// QcStatusCleared returns if the "qc_status" field was cleared in this mutation.
+func (m *AsnLineMutation) QcStatusCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldQcStatus]
+	return ok
+}
+
+// ResetQcStatus resets all changes to the "qc_status" field.
+func (m *AsnLineMutation) ResetQcStatus() {
+	m.qc_status = nil
+	delete(m.clearedFields, asnline.FieldQcStatus)
+}
+
+// SetLotName sets the "lot_name" field.
+func (m *AsnLineMutation) SetLotName(s string) {
+	m.lot_name = &s
+}
+
+// LotName returns the value of the "lot_name" field in the mutation.
+func (m *AsnLineMutation) LotName() (r string, exists bool) {
+	v := m.lot_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLotName returns the old "lot_name" field's value of the AsnLine entity.
+// If the AsnLine object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AsnLineMutation) OldLotName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLotName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLotName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLotName: %w", err)
+	}
+	return oldValue.LotName, nil
+}
+
+// ClearLotName clears the value of the "lot_name" field.
+func (m *AsnLineMutation) ClearLotName() {
+	m.lot_name = nil
+	m.clearedFields[asnline.FieldLotName] = struct{}{}
+}
+
+// LotNameCleared returns if the "lot_name" field was cleared in this mutation.
+func (m *AsnLineMutation) LotNameCleared() bool {
+	_, ok := m.clearedFields[asnline.FieldLotName]
+	return ok
+}
+
+// ResetLotName resets all changes to the "lot_name" field.
+func (m *AsnLineMutation) ResetLotName() {
+	m.lot_name = nil
+	delete(m.clearedFields, asnline.FieldLotName)
+}
+
+// Where appends a list predicates to the AsnLineMutation builder.
+func (m *AsnLineMutation) Where(ps ...predicate.AsnLine) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the AsnLineMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *AsnLineMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.AsnLine, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *AsnLineMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *AsnLineMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (AsnLine).
+func (m *AsnLineMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *AsnLineMutation) Fields() []string {
+	fields := make([]string, 0, 15)
+	if m.created_at != nil {
+		fields = append(fields, asnline.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, asnline.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, asnline.FieldDeletedAt)
+	}
+	if m.created_by != nil {
+		fields = append(fields, asnline.FieldCreatedBy)
+	}
+	if m.updated_by != nil {
+		fields = append(fields, asnline.FieldUpdatedBy)
+	}
+	if m.deleted_by != nil {
+		fields = append(fields, asnline.FieldDeletedBy)
+	}
+	if m.remark != nil {
+		fields = append(fields, asnline.FieldRemark)
+	}
+	if m.tenant_id != nil {
+		fields = append(fields, asnline.FieldTenantID)
+	}
+	if m.asn_id != nil {
+		fields = append(fields, asnline.FieldAsnID)
+	}
+	if m.sku_code != nil {
+		fields = append(fields, asnline.FieldSkuCode)
+	}
+	if m.expected_qty != nil {
+		fields = append(fields, asnline.FieldExpectedQty)
+	}
+	if m.received_qty != nil {
+		fields = append(fields, asnline.FieldReceivedQty)
+	}
+	if m.putaway_qty != nil {
+		fields = append(fields, asnline.FieldPutawayQty)
+	}
+	if m.qc_status != nil {
+		fields = append(fields, asnline.FieldQcStatus)
+	}
+	if m.lot_name != nil {
+		fields = append(fields, asnline.FieldLotName)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *AsnLineMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case asnline.FieldCreatedAt:
+		return m.CreatedAt()
+	case asnline.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case asnline.FieldDeletedAt:
+		return m.DeletedAt()
+	case asnline.FieldCreatedBy:
+		return m.CreatedBy()
+	case asnline.FieldUpdatedBy:
+		return m.UpdatedBy()
+	case asnline.FieldDeletedBy:
+		return m.DeletedBy()
+	case asnline.FieldRemark:
+		return m.Remark()
+	case asnline.FieldTenantID:
+		return m.TenantID()
+	case asnline.FieldAsnID:
+		return m.AsnID()
+	case asnline.FieldSkuCode:
+		return m.SkuCode()
+	case asnline.FieldExpectedQty:
+		return m.ExpectedQty()
+	case asnline.FieldReceivedQty:
+		return m.ReceivedQty()
+	case asnline.FieldPutawayQty:
+		return m.PutawayQty()
+	case asnline.FieldQcStatus:
+		return m.QcStatus()
+	case asnline.FieldLotName:
+		return m.LotName()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *AsnLineMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case asnline.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case asnline.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case asnline.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case asnline.FieldCreatedBy:
+		return m.OldCreatedBy(ctx)
+	case asnline.FieldUpdatedBy:
+		return m.OldUpdatedBy(ctx)
+	case asnline.FieldDeletedBy:
+		return m.OldDeletedBy(ctx)
+	case asnline.FieldRemark:
+		return m.OldRemark(ctx)
+	case asnline.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case asnline.FieldAsnID:
+		return m.OldAsnID(ctx)
+	case asnline.FieldSkuCode:
+		return m.OldSkuCode(ctx)
+	case asnline.FieldExpectedQty:
+		return m.OldExpectedQty(ctx)
+	case asnline.FieldReceivedQty:
+		return m.OldReceivedQty(ctx)
+	case asnline.FieldPutawayQty:
+		return m.OldPutawayQty(ctx)
+	case asnline.FieldQcStatus:
+		return m.OldQcStatus(ctx)
+	case asnline.FieldLotName:
+		return m.OldLotName(ctx)
+	}
+	return nil, fmt.Errorf("unknown AsnLine field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AsnLineMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case asnline.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case asnline.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case asnline.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case asnline.FieldCreatedBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedBy(v)
+		return nil
+	case asnline.FieldUpdatedBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedBy(v)
+		return nil
+	case asnline.FieldDeletedBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedBy(v)
+		return nil
+	case asnline.FieldRemark:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRemark(v)
+		return nil
+	case asnline.FieldTenantID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case asnline.FieldAsnID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAsnID(v)
+		return nil
+	case asnline.FieldSkuCode:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSkuCode(v)
+		return nil
+	case asnline.FieldExpectedQty:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExpectedQty(v)
+		return nil
+	case asnline.FieldReceivedQty:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReceivedQty(v)
+		return nil
+	case asnline.FieldPutawayQty:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPutawayQty(v)
+		return nil
+	case asnline.FieldQcStatus:
+		v, ok := value.(asnline.QcStatus)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetQcStatus(v)
+		return nil
+	case asnline.FieldLotName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLotName(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AsnLine field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *AsnLineMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreated_by != nil {
+		fields = append(fields, asnline.FieldCreatedBy)
+	}
+	if m.addupdated_by != nil {
+		fields = append(fields, asnline.FieldUpdatedBy)
+	}
+	if m.adddeleted_by != nil {
+		fields = append(fields, asnline.FieldDeletedBy)
+	}
+	if m.addtenant_id != nil {
+		fields = append(fields, asnline.FieldTenantID)
+	}
+	if m.addasn_id != nil {
+		fields = append(fields, asnline.FieldAsnID)
+	}
+	if m.addexpected_qty != nil {
+		fields = append(fields, asnline.FieldExpectedQty)
+	}
+	if m.addreceived_qty != nil {
+		fields = append(fields, asnline.FieldReceivedQty)
+	}
+	if m.addputaway_qty != nil {
+		fields = append(fields, asnline.FieldPutawayQty)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *AsnLineMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case asnline.FieldCreatedBy:
+		return m.AddedCreatedBy()
+	case asnline.FieldUpdatedBy:
+		return m.AddedUpdatedBy()
+	case asnline.FieldDeletedBy:
+		return m.AddedDeletedBy()
+	case asnline.FieldTenantID:
+		return m.AddedTenantID()
+	case asnline.FieldAsnID:
+		return m.AddedAsnID()
+	case asnline.FieldExpectedQty:
+		return m.AddedExpectedQty()
+	case asnline.FieldReceivedQty:
+		return m.AddedReceivedQty()
+	case asnline.FieldPutawayQty:
+		return m.AddedPutawayQty()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AsnLineMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case asnline.FieldCreatedBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreatedBy(v)
+		return nil
+	case asnline.FieldUpdatedBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdatedBy(v)
+		return nil
+	case asnline.FieldDeletedBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDeletedBy(v)
+		return nil
+	case asnline.FieldTenantID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddTenantID(v)
+		return nil
+	case asnline.FieldAsnID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAsnID(v)
+		return nil
+	case asnline.FieldExpectedQty:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddExpectedQty(v)
+		return nil
+	case asnline.FieldReceivedQty:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddReceivedQty(v)
+		return nil
+	case asnline.FieldPutawayQty:
+		v, ok := value.(int64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPutawayQty(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AsnLine numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *AsnLineMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(asnline.FieldCreatedAt) {
+		fields = append(fields, asnline.FieldCreatedAt)
+	}
+	if m.FieldCleared(asnline.FieldUpdatedAt) {
+		fields = append(fields, asnline.FieldUpdatedAt)
+	}
+	if m.FieldCleared(asnline.FieldDeletedAt) {
+		fields = append(fields, asnline.FieldDeletedAt)
+	}
+	if m.FieldCleared(asnline.FieldCreatedBy) {
+		fields = append(fields, asnline.FieldCreatedBy)
+	}
+	if m.FieldCleared(asnline.FieldUpdatedBy) {
+		fields = append(fields, asnline.FieldUpdatedBy)
+	}
+	if m.FieldCleared(asnline.FieldDeletedBy) {
+		fields = append(fields, asnline.FieldDeletedBy)
+	}
+	if m.FieldCleared(asnline.FieldRemark) {
+		fields = append(fields, asnline.FieldRemark)
+	}
+	if m.FieldCleared(asnline.FieldTenantID) {
+		fields = append(fields, asnline.FieldTenantID)
+	}
+	if m.FieldCleared(asnline.FieldAsnID) {
+		fields = append(fields, asnline.FieldAsnID)
+	}
+	if m.FieldCleared(asnline.FieldSkuCode) {
+		fields = append(fields, asnline.FieldSkuCode)
+	}
+	if m.FieldCleared(asnline.FieldExpectedQty) {
+		fields = append(fields, asnline.FieldExpectedQty)
+	}
+	if m.FieldCleared(asnline.FieldReceivedQty) {
+		fields = append(fields, asnline.FieldReceivedQty)
+	}
+	if m.FieldCleared(asnline.FieldPutawayQty) {
+		fields = append(fields, asnline.FieldPutawayQty)
+	}
+	if m.FieldCleared(asnline.FieldQcStatus) {
+		fields = append(fields, asnline.FieldQcStatus)
+	}
+	if m.FieldCleared(asnline.FieldLotName) {
+		fields = append(fields, asnline.FieldLotName)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *AsnLineMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *AsnLineMutation) ClearField(name string) error {
+	switch name {
+	case asnline.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case asnline.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	case asnline.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	case asnline.FieldCreatedBy:
+		m.ClearCreatedBy()
+		return nil
+	case asnline.FieldUpdatedBy:
+		m.ClearUpdatedBy()
+		return nil
+	case asnline.FieldDeletedBy:
+		m.ClearDeletedBy()
+		return nil
+	case asnline.FieldRemark:
+		m.ClearRemark()
+		return nil
+	case asnline.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case asnline.FieldAsnID:
+		m.ClearAsnID()
+		return nil
+	case asnline.FieldSkuCode:
+		m.ClearSkuCode()
+		return nil
+	case asnline.FieldExpectedQty:
+		m.ClearExpectedQty()
+		return nil
+	case asnline.FieldReceivedQty:
+		m.ClearReceivedQty()
+		return nil
+	case asnline.FieldPutawayQty:
+		m.ClearPutawayQty()
+		return nil
+	case asnline.FieldQcStatus:
+		m.ClearQcStatus()
+		return nil
+	case asnline.FieldLotName:
+		m.ClearLotName()
+		return nil
+	}
+	return fmt.Errorf("unknown AsnLine nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *AsnLineMutation) ResetField(name string) error {
+	switch name {
+	case asnline.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case asnline.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case asnline.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case asnline.FieldCreatedBy:
+		m.ResetCreatedBy()
+		return nil
+	case asnline.FieldUpdatedBy:
+		m.ResetUpdatedBy()
+		return nil
+	case asnline.FieldDeletedBy:
+		m.ResetDeletedBy()
+		return nil
+	case asnline.FieldRemark:
+		m.ResetRemark()
+		return nil
+	case asnline.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case asnline.FieldAsnID:
+		m.ResetAsnID()
+		return nil
+	case asnline.FieldSkuCode:
+		m.ResetSkuCode()
+		return nil
+	case asnline.FieldExpectedQty:
+		m.ResetExpectedQty()
+		return nil
+	case asnline.FieldReceivedQty:
+		m.ResetReceivedQty()
+		return nil
+	case asnline.FieldPutawayQty:
+		m.ResetPutawayQty()
+		return nil
+	case asnline.FieldQcStatus:
+		m.ResetQcStatus()
+		return nil
+	case asnline.FieldLotName:
+		m.ResetLotName()
+		return nil
+	}
+	return fmt.Errorf("unknown AsnLine field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *AsnLineMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *AsnLineMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *AsnLineMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *AsnLineMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *AsnLineMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *AsnLineMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *AsnLineMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown AsnLine unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *AsnLineMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown AsnLine edge %s", name)
 }
 
 // DataAccessAuditLogMutation represents an operation that mutates the DataAccessAuditLog nodes in the graph.
@@ -63486,6 +66510,8 @@ type StockPickingMutation struct {
 	adddestination_location_id *int32
 	purchase_order_id          *uint32
 	addpurchase_order_id       *int32
+	asn_id                     *uint32
+	addasn_id                  *int32
 	partner_code               *string
 	clearedFields              map[string]struct{}
 	done                       bool
@@ -64381,6 +67407,76 @@ func (m *StockPickingMutation) ResetPurchaseOrderID() {
 	delete(m.clearedFields, stockpicking.FieldPurchaseOrderID)
 }
 
+// SetAsnID sets the "asn_id" field.
+func (m *StockPickingMutation) SetAsnID(u uint32) {
+	m.asn_id = &u
+	m.addasn_id = nil
+}
+
+// AsnID returns the value of the "asn_id" field in the mutation.
+func (m *StockPickingMutation) AsnID() (r uint32, exists bool) {
+	v := m.asn_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAsnID returns the old "asn_id" field's value of the StockPicking entity.
+// If the StockPicking object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StockPickingMutation) OldAsnID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAsnID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAsnID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAsnID: %w", err)
+	}
+	return oldValue.AsnID, nil
+}
+
+// AddAsnID adds u to the "asn_id" field.
+func (m *StockPickingMutation) AddAsnID(u int32) {
+	if m.addasn_id != nil {
+		*m.addasn_id += u
+	} else {
+		m.addasn_id = &u
+	}
+}
+
+// AddedAsnID returns the value that was added to the "asn_id" field in this mutation.
+func (m *StockPickingMutation) AddedAsnID() (r int32, exists bool) {
+	v := m.addasn_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearAsnID clears the value of the "asn_id" field.
+func (m *StockPickingMutation) ClearAsnID() {
+	m.asn_id = nil
+	m.addasn_id = nil
+	m.clearedFields[stockpicking.FieldAsnID] = struct{}{}
+}
+
+// AsnIDCleared returns if the "asn_id" field was cleared in this mutation.
+func (m *StockPickingMutation) AsnIDCleared() bool {
+	_, ok := m.clearedFields[stockpicking.FieldAsnID]
+	return ok
+}
+
+// ResetAsnID resets all changes to the "asn_id" field.
+func (m *StockPickingMutation) ResetAsnID() {
+	m.asn_id = nil
+	m.addasn_id = nil
+	delete(m.clearedFields, stockpicking.FieldAsnID)
+}
+
 // SetPartnerCode sets the "partner_code" field.
 func (m *StockPickingMutation) SetPartnerCode(s string) {
 	m.partner_code = &s
@@ -64464,7 +67560,7 @@ func (m *StockPickingMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StockPickingMutation) Fields() []string {
-	fields := make([]string, 0, 14)
+	fields := make([]string, 0, 15)
 	if m.created_at != nil {
 		fields = append(fields, stockpicking.FieldCreatedAt)
 	}
@@ -64504,6 +67600,9 @@ func (m *StockPickingMutation) Fields() []string {
 	if m.purchase_order_id != nil {
 		fields = append(fields, stockpicking.FieldPurchaseOrderID)
 	}
+	if m.asn_id != nil {
+		fields = append(fields, stockpicking.FieldAsnID)
+	}
 	if m.partner_code != nil {
 		fields = append(fields, stockpicking.FieldPartnerCode)
 	}
@@ -64541,6 +67640,8 @@ func (m *StockPickingMutation) Field(name string) (ent.Value, bool) {
 		return m.DestinationLocationID()
 	case stockpicking.FieldPurchaseOrderID:
 		return m.PurchaseOrderID()
+	case stockpicking.FieldAsnID:
+		return m.AsnID()
 	case stockpicking.FieldPartnerCode:
 		return m.PartnerCode()
 	}
@@ -64578,6 +67679,8 @@ func (m *StockPickingMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldDestinationLocationID(ctx)
 	case stockpicking.FieldPurchaseOrderID:
 		return m.OldPurchaseOrderID(ctx)
+	case stockpicking.FieldAsnID:
+		return m.OldAsnID(ctx)
 	case stockpicking.FieldPartnerCode:
 		return m.OldPartnerCode(ctx)
 	}
@@ -64680,6 +67783,13 @@ func (m *StockPickingMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPurchaseOrderID(v)
 		return nil
+	case stockpicking.FieldAsnID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAsnID(v)
+		return nil
 	case stockpicking.FieldPartnerCode:
 		v, ok := value.(string)
 		if !ok {
@@ -64716,6 +67826,9 @@ func (m *StockPickingMutation) AddedFields() []string {
 	if m.addpurchase_order_id != nil {
 		fields = append(fields, stockpicking.FieldPurchaseOrderID)
 	}
+	if m.addasn_id != nil {
+		fields = append(fields, stockpicking.FieldAsnID)
+	}
 	return fields
 }
 
@@ -64738,6 +67851,8 @@ func (m *StockPickingMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedDestinationLocationID()
 	case stockpicking.FieldPurchaseOrderID:
 		return m.AddedPurchaseOrderID()
+	case stockpicking.FieldAsnID:
+		return m.AddedAsnID()
 	}
 	return nil, false
 }
@@ -64796,6 +67911,13 @@ func (m *StockPickingMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddPurchaseOrderID(v)
 		return nil
+	case stockpicking.FieldAsnID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAsnID(v)
+		return nil
 	}
 	return fmt.Errorf("unknown StockPicking numeric field %s", name)
 }
@@ -64842,6 +67964,9 @@ func (m *StockPickingMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(stockpicking.FieldPurchaseOrderID) {
 		fields = append(fields, stockpicking.FieldPurchaseOrderID)
+	}
+	if m.FieldCleared(stockpicking.FieldAsnID) {
+		fields = append(fields, stockpicking.FieldAsnID)
 	}
 	if m.FieldCleared(stockpicking.FieldPartnerCode) {
 		fields = append(fields, stockpicking.FieldPartnerCode)
@@ -64899,6 +68024,9 @@ func (m *StockPickingMutation) ClearField(name string) error {
 	case stockpicking.FieldPurchaseOrderID:
 		m.ClearPurchaseOrderID()
 		return nil
+	case stockpicking.FieldAsnID:
+		m.ClearAsnID()
+		return nil
 	case stockpicking.FieldPartnerCode:
 		m.ClearPartnerCode()
 		return nil
@@ -64948,6 +68076,9 @@ func (m *StockPickingMutation) ResetField(name string) error {
 		return nil
 	case stockpicking.FieldPurchaseOrderID:
 		m.ResetPurchaseOrderID()
+		return nil
+	case stockpicking.FieldAsnID:
+		m.ResetAsnID()
 		return nil
 	case stockpicking.FieldPartnerCode:
 		m.ResetPartnerCode()

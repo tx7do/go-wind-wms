@@ -40,6 +40,8 @@ TRUNCATE TABLE inv_stock_pickings;
 TRUNCATE TABLE inv_stock_moves;
 TRUNCATE TABLE inv_stock_move_lines;
 TRUNCATE TABLE prd_products;
+TRUNCATE TABLE wms_asns;
+TRUNCATE TABLE wms_asn_lines;
 TRUNCATE TABLE apr_approval_requests;
 
 START TRANSACTION;
@@ -365,5 +367,18 @@ INSERT INTO prd_products (id, created_at, updated_at, deleted_at, created_by, up
     (3, NOW(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 'SKU-A003', 'PVC绝缘穿线管', 'DN20', '米', true)
 ;
 
+-- ----------------------------
+-- wms_asns — 到货通知单（ANNOUNCED 预约中，可收货）
+-- ----------------------------
+INSERT INTO wms_asns (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, asn_number, warehouse_code, partner_code, status, expected_date) VALUES
+    (1, NOW(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 'ASN2026000001', 'WH-BJ', 'SUP-001', 'ANNOUNCED', NOW() + INTERVAL 1 DAY)
+;
+-- ----------------------------
+-- wms_asn_lines — 到货明细（预期/已收/已上架三口径 + 质检状态）
+-- ----------------------------
+INSERT INTO wms_asn_lines (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, asn_id, sku_code, expected_qty, received_qty, putaway_qty, qc_status, lot_name) VALUES
+    (1, NOW(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'SKU-A001', 500, 0, 0, 'QC_PENDING', NULL),
+    (2, NOW(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'SKU-A002', 200, 0, 0, 'QC_PENDING', NULL)
+;
 COMMIT;
 SET FOREIGN_KEY_CHECKS = 1;

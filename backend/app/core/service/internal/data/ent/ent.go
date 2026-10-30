@@ -11,6 +11,8 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflow"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflowstep"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalrequest"
+	"go-wind-wms/app/core/service/internal/data/ent/asn"
+	"go-wind-wms/app/core/service/internal/data/ent/asnline"
 	"go-wind-wms/app/core/service/internal/data/ent/dataaccessauditlog"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentry"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentryi18n"
@@ -128,6 +130,8 @@ func checkColumn(t, c string) error {
 			approvalflow.Table:             approvalflow.ValidColumn,
 			approvalflowstep.Table:         approvalflowstep.ValidColumn,
 			approvalrequest.Table:          approvalrequest.ValidColumn,
+			asn.Table:                      asn.ValidColumn,
+			asnline.Table:                  asnline.ValidColumn,
 			dataaccessauditlog.Table:       dataaccessauditlog.ValidColumn,
 			dictentry.Table:                dictentry.ValidColumn,
 			dictentryi18n.Table:            dictentryi18n.ValidColumn,

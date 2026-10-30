@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+import "asn/service/v1/asn.proto";
+
+// 到货通知单服务（管理后台）
+service AsnService {
+  // 查询到货通知单列表
+  rpc List (pagination.PagingRequest) returns (asn.service.v1.ListAsnResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/asns"
+    };
+  }
+
+  // 统计到货通知单数量
+  rpc Count (pagination.PagingRequest) returns (asn.service.v1.CountAsnResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/asns/count"
+    };
+  }
+
+  // 查询到货通知单详情（含明细）
+  rpc Get (asn.service.v1.GetAsnRequest) returns (asn.service.v1.Asn) {
+    option (google.api.http) = {
+      get: "/admin/v1/asns/{id}"
+    };
+  }
+
+  // 创建到货通知单（草稿）
+  rpc Create (asn.service.v1.CreateAsnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/asns"
+      body: "*"
+    };
+  }
+
+  // 更新到货通知单（仅草稿可改）
+  rpc Update (asn.service.v1.UpdateAsnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/asns/{id}"
+      body: "*"
+    };
+  }
+
+  // 删除到货通知单（仅草稿/已取消）
+  rpc Delete (asn.service.v1.DeleteAsnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/asns/{id}"
+    };
+  }
+
+  // 宣告到货
+  rpc Announce (asn.service.v1.AnnounceAsnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/asns/{id}/announce"
+      body: "*"
+    };
+  }
+
+  // 取消到货通知单
+  rpc Cancel (asn.service.v1.CancelAsnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/asns/{id}/cancel"
+      body: "*"
+    };
+  }
+
+  // 收货（防超收，生成入库拣货单并自动确认）
+  rpc Receive (asn.service.v1.ReceiveAsnRequest) returns (asn.service.v1.ReceiveAsnResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/asns/{asn_id}/receive"
+      body: "*"
+    };
+  }
+
+  // 上架（质检通过数量 → 目标库位）
+  rpc Putaway (asn.service.v1.PutawayAsnRequest) returns (asn.service.v1.PutawayAsnResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/asns/{asn_id}/putaway"
+      body: "*"
+    };
+  }
+
+  // 完结到货通知单
+  rpc Close (asn.service.v1.CloseAsnRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/asns/{id}/close"
+      body: "*"
+    };
+  }
+}

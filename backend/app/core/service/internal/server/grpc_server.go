@@ -11,6 +11,7 @@ import (
 	"go-wind-wms/app/core/service/internal/service"
 
 	approvalV1 "go-wind-wms/api/gen/go/approval/service/v1"
+	asnV1 "go-wind-wms/api/gen/go/asn/service/v1"
 	productV1 "go-wind-wms/api/gen/go/product/service/v1"
 	auditV1 "go-wind-wms/api/gen/go/audit/service/v1"
 	authenticationV1 "go-wind-wms/api/gen/go/authentication/service/v1"
@@ -49,6 +50,7 @@ func NewGrpcServer(
 	stockQuantService *service.StockQuantService,
 	stockLotService   *service.StockLotService,
 	stockPickingService *service.StockPickingService,
+	asnService *service.AsnService,
 
 	approvalRequestService *service.ApprovalRequestService,
 	approvalFlowService   *service.ApprovalFlowService,
@@ -108,6 +110,7 @@ func NewGrpcServer(
 	inventoryV1.RegisterStockQuantServiceServer(srv, stockQuantService)
 	inventoryV1.RegisterStockLotServiceServer(srv, stockLotService)
 	inventoryV1.RegisterStockPickingServiceServer(srv, stockPickingService)
+	asnV1.RegisterAsnServiceServer(srv, asnService)
 
 	approvalV1.RegisterApprovalRequestServiceServer(srv, approvalRequestService)
 	approvalV1.RegisterApprovalFlowServiceServer(srv, approvalFlowService)

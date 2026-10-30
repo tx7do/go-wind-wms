@@ -723,6 +723,7 @@ type StockPicking struct {
 	// derived_state：从子 moves 聚合计算，不存储（借鉴 Odoo _compute_state）。
 	DerivedState    *StockPicking_DerivedState `protobuf:"varint,4,opt,name=derived_state,json=derivedState,proto3,enum=inventory.service.v1.StockPicking_DerivedState,oneof" json:"derived_state,omitempty"` // 派生态
 	PurchaseOrderId *uint32                    `protobuf:"varint,5,opt,name=purchase_order_id,json=purchaseOrderId,proto3,oneof" json:"purchase_order_id,omitempty"`                                          // 关联采购单ID
+	AsnId           *uint32                    `protobuf:"varint,14,opt,name=asn_id,json=asnId,proto3,oneof" json:"asn_id,omitempty"`                                                                         // 关联到货通知单ID
 	PartnerCode     *string                    `protobuf:"bytes,6,opt,name=partner_code,json=partnerCode,proto3,oneof" json:"partner_code,omitempty"`                                                         // 交易方编码
 	// source/dest location：由服务层按 picking_type + 仓库推导落库（客户端不提供）。
 	SourceLocationId      *uint32 `protobuf:"varint,9,opt,name=source_location_id,json=sourceLocationId,proto3,oneof" json:"source_location_id,omitempty"`                 // 源位置ID（服务端推导，不存储客户端传值）
@@ -806,6 +807,13 @@ func (x *StockPicking) GetDerivedState() StockPicking_DerivedState {
 func (x *StockPicking) GetPurchaseOrderId() uint32 {
 	if x != nil && x.PurchaseOrderId != nil {
 		return *x.PurchaseOrderId
+	}
+	return 0
+}
+
+func (x *StockPicking) GetAsnId() uint32 {
+	if x != nil && x.AsnId != nil {
+		return *x.AsnId
 	}
 	return 0
 }
@@ -3216,35 +3224,36 @@ const file_inventory_service_v1_inventory_proto_rawDesc = "" +
 	"\v_deleted_byB\r\n" +
 	"\v_created_atB\r\n" +
 	"\v_updated_atB\r\n" +
-	"\v_deleted_at\"\xe7\x0f\n" +
+	"\v_deleted_at\"\xb0\x10\n" +
 	"\fStockPicking\x12)\n" +
 	"\x02id\x18\x01 \x01(\rB\x14\xe0A\x01\xbaG\x0e\x92\x02\v拣货单IDH\x00R\x02id\x88\x01\x01\x12V\n" +
 	"\x0epicking_number\x18\x02 \x01(\tB*\xe0A\x01\xbaG$\x92\x02!拣货单号（服务端生成）H\x01R\rpickingNumber\x88\x01\x01\x12m\n" +
 	"\fpicking_type\x18\x03 \x01(\x0e2..inventory.service.v1.StockPicking.PickingTypeB\x15\xe0A\x01\xbaG\x0f\x92\x02\f拣货类型H\x02R\vpickingType\x88\x01\x01\x12\x8f\x01\n" +
 	"\rderived_state\x18\x04 \x01(\x0e2/.inventory.service.v1.StockPicking.DerivedStateB4\xbaG1\x92\x02.派生态（从子 moves 聚合，不存储）H\x03R\fderivedState\x88\x01\x01\x12Z\n" +
-	"\x11purchase_order_id\x18\x05 \x01(\rB)\xe0A\x01\xbaG#\x92\x02 关联采购单ID（仅入库）H\x04R\x0fpurchaseOrderId\x88\x01\x01\x12@\n" +
-	"\fpartner_code\x18\x06 \x01(\tB\x18\xe0A\x01\xbaG\x12\x92\x02\x0f交易方编码H\x05R\vpartnerCode\x88\x01\x01\x12Y\n" +
-	"\x12source_location_id\x18\t \x01(\rB&\xbaG#\x92\x02 源位置ID（服务端推导）H\x06R\x10sourceLocationId\x88\x01\x01\x12f\n" +
+	"\x11purchase_order_id\x18\x05 \x01(\rB)\xe0A\x01\xbaG#\x92\x02 关联采购单ID（仅入库）H\x04R\x0fpurchaseOrderId\x88\x01\x01\x12<\n" +
+	"\x06asn_id\x18\x0e \x01(\rB \xe0A\x01\xbaG\x1a\x92\x02\x17关联到货通知单IDH\x05R\x05asnId\x88\x01\x01\x12@\n" +
+	"\fpartner_code\x18\x06 \x01(\tB\x18\xe0A\x01\xbaG\x12\x92\x02\x0f交易方编码H\x06R\vpartnerCode\x88\x01\x01\x12Y\n" +
+	"\x12source_location_id\x18\t \x01(\rB&\xbaG#\x92\x02 源位置ID（服务端推导）H\aR\x10sourceLocationId\x88\x01\x01\x12f\n" +
 	"\x17destination_location_id\x18\n" +
-	" \x01(\rB)\xbaG&\x92\x02#目的位置ID（服务端推导）H\aR\x15destinationLocationId\x88\x01\x01\x12R\n" +
+	" \x01(\rB)\xbaG&\x92\x02#目的位置ID（服务端推导）H\bR\x15destinationLocationId\x88\x01\x01\x12R\n" +
 	"\x05moves\x18\a \x03(\v2\x1f.inventory.service.v1.StockMoveB\x1b\xbaG\x18\x92\x02\x15子移动计划列表R\x05moves\x12)\n" +
-	"\x06remark\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06备注H\bR\x06remark\x88\x01\x01\x12S\n" +
-	"\x13from_warehouse_code\x18\f \x01(\tB\x1e\xe0A\x01\xbaG\x18\x92\x02\x15调拨源仓库编码H\tR\x11fromWarehouseCode\x88\x01\x01\x12R\n" +
-	"\x11to_warehouse_code\x18\r \x01(\tB!\xe0A\x01\xbaG\x1b\x92\x02\x18调拨目的仓库编码H\n" +
-	"R\x0ftoWarehouseCode\x88\x01\x01\x12F\n" +
-	"\ttenant_id\x18\x14 \x01(\rB$\xbaG!\x92\x02\x1e租户ID，0代表系统全局H\vR\btenantId\x88\x01\x01\x12;\n" +
+	"\x06remark\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06备注H\tR\x06remark\x88\x01\x01\x12S\n" +
+	"\x13from_warehouse_code\x18\f \x01(\tB\x1e\xe0A\x01\xbaG\x18\x92\x02\x15调拨源仓库编码H\n" +
+	"R\x11fromWarehouseCode\x88\x01\x01\x12R\n" +
+	"\x11to_warehouse_code\x18\r \x01(\tB!\xe0A\x01\xbaG\x1b\x92\x02\x18调拨目的仓库编码H\vR\x0ftoWarehouseCode\x88\x01\x01\x12F\n" +
+	"\ttenant_id\x18\x14 \x01(\rB$\xbaG!\x92\x02\x1e租户ID，0代表系统全局H\fR\btenantId\x88\x01\x01\x12;\n" +
 	"\n" +
-	"created_by\x18d \x01(\rB\x17\xbaG\x14\x92\x02\x11创建者用户IDH\fR\tcreatedBy\x88\x01\x01\x12;\n" +
+	"created_by\x18d \x01(\rB\x17\xbaG\x14\x92\x02\x11创建者用户IDH\rR\tcreatedBy\x88\x01\x01\x12;\n" +
 	"\n" +
-	"updated_by\x18e \x01(\rB\x17\xbaG\x14\x92\x02\x11更新者用户IDH\rR\tupdatedBy\x88\x01\x01\x12;\n" +
+	"updated_by\x18e \x01(\rB\x17\xbaG\x14\x92\x02\x11更新者用户IDH\x0eR\tupdatedBy\x88\x01\x01\x12;\n" +
 	"\n" +
-	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\x0eR\tdeletedBy\x88\x01\x01\x12S\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\x0fR\tdeletedBy\x88\x01\x01\x12S\n" +
 	"\n" +
-	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x0fR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x10R\tcreatedAt\x88\x01\x01\x12S\n" +
 	"\n" +
-	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x10R\tupdatedAt\x88\x01\x01\x12S\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x11R\tupdatedAt\x88\x01\x01\x12S\n" +
 	"\n" +
-	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x11R\tdeletedAt\x88\x01\x01\"Q\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x12R\tdeletedAt\x88\x01\x01\"Q\n" +
 	"\vPickingType\x12\f\n" +
 	"\bINCOMING\x10\x00\x12\f\n" +
 	"\bINTERNAL\x10\x01\x12\f\n" +
@@ -3259,7 +3268,8 @@ const file_inventory_service_v1_inventory_proto_rawDesc = "" +
 	"\x0f_picking_numberB\x0f\n" +
 	"\r_picking_typeB\x10\n" +
 	"\x0e_derived_stateB\x14\n" +
-	"\x12_purchase_order_idB\x0f\n" +
+	"\x12_purchase_order_idB\t\n" +
+	"\a_asn_idB\x0f\n" +
 	"\r_partner_codeB\x15\n" +
 	"\x13_source_location_idB\x1a\n" +
 	"\x18_destination_location_idB\t\n" +

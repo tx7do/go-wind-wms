@@ -1,0 +1,276 @@
+syntax = "proto3";
+
+package asn.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+import "pagination/v1/pagination.proto";
+
+// 到货通知单服务（M1 入库链入口：预约 → 收货 → 上架）
+//
+// 状态机：DRAFT → ANNOUNCED → RECEIVING → COMPLETED；
+// ANNOUNCED/RECEIVING 可 CANCELLED（终态）。
+// 收货（Receive）生成 INCOMING 拣货单并自动确认，库存经拣货校验（Validate）
+// 落入仓库接收位置；上架（Putaway）生成接收位置 → 目标库位的 INTERNAL 拣货单。
+service AsnService {
+  // 查询到货通知单列表
+  rpc List (pagination.PagingRequest) returns (ListAsnResponse) {}
+
+  // 统计到货通知单数量
+  rpc Count (pagination.PagingRequest) returns (CountAsnResponse) {}
+
+  // 查询到货通知单详情（含明细）
+  rpc Get (GetAsnRequest) returns (Asn) {}
+
+  // 按单号查询（PDA 扫码入口）
+  rpc GetByNumber (GetAsnByNumberRequest) returns (Asn) {}
+
+  // 创建到货通知单（草稿，含嵌套明细）
+  rpc Create (CreateAsnRequest) returns (google.protobuf.Empty) {}
+
+  // 更新到货通知单（仅草稿可改）
+  rpc Update (UpdateAsnRequest) returns (google.protobuf.Empty) {}
+
+  // 删除到货通知单（仅草稿/已取消）
+  rpc Delete (DeleteAsnRequest) returns (google.protobuf.Empty) {}
+
+  // 宣告到货（DRAFT → ANNOUNCED，之后明细不可再改，可开始收货）
+  rpc Announce (AnnounceAsnRequest) returns (google.protobuf.Empty) {}
+
+  // 取消到货通知单（ANNOUNCED/RECEIVING → CANCELLED）
+  rpc Cancel (CancelAsnRequest) returns (google.protobuf.Empty) {}
+
+  // 收货（ANNOUNCED/RECEIVING → RECEIVING）：按明细收货，
+  // 累计收货数不得超过预期数（防超收），生成 INCOMING 拣货单并自动确认。
+  rpc Receive (ReceiveAsnRequest) returns (ReceiveAsnResponse) {}
+
+  // 上架（收货质检通过的数量 → 目标库位）：生成 INTERNAL 拣货单
+  // （接收位置 → 目标库位）并自动确认，累积上架数不得超过已收数。
+  rpc Putaway (PutawayAsnRequest) returns (PutawayAsnResponse) {}
+
+  // 完结到货通知单（ANNOUNCED/RECEIVING → COMPLETED，终态；允许短收完结）
+  rpc Close (CloseAsnRequest) returns (google.protobuf.Empty) {}
+}
+
+// 到货通知单状态
+enum AsnStatus {
+  ASN_DRAFT = 0;      // 草稿
+  ASN_ANNOUNCED = 1;  // 已宣告（预约到货）
+  ASN_RECEIVING = 2;  // 收货中
+  ASN_COMPLETED = 3;  // 已完结（终态）
+  ASN_CANCELLED = 4;  // 已取消（终态）
+}
+
+// 明细质检状态
+enum AsnQcStatus {
+  QC_PENDING = 0;  // 未检
+  QC_PASS = 1;     // 质检通过（可上架）
+  QC_FAIL = 2;     // 质检不合格（不参与上架）
+}
+
+// 到货通知单
+message Asn {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (gnostic.openapi.v3.property) = {description: "到货通知单ID"}
+  ]; // 到货通知单ID
+
+  optional string asn_number = 2 [
+    json_name = "asnNumber",
+    (gnostic.openapi.v3.property) = {description: "单号，租户范围内唯一，服务端生成"}
+  ]; // 单号
+
+  optional string warehouse_code = 3 [
+    json_name = "warehouseCode",
+    (gnostic.openapi.v3.property) = {description: "目的仓库编码"}
+  ]; // 目的仓库编码
+
+  optional string partner_code = 4 [
+    json_name = "partnerCode",
+    (gnostic.openapi.v3.property) = {description: "发货方编码（供应商/上游仓库）"}
+  ]; // 发货方编码
+
+  optional AsnStatus status = 5 [
+    json_name = "status",
+    (gnostic.openapi.v3.property) = {description: "单据状态"}
+  ]; // 单据状态
+
+  optional google.protobuf.Timestamp expected_date = 6 [
+    json_name = "expectedDate",
+    (gnostic.openapi.v3.property) = {description: "预计到货时间"}
+  ]; // 预计到货时间
+
+  repeated AsnLine lines = 7 [
+    json_name = "lines",
+    (gnostic.openapi.v3.property) = {description: "到货明细"}
+  ]; // 到货明细
+
+  optional string remark = 8 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {description: "备注"}
+  ]; // 备注
+
+  optional uint32 tenant_id = 20 [
+    json_name = "tenantId",
+    (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
+  ]; // 租户ID，0代表系统全局
+
+  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional google.protobuf.Timestamp created_at = 102 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}]; // 创建时间
+  optional google.protobuf.Timestamp updated_at = 103 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}]; // 更新时间
+}
+
+// 到货明细
+message AsnLine {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (gnostic.openapi.v3.property) = {description: "明细ID"}
+  ]; // 明细ID
+
+  optional uint32 asn_id = 2 [
+    json_name = "asnId",
+    (gnostic.openapi.v3.property) = {description: "所属到货通知单ID"}
+  ]; // 所属到货通知单ID
+
+  optional string sku_code = 3 [
+    json_name = "skuCode",
+    (gnostic.openapi.v3.property) = {description: "SKU 编码"}
+  ]; // SKU 编码
+
+  optional int64 expected_qty = 4 [
+    json_name = "expectedQty",
+    (gnostic.openapi.v3.property) = {description: "预期数量"}
+  ]; // 预期数量
+
+  optional int64 received_qty = 5 [
+    json_name = "receivedQty",
+    (gnostic.openapi.v3.property) = {description: "已收数量（累计）"}
+  ]; // 已收数量（累计）
+
+  optional int64 putaway_qty = 6 [
+    json_name = "putawayQty",
+    (gnostic.openapi.v3.property) = {description: "已上架数量（累计）"}
+  ]; // 已上架数量（累计）
+
+  optional AsnQcStatus qc_status = 7 [
+    json_name = "qcStatus",
+    (gnostic.openapi.v3.property) = {description: "质检状态（最近一次收货）"}
+  ]; // 质检状态（最近一次收货）
+
+  optional string lot_name = 8 [
+    json_name = "lotName",
+    (gnostic.openapi.v3.property) = {description: "批次号（可选，收货时登记）"}
+  ]; // 批次号（可选，收货时登记）
+
+  optional string remark = 9 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {description: "备注"}
+  ]; // 备注
+}
+
+message GetAsnRequest {
+  oneof query_by {
+    uint32 id = 1 [json_name = "id"];
+  }
+}
+
+message GetAsnByNumberRequest {
+  string number = 1 [json_name = "number"]; // 单号
+}
+
+message CreateAsnRequest {
+  Asn data = 1 [json_name = "data"]; // 到货通知单（lines 嵌套）
+}
+
+message UpdateAsnRequest {
+  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+
+  Asn data = 2 [json_name = "data"]; // 到货通知单（lines 整体替换，仅草稿可改）
+
+  google.protobuf.FieldMask update_mask = 3 [
+    json_name = "updateMask",
+    (gnostic.openapi.v3.property) = {description: "更新字段掩码"}
+  ]; // 更新字段掩码
+}
+
+message DeleteAsnRequest {
+  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+}
+
+message ListAsnResponse {
+  uint64 total = 1 [json_name = "total"]; // 总数
+
+  repeated Asn items = 2 [json_name = "items"]; // 到货通知单列表
+}
+
+message CountAsnResponse {
+  uint64 count = 1 [json_name = "count"]; // 数量
+}
+
+message AnnounceAsnRequest {
+  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+}
+
+message CancelAsnRequest {
+  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+}
+
+message CloseAsnRequest {
+  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+}
+
+// 收货请求：按明细收货（数量为本次增量）
+message ReceiveAsnRequest {
+  uint32 asn_id = 1 [json_name = "asnId"]; // 到货通知单ID
+
+  repeated ReceiveAsnLine lines = 2 [json_name = "lines"]; // 本次收货明细
+}
+
+// 收货明细（本次增量）
+message ReceiveAsnLine {
+  uint32 asn_line_id = 1 [json_name = "asnLineId"]; // 到货明细ID
+
+  int64 quantity = 2 [json_name = "quantity"]; // 本次收货数量（正整数）
+
+  optional AsnQcStatus qc_status = 3 [
+    json_name = "qcStatus",
+    (gnostic.openapi.v3.property) = {description: "质检状态（缺省按质检通过处理）"}
+  ]; // 质检状态（缺省按质检通过处理）
+
+  optional string lot_name = 4 [
+    json_name = "lotName",
+    (gnostic.openapi.v3.property) = {description: "批次号（可选，多批次分多次收）"}
+  ]; // 批次号（可选，多批次分多次收）
+}
+
+message ReceiveAsnResponse {
+  uint32 picking_id = 1 [json_name = "pickingId"]; // 生成的入库拣货单ID
+}
+
+// 上架请求：质检通过的在库数量 → 目标库位
+message PutawayAsnRequest {
+  uint32 asn_id = 1 [json_name = "asnId"]; // 到货通知单ID
+
+  repeated PutawayAsnLine lines = 2 [json_name = "lines"]; // 本次上架明细
+}
+
+// 上架明细
+message PutawayAsnLine {
+  uint32 asn_line_id = 1 [json_name = "asnLineId"]; // 到货明细ID
+
+  int64 quantity = 2 [json_name = "quantity"]; // 本次上架数量（正整数）
+
+  uint32 target_location_id = 3 [json_name = "targetLocationId"]; // 目标库位ID（INTERNAL）
+}
+
+message PutawayAsnResponse {
+  uint32 picking_id = 1 [json_name = "pickingId"]; // 生成的上架拣货单ID
+}

@@ -19,6 +19,7 @@ import (
 
 	auditV1 "go-wind-wms/api/gen/go/audit/service/v1"
 	approvalV1 "go-wind-wms/api/gen/go/approval/service/v1"
+	asnV1 "go-wind-wms/api/gen/go/asn/service/v1"
 	authenticationV1 "go-wind-wms/api/gen/go/authentication/service/v1"
 	billingV1 "go-wind-wms/api/gen/go/billing/service/v1"
 	productV1 "go-wind-wms/api/gen/go/product/service/v1"
@@ -388,6 +389,15 @@ func NewApprovalFlowServiceClient(ctx *bootstrap.Context, r registry.Discovery) 
 	}
 
 	return approvalV1.NewApprovalFlowServiceClient(cli)
+}
+
+func NewAsnServiceClient(ctx *bootstrap.Context, r registry.Discovery) asnV1.AsnServiceClient {
+	cli, err := rpc.CreateGrpcClient(ctx.Context(), r, serviceid.NewDiscoveryName(serviceid.CoreService), ctx.GetConfig())
+	if err != nil {
+		return nil
+	}
+
+	return asnV1.NewAsnServiceClient(cli)
 }
 
 func NewBillingServiceClient(ctx *bootstrap.Context, r registry.Discovery) billingV1.BillingServiceClient {

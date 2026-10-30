@@ -18,6 +18,7 @@ import (
 	"github.com/tx7do/kratos-bootstrap/rpc"
 
 	approvalV1 "go-wind-wms/api/gen/go/approval/service/v1"
+	asnV1 "go-wind-wms/api/gen/go/asn/service/v1"
 	authenticationV1 "go-wind-wms/api/gen/go/authentication/service/v1"
 	dictV1 "go-wind-wms/api/gen/go/dict/service/v1"
 	identityV1 "go-wind-wms/api/gen/go/identity/service/v1"
@@ -199,6 +200,15 @@ func NewStockPickingServiceClient(ctx *bootstrap.Context, r registry.Discovery) 
 	}
 
 	return inventoryV1.NewStockPickingServiceClient(cli)
+}
+
+func NewAsnServiceClient(ctx *bootstrap.Context, r registry.Discovery) asnV1.AsnServiceClient {
+	cli, err := rpc.CreateGrpcClient(ctx.Context(), r, serviceid.NewDiscoveryName(serviceid.CoreService), ctx.GetConfig())
+	if err != nil {
+		return nil
+	}
+
+	return asnV1.NewAsnServiceClient(cli)
 }
 
 func NewApprovalRequestServiceClient(ctx *bootstrap.Context, r registry.Discovery) approvalV1.ApprovalRequestServiceClient {

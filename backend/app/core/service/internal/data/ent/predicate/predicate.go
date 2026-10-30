@@ -21,6 +21,12 @@ type ApprovalFlowStep func(*sql.Selector)
 // ApprovalRequest is the predicate function for approvalrequest builders.
 type ApprovalRequest func(*sql.Selector)
 
+// Asn is the predicate function for asn builders.
+type Asn func(*sql.Selector)
+
+// AsnLine is the predicate function for asnline builders.
+type AsnLine func(*sql.Selector)
+
 // DataAccessAuditLog is the predicate function for dataaccessauditlog builders.
 type DataAccessAuditLog func(*sql.Selector)
 

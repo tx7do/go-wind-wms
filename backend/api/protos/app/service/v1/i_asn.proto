@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package app.service.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+import "asn/service/v1/asn.proto";
+
+// 到货通知单服务（PDA 手持端：扫码收货/上架）
+service AsnService {
+  // 查询到货通知单列表
+  rpc List (pagination.PagingRequest) returns (asn.service.v1.ListAsnResponse) {
+    option (google.api.http) = {
+      get: "/app/v1/asns"
+    };
+  }
+
+  // 按单号查询（PDA 扫码入口）
+  rpc GetByNumber (asn.service.v1.GetAsnByNumberRequest) returns (asn.service.v1.Asn) {
+    option (google.api.http) = {
+      get: "/app/v1/asns/by-number/{number}"
+    };
+  }
+
+  // 查询到货通知单详情（含明细）
+  rpc Get (asn.service.v1.GetAsnRequest) returns (asn.service.v1.Asn) {
+    option (google.api.http) = {
+      get: "/app/v1/asns/{id}"
+    };
+  }
+
+  // 收货（防超收，生成入库拣货单并自动确认）
+  rpc Receive (asn.service.v1.ReceiveAsnRequest) returns (asn.service.v1.ReceiveAsnResponse) {
+    option (google.api.http) = {
+      post: "/app/v1/asns/{asn_id}/receive"
+      body: "*"
+    };
+  }
+
+  // 上架（质检通过数量 → 目标库位）
+  rpc Putaway (asn.service.v1.PutawayAsnRequest) returns (asn.service.v1.PutawayAsnResponse) {
+    option (google.api.http) = {
+      post: "/app/v1/asns/{asn_id}/putaway"
+      body: "*"
+    };
+  }
+}

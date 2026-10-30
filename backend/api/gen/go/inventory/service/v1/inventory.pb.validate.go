@@ -826,6 +826,10 @@ func (m *StockPicking) validate(all bool) error {
 		// no validation rules for PurchaseOrderId
 	}
 
+	if m.AsnId != nil {
+		// no validation rules for AsnId
+	}
+
 	if m.PartnerCode != nil {
 		// no validation rules for PartnerCode
 	}

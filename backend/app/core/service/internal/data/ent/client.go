@@ -16,6 +16,8 @@ import (
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflow"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalflowstep"
 	"go-wind-wms/app/core/service/internal/data/ent/approvalrequest"
+	"go-wind-wms/app/core/service/internal/data/ent/asn"
+	"go-wind-wms/app/core/service/internal/data/ent/asnline"
 	"go-wind-wms/app/core/service/internal/data/ent/dataaccessauditlog"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentry"
 	"go-wind-wms/app/core/service/internal/data/ent/dictentryi18n"
@@ -84,6 +86,10 @@ type Client struct {
 	ApprovalFlowStep *ApprovalFlowStepClient
 	// ApprovalRequest is the client for interacting with the ApprovalRequest builders.
 	ApprovalRequest *ApprovalRequestClient
+	// Asn is the client for interacting with the Asn builders.
+	Asn *AsnClient
+	// AsnLine is the client for interacting with the AsnLine builders.
+	AsnLine *AsnLineClient
 	// DataAccessAuditLog is the client for interacting with the DataAccessAuditLog builders.
 	DataAccessAuditLog *DataAccessAuditLogClient
 	// DictEntry is the client for interacting with the DictEntry builders.
@@ -192,6 +198,8 @@ func (c *Client) init() {
 	c.ApprovalFlow = NewApprovalFlowClient(c.config)
 	c.ApprovalFlowStep = NewApprovalFlowStepClient(c.config)
 	c.ApprovalRequest = NewApprovalRequestClient(c.config)
+	c.Asn = NewAsnClient(c.config)
+	c.AsnLine = NewAsnLineClient(c.config)
 	c.DataAccessAuditLog = NewDataAccessAuditLogClient(c.config)
 	c.DictEntry = NewDictEntryClient(c.config)
 	c.DictEntryI18n = NewDictEntryI18nClient(c.config)
@@ -335,6 +343,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ApprovalFlow:             NewApprovalFlowClient(cfg),
 		ApprovalFlowStep:         NewApprovalFlowStepClient(cfg),
 		ApprovalRequest:          NewApprovalRequestClient(cfg),
+		Asn:                      NewAsnClient(cfg),
+		AsnLine:                  NewAsnLineClient(cfg),
 		DataAccessAuditLog:       NewDataAccessAuditLogClient(cfg),
 		DictEntry:                NewDictEntryClient(cfg),
 		DictEntryI18n:            NewDictEntryI18nClient(cfg),
@@ -405,6 +415,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ApprovalFlow:             NewApprovalFlowClient(cfg),
 		ApprovalFlowStep:         NewApprovalFlowStepClient(cfg),
 		ApprovalRequest:          NewApprovalRequestClient(cfg),
+		Asn:                      NewAsnClient(cfg),
+		AsnLine:                  NewAsnLineClient(cfg),
 		DataAccessAuditLog:       NewDataAccessAuditLogClient(cfg),
 		DictEntry:                NewDictEntryClient(cfg),
 		DictEntryI18n:            NewDictEntryI18nClient(cfg),
@@ -481,16 +493,16 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.Api, c.ApiAuditLog, c.ApprovalFlow, c.ApprovalFlowStep, c.ApprovalRequest,
-		c.DataAccessAuditLog, c.DictEntry, c.DictEntryI18n, c.DictType, c.File,
-		c.InternalMessage, c.InternalMessageCategory, c.InternalMessageRecipient,
-		c.Language, c.LoginAuditLog, c.LoginPolicy, c.Membership, c.MembershipOrgUnit,
-		c.MembershipPosition, c.MembershipRole, c.Menu, c.OperationAuditLog, c.OrgUnit,
-		c.Permission, c.PermissionApi, c.PermissionAuditLog, c.PermissionGroup,
-		c.PermissionMenu, c.PermissionPolicy, c.Plan, c.PolicyEvaluationLog,
-		c.Position, c.Product, c.Role, c.RoleMetadata, c.RolePermission,
-		c.StockLocation, c.StockLot, c.StockMove, c.StockMoveLine, c.StockPicking,
-		c.StockQuant, c.Subscription, c.Task, c.Tenant, c.User, c.UserCredential,
-		c.UserOrgUnit, c.UserPosition, c.UserRole, c.Warehouse,
+		c.Asn, c.AsnLine, c.DataAccessAuditLog, c.DictEntry, c.DictEntryI18n,
+		c.DictType, c.File, c.InternalMessage, c.InternalMessageCategory,
+		c.InternalMessageRecipient, c.Language, c.LoginAuditLog, c.LoginPolicy,
+		c.Membership, c.MembershipOrgUnit, c.MembershipPosition, c.MembershipRole,
+		c.Menu, c.OperationAuditLog, c.OrgUnit, c.Permission, c.PermissionApi,
+		c.PermissionAuditLog, c.PermissionGroup, c.PermissionMenu, c.PermissionPolicy,
+		c.Plan, c.PolicyEvaluationLog, c.Position, c.Product, c.Role, c.RoleMetadata,
+		c.RolePermission, c.StockLocation, c.StockLot, c.StockMove, c.StockMoveLine,
+		c.StockPicking, c.StockQuant, c.Subscription, c.Task, c.Tenant, c.User,
+		c.UserCredential, c.UserOrgUnit, c.UserPosition, c.UserRole, c.Warehouse,
 	} {
 		n.Use(hooks...)
 	}
@@ -501,16 +513,16 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.Api, c.ApiAuditLog, c.ApprovalFlow, c.ApprovalFlowStep, c.ApprovalRequest,
-		c.DataAccessAuditLog, c.DictEntry, c.DictEntryI18n, c.DictType, c.File,
-		c.InternalMessage, c.InternalMessageCategory, c.InternalMessageRecipient,
-		c.Language, c.LoginAuditLog, c.LoginPolicy, c.Membership, c.MembershipOrgUnit,
-		c.MembershipPosition, c.MembershipRole, c.Menu, c.OperationAuditLog, c.OrgUnit,
-		c.Permission, c.PermissionApi, c.PermissionAuditLog, c.PermissionGroup,
-		c.PermissionMenu, c.PermissionPolicy, c.Plan, c.PolicyEvaluationLog,
-		c.Position, c.Product, c.Role, c.RoleMetadata, c.RolePermission,
-		c.StockLocation, c.StockLot, c.StockMove, c.StockMoveLine, c.StockPicking,
-		c.StockQuant, c.Subscription, c.Task, c.Tenant, c.User, c.UserCredential,
-		c.UserOrgUnit, c.UserPosition, c.UserRole, c.Warehouse,
+		c.Asn, c.AsnLine, c.DataAccessAuditLog, c.DictEntry, c.DictEntryI18n,
+		c.DictType, c.File, c.InternalMessage, c.InternalMessageCategory,
+		c.InternalMessageRecipient, c.Language, c.LoginAuditLog, c.LoginPolicy,
+		c.Membership, c.MembershipOrgUnit, c.MembershipPosition, c.MembershipRole,
+		c.Menu, c.OperationAuditLog, c.OrgUnit, c.Permission, c.PermissionApi,
+		c.PermissionAuditLog, c.PermissionGroup, c.PermissionMenu, c.PermissionPolicy,
+		c.Plan, c.PolicyEvaluationLog, c.Position, c.Product, c.Role, c.RoleMetadata,
+		c.RolePermission, c.StockLocation, c.StockLot, c.StockMove, c.StockMoveLine,
+		c.StockPicking, c.StockQuant, c.Subscription, c.Task, c.Tenant, c.User,
+		c.UserCredential, c.UserOrgUnit, c.UserPosition, c.UserRole, c.Warehouse,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -529,6 +541,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.ApprovalFlowStep.mutate(ctx, m)
 	case *ApprovalRequestMutation:
 		return c.ApprovalRequest.mutate(ctx, m)
+	case *AsnMutation:
+		return c.Asn.mutate(ctx, m)
+	case *AsnLineMutation:
+		return c.AsnLine.mutate(ctx, m)
 	case *DataAccessAuditLogMutation:
 		return c.DataAccessAuditLog.mutate(ctx, m)
 	case *DictEntryMutation:
@@ -1296,6 +1312,276 @@ func (c *ApprovalRequestClient) mutate(ctx context.Context, m *ApprovalRequestMu
 		return (&ApprovalRequestDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown ApprovalRequest mutation op: %q", m.Op())
+	}
+}
+
+// AsnClient is a client for the Asn schema.
+type AsnClient struct {
+	config
+}
+
+// NewAsnClient returns a client for the Asn from the given config.
+func NewAsnClient(c config) *AsnClient {
+	return &AsnClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `asn.Hooks(f(g(h())))`.
+func (c *AsnClient) Use(hooks ...Hook) {
+	c.hooks.Asn = append(c.hooks.Asn, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `asn.Intercept(f(g(h())))`.
+func (c *AsnClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Asn = append(c.inters.Asn, interceptors...)
+}
+
+// Create returns a builder for creating a Asn entity.
+func (c *AsnClient) Create() *AsnCreate {
+	mutation := newAsnMutation(c.config, OpCreate)
+	return &AsnCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Asn entities.
+func (c *AsnClient) CreateBulk(builders ...*AsnCreate) *AsnCreateBulk {
+	return &AsnCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *AsnClient) MapCreateBulk(slice any, setFunc func(*AsnCreate, int)) *AsnCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &AsnCreateBulk{err: fmt.Errorf("calling to AsnClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*AsnCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &AsnCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Asn.
+func (c *AsnClient) Update() *AsnUpdate {
+	mutation := newAsnMutation(c.config, OpUpdate)
+	return &AsnUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AsnClient) UpdateOne(_m *Asn) *AsnUpdateOne {
+	mutation := newAsnMutation(c.config, OpUpdateOne, withAsn(_m))
+	return &AsnUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AsnClient) UpdateOneID(id uint32) *AsnUpdateOne {
+	mutation := newAsnMutation(c.config, OpUpdateOne, withAsnID(id))
+	return &AsnUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Asn.
+func (c *AsnClient) Delete() *AsnDelete {
+	mutation := newAsnMutation(c.config, OpDelete)
+	return &AsnDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *AsnClient) DeleteOne(_m *Asn) *AsnDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *AsnClient) DeleteOneID(id uint32) *AsnDeleteOne {
+	builder := c.Delete().Where(asn.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AsnDeleteOne{builder}
+}
+
+// Query returns a query builder for Asn.
+func (c *AsnClient) Query() *AsnQuery {
+	return &AsnQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeAsn},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Asn entity by its id.
+func (c *AsnClient) Get(ctx context.Context, id uint32) (*Asn, error) {
+	return c.Query().Where(asn.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AsnClient) GetX(ctx context.Context, id uint32) *Asn {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AsnClient) Hooks() []Hook {
+	hooks := c.hooks.Asn
+	return append(hooks[:len(hooks):len(hooks)], asn.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *AsnClient) Interceptors() []Interceptor {
+	inters := c.inters.Asn
+	return append(inters[:len(inters):len(inters)], asn.Interceptors[:]...)
+}
+
+func (c *AsnClient) mutate(ctx context.Context, m *AsnMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&AsnCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&AsnUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&AsnUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&AsnDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Asn mutation op: %q", m.Op())
+	}
+}
+
+// AsnLineClient is a client for the AsnLine schema.
+type AsnLineClient struct {
+	config
+}
+
+// NewAsnLineClient returns a client for the AsnLine from the given config.
+func NewAsnLineClient(c config) *AsnLineClient {
+	return &AsnLineClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `asnline.Hooks(f(g(h())))`.
+func (c *AsnLineClient) Use(hooks ...Hook) {
+	c.hooks.AsnLine = append(c.hooks.AsnLine, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `asnline.Intercept(f(g(h())))`.
+func (c *AsnLineClient) Intercept(interceptors ...Interceptor) {
+	c.inters.AsnLine = append(c.inters.AsnLine, interceptors...)
+}
+
+// Create returns a builder for creating a AsnLine entity.
+func (c *AsnLineClient) Create() *AsnLineCreate {
+	mutation := newAsnLineMutation(c.config, OpCreate)
+	return &AsnLineCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AsnLine entities.
+func (c *AsnLineClient) CreateBulk(builders ...*AsnLineCreate) *AsnLineCreateBulk {
+	return &AsnLineCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *AsnLineClient) MapCreateBulk(slice any, setFunc func(*AsnLineCreate, int)) *AsnLineCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &AsnLineCreateBulk{err: fmt.Errorf("calling to AsnLineClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*AsnLineCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &AsnLineCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AsnLine.
+func (c *AsnLineClient) Update() *AsnLineUpdate {
+	mutation := newAsnLineMutation(c.config, OpUpdate)
+	return &AsnLineUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AsnLineClient) UpdateOne(_m *AsnLine) *AsnLineUpdateOne {
+	mutation := newAsnLineMutation(c.config, OpUpdateOne, withAsnLine(_m))
+	return &AsnLineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AsnLineClient) UpdateOneID(id uint32) *AsnLineUpdateOne {
+	mutation := newAsnLineMutation(c.config, OpUpdateOne, withAsnLineID(id))
+	return &AsnLineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AsnLine.
+func (c *AsnLineClient) Delete() *AsnLineDelete {
+	mutation := newAsnLineMutation(c.config, OpDelete)
+	return &AsnLineDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *AsnLineClient) DeleteOne(_m *AsnLine) *AsnLineDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *AsnLineClient) DeleteOneID(id uint32) *AsnLineDeleteOne {
+	builder := c.Delete().Where(asnline.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AsnLineDeleteOne{builder}
+}
+
+// Query returns a query builder for AsnLine.
+func (c *AsnLineClient) Query() *AsnLineQuery {
+	return &AsnLineQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeAsnLine},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a AsnLine entity by its id.
+func (c *AsnLineClient) Get(ctx context.Context, id uint32) (*AsnLine, error) {
+	return c.Query().Where(asnline.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AsnLineClient) GetX(ctx context.Context, id uint32) *AsnLine {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AsnLineClient) Hooks() []Hook {
+	hooks := c.hooks.AsnLine
+	return append(hooks[:len(hooks):len(hooks)], asnline.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *AsnLineClient) Interceptors() []Interceptor {
+	inters := c.inters.AsnLine
+	return append(inters[:len(inters):len(inters)], asnline.Interceptors[:]...)
+}
+
+func (c *AsnLineClient) mutate(ctx context.Context, m *AsnLineMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&AsnLineCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&AsnLineUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&AsnLineUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&AsnLineDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown AsnLine mutation op: %q", m.Op())
 	}
 }
 
@@ -7664,7 +7950,7 @@ func (c *WarehouseClient) mutate(ctx context.Context, m *WarehouseMutation) (Val
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Api, ApiAuditLog, ApprovalFlow, ApprovalFlowStep, ApprovalRequest,
+		Api, ApiAuditLog, ApprovalFlow, ApprovalFlowStep, ApprovalRequest, Asn, AsnLine,
 		DataAccessAuditLog, DictEntry, DictEntryI18n, DictType, File, InternalMessage,
 		InternalMessageCategory, InternalMessageRecipient, Language, LoginAuditLog,
 		LoginPolicy, Membership, MembershipOrgUnit, MembershipPosition, MembershipRole,
@@ -7676,7 +7962,7 @@ type (
 		UserRole, Warehouse []ent.Hook
 	}
 	inters struct {
-		Api, ApiAuditLog, ApprovalFlow, ApprovalFlowStep, ApprovalRequest,
+		Api, ApiAuditLog, ApprovalFlow, ApprovalFlowStep, ApprovalRequest, Asn, AsnLine,
 		DataAccessAuditLog, DictEntry, DictEntryI18n, DictType, File, InternalMessage,
 		InternalMessageCategory, InternalMessageRecipient, Language, LoginAuditLog,
 		LoginPolicy, Membership, MembershipOrgUnit, MembershipPosition, MembershipRole,

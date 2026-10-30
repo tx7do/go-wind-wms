@@ -208,6 +208,7 @@ func (r *StockPickingRepo) Create(ctx context.Context, req *inventoryV1.CreateSt
 		SetNillableSourceLocationID(req.Data.SourceLocationId).
 		SetNillableDestinationLocationID(req.Data.DestinationLocationId).
 		SetNillablePurchaseOrderID(req.Data.PurchaseOrderId).
+		SetNillableAsnID(req.Data.AsnId).
 		SetNillablePartnerCode(req.Data.PartnerCode).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableCreatedBy(req.Data.CreatedBy).

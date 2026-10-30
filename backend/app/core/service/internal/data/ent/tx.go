@@ -22,6 +22,10 @@ type Tx struct {
 	ApprovalFlowStep *ApprovalFlowStepClient
 	// ApprovalRequest is the client for interacting with the ApprovalRequest builders.
 	ApprovalRequest *ApprovalRequestClient
+	// Asn is the client for interacting with the Asn builders.
+	Asn *AsnClient
+	// AsnLine is the client for interacting with the AsnLine builders.
+	AsnLine *AsnLineClient
 	// DataAccessAuditLog is the client for interacting with the DataAccessAuditLog builders.
 	DataAccessAuditLog *DataAccessAuditLogClient
 	// DictEntry is the client for interacting with the DictEntry builders.
@@ -250,6 +254,8 @@ func (tx *Tx) init() {
 	tx.ApprovalFlow = NewApprovalFlowClient(tx.config)
 	tx.ApprovalFlowStep = NewApprovalFlowStepClient(tx.config)
 	tx.ApprovalRequest = NewApprovalRequestClient(tx.config)
+	tx.Asn = NewAsnClient(tx.config)
+	tx.AsnLine = NewAsnLineClient(tx.config)
 	tx.DataAccessAuditLog = NewDataAccessAuditLogClient(tx.config)
 	tx.DictEntry = NewDictEntryClient(tx.config)
 	tx.DictEntryI18n = NewDictEntryI18nClient(tx.config)

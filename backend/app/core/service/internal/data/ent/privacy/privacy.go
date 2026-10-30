@@ -231,6 +231,54 @@ func (f ApprovalRequestMutationRuleFunc) EvalMutation(ctx context.Context, m ent
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.ApprovalRequestMutation", m)
 }
 
+// The AsnQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type AsnQueryRuleFunc func(context.Context, *ent.AsnQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f AsnQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.AsnQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.AsnQuery", q)
+}
+
+// The AsnMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type AsnMutationRuleFunc func(context.Context, *ent.AsnMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f AsnMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.AsnMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.AsnMutation", m)
+}
+
+// The AsnLineQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type AsnLineQueryRuleFunc func(context.Context, *ent.AsnLineQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f AsnLineQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.AsnLineQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.AsnLineQuery", q)
+}
+
+// The AsnLineMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type AsnLineMutationRuleFunc func(context.Context, *ent.AsnLineMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f AsnLineMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.AsnLineMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.AsnLineMutation", m)
+}
+
 // The DataAccessAuditLogQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type DataAccessAuditLogQueryRuleFunc func(context.Context, *ent.DataAccessAuditLogQuery) error
@@ -1380,6 +1428,10 @@ func queryFilter(q ent.Query) (Filter, error) {
 		return q.Filter(), nil
 	case *ent.ApprovalRequestQuery:
 		return q.Filter(), nil
+	case *ent.AsnQuery:
+		return q.Filter(), nil
+	case *ent.AsnLineQuery:
+		return q.Filter(), nil
 	case *ent.DataAccessAuditLogQuery:
 		return q.Filter(), nil
 	case *ent.DictEntryQuery:
@@ -1488,6 +1540,10 @@ func mutationFilter(m ent.Mutation) (Filter, error) {
 	case *ent.ApprovalFlowStepMutation:
 		return m.Filter(), nil
 	case *ent.ApprovalRequestMutation:
+		return m.Filter(), nil
+	case *ent.AsnMutation:
+		return m.Filter(), nil
+	case *ent.AsnLineMutation:
 		return m.Filter(), nil
 	case *ent.DataAccessAuditLogMutation:
 		return m.Filter(), nil

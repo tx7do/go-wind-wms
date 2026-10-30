@@ -291,6 +291,33 @@ func (_u *StockPickingUpdate) ClearPurchaseOrderID() *StockPickingUpdate {
 	return _u
 }
 
+// SetAsnID sets the "asn_id" field.
+func (_u *StockPickingUpdate) SetAsnID(v uint32) *StockPickingUpdate {
+	_u.mutation.ResetAsnID()
+	_u.mutation.SetAsnID(v)
+	return _u
+}
+
+// SetNillableAsnID sets the "asn_id" field if the given value is not nil.
+func (_u *StockPickingUpdate) SetNillableAsnID(v *uint32) *StockPickingUpdate {
+	if v != nil {
+		_u.SetAsnID(*v)
+	}
+	return _u
+}
+
+// AddAsnID adds value to the "asn_id" field.
+func (_u *StockPickingUpdate) AddAsnID(v int32) *StockPickingUpdate {
+	_u.mutation.AddAsnID(v)
+	return _u
+}
+
+// ClearAsnID clears the value of the "asn_id" field.
+func (_u *StockPickingUpdate) ClearAsnID() *StockPickingUpdate {
+	_u.mutation.ClearAsnID()
+	return _u
+}
+
 // SetPartnerCode sets the "partner_code" field.
 func (_u *StockPickingUpdate) SetPartnerCode(v string) *StockPickingUpdate {
 	_u.mutation.SetPartnerCode(v)
@@ -460,6 +487,15 @@ func (_u *StockPickingUpdate) sqlSave(ctx context.Context) (_node int, err error
 	}
 	if _u.mutation.PurchaseOrderIDCleared() {
 		_spec.ClearField(stockpicking.FieldPurchaseOrderID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.AsnID(); ok {
+		_spec.SetField(stockpicking.FieldAsnID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedAsnID(); ok {
+		_spec.AddField(stockpicking.FieldAsnID, field.TypeUint32, value)
+	}
+	if _u.mutation.AsnIDCleared() {
+		_spec.ClearField(stockpicking.FieldAsnID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.PartnerCode(); ok {
 		_spec.SetField(stockpicking.FieldPartnerCode, field.TypeString, value)
@@ -751,6 +787,33 @@ func (_u *StockPickingUpdateOne) ClearPurchaseOrderID() *StockPickingUpdateOne {
 	return _u
 }
 
+// SetAsnID sets the "asn_id" field.
+func (_u *StockPickingUpdateOne) SetAsnID(v uint32) *StockPickingUpdateOne {
+	_u.mutation.ResetAsnID()
+	_u.mutation.SetAsnID(v)
+	return _u
+}
+
+// SetNillableAsnID sets the "asn_id" field if the given value is not nil.
+func (_u *StockPickingUpdateOne) SetNillableAsnID(v *uint32) *StockPickingUpdateOne {
+	if v != nil {
+		_u.SetAsnID(*v)
+	}
+	return _u
+}
+
+// AddAsnID adds value to the "asn_id" field.
+func (_u *StockPickingUpdateOne) AddAsnID(v int32) *StockPickingUpdateOne {
+	_u.mutation.AddAsnID(v)
+	return _u
+}
+
+// ClearAsnID clears the value of the "asn_id" field.
+func (_u *StockPickingUpdateOne) ClearAsnID() *StockPickingUpdateOne {
+	_u.mutation.ClearAsnID()
+	return _u
+}
+
 // SetPartnerCode sets the "partner_code" field.
 func (_u *StockPickingUpdateOne) SetPartnerCode(v string) *StockPickingUpdateOne {
 	_u.mutation.SetPartnerCode(v)
@@ -950,6 +1013,15 @@ func (_u *StockPickingUpdateOne) sqlSave(ctx context.Context) (_node *StockPicki
 	}
 	if _u.mutation.PurchaseOrderIDCleared() {
 		_spec.ClearField(stockpicking.FieldPurchaseOrderID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.AsnID(); ok {
+		_spec.SetField(stockpicking.FieldAsnID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedAsnID(); ok {
+		_spec.AddField(stockpicking.FieldAsnID, field.TypeUint32, value)
+	}
+	if _u.mutation.AsnIDCleared() {
+		_spec.ClearField(stockpicking.FieldAsnID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.PartnerCode(); ok {
 		_spec.SetField(stockpicking.FieldPartnerCode, field.TypeString, value)

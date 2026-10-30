@@ -17,6 +17,8 @@ TRUNCATE TABLE public.sys_org_units,
                public.inv_stock_moves,
                public.inv_stock_move_lines,
                public.prd_products,
+               public.wms_asns,
+               public.wms_asn_lines,
                public.apr_approval_requests
 RESTART IDENTITY CASCADE;
 
@@ -373,6 +375,21 @@ INSERT INTO prd_products (id, created_at, updated_at, deleted_at, created_by, up
     (3, now(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 'SKU-A003', 'PVC绝缘穿线管', 'DN20', '米', true)
 ;
 SELECT setval(pg_get_serial_sequence('public.prd_products','id'), COALESCE((SELECT MAX(id) FROM prd_products),1), true);
+-- ----------------------------
+-- wms_asns — 到货通知单（ANNOUNCED 预约中，可收货）
+-- ----------------------------
+INSERT INTO wms_asns (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, asn_number, warehouse_code, partner_code, status, expected_date) VALUES
+    (1, now(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 'ASN2026000001', 'WH-BJ', 'SUP-001', 'ANNOUNCED', now() + interval '1 day')
+;
+SELECT setval(pg_get_serial_sequence('public.wms_asns','id'), COALESCE((SELECT MAX(id) FROM wms_asns),1), true);
+-- ----------------------------
+-- wms_asn_lines — 到货明细（预期/已收/已上架三口径 + 质检状态）
+-- ----------------------------
+INSERT INTO wms_asn_lines (id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by, remark, tenant_id, asn_id, sku_code, expected_qty, received_qty, putaway_qty, qc_status, lot_name) VALUES
+    (1, now(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'SKU-A001', 500, 0, 0, 'QC_PENDING', NULL),
+    (2, now(), NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'SKU-A002', 200, 0, 0, 'QC_PENDING', NULL)
+;
+SELECT setval(pg_get_serial_sequence('public.wms_asn_lines','id'), COALESCE((SELECT MAX(id) FROM wms_asn_lines),1), true);
 SELECT setval(pg_get_serial_sequence('public.apr_approval_requests','id'), COALESCE((SELECT MAX(id) FROM apr_approval_requests),1), true);
 
 COMMIT;
