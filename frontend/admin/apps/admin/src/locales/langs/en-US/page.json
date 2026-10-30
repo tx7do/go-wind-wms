@@ -940,6 +940,7 @@
     "cancelConfirm": "Cancel wave and release member pickings?",
     "noneSelected": "Select at least one outbound picking",
     "noCandidates": "No eligible outbound pickings (OUTGOING + CONFIRMED + not in a wave)",
-    "noDelete": "Waves are immutable records; deletion is not supported"
+    "noDelete": "Waves are immutable records; deletion is not supported",
+    "statusLabel": "Status"
   }
 }

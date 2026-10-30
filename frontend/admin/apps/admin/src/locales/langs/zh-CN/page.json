@@ -937,6 +937,7 @@
     "cancelConfirm": "取消波次并释放成员拣货单？",
     "noneSelected": "请至少勾选一张出库拣货单",
     "noCandidates": "没有可入波次的出库拣货单（需 OUTGOING + 已确认 + 未入波次）",
-    "noDelete": "波次为终态留痕，不支持删除"
+    "noDelete": "波次为终态留痕，不支持删除",
+    "statusLabel": "状态"
   }
 }

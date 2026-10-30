@@ -24,7 +24,33 @@ Developers are well served too: API-first (RESTful / gRPC dual protocol with aut
 
 ## Project Status
 
-GoWind WMS is derived from the inventory module and common foundation of GoWind ERP (the same proven multi-tenant / permission / audit / approval-rail skeleton). Current milestone M0 — **skeleton ready**: the three-service backend (admin / app BFF + core) builds and tests green; the stock engine (quant / picking / move / lot, dual-track virtual locations, FEFO lot deduction, moving-average cost), transfer and adjustment flows, and the SaaS subscription quota guard are inherited from the foundation; the ERP business modules (procurement / sales / finance) have been stripped.
+GoWind WMS is derived from the inventory module and common foundation of GoWind ERP (the same proven multi-tenant / permission / audit / approval-rail skeleton). **The open-source feature set is complete and verified by end-to-end smoke tests**:
+
+- ✅ **M1 Inbound** — ASN booking → announce → receiving (over-receipt blocked) → putaway, with PDA barcode scanning
+- ✅ **M2 Outbound** — direct outbound orders → confirm → validate (FEFO lot deduction) → wave execution (single failure never blocks)
+- ✅ **M3 Inventory Operations** — lot expiry management (FEFO by real expiry), stock freeze (outbound blocked), aging report (30/60/90/180+ buckets)
+- ✅ Common foundation — multi-tenancy, org & permissions, approval rail, audit, SaaS subscription quota, zh/en/ja i18n, dual-protocol API (RESTful / gRPC)
+
+Key consistency logic (over-receipt / oversell guards, transfer atomicity, lot ledger integrity) is covered by regression tests and end-to-end smoke runs.
+
+## Screenshots
+
+| | |
+|:---:|:---:|
+| ![Stock dashboard](docs/screenshots/dashboard.png) | ![Warehouse management](docs/screenshots/warehouses.png) |
+| *Stock dashboard* | *Warehouse management* |
+| ![ASN (receive / putaway / close)](docs/screenshots/asn.png) | ![Pickings (transfer / count / outbound)](docs/screenshots/pickings.png) |
+| *ASN (receive / putaway / close)* | *Pickings (transfer / count / outbound)* |
+| ![Stock quants & freeze](docs/screenshots/inventory.png) | ![Wave execution](docs/screenshots/waves.png) |
+| *Stock quants & freeze* | *Wave execution* |
+
+## Commercial Roadmap
+
+The open-source edition focuses on the core warehouse operations loop. The following capabilities are planned for the commercial edition (closed source):
+
+- Billing engine — multi-owner storage/handling fees & reconciliation (the open edition keeps the billing_event hook interface)
+- Third-party adapters — shipping labels, Kuaidi100, Cainiao, SF Bridge, GPS platforms
+- Blind-count orchestration, QC / handover stations, WCS device integration
 
 > Roadmap: M1 inbound (ASN → receiving → QC → putaway) → M2 outbound (wave → picking → packing → handover) → M3 inventory operations (cycle count, freeze, snapshot, aging reports) → M4 multi-owner billing → M5 third-party integrations (shipping labels etc.) → M6 demo site & official release.
 
@@ -57,14 +83,18 @@ GoWind WMS is derived from the inventory module and common foundation of GoWind 
 
 | Module | Description |
 |:---|:---|
-| Warehouse / Locations | Warehouse management (auto-created receiving location), dual-track location system: INTERNAL / SUPPLIER / CUSTOMER / INVENTORY_LOSS |
-| Stock Engine | quant (location×product unique) + move (state machine) + move-line (execution record) + lot (batch/expiry, FEFO auto-split deduction), moving-average cost |
-| Picking / Transfer | picking as a first-class document (derived state, confirm→validate lifecycle), cross-warehouse transfer in a single atomic transaction, cancel & delete |
-| Adjustment / Counting | INVENTORY_ADJUSTMENT gain/loss (single-direction per order, virtual locations handled automatically), source cost frozen |
-| Executive Dashboard | Warehouse count / SKU count / total stock / low-stock list / 30-day movement trend |
+| ASN (Inbound) | Booking → announce → batch receiving (over-receipt blocked by row-level conditional updates) → QC gate → putaway grouped by target location, PDA barcode scanning |
+| Stock Engine | quant (location×product unique) + move (state machine) + move-line (execution record) + lot (batch/expiry), moving-average cost, dual-track virtual locations |
+| Direct Outbound | Outbound orders created directly (consignee + lines), confirm → validate in a single transaction, atomic negative-stock-guarded deduction |
+| FEFO Lot Deduction | Unassigned outbound picks auto-split lots by expiry ascending; 409 on shortage; expiry recorded at receiving |
+| Wave Execution | Multiple confirmed outbound pickings executed as one wave (single failure never blocks, retryable, auto-completion) |
+| Stock Freeze | Frozen quants cannot be deducted by outbound (counting/transfers unaffected), one-click freeze/unfreeze |
+| Aging Report | On-hand quantity bucketed by last inbound time (30/60/90/180+ days), filterable by warehouse |
+| Executive Dashboard | Warehouse count / SKU count / total stock / movement count / low-stock list / 30-day trend |
 | Subscription & Quota | Plan catalog + tenant subscription + read-only on expiry + monthly order/user quota guard |
-| Approval Rail (generic) | Generic approval skeleton (multi-level flows, self-approval blocked, in-app notification on resolution) ready for future WMS documents (adjustment approval, count-difference approval) |
-| Mobile business features | Barcode scanning, approval center, executive dashboard |
+| Approval Rail (generic) | Generic approval skeleton (multi-level flows, self-approval blocked, in-app notification on resolution) |
+| Mobile business features | PDA scanning: receive/putaway, outbound confirm/validate, approval center, executive dashboard |
+
 
 ## Tech Stack
 

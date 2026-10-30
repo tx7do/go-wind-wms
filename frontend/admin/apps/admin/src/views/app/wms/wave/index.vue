@@ -75,7 +75,7 @@ const gridOptions: VxeGridProps<Wave> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.wave.waveNumber'), field: 'waveNumber', width: 180 },
     {
-      title: $t('page.wave.status'),
+      title: $t('page.wave.statusLabel'),
       field: 'status',
       slots: { default: 'status' },
       width: 100,
