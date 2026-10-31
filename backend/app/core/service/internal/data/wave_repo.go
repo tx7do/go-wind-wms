@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	paginationV1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -78,8 +79,13 @@ func (r *WaveRepo) backfillStatus(ctx context.Context, items []*waveV1.Wave) {
 		byID[row.ID] = row
 	}
 	for _, it := range items {
-		if row := byID[it.GetId()]; row != nil && row.Status != nil {
-			it.Status = waveStatusToProto(*row.Status)
+		if row := byID[it.GetId()]; row != nil {
+			if row.Status != nil {
+				it.Status = waveStatusToProto(*row.Status)
+			}
+			if row.CreatedAt != nil {
+				it.CreatedAt = timestamppb.New(*row.CreatedAt)
+			}
 		}
 	}
 }
