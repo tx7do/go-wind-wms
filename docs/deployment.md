@@ -31,7 +31,7 @@
 
 | 组件 | 说明 | 监听 |
 |:---|:---|:---|
-| admin-service | 管理后台 BFF（Web 前端的唯一后端入口） | REST `6600`，SSE `6601`（`/events`），gRPC 随机端口 |
+| admin-service | 管理后台 BFF（Web 前端的唯一后端入口） | REST `6900`，SSE `6901`（`/events`），gRPC 随机端口 |
 | app-service | 移动端 BFF（Flutter App 的唯一后端入口） | REST `6700`，SSE `6701`（`/events`），gRPC 随机端口 |
 | core-service | 核心业务服务，**唯一连数据库的服务**，内嵌 Asynq 异步任务 | 仅 gRPC（随机端口，经 etcd 注册被发现） |
 | PostgreSQL | 主数据库（库名 `go_wind_wms`） | `5432` |
@@ -124,7 +124,7 @@ make pm2-deploy
 
 ```bash
 pm2 status                 # 三个服务 online
-curl http://127.0.0.1:6600/   # admin 端口有响应即可（无专用健康端点）
+curl http://127.0.0.1:6900/   # admin 端口有响应即可（无专用健康端点）
 curl http://127.0.0.1:6700/
 ```
 
@@ -214,7 +214,7 @@ jwt_signing_key: "<48位以上随机字符串>"
 
 ### 5.5 CORS（admin-service）
 
-`admin/service/configs/server.yaml` 的 CORS 白名单默认只有 `http://localhost:5666/5667`。生产前端域名必须加进去，否则浏览器全被拦：
+`admin/service/configs/server.yaml` 的 CORS 白名单默认只有 `http://localhost:11666/5667`。生产前端域名必须加进去，否则浏览器全被拦：
 
 ```yaml
 server:
@@ -255,9 +255,9 @@ compose 默认密码与各服务 configs 的默认值**已统一**为演示值 `
 cd frontend/admin
 
 # 1. 按你的域名修改 apps/admin/.env.production
-#    VITE_GLOB_API_URL=https://api.你的域名        → admin-service :6600
-#    VITE_GLOB_SSE_URL=https://api.你的域名/events → admin-service :6601
-#    （也可拆成两个域名，分别指向 6600 与 6601）
+#    VITE_GLOB_API_URL=https://api.你的域名        → admin-service :6900
+#    VITE_GLOB_SSE_URL=https://api.你的域名/events → admin-service :6901
+#    （也可拆成两个域名，分别指向 6900 与 6901）
 
 # 2. 安装与构建
 pnpm install --frozen-lockfile
@@ -310,14 +310,14 @@ server {
     server_name api.你的域名;
 
     location / {
-        proxy_pass http://127.0.0.1:6600;
+        proxy_pass http://127.0.0.1:6900;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
     location /events {                 # SSE（VITE_GLOB_SSE_URL）
-        proxy_pass http://127.0.0.1:6601/events;
+        proxy_pass http://127.0.0.1:6901/events;
         proxy_http_version 1.1;
         proxy_set_header Connection "";
         proxy_read_timeout 3600s;      # SSE 长连接，放宽读超时
@@ -398,7 +398,7 @@ cd ../../backend && make pm2-deploy
 
 # 4. 验证
 pm2 status
-curl -s http://127.0.0.1:6600/ >/dev/null && echo admin-ok
+curl -s http://127.0.0.1:6900/ >/dev/null && echo admin-ok
 curl -s http://127.0.0.1:6700/ >/dev/null && echo app-ok
 ```
 

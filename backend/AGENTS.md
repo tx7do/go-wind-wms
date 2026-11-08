@@ -27,7 +27,7 @@
 
 ```
 HTTP/REST 请求
-  └─ admin-service  (网关 BFF，REST:6600 / SSE:6601 / gRPC)
+  └─ admin-service  (网关 BFF，REST:6900 / SSE:6901 / gRPC)
        └─ gRPC → core-service  (核心业务 + 数据落点)
                  ├─ ent ORM → PostgreSQL
                  ├─ Redis / MinIO / ElasticSearch
@@ -494,7 +494,7 @@ func NewRestMiddleware(...) []middleware.Middleware {
 ## Swagger / API 文档
 
 OpenAPI v3 由 proto 自动生成（`make openapi`），Swagger UI 内嵌运行时：
-- Admin Swagger UI: `http://localhost:6600/docs/`
+- Admin Swagger UI: `http://localhost:6900/docs/`
 - App Swagger UI: `http://localhost:6700/docs/`
 - 配置开关：`configs/server.yaml` 中 `enable_swagger: true`
 

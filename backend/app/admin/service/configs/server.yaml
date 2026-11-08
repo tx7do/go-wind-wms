@@ -1,6 +1,6 @@
 server:
   rest:
-    addr: "0.0.0.0:6600"
+    addr: "0.0.0.0:6900"
     timeout: 10s
     enable_swagger: false
     cors:
@@ -19,9 +19,9 @@ server:
         - "HEAD"
         - "OPTIONS"
       origins:
-        - "http://localhost:5666"
-        - "http://127.0.0.1:5666"
-        - "http://localhost:5667"
+        - "http://localhost:11666"
+        - "http://127.0.0.1:11666"
+        - "http://localhost:11667"
         - "http://127.0.0.1:5667"
     middleware:
       auth:
@@ -29,7 +29,7 @@ server:
         key: "${jwt_signing_key:dev_only_change_me_in_prod}"
 
   sse:
-    addr: ":6601"
+    addr: ":6901"
     codec: "json"
     path: "/events"
     auto_stream: true

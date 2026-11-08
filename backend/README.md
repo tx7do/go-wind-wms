@@ -23,12 +23,12 @@ GoWind WMS — 企业级 WMS 后端（Inventory / Approval 等），剥离自 Go
 
 ### Swagger UI
 
-- [Admin Swagger UI](http://localhost:6600/docs/)
+- [Admin Swagger UI](http://localhost:6900/docs/)
 - [App Swagger UI](http://localhost:6700/docs/)
 
 ### openapi.yaml
 
-- [Admin openapi.yaml](http://localhost:6600/docs/openapi.yaml)
+- [Admin openapi.yaml](http://localhost:6900/docs/openapi.yaml)
 - [Front openapi.yaml](http://localhost:6700/docs/openapi.yaml)
 
 ## 生成Protobuf API

@@ -178,8 +178,8 @@ services:
     networks:
       - app-tier
     ports:
-      - "6600:6600"
-      - "6601:6601"
+      - "6900:6900"
+      - "6901:6901"
     volumes:
       - ./deploy/compose/registry.yaml:/app/configs/registry.yaml:ro
       - ./deploy/compose/oss.yaml:/app/configs/oss.yaml:ro
