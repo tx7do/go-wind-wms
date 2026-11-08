@@ -65,10 +65,10 @@ func (r *WaveRepo) backfillStatus(ctx context.Context, items []*waveV1.Wave) {
 		ids = append(ids, it.GetId())
 	}
 
-	rows, err := r.entClient.Client().Wave.Query().
-		Where(wave.IDIn(ids...)).
-		Select(wave.FieldID, wave.FieldStatus).
-		All(ctx)
+		rows, err := r.entClient.Client().Wave.Query().
+			Where(wave.IDIn(ids...)).
+			Select(wave.FieldID, wave.FieldStatus, wave.FieldCreatedAt).
+			All(ctx)
 	if err != nil {
 		r.log.Errorf("backfill wave status failed: %s", err.Error())
 		return
