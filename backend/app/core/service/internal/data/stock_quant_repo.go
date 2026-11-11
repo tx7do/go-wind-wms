@@ -135,7 +135,7 @@ func (r *StockQuantRepo) List(ctx context.Context, req *paginationV1.PagingReque
 	}, nil
 }
 
-func (r *StockQuantRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+func (r *StockQuantRepo) IsExist(ctx context.Context, id int64) (bool, error) {
 	exist, err := r.entClient.Client().StockQuant.Query().
 		Where(stockquant.IDEQ(id)).
 		Exist(ctx)
@@ -171,7 +171,7 @@ func (r *StockQuantRepo) Get(ctx context.Context, req *inventoryV1.GetStockQuant
 // FindByLocationProduct 按 location+product 查库存行（读路径走租户策略）。
 func (r *StockQuantRepo) FindByLocationProduct(
 	ctx context.Context,
-	locationID uint32,
+	locationID int64,
 	productCode string,
 ) (*inventoryV1.StockQuant, error) {
 	row, err := r.entClient.Client().StockQuant.Query().
@@ -191,7 +191,7 @@ func (r *StockQuantRepo) FindByLocationProduct(
 func (r *StockQuantRepo) FindByLocationProductTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	locationID uint32,
+	locationID int64,
 	productCode string,
 ) (*inventoryV1.StockQuant, error) {
 	row, err := tx.StockQuant.Query().
@@ -212,7 +212,7 @@ func (r *StockQuantRepo) FindByLocationProductTx(
 // EnsureForLocation 入库前确保库存行存在（不存在则以 0 创建；已存在则无动作）。
 func (r *StockQuantRepo) EnsureForLocation(
 	ctx context.Context,
-	locationID uint32,
+	locationID int64,
 	productCode string,
 ) error {
 	tid, hasTenant := maybeTenantFromViewer(ctx)
@@ -243,7 +243,7 @@ func (r *StockQuantRepo) EnsureForLocation(
 func (r *StockQuantRepo) EnsureForLocationTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	locationID uint32,
+	locationID int64,
 	productCode string,
 ) error {
 	tid, hasTenant := maybeTenantFromViewer(ctx)
@@ -275,7 +275,7 @@ func (r *StockQuantRepo) EnsureForLocationTx(
 // 返回回写后的数量；0 行受影响 → 负库存或行不存在。
 func (r *StockQuantRepo) ApplyDelta(
 	ctx context.Context,
-	id uint32,
+	id int64,
 	delta int64,
 ) (int64, error) {
 	tid, hasTenant := maybeTenantFromViewer(ctx)
@@ -313,7 +313,7 @@ func (r *StockQuantRepo) ApplyDelta(
 func (r *StockQuantRepo) ApplyDeltaTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	id uint32,
+	id int64,
 	delta int64,
 ) (int64, error) {
 	tid, hasTenant := maybeTenantFromViewer(ctx)
@@ -352,7 +352,7 @@ func (r *StockQuantRepo) ApplyDeltaTx(
 func (r *StockQuantRepo) GetCostPriceTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	quantID uint32,
+	quantID int64,
 ) (int64, error) {
 	tid, hasTenant := maybeTenantFromViewer(ctx)
 	q := tx.StockQuant.Query().
@@ -381,7 +381,7 @@ func (r *StockQuantRepo) GetCostPriceTx(
 func (r *StockQuantRepo) ApplyInboundWithCostTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	quantID uint32,
+	quantID int64,
 	qtyDelta int64,
 	unitCost int64,
 ) error {
@@ -494,7 +494,7 @@ func derefInt64(p *int64) int64 {
 	return *p
 }
 
-func (r *StockQuantRepo) SetFrozen(ctx context.Context, id uint32, frozen bool) error {
+func (r *StockQuantRepo) SetFrozen(ctx context.Context, id int64, frozen bool) error {
 	q := r.entClient.Client().StockQuant.Update().
 		Where(stockquant.IDEQ(id))
 	if frozen {
@@ -515,7 +515,7 @@ func (r *StockQuantRepo) SetFrozen(ctx context.Context, id uint32, frozen bool) 
 
 // agingRow 库龄聚合查询行。
 type agingRow struct {
-	LocationID    uint32     `json:"location_id"`
+	LocationID    int64     `json:"location_id"`
 	WarehouseCode *string    `json:"warehouse_code"`
 	SkuCode       *string    `json:"sku_code"`
 	Quantity      int64      `json:"quantity"`
@@ -545,7 +545,7 @@ func (r *StockQuantRepo) ListAging(ctx context.Context, warehouseCode string) ([
 	}
 
 	// 2) 位置（INTERNAL）映射 warehouse_code
-	locIDs := make([]uint32, 0, len(quants))
+	locIDs := make([]int64, 0, len(quants))
 	for _, qt := range quants {
 		if qt.LocationID != nil {
 			locIDs = append(locIDs, *qt.LocationID)
@@ -558,7 +558,7 @@ func (r *StockQuantRepo) ListAging(ctx context.Context, warehouseCode string) ([
 		r.log.Errorf("query aging locations failed: %s", err.Error())
 		return nil, inventoryV1.ErrorInternalServerError("query aging failed")
 	}
-	whByLoc := make(map[uint32]string, len(locs))
+	whByLoc := make(map[int64]string, len(locs))
 	for _, l := range locs {
 		if l.WarehouseCode != nil {
 			whByLoc[l.ID] = *l.WarehouseCode

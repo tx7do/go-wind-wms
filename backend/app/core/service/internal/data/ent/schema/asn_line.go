@@ -34,7 +34,7 @@ func (AsnLine) Annotations() []schema.Annotation {
 // Fields of the AsnLine.
 func (AsnLine) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint32("asn_id").
+		field.Int64("asn_id").
 			Comment("所属到货通知单ID").
 			Default(0).
 			Optional().
@@ -90,11 +90,11 @@ func (AsnLine) Fields() []ent.Field {
 // Mixin of the AsnLine.
 func (AsnLine) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.AutoIncrementId{},
+		mixin.AutoIncrementId64{},
 		mixin.TimeAt{}, appmixin.SoftDeleteQuery{},
-		mixin.OperatorID{},
+		mixin.OperatorID64{},
 		mixin.Remark{},
-		mixin.TenantID[uint32]{},
+		mixin.TenantID[int64]{},
 	}
 }
 

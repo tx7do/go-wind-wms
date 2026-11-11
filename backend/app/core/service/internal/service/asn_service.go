@@ -67,7 +67,7 @@ func (s *AsnService) Count(ctx context.Context, req *paginationV1.PagingRequest)
 	if err != nil {
 		return nil, err
 	}
-	return &asnV1.CountAsnResponse{Count: uint64(count)}, nil
+	return &asnV1.CountAsnResponse{Count: int64(count)}, nil
 }
 
 func (s *AsnService) Get(ctx context.Context, req *asnV1.GetAsnRequest) (*asnV1.Asn, error) {
@@ -156,7 +156,7 @@ func (s *AsnService) Delete(ctx context.Context, req *asnV1.DeleteAsnRequest) (*
 }
 
 // transition 通用状态流转（状态机校验 + 条件更新）。
-func (s *AsnService) transition(ctx context.Context, id uint32, action string) (*emptypb.Empty, error) {
+func (s *AsnService) transition(ctx context.Context, id int64, action string) (*emptypb.Empty, error) {
 	to := asnActionTarget(action)
 
 	old, err := s.asnRepo.Get(ctx, &asnV1.GetAsnRequest{QueryBy: &asnV1.GetAsnRequest_Id{Id: id}})
@@ -237,7 +237,7 @@ func (s *AsnService) Receive(ctx context.Context, req *asnV1.ReceiveAsnRequest) 
 	}
 
 	// 防超收预检（并发下由 ApplyReceivedQtyTx 的行级条件更新兜底）。
-	reqQty := make(map[uint32]int64, len(req.GetLines()))
+	reqQty := make(map[int64]int64, len(req.GetLines()))
 	for _, l := range req.GetLines() {
 		reqQty[l.GetAsnLineId()] += l.GetQuantity()
 	}
@@ -340,7 +340,7 @@ func (s *AsnService) Putaway(ctx context.Context, req *asnV1.PutawayAsnRequest) 
 	}
 
 	// 防超上架预检（质检闸门 + 余量；并发由 ApplyPutawayQtyTx 兜底）。
-	reqQty := make(map[uint32]int64, len(req.GetLines()))
+	reqQty := make(map[int64]int64, len(req.GetLines()))
 	for _, l := range req.GetLines() {
 		reqQty[l.GetAsnLineId()] += l.GetQuantity()
 	}
@@ -375,7 +375,7 @@ func (s *AsnService) Putaway(ctx context.Context, req *asnV1.PutawayAsnRequest) 
 	}
 	defer func() { s.asnRepo.FinishTx(tx, err) }()
 
-	var firstID uint32
+	var firstID int64
 	for target, moves := range byTarget {
 		picking, perr := s.stockPickingRepo.Create(ctx, &inventoryV1.CreateStockPickingRequest{
 			Data: &inventoryV1.StockPicking{
@@ -431,7 +431,7 @@ func (s *AsnService) confirmPickingMovesTx(ctx context.Context, tx *ent.Tx, pick
 // 每个组合一条 move（批次信息随 move 走，Validate 落批次表）；
 // 未带批次的行归入 (sku, "", nil) 组（未跟踪库存）。
 func aggregateMoves(lines []*ent.AsnLine, reqLines []*asnV1.ReceiveAsnLine) []*inventoryV1.StockMove {
-	lineByID := make(map[uint32]*ent.AsnLine, len(lines))
+	lineByID := make(map[int64]*ent.AsnLine, len(lines))
 	for _, l := range lines {
 		lineByID[l.ID] = l
 	}
@@ -482,19 +482,19 @@ func aggregateMoves(lines []*ent.AsnLine, reqLines []*asnV1.ReceiveAsnLine) []*i
 
 // aggregatePutawayMoves 按目标库位分组聚合上架 moves：
 // 组 = 目标库位，组内同 SKU 的上架数量合并为一条 move。
-func aggregatePutawayMoves(lines []*ent.AsnLine, reqLines []*asnV1.PutawayAsnLine) map[uint32][]*inventoryV1.StockMove {
-	lineByID := make(map[uint32]*ent.AsnLine, len(lines))
+func aggregatePutawayMoves(lines []*ent.AsnLine, reqLines []*asnV1.PutawayAsnLine) map[int64][]*inventoryV1.StockMove {
+	lineByID := make(map[int64]*ent.AsnLine, len(lines))
 	for _, l := range lines {
 		lineByID[l.ID] = l
 	}
 
 	// (target, sku) → qty
 	type groupKey struct {
-		target uint32
+		target int64
 		sku    string
 	}
 	qtys := make(map[groupKey]int64)
-	var skuOrderPerTarget = make(map[uint32][]string)
+	var skuOrderPerTarget = make(map[int64][]string)
 
 	for _, rl := range reqLines {
 		line, ok := lineByID[rl.GetAsnLineId()]
@@ -510,7 +510,7 @@ func aggregatePutawayMoves(lines []*ent.AsnLine, reqLines []*asnV1.PutawayAsnLin
 		qtys[k] += rl.GetQuantity()
 	}
 
-	result := make(map[uint32][]*inventoryV1.StockMove, len(skuOrderPerTarget))
+	result := make(map[int64][]*inventoryV1.StockMove, len(skuOrderPerTarget))
 	for target, skus := range skuOrderPerTarget {
 		moves := make([]*inventoryV1.StockMove, 0, len(skus))
 		for _, sku := range skus {

@@ -123,7 +123,7 @@ service StockLotService {
 
 // 仓库
 message Warehouse {
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -157,7 +157,7 @@ message Warehouse {
 
   // receiving_location_id：该仓库的内部接收位置（仓库创建时自动生成的
   // INTERNAL StockLocation）。入库拣货单的目的位置即取自此字段。
-  optional uint32 receiving_location_id = 5 [
+  optional int64 receiving_location_id = 5 [
     json_name = "receivingLocationId",
     (gnostic.openapi.v3.property) = {description: "接收位置ID（系统生成）"}
   ]; // 接收位置ID
@@ -174,14 +174,14 @@ message Warehouse {
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ];  // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
-  optional uint32 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional int64 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
 
   optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
@@ -198,7 +198,7 @@ message StockLocation {
     INVENTORY_LOSS = 3; // 盘点虚拟位置（src for盘盈, dst for盘亏）
   }
 
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -235,14 +235,14 @@ message StockLocation {
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ];  // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
-  optional uint32 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional int64 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
 
   optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
@@ -251,7 +251,7 @@ message StockLocation {
 
 // 库存量（借鉴 Odoo stock.quant，只读——quantity 仅由拣货校验变更）
 message StockQuant {
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -259,7 +259,7 @@ message StockQuant {
     }
   ]; // 库存量ID
 
-  optional uint32 location_id = 2 [
+  optional int64 location_id = 2 [
     json_name = "locationId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -302,14 +302,14 @@ message StockQuant {
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ];  // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
-  optional uint32 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional int64 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
 
   optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
@@ -334,7 +334,7 @@ message StockPicking {
     CANCELLED = 3;  // 全部 CANCELLED
   }
 
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -364,7 +364,7 @@ message StockPicking {
     (gnostic.openapi.v3.property) = {description: "派生态（从子 moves 聚合，不存储）"}
   ]; // 派生态
 
-  optional uint32 asn_id = 14 [
+  optional int64 asn_id = 14 [
     json_name = "asnId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -372,7 +372,7 @@ message StockPicking {
         }
   ]; // 关联到货通知单ID
 
-  optional uint32 wave_id = 15 [
+  optional int64 wave_id = 15 [
     json_name = "waveId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -389,12 +389,12 @@ message StockPicking {
   ]; // 交易方编码
 
   // source/dest location：由服务层按 picking_type + 仓库推导落库（客户端不提供）。
-  optional uint32 source_location_id = 9 [
+  optional int64 source_location_id = 9 [
     json_name = "sourceLocationId",
     (gnostic.openapi.v3.property) = {description: "源位置ID（服务端推导）"}
   ]; // 源位置ID（服务端推导，不存储客户端传值）
 
-  optional uint32 destination_location_id = 10 [
+  optional int64 destination_location_id = 10 [
     json_name = "destinationLocationId",
     (gnostic.openapi.v3.property) = {description: "目的位置ID（服务端推导）"}
   ]; // 目的位置ID（服务端推导，不存储客户端传值）
@@ -428,14 +428,14 @@ message StockPicking {
         }
   ]; // 调拨目的仓库编码
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ];  // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
-  optional uint32 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional int64 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
 
   optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
@@ -452,7 +452,7 @@ message StockMove {
     CANCELLED = 3;  // 已取消
   }
 
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -460,7 +460,7 @@ message StockMove {
     }
   ]; // 移动ID
 
-  optional uint32 picking_id = 2 [
+  optional int64 picking_id = 2 [
     json_name = "pickingId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -476,7 +476,7 @@ message StockMove {
         }
   ]; // 产品编码
 
-  optional uint32 source_location_id = 4 [
+  optional int64 source_location_id = 4 [
     json_name = "sourceLocationId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -484,7 +484,7 @@ message StockMove {
         }
   ]; // 源位置ID
 
-  optional uint32 destination_location_id = 5 [
+  optional int64 destination_location_id = 5 [
     json_name = "destinationLocationId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -513,14 +513,14 @@ message StockMove {
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ];  // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
-  optional uint32 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional int64 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
 
   optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
@@ -548,13 +548,13 @@ message StockMove {
 // 查询仓库列表 - 回应
 message ListWarehouseResponse {
   repeated Warehouse items = 1;
-  uint64 total = 2;
+  int64 total = 2;
 }
 
 // 查询仓库详情 - 请求
 message GetWarehouseRequest {
   oneof query_by {
-    uint32 id = 1 [
+    int64 id = 1 [
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
@@ -575,7 +575,7 @@ message CreateWarehouseRequest {
 
 // 更新仓库 - 请求
 message UpdateWarehouseRequest {
-  uint32 id = 1;
+  int64 id = 1;
 
   Warehouse data = 2;
 
@@ -596,7 +596,7 @@ message UpdateWarehouseRequest {
 // 删除仓库 - 请求
 message DeleteWarehouseRequest {
   oneof query_by {
-    uint32 id = 1 [
+    int64 id = 1 [
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
@@ -604,19 +604,19 @@ message DeleteWarehouseRequest {
 }
 
 message CountWarehouseResponse {
-  uint64 count = 1;
+  int64 count = 1;
 }
 
 // =========== Location ==========
 
 message ListLocationResponse {
   repeated StockLocation items = 1;
-  uint64 total = 2;
+  int64 total = 2;
 }
 
 message GetLocationRequest {
   oneof query_by {
-    uint32 id = 1 [
+    int64 id = 1 [
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
@@ -635,7 +635,7 @@ message CreateLocationRequest {
 }
 
 message UpdateLocationRequest {
-  uint32 id = 1;
+  int64 id = 1;
 
   StockLocation data = 2;
 
@@ -655,7 +655,7 @@ message UpdateLocationRequest {
 
 message DeleteLocationRequest {
   oneof query_by {
-    uint32 id = 1 [
+    int64 id = 1 [
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
@@ -663,19 +663,19 @@ message DeleteLocationRequest {
 }
 
 message CountLocationResponse {
-  uint64 count = 1;
+  int64 count = 1;
 }
 
 // =========== StockQuant ==========
 
 message ListStockQuantResponse {
   repeated StockQuant items = 1;
-  uint64 total = 2;
+  int64 total = 2;
 }
 
 message GetStockQuantRequest {
   oneof query_by {
-    uint32 id = 1 [
+    int64 id = 1 [
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
@@ -690,17 +690,17 @@ message GetStockQuantRequest {
 }
 
 message CountStockQuantResponse {
-  uint64 count = 1;
+  int64 count = 1;
 }
 
 // 库存经营总览 - 请求
 // 冻结/解冻 - 请求
 message FreezeQuantRequest {
-  uint32 id = 1 [json_name = "id"]; // 库存量行ID
+  int64 id = 1 [json_name = "id"]; // 库存量行ID
 }
 
 message UnfreezeQuantRequest {
-  uint32 id = 1 [json_name = "id"]; // 库存量行ID
+  int64 id = 1 [json_name = "id"]; // 库存量行ID
 }
 
 // 库龄请求（可按仓库编码过滤）
@@ -795,7 +795,7 @@ message MovementTrendResponse {
 
 message ListStockPickingResponse {
   repeated StockPicking items = 1;
-  uint64 total = 2;
+  int64 total = 2;
 }
 
 message GetStockPickingByNumberRequest {
@@ -804,7 +804,7 @@ message GetStockPickingByNumberRequest {
 
 message GetStockPickingRequest {
   oneof query_by {
-    uint32 id = 1 [
+    int64 id = 1 [
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
@@ -823,7 +823,7 @@ message CreateStockPickingRequest {
 }
 message DeleteStockPickingRequest {
   oneof query_by {
-    uint32 id = 1 [
+    int64 id = 1 [
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
@@ -831,18 +831,18 @@ message DeleteStockPickingRequest {
 }
 
 message CountStockPickingResponse {
-  uint64 count = 1;
+  int64 count = 1;
 }
 
 message ConfirmStockPickingRequest {
-  uint32 id = 1 [
+  int64 id = 1 [
     (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
     json_name = "id"
   ]; // ID
 }
 
 message ValidateStockPickingRequest {
-  uint32 id = 1 [
+  int64 id = 1 [
     (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
     json_name = "id"
   ]; // ID
@@ -855,7 +855,7 @@ message ValidateStockPickingRequest {
 }
 
 message CancelStockPickingRequest {
-  uint32 id = 1 [
+  int64 id = 1 [
     (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
     json_name = "id"
   ]; // ID
@@ -873,7 +873,7 @@ enum LotStatus {
 // 批次（借鉴 Odoo stock.production.lot 的登记角色。记录式方案：批次表只
 // 登记批号与效期，剩余数量由 move lines 聚合推导，不动 quant 引擎）
 message StockLot {
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -926,19 +926,19 @@ message StockLot {
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ];  // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
 
   optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
 }
 
 message ListStockLotResponse {
   repeated StockLot items = 1;
-  uint64 total = 2;
+  int64 total = 2;
 }
 
 // 批次指派（Validate 入参）：product_code 匹配 picking 中的 move

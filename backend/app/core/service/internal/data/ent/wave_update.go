@@ -70,14 +70,14 @@ func (_u *WaveUpdate) ClearDeletedAt() *WaveUpdate {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_u *WaveUpdate) SetCreatedBy(v uint32) *WaveUpdate {
+func (_u *WaveUpdate) SetCreatedBy(v int64) *WaveUpdate {
 	_u.mutation.ResetCreatedBy()
 	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_u *WaveUpdate) SetNillableCreatedBy(v *uint32) *WaveUpdate {
+func (_u *WaveUpdate) SetNillableCreatedBy(v *int64) *WaveUpdate {
 	if v != nil {
 		_u.SetCreatedBy(*v)
 	}
@@ -85,7 +85,7 @@ func (_u *WaveUpdate) SetNillableCreatedBy(v *uint32) *WaveUpdate {
 }
 
 // AddCreatedBy adds value to the "created_by" field.
-func (_u *WaveUpdate) AddCreatedBy(v int32) *WaveUpdate {
+func (_u *WaveUpdate) AddCreatedBy(v int64) *WaveUpdate {
 	_u.mutation.AddCreatedBy(v)
 	return _u
 }
@@ -97,14 +97,14 @@ func (_u *WaveUpdate) ClearCreatedBy() *WaveUpdate {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_u *WaveUpdate) SetUpdatedBy(v uint32) *WaveUpdate {
+func (_u *WaveUpdate) SetUpdatedBy(v int64) *WaveUpdate {
 	_u.mutation.ResetUpdatedBy()
 	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_u *WaveUpdate) SetNillableUpdatedBy(v *uint32) *WaveUpdate {
+func (_u *WaveUpdate) SetNillableUpdatedBy(v *int64) *WaveUpdate {
 	if v != nil {
 		_u.SetUpdatedBy(*v)
 	}
@@ -112,7 +112,7 @@ func (_u *WaveUpdate) SetNillableUpdatedBy(v *uint32) *WaveUpdate {
 }
 
 // AddUpdatedBy adds value to the "updated_by" field.
-func (_u *WaveUpdate) AddUpdatedBy(v int32) *WaveUpdate {
+func (_u *WaveUpdate) AddUpdatedBy(v int64) *WaveUpdate {
 	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
@@ -124,14 +124,14 @@ func (_u *WaveUpdate) ClearUpdatedBy() *WaveUpdate {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_u *WaveUpdate) SetDeletedBy(v uint32) *WaveUpdate {
+func (_u *WaveUpdate) SetDeletedBy(v int64) *WaveUpdate {
 	_u.mutation.ResetDeletedBy()
 	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_u *WaveUpdate) SetNillableDeletedBy(v *uint32) *WaveUpdate {
+func (_u *WaveUpdate) SetNillableDeletedBy(v *int64) *WaveUpdate {
 	if v != nil {
 		_u.SetDeletedBy(*v)
 	}
@@ -139,7 +139,7 @@ func (_u *WaveUpdate) SetNillableDeletedBy(v *uint32) *WaveUpdate {
 }
 
 // AddDeletedBy adds value to the "deleted_by" field.
-func (_u *WaveUpdate) AddDeletedBy(v int32) *WaveUpdate {
+func (_u *WaveUpdate) AddDeletedBy(v int64) *WaveUpdate {
 	_u.mutation.AddDeletedBy(v)
 	return _u
 }
@@ -262,7 +262,7 @@ func (_u *WaveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(wave.Table, wave.Columns, sqlgraph.NewFieldSpec(wave.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(wave.Table, wave.Columns, sqlgraph.NewFieldSpec(wave.FieldID, field.TypeInt64))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -286,31 +286,31 @@ func (_u *WaveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		_spec.ClearField(wave.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.CreatedBy(); ok {
-		_spec.SetField(wave.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedCreatedBy(); ok {
-		_spec.AddField(wave.FieldCreatedBy, field.TypeUint32, value)
+		_spec.AddField(wave.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.CreatedByCleared() {
-		_spec.ClearField(wave.FieldCreatedBy, field.TypeUint32)
+		_spec.ClearField(wave.FieldCreatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.UpdatedBy(); ok {
-		_spec.SetField(wave.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
-		_spec.AddField(wave.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.AddField(wave.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.UpdatedByCleared() {
-		_spec.ClearField(wave.FieldUpdatedBy, field.TypeUint32)
+		_spec.ClearField(wave.FieldUpdatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DeletedBy(); ok {
-		_spec.SetField(wave.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDeletedBy(); ok {
-		_spec.AddField(wave.FieldDeletedBy, field.TypeUint32, value)
+		_spec.AddField(wave.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.DeletedByCleared() {
-		_spec.ClearField(wave.FieldDeletedBy, field.TypeUint32)
+		_spec.ClearField(wave.FieldDeletedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(wave.FieldRemark, field.TypeString, value)
@@ -319,7 +319,7 @@ func (_u *WaveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		_spec.ClearField(wave.FieldRemark, field.TypeString)
 	}
 	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(wave.FieldTenantID, field.TypeUint32)
+		_spec.ClearField(wave.FieldTenantID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.WaveNumber(); ok {
 		_spec.SetField(wave.FieldWaveNumber, field.TypeString, value)
@@ -396,14 +396,14 @@ func (_u *WaveUpdateOne) ClearDeletedAt() *WaveUpdateOne {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_u *WaveUpdateOne) SetCreatedBy(v uint32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) SetCreatedBy(v int64) *WaveUpdateOne {
 	_u.mutation.ResetCreatedBy()
 	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_u *WaveUpdateOne) SetNillableCreatedBy(v *uint32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) SetNillableCreatedBy(v *int64) *WaveUpdateOne {
 	if v != nil {
 		_u.SetCreatedBy(*v)
 	}
@@ -411,7 +411,7 @@ func (_u *WaveUpdateOne) SetNillableCreatedBy(v *uint32) *WaveUpdateOne {
 }
 
 // AddCreatedBy adds value to the "created_by" field.
-func (_u *WaveUpdateOne) AddCreatedBy(v int32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) AddCreatedBy(v int64) *WaveUpdateOne {
 	_u.mutation.AddCreatedBy(v)
 	return _u
 }
@@ -423,14 +423,14 @@ func (_u *WaveUpdateOne) ClearCreatedBy() *WaveUpdateOne {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_u *WaveUpdateOne) SetUpdatedBy(v uint32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) SetUpdatedBy(v int64) *WaveUpdateOne {
 	_u.mutation.ResetUpdatedBy()
 	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_u *WaveUpdateOne) SetNillableUpdatedBy(v *uint32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) SetNillableUpdatedBy(v *int64) *WaveUpdateOne {
 	if v != nil {
 		_u.SetUpdatedBy(*v)
 	}
@@ -438,7 +438,7 @@ func (_u *WaveUpdateOne) SetNillableUpdatedBy(v *uint32) *WaveUpdateOne {
 }
 
 // AddUpdatedBy adds value to the "updated_by" field.
-func (_u *WaveUpdateOne) AddUpdatedBy(v int32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) AddUpdatedBy(v int64) *WaveUpdateOne {
 	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
@@ -450,14 +450,14 @@ func (_u *WaveUpdateOne) ClearUpdatedBy() *WaveUpdateOne {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_u *WaveUpdateOne) SetDeletedBy(v uint32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) SetDeletedBy(v int64) *WaveUpdateOne {
 	_u.mutation.ResetDeletedBy()
 	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_u *WaveUpdateOne) SetNillableDeletedBy(v *uint32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) SetNillableDeletedBy(v *int64) *WaveUpdateOne {
 	if v != nil {
 		_u.SetDeletedBy(*v)
 	}
@@ -465,7 +465,7 @@ func (_u *WaveUpdateOne) SetNillableDeletedBy(v *uint32) *WaveUpdateOne {
 }
 
 // AddDeletedBy adds value to the "deleted_by" field.
-func (_u *WaveUpdateOne) AddDeletedBy(v int32) *WaveUpdateOne {
+func (_u *WaveUpdateOne) AddDeletedBy(v int64) *WaveUpdateOne {
 	_u.mutation.AddDeletedBy(v)
 	return _u
 }
@@ -601,7 +601,7 @@ func (_u *WaveUpdateOne) sqlSave(ctx context.Context) (_node *Wave, err error) {
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(wave.Table, wave.Columns, sqlgraph.NewFieldSpec(wave.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(wave.Table, wave.Columns, sqlgraph.NewFieldSpec(wave.FieldID, field.TypeInt64))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Wave.id" for update`)}
@@ -642,31 +642,31 @@ func (_u *WaveUpdateOne) sqlSave(ctx context.Context) (_node *Wave, err error) {
 		_spec.ClearField(wave.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.CreatedBy(); ok {
-		_spec.SetField(wave.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedCreatedBy(); ok {
-		_spec.AddField(wave.FieldCreatedBy, field.TypeUint32, value)
+		_spec.AddField(wave.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.CreatedByCleared() {
-		_spec.ClearField(wave.FieldCreatedBy, field.TypeUint32)
+		_spec.ClearField(wave.FieldCreatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.UpdatedBy(); ok {
-		_spec.SetField(wave.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
-		_spec.AddField(wave.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.AddField(wave.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.UpdatedByCleared() {
-		_spec.ClearField(wave.FieldUpdatedBy, field.TypeUint32)
+		_spec.ClearField(wave.FieldUpdatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DeletedBy(); ok {
-		_spec.SetField(wave.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDeletedBy(); ok {
-		_spec.AddField(wave.FieldDeletedBy, field.TypeUint32, value)
+		_spec.AddField(wave.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.DeletedByCleared() {
-		_spec.ClearField(wave.FieldDeletedBy, field.TypeUint32)
+		_spec.ClearField(wave.FieldDeletedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(wave.FieldRemark, field.TypeString, value)
@@ -675,7 +675,7 @@ func (_u *WaveUpdateOne) sqlSave(ctx context.Context) (_node *Wave, err error) {
 		_spec.ClearField(wave.FieldRemark, field.TypeString)
 	}
 	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(wave.FieldTenantID, field.TypeUint32)
+		_spec.ClearField(wave.FieldTenantID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.WaveNumber(); ok {
 		_spec.SetField(wave.FieldWaveNumber, field.TypeString, value)

@@ -65,13 +65,13 @@ func (_c *WaveCreate) SetNillableDeletedAt(v *time.Time) *WaveCreate {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_c *WaveCreate) SetCreatedBy(v uint32) *WaveCreate {
+func (_c *WaveCreate) SetCreatedBy(v int64) *WaveCreate {
 	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_c *WaveCreate) SetNillableCreatedBy(v *uint32) *WaveCreate {
+func (_c *WaveCreate) SetNillableCreatedBy(v *int64) *WaveCreate {
 	if v != nil {
 		_c.SetCreatedBy(*v)
 	}
@@ -79,13 +79,13 @@ func (_c *WaveCreate) SetNillableCreatedBy(v *uint32) *WaveCreate {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_c *WaveCreate) SetUpdatedBy(v uint32) *WaveCreate {
+func (_c *WaveCreate) SetUpdatedBy(v int64) *WaveCreate {
 	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_c *WaveCreate) SetNillableUpdatedBy(v *uint32) *WaveCreate {
+func (_c *WaveCreate) SetNillableUpdatedBy(v *int64) *WaveCreate {
 	if v != nil {
 		_c.SetUpdatedBy(*v)
 	}
@@ -93,13 +93,13 @@ func (_c *WaveCreate) SetNillableUpdatedBy(v *uint32) *WaveCreate {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_c *WaveCreate) SetDeletedBy(v uint32) *WaveCreate {
+func (_c *WaveCreate) SetDeletedBy(v int64) *WaveCreate {
 	_c.mutation.SetDeletedBy(v)
 	return _c
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_c *WaveCreate) SetNillableDeletedBy(v *uint32) *WaveCreate {
+func (_c *WaveCreate) SetNillableDeletedBy(v *int64) *WaveCreate {
 	if v != nil {
 		_c.SetDeletedBy(*v)
 	}
@@ -121,13 +121,13 @@ func (_c *WaveCreate) SetNillableRemark(v *string) *WaveCreate {
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (_c *WaveCreate) SetTenantID(v uint32) *WaveCreate {
+func (_c *WaveCreate) SetTenantID(v int64) *WaveCreate {
 	_c.mutation.SetTenantID(v)
 	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (_c *WaveCreate) SetNillableTenantID(v *uint32) *WaveCreate {
+func (_c *WaveCreate) SetNillableTenantID(v *int64) *WaveCreate {
 	if v != nil {
 		_c.SetTenantID(*v)
 	}
@@ -163,7 +163,7 @@ func (_c *WaveCreate) SetNillableStatus(v *wave.Status) *WaveCreate {
 }
 
 // SetID sets the "id" field.
-func (_c *WaveCreate) SetID(v uint32) *WaveCreate {
+func (_c *WaveCreate) SetID(v int64) *WaveCreate {
 	_c.mutation.SetID(v)
 	return _c
 }
@@ -244,7 +244,7 @@ func (_c *WaveCreate) sqlSave(ctx context.Context) (*Wave, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = uint32(id)
+		_node.ID = int64(id)
 	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
@@ -254,7 +254,7 @@ func (_c *WaveCreate) sqlSave(ctx context.Context) (*Wave, error) {
 func (_c *WaveCreate) createSpec() (*Wave, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Wave{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(wave.Table, sqlgraph.NewFieldSpec(wave.FieldID, field.TypeUint32))
+		_spec = sqlgraph.NewCreateSpec(wave.Table, sqlgraph.NewFieldSpec(wave.FieldID, field.TypeInt64))
 	)
 	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
@@ -274,15 +274,15 @@ func (_c *WaveCreate) createSpec() (*Wave, *sqlgraph.CreateSpec) {
 		_node.DeletedAt = &value
 	}
 	if value, ok := _c.mutation.CreatedBy(); ok {
-		_spec.SetField(wave.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldCreatedBy, field.TypeInt64, value)
 		_node.CreatedBy = &value
 	}
 	if value, ok := _c.mutation.UpdatedBy(); ok {
-		_spec.SetField(wave.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldUpdatedBy, field.TypeInt64, value)
 		_node.UpdatedBy = &value
 	}
 	if value, ok := _c.mutation.DeletedBy(); ok {
-		_spec.SetField(wave.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(wave.FieldDeletedBy, field.TypeInt64, value)
 		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.Remark(); ok {
@@ -290,7 +290,7 @@ func (_c *WaveCreate) createSpec() (*Wave, *sqlgraph.CreateSpec) {
 		_node.Remark = &value
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
-		_spec.SetField(wave.FieldTenantID, field.TypeUint32, value)
+		_spec.SetField(wave.FieldTenantID, field.TypeInt64, value)
 		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.WaveNumber(); ok {
@@ -390,7 +390,7 @@ func (u *WaveUpsert) ClearDeletedAt() *WaveUpsert {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (u *WaveUpsert) SetCreatedBy(v uint32) *WaveUpsert {
+func (u *WaveUpsert) SetCreatedBy(v int64) *WaveUpsert {
 	u.Set(wave.FieldCreatedBy, v)
 	return u
 }
@@ -402,7 +402,7 @@ func (u *WaveUpsert) UpdateCreatedBy() *WaveUpsert {
 }
 
 // AddCreatedBy adds v to the "created_by" field.
-func (u *WaveUpsert) AddCreatedBy(v uint32) *WaveUpsert {
+func (u *WaveUpsert) AddCreatedBy(v int64) *WaveUpsert {
 	u.Add(wave.FieldCreatedBy, v)
 	return u
 }
@@ -414,7 +414,7 @@ func (u *WaveUpsert) ClearCreatedBy() *WaveUpsert {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (u *WaveUpsert) SetUpdatedBy(v uint32) *WaveUpsert {
+func (u *WaveUpsert) SetUpdatedBy(v int64) *WaveUpsert {
 	u.Set(wave.FieldUpdatedBy, v)
 	return u
 }
@@ -426,7 +426,7 @@ func (u *WaveUpsert) UpdateUpdatedBy() *WaveUpsert {
 }
 
 // AddUpdatedBy adds v to the "updated_by" field.
-func (u *WaveUpsert) AddUpdatedBy(v uint32) *WaveUpsert {
+func (u *WaveUpsert) AddUpdatedBy(v int64) *WaveUpsert {
 	u.Add(wave.FieldUpdatedBy, v)
 	return u
 }
@@ -438,7 +438,7 @@ func (u *WaveUpsert) ClearUpdatedBy() *WaveUpsert {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (u *WaveUpsert) SetDeletedBy(v uint32) *WaveUpsert {
+func (u *WaveUpsert) SetDeletedBy(v int64) *WaveUpsert {
 	u.Set(wave.FieldDeletedBy, v)
 	return u
 }
@@ -450,7 +450,7 @@ func (u *WaveUpsert) UpdateDeletedBy() *WaveUpsert {
 }
 
 // AddDeletedBy adds v to the "deleted_by" field.
-func (u *WaveUpsert) AddDeletedBy(v uint32) *WaveUpsert {
+func (u *WaveUpsert) AddDeletedBy(v int64) *WaveUpsert {
 	u.Add(wave.FieldDeletedBy, v)
 	return u
 }
@@ -612,14 +612,14 @@ func (u *WaveUpsertOne) ClearDeletedAt() *WaveUpsertOne {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (u *WaveUpsertOne) SetCreatedBy(v uint32) *WaveUpsertOne {
+func (u *WaveUpsertOne) SetCreatedBy(v int64) *WaveUpsertOne {
 	return u.Update(func(s *WaveUpsert) {
 		s.SetCreatedBy(v)
 	})
 }
 
 // AddCreatedBy adds v to the "created_by" field.
-func (u *WaveUpsertOne) AddCreatedBy(v uint32) *WaveUpsertOne {
+func (u *WaveUpsertOne) AddCreatedBy(v int64) *WaveUpsertOne {
 	return u.Update(func(s *WaveUpsert) {
 		s.AddCreatedBy(v)
 	})
@@ -640,14 +640,14 @@ func (u *WaveUpsertOne) ClearCreatedBy() *WaveUpsertOne {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (u *WaveUpsertOne) SetUpdatedBy(v uint32) *WaveUpsertOne {
+func (u *WaveUpsertOne) SetUpdatedBy(v int64) *WaveUpsertOne {
 	return u.Update(func(s *WaveUpsert) {
 		s.SetUpdatedBy(v)
 	})
 }
 
 // AddUpdatedBy adds v to the "updated_by" field.
-func (u *WaveUpsertOne) AddUpdatedBy(v uint32) *WaveUpsertOne {
+func (u *WaveUpsertOne) AddUpdatedBy(v int64) *WaveUpsertOne {
 	return u.Update(func(s *WaveUpsert) {
 		s.AddUpdatedBy(v)
 	})
@@ -668,14 +668,14 @@ func (u *WaveUpsertOne) ClearUpdatedBy() *WaveUpsertOne {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (u *WaveUpsertOne) SetDeletedBy(v uint32) *WaveUpsertOne {
+func (u *WaveUpsertOne) SetDeletedBy(v int64) *WaveUpsertOne {
 	return u.Update(func(s *WaveUpsert) {
 		s.SetDeletedBy(v)
 	})
 }
 
 // AddDeletedBy adds v to the "deleted_by" field.
-func (u *WaveUpsertOne) AddDeletedBy(v uint32) *WaveUpsertOne {
+func (u *WaveUpsertOne) AddDeletedBy(v int64) *WaveUpsertOne {
 	return u.Update(func(s *WaveUpsert) {
 		s.AddDeletedBy(v)
 	})
@@ -774,7 +774,7 @@ func (u *WaveUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *WaveUpsertOne) ID(ctx context.Context) (id uint32, err error) {
+func (u *WaveUpsertOne) ID(ctx context.Context) (id int64, err error) {
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -783,7 +783,7 @@ func (u *WaveUpsertOne) ID(ctx context.Context) (id uint32, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *WaveUpsertOne) IDX(ctx context.Context) uint32 {
+func (u *WaveUpsertOne) IDX(ctx context.Context) int64 {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -840,7 +840,7 @@ func (_c *WaveCreateBulk) Save(ctx context.Context) ([]*Wave, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint32(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil
@@ -1021,14 +1021,14 @@ func (u *WaveUpsertBulk) ClearDeletedAt() *WaveUpsertBulk {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (u *WaveUpsertBulk) SetCreatedBy(v uint32) *WaveUpsertBulk {
+func (u *WaveUpsertBulk) SetCreatedBy(v int64) *WaveUpsertBulk {
 	return u.Update(func(s *WaveUpsert) {
 		s.SetCreatedBy(v)
 	})
 }
 
 // AddCreatedBy adds v to the "created_by" field.
-func (u *WaveUpsertBulk) AddCreatedBy(v uint32) *WaveUpsertBulk {
+func (u *WaveUpsertBulk) AddCreatedBy(v int64) *WaveUpsertBulk {
 	return u.Update(func(s *WaveUpsert) {
 		s.AddCreatedBy(v)
 	})
@@ -1049,14 +1049,14 @@ func (u *WaveUpsertBulk) ClearCreatedBy() *WaveUpsertBulk {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (u *WaveUpsertBulk) SetUpdatedBy(v uint32) *WaveUpsertBulk {
+func (u *WaveUpsertBulk) SetUpdatedBy(v int64) *WaveUpsertBulk {
 	return u.Update(func(s *WaveUpsert) {
 		s.SetUpdatedBy(v)
 	})
 }
 
 // AddUpdatedBy adds v to the "updated_by" field.
-func (u *WaveUpsertBulk) AddUpdatedBy(v uint32) *WaveUpsertBulk {
+func (u *WaveUpsertBulk) AddUpdatedBy(v int64) *WaveUpsertBulk {
 	return u.Update(func(s *WaveUpsert) {
 		s.AddUpdatedBy(v)
 	})
@@ -1077,14 +1077,14 @@ func (u *WaveUpsertBulk) ClearUpdatedBy() *WaveUpsertBulk {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (u *WaveUpsertBulk) SetDeletedBy(v uint32) *WaveUpsertBulk {
+func (u *WaveUpsertBulk) SetDeletedBy(v int64) *WaveUpsertBulk {
 	return u.Update(func(s *WaveUpsert) {
 		s.SetDeletedBy(v)
 	})
 }
 
 // AddDeletedBy adds v to the "deleted_by" field.
-func (u *WaveUpsertBulk) AddDeletedBy(v uint32) *WaveUpsertBulk {
+func (u *WaveUpsertBulk) AddDeletedBy(v int64) *WaveUpsertBulk {
 	return u.Update(func(s *WaveUpsert) {
 		s.AddDeletedBy(v)
 	})

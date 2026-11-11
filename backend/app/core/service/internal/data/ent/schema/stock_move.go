@@ -35,7 +35,7 @@ func (StockMove) Annotations() []schema.Annotation {
 func (StockMove) Fields() []ent.Field {
 	return []ent.Field{
 		// picking_id：父拣货单。
-		field.Uint32("picking_id").
+		field.Int64("picking_id").
 			Comment("所属拣货单ID").
 			Default(0).
 			Optional().
@@ -47,13 +47,13 @@ func (StockMove) Fields() []ent.Field {
 			Nillable(),
 
 		// source/dest location：移动方向（Odoo location_id/location_dest_id）。
-		field.Uint32("source_location_id").
+		field.Int64("source_location_id").
 			Comment("源位置ID").
 			Default(0).
 			Optional().
 			Nillable(),
 
-		field.Uint32("destination_location_id").
+		field.Int64("destination_location_id").
 			Comment("目的位置ID").
 			Default(0).
 			Optional().
@@ -95,11 +95,11 @@ func (StockMove) Fields() []ent.Field {
 
 func (StockMove) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.AutoIncrementId{},
+		mixin.AutoIncrementId64{},
 		mixin.TimeAt{}, appmixin.SoftDeleteQuery{},
-		mixin.OperatorID{},
+		mixin.OperatorID64{},
 		mixin.Remark{},
-		mixin.TenantID[uint32]{},
+		mixin.TenantID[int64]{},
 	}
 }
 

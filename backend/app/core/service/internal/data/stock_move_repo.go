@@ -44,8 +44,8 @@ func NewStockMoveRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.
 // _create_stock_moves / _prepare_stock_move_vals 的 location 来源）。
 func (r *StockMoveRepo) CreateMovesForPicking(
 	ctx context.Context,
-	pickingID uint32,
-	sourceLocationID, destinationLocationID uint32,
+	pickingID int64,
+	sourceLocationID, destinationLocationID int64,
 	moves []*inventoryV1.StockMove,
 ) error {
 	if pickingID == 0 || len(moves) == 0 {
@@ -87,7 +87,7 @@ func (r *StockMoveRepo) CreateMovesForPicking(
 // 执行）。仅在事务外调用（Validate 用 GetConfirmedMovesByPickingTx）。
 func (r *StockMoveRepo) GetMovesByPicking(
 	ctx context.Context,
-	pickingID uint32,
+	pickingID int64,
 ) []*inventoryV1.StockMove {
 	rows, err := r.entClient.Client().StockMove.Query().
 		Where(stockmove.PickingIDEQ(pickingID)).
@@ -104,7 +104,7 @@ func (r *StockMoveRepo) GetMovesByPicking(
 func (r *StockMoveRepo) GetConfirmedMovesByPickingTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	pickingID uint32,
+	pickingID int64,
 ) ([]*inventoryV1.StockMove, error) {
 	rows, err := tx.StockMove.Query().
 		Where(stockmove.PickingIDEQ(pickingID), stockmove.StateEQ(stockmove.StateConfirmed)).
@@ -121,7 +121,7 @@ func (r *StockMoveRepo) GetConfirmedMovesByPickingTx(
 func (r *StockMoveRepo) TransitionMoveStateTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	id uint32,
+	id int64,
 	from, to inventoryV1.StockMove_State,
 ) error {
 	fromEntity := *r.stateConverter.ToEntity(trans.Ptr(from))
@@ -149,7 +149,7 @@ func (r *StockMoveRepo) TransitionMoveStateTx(
 func (r *StockMoveRepo) CancelDraftMovesTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	pickingID uint32,
+	pickingID int64,
 ) error {
 	builder := tx.StockMove.Update().
 		Where(stockmove.PickingIDEQ(pickingID), stockmove.StateEQ(stockmove.StateDraft)).
@@ -167,7 +167,7 @@ func (r *StockMoveRepo) CancelDraftMovesTx(
 func (r *StockMoveRepo) CancelConfirmedMovesTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	pickingID uint32,
+	pickingID int64,
 ) error {
 	builder := tx.StockMove.Update().
 		Where(stockmove.PickingIDEQ(pickingID), stockmove.StateEQ(stockmove.StateConfirmed)).
@@ -183,7 +183,7 @@ func (r *StockMoveRepo) CancelConfirmedMovesTx(
 
 // DeleteMovesByPicking 删除拣货单的全部子移动（供 StockPickingRepo.Delete
 // 删除拣货单时级联清理）。
-func (r *StockMoveRepo) DeleteMovesByPicking(ctx context.Context, pickingID uint32) error {
+func (r *StockMoveRepo) DeleteMovesByPicking(ctx context.Context, pickingID int64) error {
 	_, err := r.entClient.Client().StockMove.Delete().
 		Where(stockmove.PickingIDEQ(pickingID)).
 		Exec(ctx)

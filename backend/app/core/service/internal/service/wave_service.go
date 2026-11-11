@@ -60,7 +60,7 @@ func (s *WaveService) Count(ctx context.Context, req *paginationV1.PagingRequest
 	if err != nil {
 		return nil, err
 	}
-	return &waveV1.CountWaveResponse{Count: uint64(count)}, nil
+	return &waveV1.CountWaveResponse{Count: int64(count)}, nil
 }
 
 // Get 波次详情：聚合成员拣货单摘要（单号/客户/派生态/失败原因）与
@@ -92,8 +92,8 @@ func (s *WaveService) Create(ctx context.Context, req *waveV1.CreateWaveRequest)
 	}
 
 	// 去重（幂等防呆）。
-	seen := make(map[uint32]struct{}, len(req.GetPickingIds()))
-	ids := make([]uint32, 0, len(req.GetPickingIds()))
+	seen := make(map[int64]struct{}, len(req.GetPickingIds()))
+	ids := make([]int64, 0, len(req.GetPickingIds()))
 	for _, id := range req.GetPickingIds() {
 		if id == 0 {
 			continue
@@ -233,7 +233,7 @@ func (s *WaveService) Cancel(ctx context.Context, req *waveV1.CancelWaveRequest)
 }
 
 // countConfirmedPickings 统计波次内仍为 CONFIRMED 的成员数。
-func (s *WaveService) countConfirmedPickings(ctx context.Context, waveID uint32) (int, error) {
+func (s *WaveService) countConfirmedPickings(ctx context.Context, waveID int64) (int, error) {
 	pickings, err := s.waveRepoGetPickings(ctx, waveID)
 	if err != nil {
 		return 0, err
@@ -247,13 +247,13 @@ func (s *WaveService) countConfirmedPickings(ctx context.Context, waveID uint32)
 	return n, nil
 }
 
-func (s *WaveService) waveRepoGetPickings(ctx context.Context, waveID uint32) ([]*ent.StockPicking, error) {
+func (s *WaveService) waveRepoGetPickings(ctx context.Context, waveID int64) ([]*ent.StockPicking, error) {
 	_, pickings, err := s.waveRepo.GetWithPickingsTx(ctx, nil, waveID)
 	return pickings, err
 }
 
 // derivePickingState 从子 moves 聚合派生态（与 StockPickingRepo.Get 同口径）。
-func derivePickingState(repo *data.StockPickingRepo, ctx context.Context, id uint32) inventoryV1.StockPicking_DerivedState {
+func derivePickingState(repo *data.StockPickingRepo, ctx context.Context, id int64) inventoryV1.StockPicking_DerivedState {
 	dto, err := repo.Get(ctx, &inventoryV1.GetStockPickingRequest{
 		QueryBy: &inventoryV1.GetStockPickingRequest_Id{Id: id},
 	})

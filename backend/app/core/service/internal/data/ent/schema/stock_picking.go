@@ -55,27 +55,27 @@ func (StockPicking) Fields() []ent.Field {
 			Nillable(),
 
 		// source/dest location：由服务层按 type 推导落库。
-		field.Uint32("source_location_id").
+		field.Int64("source_location_id").
 			Comment("源位置ID").
 			Default(0).
 			Optional().
 			Nillable(),
 
-		field.Uint32("destination_location_id").
+		field.Int64("destination_location_id").
 			Comment("目的位置ID").
 			Default(0).
 			Optional().
 			Nillable(),
 
 		// asn_id：入库/上架拣货单关联的到货通知单（ASN→收货/上架 桥接）。
-		field.Uint32("asn_id").
+		field.Int64("asn_id").
 			Comment("关联到货通知单ID").
 			Default(0).
 			Optional().
 			Nillable(),
 
 		// wave_id：拣货单所属波次（M2b 出库合并执行编排）。
-		field.Uint32("wave_id").
+		field.Int64("wave_id").
 			Comment("所属波次ID（OUTGOING；0=未入波次）").
 			Default(0).
 			Optional().
@@ -90,11 +90,11 @@ func (StockPicking) Fields() []ent.Field {
 
 func (StockPicking) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.AutoIncrementId{},
+		mixin.AutoIncrementId64{},
 		mixin.TimeAt{}, appmixin.SoftDeleteQuery{},
-		mixin.OperatorID{},
+		mixin.OperatorID64{},
 		mixin.Remark{},
-		mixin.TenantID[uint32]{},
+		mixin.TenantID[int64]{},
 	}
 }
 

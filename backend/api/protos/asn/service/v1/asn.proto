@@ -77,7 +77,7 @@ enum AsnQcStatus {
 
 // 到货通知单
 message Asn {
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "到货通知单ID"}
   ]; // 到货通知单ID
@@ -117,25 +117,25 @@ message Asn {
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ]; // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
   optional google.protobuf.Timestamp created_at = 102 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}]; // 创建时间
   optional google.protobuf.Timestamp updated_at = 103 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}]; // 更新时间
 }
 
 // 到货明细
 message AsnLine {
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "明细ID"}
   ]; // 明细ID
 
-  optional uint32 asn_id = 2 [
+  optional int64 asn_id = 2 [
     json_name = "asnId",
     (gnostic.openapi.v3.property) = {description: "所属到货通知单ID"}
   ]; // 所属到货通知单ID
@@ -183,7 +183,7 @@ message AsnLine {
 
 message GetAsnRequest {
   oneof query_by {
-    uint32 id = 1 [json_name = "id"];
+    int64 id = 1 [json_name = "id"];
   }
 }
 
@@ -196,7 +196,7 @@ message CreateAsnRequest {
 }
 
 message UpdateAsnRequest {
-  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+  int64 id = 1 [json_name = "id"]; // 到货通知单ID
 
   Asn data = 2 [json_name = "data"]; // 到货通知单（lines 整体替换，仅草稿可改）
 
@@ -207,41 +207,41 @@ message UpdateAsnRequest {
 }
 
 message DeleteAsnRequest {
-  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+  int64 id = 1 [json_name = "id"]; // 到货通知单ID
 }
 
 message ListAsnResponse {
-  uint64 total = 1 [json_name = "total"]; // 总数
+  int64 total = 1 [json_name = "total"]; // 总数
 
   repeated Asn items = 2 [json_name = "items"]; // 到货通知单列表
 }
 
 message CountAsnResponse {
-  uint64 count = 1 [json_name = "count"]; // 数量
+  int64 count = 1 [json_name = "count"]; // 数量
 }
 
 message AnnounceAsnRequest {
-  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+  int64 id = 1 [json_name = "id"]; // 到货通知单ID
 }
 
 message CancelAsnRequest {
-  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+  int64 id = 1 [json_name = "id"]; // 到货通知单ID
 }
 
 message CloseAsnRequest {
-  uint32 id = 1 [json_name = "id"]; // 到货通知单ID
+  int64 id = 1 [json_name = "id"]; // 到货通知单ID
 }
 
 // 收货请求：按明细收货（数量为本次增量）
 message ReceiveAsnRequest {
-  uint32 asn_id = 1 [json_name = "asnId"]; // 到货通知单ID
+  int64 asn_id = 1 [json_name = "asnId"]; // 到货通知单ID
 
   repeated ReceiveAsnLine lines = 2 [json_name = "lines"]; // 本次收货明细
 }
 
 // 收货明细（本次增量）
 message ReceiveAsnLine {
-  uint32 asn_line_id = 1 [json_name = "asnLineId"]; // 到货明细ID
+  int64 asn_line_id = 1 [json_name = "asnLineId"]; // 到货明细ID
 
   int64 quantity = 2 [json_name = "quantity"]; // 本次收货数量（正整数）
 
@@ -262,25 +262,25 @@ message ReceiveAsnLine {
 }
 
 message ReceiveAsnResponse {
-  uint32 picking_id = 1 [json_name = "pickingId"]; // 生成的入库拣货单ID
+  int64 picking_id = 1 [json_name = "pickingId"]; // 生成的入库拣货单ID
 }
 
 // 上架请求：质检通过的在库数量 → 目标库位
 message PutawayAsnRequest {
-  uint32 asn_id = 1 [json_name = "asnId"]; // 到货通知单ID
+  int64 asn_id = 1 [json_name = "asnId"]; // 到货通知单ID
 
   repeated PutawayAsnLine lines = 2 [json_name = "lines"]; // 本次上架明细
 }
 
 // 上架明细
 message PutawayAsnLine {
-  uint32 asn_line_id = 1 [json_name = "asnLineId"]; // 到货明细ID
+  int64 asn_line_id = 1 [json_name = "asnLineId"]; // 到货明细ID
 
   int64 quantity = 2 [json_name = "quantity"]; // 本次上架数量（正整数）
 
-  uint32 target_location_id = 3 [json_name = "targetLocationId"]; // 目标库位ID（INTERNAL）
+  int64 target_location_id = 3 [json_name = "targetLocationId"]; // 目标库位ID（INTERNAL）
 }
 
 message PutawayAsnResponse {
-  uint32 picking_id = 1 [json_name = "pickingId"]; // 生成的上架拣货单ID
+  int64 picking_id = 1 [json_name = "pickingId"]; // 生成的上架拣货单ID
 }

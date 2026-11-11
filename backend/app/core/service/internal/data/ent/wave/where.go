@@ -10,47 +10,47 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id uint32) predicate.Wave {
+func ID(id int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id uint32) predicate.Wave {
+func IDEQ(id int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id uint32) predicate.Wave {
+func IDNEQ(id int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...uint32) predicate.Wave {
+func IDIn(ids ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...uint32) predicate.Wave {
+func IDNotIn(ids ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id uint32) predicate.Wave {
+func IDGT(id int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id uint32) predicate.Wave {
+func IDGTE(id int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id uint32) predicate.Wave {
+func IDLT(id int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id uint32) predicate.Wave {
+func IDLTE(id int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLTE(FieldID, id))
 }
 
@@ -70,17 +70,17 @@ func DeletedAt(v time.Time) predicate.Wave {
 }
 
 // CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
-func CreatedBy(v uint32) predicate.Wave {
+func CreatedBy(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldCreatedBy, v))
 }
 
 // UpdatedBy applies equality check predicate on the "updated_by" field. It's identical to UpdatedByEQ.
-func UpdatedBy(v uint32) predicate.Wave {
+func UpdatedBy(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldUpdatedBy, v))
 }
 
 // DeletedBy applies equality check predicate on the "deleted_by" field. It's identical to DeletedByEQ.
-func DeletedBy(v uint32) predicate.Wave {
+func DeletedBy(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldDeletedBy, v))
 }
 
@@ -90,7 +90,7 @@ func Remark(v string) predicate.Wave {
 }
 
 // TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
-func TenantID(v uint32) predicate.Wave {
+func TenantID(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldTenantID, v))
 }
 
@@ -250,42 +250,42 @@ func DeletedAtNotNil() predicate.Wave {
 }
 
 // CreatedByEQ applies the EQ predicate on the "created_by" field.
-func CreatedByEQ(v uint32) predicate.Wave {
+func CreatedByEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldCreatedBy, v))
 }
 
 // CreatedByNEQ applies the NEQ predicate on the "created_by" field.
-func CreatedByNEQ(v uint32) predicate.Wave {
+func CreatedByNEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNEQ(FieldCreatedBy, v))
 }
 
 // CreatedByIn applies the In predicate on the "created_by" field.
-func CreatedByIn(vs ...uint32) predicate.Wave {
+func CreatedByIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldIn(FieldCreatedBy, vs...))
 }
 
 // CreatedByNotIn applies the NotIn predicate on the "created_by" field.
-func CreatedByNotIn(vs ...uint32) predicate.Wave {
+func CreatedByNotIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNotIn(FieldCreatedBy, vs...))
 }
 
 // CreatedByGT applies the GT predicate on the "created_by" field.
-func CreatedByGT(v uint32) predicate.Wave {
+func CreatedByGT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGT(FieldCreatedBy, v))
 }
 
 // CreatedByGTE applies the GTE predicate on the "created_by" field.
-func CreatedByGTE(v uint32) predicate.Wave {
+func CreatedByGTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGTE(FieldCreatedBy, v))
 }
 
 // CreatedByLT applies the LT predicate on the "created_by" field.
-func CreatedByLT(v uint32) predicate.Wave {
+func CreatedByLT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLT(FieldCreatedBy, v))
 }
 
 // CreatedByLTE applies the LTE predicate on the "created_by" field.
-func CreatedByLTE(v uint32) predicate.Wave {
+func CreatedByLTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLTE(FieldCreatedBy, v))
 }
 
@@ -300,42 +300,42 @@ func CreatedByNotNil() predicate.Wave {
 }
 
 // UpdatedByEQ applies the EQ predicate on the "updated_by" field.
-func UpdatedByEQ(v uint32) predicate.Wave {
+func UpdatedByEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldUpdatedBy, v))
 }
 
 // UpdatedByNEQ applies the NEQ predicate on the "updated_by" field.
-func UpdatedByNEQ(v uint32) predicate.Wave {
+func UpdatedByNEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNEQ(FieldUpdatedBy, v))
 }
 
 // UpdatedByIn applies the In predicate on the "updated_by" field.
-func UpdatedByIn(vs ...uint32) predicate.Wave {
+func UpdatedByIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldIn(FieldUpdatedBy, vs...))
 }
 
 // UpdatedByNotIn applies the NotIn predicate on the "updated_by" field.
-func UpdatedByNotIn(vs ...uint32) predicate.Wave {
+func UpdatedByNotIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNotIn(FieldUpdatedBy, vs...))
 }
 
 // UpdatedByGT applies the GT predicate on the "updated_by" field.
-func UpdatedByGT(v uint32) predicate.Wave {
+func UpdatedByGT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGT(FieldUpdatedBy, v))
 }
 
 // UpdatedByGTE applies the GTE predicate on the "updated_by" field.
-func UpdatedByGTE(v uint32) predicate.Wave {
+func UpdatedByGTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGTE(FieldUpdatedBy, v))
 }
 
 // UpdatedByLT applies the LT predicate on the "updated_by" field.
-func UpdatedByLT(v uint32) predicate.Wave {
+func UpdatedByLT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLT(FieldUpdatedBy, v))
 }
 
 // UpdatedByLTE applies the LTE predicate on the "updated_by" field.
-func UpdatedByLTE(v uint32) predicate.Wave {
+func UpdatedByLTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLTE(FieldUpdatedBy, v))
 }
 
@@ -350,42 +350,42 @@ func UpdatedByNotNil() predicate.Wave {
 }
 
 // DeletedByEQ applies the EQ predicate on the "deleted_by" field.
-func DeletedByEQ(v uint32) predicate.Wave {
+func DeletedByEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldDeletedBy, v))
 }
 
 // DeletedByNEQ applies the NEQ predicate on the "deleted_by" field.
-func DeletedByNEQ(v uint32) predicate.Wave {
+func DeletedByNEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNEQ(FieldDeletedBy, v))
 }
 
 // DeletedByIn applies the In predicate on the "deleted_by" field.
-func DeletedByIn(vs ...uint32) predicate.Wave {
+func DeletedByIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldIn(FieldDeletedBy, vs...))
 }
 
 // DeletedByNotIn applies the NotIn predicate on the "deleted_by" field.
-func DeletedByNotIn(vs ...uint32) predicate.Wave {
+func DeletedByNotIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNotIn(FieldDeletedBy, vs...))
 }
 
 // DeletedByGT applies the GT predicate on the "deleted_by" field.
-func DeletedByGT(v uint32) predicate.Wave {
+func DeletedByGT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGT(FieldDeletedBy, v))
 }
 
 // DeletedByGTE applies the GTE predicate on the "deleted_by" field.
-func DeletedByGTE(v uint32) predicate.Wave {
+func DeletedByGTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGTE(FieldDeletedBy, v))
 }
 
 // DeletedByLT applies the LT predicate on the "deleted_by" field.
-func DeletedByLT(v uint32) predicate.Wave {
+func DeletedByLT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLT(FieldDeletedBy, v))
 }
 
 // DeletedByLTE applies the LTE predicate on the "deleted_by" field.
-func DeletedByLTE(v uint32) predicate.Wave {
+func DeletedByLTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLTE(FieldDeletedBy, v))
 }
 
@@ -475,42 +475,42 @@ func RemarkContainsFold(v string) predicate.Wave {
 }
 
 // TenantIDEQ applies the EQ predicate on the "tenant_id" field.
-func TenantIDEQ(v uint32) predicate.Wave {
+func TenantIDEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldEQ(FieldTenantID, v))
 }
 
 // TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
-func TenantIDNEQ(v uint32) predicate.Wave {
+func TenantIDNEQ(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNEQ(FieldTenantID, v))
 }
 
 // TenantIDIn applies the In predicate on the "tenant_id" field.
-func TenantIDIn(vs ...uint32) predicate.Wave {
+func TenantIDIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldIn(FieldTenantID, vs...))
 }
 
 // TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
-func TenantIDNotIn(vs ...uint32) predicate.Wave {
+func TenantIDNotIn(vs ...int64) predicate.Wave {
 	return predicate.Wave(sql.FieldNotIn(FieldTenantID, vs...))
 }
 
 // TenantIDGT applies the GT predicate on the "tenant_id" field.
-func TenantIDGT(v uint32) predicate.Wave {
+func TenantIDGT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGT(FieldTenantID, v))
 }
 
 // TenantIDGTE applies the GTE predicate on the "tenant_id" field.
-func TenantIDGTE(v uint32) predicate.Wave {
+func TenantIDGTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldGTE(FieldTenantID, v))
 }
 
 // TenantIDLT applies the LT predicate on the "tenant_id" field.
-func TenantIDLT(v uint32) predicate.Wave {
+func TenantIDLT(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLT(FieldTenantID, v))
 }
 
 // TenantIDLTE applies the LTE predicate on the "tenant_id" field.
-func TenantIDLTE(v uint32) predicate.Wave {
+func TenantIDLTE(v int64) predicate.Wave {
 	return predicate.Wave(sql.FieldLTE(FieldTenantID, v))
 }
 

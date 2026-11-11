@@ -56,30 +56,30 @@ func TestValidateReceiveQuantities(t *testing.T) {
 	}
 
 	// 正常：行 1 全收 + 行 2 收余量
-	if got := validateReceiveQuantities(lines, map[uint32]int64{1: 100, 2: 10}); len(got) != 0 {
+	if got := validateReceiveQuantities(lines, map[int64]int64{1: 100, 2: 10}); len(got) != 0 {
 		t.Fatalf("valid receive flagged lines %v", got)
 	}
 
 	// 防超收：行 1 收 101 > 100
-	got := validateReceiveQuantities(lines, map[uint32]int64{1: 101})
+	got := validateReceiveQuantities(lines, map[int64]int64{1: 101})
 	if len(got) != 1 || got[0] != 1 {
 		t.Fatalf("over-receipt on line 1: got %v, want [1]", got)
 	}
 
 	// 防超收：行 2 已收 40 再收 11（40+11>50）
-	got = validateReceiveQuantities(lines, map[uint32]int64{2: 11})
+	got = validateReceiveQuantities(lines, map[int64]int64{2: 11})
 	if len(got) != 1 || got[0] != 2 {
 		t.Fatalf("cumulative over-receipt on line 2: got %v, want [2]", got)
 	}
 
 	// 已收满的行再收（幂等重复提交防护）
-	got = validateReceiveQuantities(lines, map[uint32]int64{3: 1})
+	got = validateReceiveQuantities(lines, map[int64]int64{3: 1})
 	if len(got) != 1 || got[0] != 3 {
 		t.Fatalf("re-receive on full line 3: got %v, want [3]", got)
 	}
 
 	// 负数数量
-	got = validateReceiveQuantities(lines, map[uint32]int64{1: -5})
+	got = validateReceiveQuantities(lines, map[int64]int64{1: -5})
 	if len(got) != 1 || got[0] != 1 {
 		t.Fatalf("negative qty on line 1: got %v, want [1]", got)
 	}
@@ -94,30 +94,30 @@ func TestValidatePutawayQuantities(t *testing.T) {
 	}
 
 	// 正常：行 1 上架 80（≤ 已收）
-	if got := validatePutawayQuantities(lines, map[uint32]int64{1: 80}); len(got) != 0 {
+	if got := validatePutawayQuantities(lines, map[int64]int64{1: 80}); len(got) != 0 {
 		t.Fatalf("valid putaway flagged lines %v", got)
 	}
 
 	// 余量口径：行 2 已上架 10 再上 21（10+21>30 已收）
-	got := validatePutawayQuantities(lines, map[uint32]int64{2: 21})
+	got := validatePutawayQuantities(lines, map[int64]int64{2: 21})
 	if len(got) != 1 || got[0] != 2 {
 		t.Fatalf("putaway exceeds received on line 2: got %v, want [2]", got)
 	}
 
 	// 质检闸门：QC_FAIL 不可上架
-	got = validatePutawayQuantities(lines, map[uint32]int64{3: 1})
+	got = validatePutawayQuantities(lines, map[int64]int64{3: 1})
 	if len(got) != 1 || got[0] != 3 {
 		t.Fatalf("qc-fail line 3 putaway: got %v, want [3]", got)
 	}
 
 	// 质检闸门：QC_PENDING 不可上架
-	got = validatePutawayQuantities(lines, map[uint32]int64{4: 1})
+	got = validatePutawayQuantities(lines, map[int64]int64{4: 1})
 	if len(got) != 1 || got[0] != 4 {
 		t.Fatalf("qc-pending line 4 putaway: got %v, want [4]", got)
 	}
 
 	// 超上架：行 1 上架 81 > 已收 80
-	got = validatePutawayQuantities(lines, map[uint32]int64{1: 81})
+	got = validatePutawayQuantities(lines, map[int64]int64{1: 81})
 	if len(got) != 1 || got[0] != 1 {
 		t.Fatalf("over-putaway on line 1: got %v, want [1]", got)
 	}

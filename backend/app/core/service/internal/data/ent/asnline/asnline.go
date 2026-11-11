@@ -91,9 +91,9 @@ var (
 	Interceptors [1]ent.Interceptor
 	Policy       ent.Policy
 	// DefaultTenantID holds the default value on creation for the "tenant_id" field.
-	DefaultTenantID uint32
+	DefaultTenantID int64
 	// DefaultAsnID holds the default value on creation for the "asn_id" field.
-	DefaultAsnID uint32
+	DefaultAsnID int64
 	// DefaultExpectedQty holds the default value on creation for the "expected_qty" field.
 	DefaultExpectedQty int64
 	// DefaultReceivedQty holds the default value on creation for the "received_qty" field.
@@ -101,7 +101,7 @@ var (
 	// DefaultPutawayQty holds the default value on creation for the "putaway_qty" field.
 	DefaultPutawayQty int64
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
-	IDValidator func(uint32) error
+	IDValidator func(int64) error
 )
 
 // QcStatus defines the type for the "qc_status" enum field.

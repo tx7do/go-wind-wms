@@ -70,14 +70,14 @@ func (_u *AsnLineUpdate) ClearDeletedAt() *AsnLineUpdate {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_u *AsnLineUpdate) SetCreatedBy(v uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetCreatedBy(v int64) *AsnLineUpdate {
 	_u.mutation.ResetCreatedBy()
 	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_u *AsnLineUpdate) SetNillableCreatedBy(v *uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetNillableCreatedBy(v *int64) *AsnLineUpdate {
 	if v != nil {
 		_u.SetCreatedBy(*v)
 	}
@@ -85,7 +85,7 @@ func (_u *AsnLineUpdate) SetNillableCreatedBy(v *uint32) *AsnLineUpdate {
 }
 
 // AddCreatedBy adds value to the "created_by" field.
-func (_u *AsnLineUpdate) AddCreatedBy(v int32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) AddCreatedBy(v int64) *AsnLineUpdate {
 	_u.mutation.AddCreatedBy(v)
 	return _u
 }
@@ -97,14 +97,14 @@ func (_u *AsnLineUpdate) ClearCreatedBy() *AsnLineUpdate {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_u *AsnLineUpdate) SetUpdatedBy(v uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetUpdatedBy(v int64) *AsnLineUpdate {
 	_u.mutation.ResetUpdatedBy()
 	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_u *AsnLineUpdate) SetNillableUpdatedBy(v *uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetNillableUpdatedBy(v *int64) *AsnLineUpdate {
 	if v != nil {
 		_u.SetUpdatedBy(*v)
 	}
@@ -112,7 +112,7 @@ func (_u *AsnLineUpdate) SetNillableUpdatedBy(v *uint32) *AsnLineUpdate {
 }
 
 // AddUpdatedBy adds value to the "updated_by" field.
-func (_u *AsnLineUpdate) AddUpdatedBy(v int32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) AddUpdatedBy(v int64) *AsnLineUpdate {
 	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
@@ -124,14 +124,14 @@ func (_u *AsnLineUpdate) ClearUpdatedBy() *AsnLineUpdate {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_u *AsnLineUpdate) SetDeletedBy(v uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetDeletedBy(v int64) *AsnLineUpdate {
 	_u.mutation.ResetDeletedBy()
 	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_u *AsnLineUpdate) SetNillableDeletedBy(v *uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetNillableDeletedBy(v *int64) *AsnLineUpdate {
 	if v != nil {
 		_u.SetDeletedBy(*v)
 	}
@@ -139,7 +139,7 @@ func (_u *AsnLineUpdate) SetNillableDeletedBy(v *uint32) *AsnLineUpdate {
 }
 
 // AddDeletedBy adds value to the "deleted_by" field.
-func (_u *AsnLineUpdate) AddDeletedBy(v int32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) AddDeletedBy(v int64) *AsnLineUpdate {
 	_u.mutation.AddDeletedBy(v)
 	return _u
 }
@@ -171,14 +171,14 @@ func (_u *AsnLineUpdate) ClearRemark() *AsnLineUpdate {
 }
 
 // SetAsnID sets the "asn_id" field.
-func (_u *AsnLineUpdate) SetAsnID(v uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetAsnID(v int64) *AsnLineUpdate {
 	_u.mutation.ResetAsnID()
 	_u.mutation.SetAsnID(v)
 	return _u
 }
 
 // SetNillableAsnID sets the "asn_id" field if the given value is not nil.
-func (_u *AsnLineUpdate) SetNillableAsnID(v *uint32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) SetNillableAsnID(v *int64) *AsnLineUpdate {
 	if v != nil {
 		_u.SetAsnID(*v)
 	}
@@ -186,7 +186,7 @@ func (_u *AsnLineUpdate) SetNillableAsnID(v *uint32) *AsnLineUpdate {
 }
 
 // AddAsnID adds value to the "asn_id" field.
-func (_u *AsnLineUpdate) AddAsnID(v int32) *AsnLineUpdate {
+func (_u *AsnLineUpdate) AddAsnID(v int64) *AsnLineUpdate {
 	_u.mutation.AddAsnID(v)
 	return _u
 }
@@ -410,7 +410,7 @@ func (_u *AsnLineUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(asnline.Table, asnline.Columns, sqlgraph.NewFieldSpec(asnline.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(asnline.Table, asnline.Columns, sqlgraph.NewFieldSpec(asnline.FieldID, field.TypeInt64))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -434,31 +434,31 @@ func (_u *AsnLineUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		_spec.ClearField(asnline.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.CreatedBy(); ok {
-		_spec.SetField(asnline.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedCreatedBy(); ok {
-		_spec.AddField(asnline.FieldCreatedBy, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.CreatedByCleared() {
-		_spec.ClearField(asnline.FieldCreatedBy, field.TypeUint32)
+		_spec.ClearField(asnline.FieldCreatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.UpdatedBy(); ok {
-		_spec.SetField(asnline.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
-		_spec.AddField(asnline.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.UpdatedByCleared() {
-		_spec.ClearField(asnline.FieldUpdatedBy, field.TypeUint32)
+		_spec.ClearField(asnline.FieldUpdatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DeletedBy(); ok {
-		_spec.SetField(asnline.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDeletedBy(); ok {
-		_spec.AddField(asnline.FieldDeletedBy, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.DeletedByCleared() {
-		_spec.ClearField(asnline.FieldDeletedBy, field.TypeUint32)
+		_spec.ClearField(asnline.FieldDeletedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(asnline.FieldRemark, field.TypeString, value)
@@ -467,16 +467,16 @@ func (_u *AsnLineUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		_spec.ClearField(asnline.FieldRemark, field.TypeString)
 	}
 	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(asnline.FieldTenantID, field.TypeUint32)
+		_spec.ClearField(asnline.FieldTenantID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.AsnID(); ok {
-		_spec.SetField(asnline.FieldAsnID, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldAsnID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedAsnID(); ok {
-		_spec.AddField(asnline.FieldAsnID, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldAsnID, field.TypeInt64, value)
 	}
 	if _u.mutation.AsnIDCleared() {
-		_spec.ClearField(asnline.FieldAsnID, field.TypeUint32)
+		_spec.ClearField(asnline.FieldAsnID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.SkuCode(); ok {
 		_spec.SetField(asnline.FieldSkuCode, field.TypeString, value)
@@ -592,14 +592,14 @@ func (_u *AsnLineUpdateOne) ClearDeletedAt() *AsnLineUpdateOne {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_u *AsnLineUpdateOne) SetCreatedBy(v uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetCreatedBy(v int64) *AsnLineUpdateOne {
 	_u.mutation.ResetCreatedBy()
 	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_u *AsnLineUpdateOne) SetNillableCreatedBy(v *uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetNillableCreatedBy(v *int64) *AsnLineUpdateOne {
 	if v != nil {
 		_u.SetCreatedBy(*v)
 	}
@@ -607,7 +607,7 @@ func (_u *AsnLineUpdateOne) SetNillableCreatedBy(v *uint32) *AsnLineUpdateOne {
 }
 
 // AddCreatedBy adds value to the "created_by" field.
-func (_u *AsnLineUpdateOne) AddCreatedBy(v int32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) AddCreatedBy(v int64) *AsnLineUpdateOne {
 	_u.mutation.AddCreatedBy(v)
 	return _u
 }
@@ -619,14 +619,14 @@ func (_u *AsnLineUpdateOne) ClearCreatedBy() *AsnLineUpdateOne {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_u *AsnLineUpdateOne) SetUpdatedBy(v uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetUpdatedBy(v int64) *AsnLineUpdateOne {
 	_u.mutation.ResetUpdatedBy()
 	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_u *AsnLineUpdateOne) SetNillableUpdatedBy(v *uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetNillableUpdatedBy(v *int64) *AsnLineUpdateOne {
 	if v != nil {
 		_u.SetUpdatedBy(*v)
 	}
@@ -634,7 +634,7 @@ func (_u *AsnLineUpdateOne) SetNillableUpdatedBy(v *uint32) *AsnLineUpdateOne {
 }
 
 // AddUpdatedBy adds value to the "updated_by" field.
-func (_u *AsnLineUpdateOne) AddUpdatedBy(v int32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) AddUpdatedBy(v int64) *AsnLineUpdateOne {
 	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
@@ -646,14 +646,14 @@ func (_u *AsnLineUpdateOne) ClearUpdatedBy() *AsnLineUpdateOne {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_u *AsnLineUpdateOne) SetDeletedBy(v uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetDeletedBy(v int64) *AsnLineUpdateOne {
 	_u.mutation.ResetDeletedBy()
 	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_u *AsnLineUpdateOne) SetNillableDeletedBy(v *uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetNillableDeletedBy(v *int64) *AsnLineUpdateOne {
 	if v != nil {
 		_u.SetDeletedBy(*v)
 	}
@@ -661,7 +661,7 @@ func (_u *AsnLineUpdateOne) SetNillableDeletedBy(v *uint32) *AsnLineUpdateOne {
 }
 
 // AddDeletedBy adds value to the "deleted_by" field.
-func (_u *AsnLineUpdateOne) AddDeletedBy(v int32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) AddDeletedBy(v int64) *AsnLineUpdateOne {
 	_u.mutation.AddDeletedBy(v)
 	return _u
 }
@@ -693,14 +693,14 @@ func (_u *AsnLineUpdateOne) ClearRemark() *AsnLineUpdateOne {
 }
 
 // SetAsnID sets the "asn_id" field.
-func (_u *AsnLineUpdateOne) SetAsnID(v uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetAsnID(v int64) *AsnLineUpdateOne {
 	_u.mutation.ResetAsnID()
 	_u.mutation.SetAsnID(v)
 	return _u
 }
 
 // SetNillableAsnID sets the "asn_id" field if the given value is not nil.
-func (_u *AsnLineUpdateOne) SetNillableAsnID(v *uint32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) SetNillableAsnID(v *int64) *AsnLineUpdateOne {
 	if v != nil {
 		_u.SetAsnID(*v)
 	}
@@ -708,7 +708,7 @@ func (_u *AsnLineUpdateOne) SetNillableAsnID(v *uint32) *AsnLineUpdateOne {
 }
 
 // AddAsnID adds value to the "asn_id" field.
-func (_u *AsnLineUpdateOne) AddAsnID(v int32) *AsnLineUpdateOne {
+func (_u *AsnLineUpdateOne) AddAsnID(v int64) *AsnLineUpdateOne {
 	_u.mutation.AddAsnID(v)
 	return _u
 }
@@ -945,7 +945,7 @@ func (_u *AsnLineUpdateOne) sqlSave(ctx context.Context) (_node *AsnLine, err er
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(asnline.Table, asnline.Columns, sqlgraph.NewFieldSpec(asnline.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(asnline.Table, asnline.Columns, sqlgraph.NewFieldSpec(asnline.FieldID, field.TypeInt64))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "AsnLine.id" for update`)}
@@ -986,31 +986,31 @@ func (_u *AsnLineUpdateOne) sqlSave(ctx context.Context) (_node *AsnLine, err er
 		_spec.ClearField(asnline.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.CreatedBy(); ok {
-		_spec.SetField(asnline.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedCreatedBy(); ok {
-		_spec.AddField(asnline.FieldCreatedBy, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.CreatedByCleared() {
-		_spec.ClearField(asnline.FieldCreatedBy, field.TypeUint32)
+		_spec.ClearField(asnline.FieldCreatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.UpdatedBy(); ok {
-		_spec.SetField(asnline.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
-		_spec.AddField(asnline.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.UpdatedByCleared() {
-		_spec.ClearField(asnline.FieldUpdatedBy, field.TypeUint32)
+		_spec.ClearField(asnline.FieldUpdatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DeletedBy(); ok {
-		_spec.SetField(asnline.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDeletedBy(); ok {
-		_spec.AddField(asnline.FieldDeletedBy, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.DeletedByCleared() {
-		_spec.ClearField(asnline.FieldDeletedBy, field.TypeUint32)
+		_spec.ClearField(asnline.FieldDeletedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(asnline.FieldRemark, field.TypeString, value)
@@ -1019,16 +1019,16 @@ func (_u *AsnLineUpdateOne) sqlSave(ctx context.Context) (_node *AsnLine, err er
 		_spec.ClearField(asnline.FieldRemark, field.TypeString)
 	}
 	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(asnline.FieldTenantID, field.TypeUint32)
+		_spec.ClearField(asnline.FieldTenantID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.AsnID(); ok {
-		_spec.SetField(asnline.FieldAsnID, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldAsnID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedAsnID(); ok {
-		_spec.AddField(asnline.FieldAsnID, field.TypeUint32, value)
+		_spec.AddField(asnline.FieldAsnID, field.TypeInt64, value)
 	}
 	if _u.mutation.AsnIDCleared() {
-		_spec.ClearField(asnline.FieldAsnID, field.TypeUint32)
+		_spec.ClearField(asnline.FieldAsnID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.SkuCode(); ok {
 		_spec.SetField(asnline.FieldSkuCode, field.TypeString, value)

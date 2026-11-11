@@ -101,7 +101,7 @@ func timeToTimestamppb(t time.Time) *timestamppb.Timestamp {
 	return timestamppb.New(t)
 }
 
-func derefUint32(v *uint32) uint32 {
+func derefUint32(v *int64) int64 {
 	if v == nil {
 		return 0
 	}
@@ -204,7 +204,7 @@ func (r *AsnRepo) backfillStatus(ctx context.Context, items []*asnV1.Asn) {
 		return
 	}
 
-	ids := make([]uint32, 0, len(items))
+	ids := make([]int64, 0, len(items))
 	for _, it := range items {
 		ids = append(ids, it.GetId())
 	}
@@ -218,7 +218,7 @@ func (r *AsnRepo) backfillStatus(ctx context.Context, items []*asnV1.Asn) {
 		return
 	}
 
-	byID := make(map[uint32]*ent.Asn, len(rows))
+	byID := make(map[int64]*ent.Asn, len(rows))
 	for _, row := range rows {
 		byID[row.ID] = row
 	}
@@ -242,7 +242,7 @@ func (r *AsnRepo) attachLines(ctx context.Context, items []*asnV1.Asn) error {
 		return nil
 	}
 
-	ids := make([]uint32, 0, len(items))
+	ids := make([]int64, 0, len(items))
 	for _, it := range items {
 		ids = append(ids, it.GetId())
 	}
@@ -256,7 +256,7 @@ func (r *AsnRepo) attachLines(ctx context.Context, items []*asnV1.Asn) error {
 		return asnV1.ErrorInternalServerError("query asn lines failed")
 	}
 
-	byAsn := make(map[uint32][]*asnV1.AsnLine, len(items))
+	byAsn := make(map[int64][]*asnV1.AsnLine, len(items))
 	for _, l := range lines {
 		dto := r.lineToDTO(l)
 		tid := derefUint32(l.AsnID)
@@ -290,7 +290,7 @@ func (r *AsnRepo) lineToDTO(t *ent.AsnLine) *asnV1.AsnLine {
 	return dto
 }
 
-func (r *AsnRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+func (r *AsnRepo) IsExist(ctx context.Context, id int64) (bool, error) {
 	exist, err := r.entClient.Client().Asn.Query().
 		Where(asn.IDEQ(id)).
 		Exist(ctx)
@@ -354,7 +354,7 @@ func (r *AsnRepo) Create(ctx context.Context, req *asnV1.CreateAsnRequest) (_ *a
 }
 
 // createLines 批量创建明细。
-func (r *AsnRepo) createLines(ctx context.Context, tx *ent.Tx, asnID uint32, tenantID uint32, lines []*asnV1.AsnLine, createdBy *uint32) error {
+func (r *AsnRepo) createLines(ctx context.Context, tx *ent.Tx, asnID int64, tenantID int64, lines []*asnV1.AsnLine, createdBy *int64) error {
 	if len(lines) == 0 {
 		return asnV1.ErrorBadRequest("asn lines are required")
 	}
@@ -498,7 +498,7 @@ func (r *AsnRepo) Delete(ctx context.Context, req *asnV1.DeleteAsnRequest) error
 // ═══════════════════════ 收货/上架事务操作 ═══════════════════════
 
 // GetWithLinesTx 事务内取单据 + 明细（收货/上架主流程用）。
-func (r *AsnRepo) GetWithLinesTx(ctx context.Context, tx *ent.Tx, id uint32) (*ent.Asn, []*ent.AsnLine, error) {
+func (r *AsnRepo) GetWithLinesTx(ctx context.Context, tx *ent.Tx, id int64) (*ent.Asn, []*ent.AsnLine, error) {
 	client := r.entClient.Client()
 	if tx != nil {
 		client = tx.Client()
@@ -533,7 +533,7 @@ func (r *AsnRepo) attachLinesTx(ctx context.Context, tx *ent.Tx, items []*asnV1.
 		return nil
 	}
 
-	ids := make([]uint32, 0, len(items))
+	ids := make([]int64, 0, len(items))
 	for _, it := range items {
 		ids = append(ids, it.GetId())
 	}
@@ -547,7 +547,7 @@ func (r *AsnRepo) attachLinesTx(ctx context.Context, tx *ent.Tx, items []*asnV1.
 		return asnV1.ErrorInternalServerError("query asn lines failed")
 	}
 
-	byAsn := make(map[uint32][]*asnV1.AsnLine, len(items))
+	byAsn := make(map[int64][]*asnV1.AsnLine, len(items))
 	for _, l := range lines {
 		tid := derefUint32(l.AsnID)
 		byAsn[tid] = append(byAsn[tid], r.lineToDTO(l))
@@ -561,7 +561,7 @@ func (r *AsnRepo) attachLinesTx(ctx context.Context, tx *ent.Tx, items []*asnV1.
 
 // TransitionStatusTx 状态机流转（服务端条件更新：仅 from 态可迁 to 态，
 // 并发下 0 行命中即冲突）。
-func (r *AsnRepo) TransitionStatusTx(ctx context.Context, tx *ent.Tx, id uint32, from, to asn.Status) error {
+func (r *AsnRepo) TransitionStatusTx(ctx context.Context, tx *ent.Tx, id int64, from, to asn.Status) error {
 	n, err := tx.Asn.Update().
 		Where(
 			asn.IDEQ(id),
@@ -583,7 +583,7 @@ func (r *AsnRepo) TransitionStatusTx(ctx context.Context, tx *ent.Tx, id uint32,
 // ApplyReceivedQtyTx 原子累加收货数：仅当 累计收货 + delta ≤ 预期 时生效
 // （防超收，行级条件更新）。同时回写质检状态、批次与效期（最近一次收货口径）。
 // 0 行命中返回 CONFLICT。
-func (r *AsnRepo) ApplyReceivedQtyTx(ctx context.Context, tx *ent.Tx, lineID uint32, delta int64, qc asnline.QcStatus, lotName *string, expiry *time.Time) error {
+func (r *AsnRepo) ApplyReceivedQtyTx(ctx context.Context, tx *ent.Tx, lineID int64, delta int64, qc asnline.QcStatus, lotName *string, expiry *time.Time) error {
 	guard := func(s *sql.Selector) {
 		// received + delta ≤ expected
 		s.Where(sql.ExprP(
@@ -618,7 +618,7 @@ func (r *AsnRepo) ApplyReceivedQtyTx(ctx context.Context, tx *ent.Tx, lineID uin
 }
 
 // ApplyPutawayQtyTx 原子累加上架数：仅当质检通过且 累计上架 + delta ≤ 已收 时生效。
-func (r *AsnRepo) ApplyPutawayQtyTx(ctx context.Context, tx *ent.Tx, lineID uint32, delta int64) error {
+func (r *AsnRepo) ApplyPutawayQtyTx(ctx context.Context, tx *ent.Tx, lineID int64, delta int64) error {
 	guard := func(s *sql.Selector) {
 		// putaway + delta ≤ received
 		s.Where(sql.ExprP(

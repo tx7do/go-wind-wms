@@ -16,7 +16,7 @@ import (
 
 // approvalViewerUserID 从 viewer context 提取调用者用户 ID（与 data 层
 // viewerUserIDFromContext 同语义；service 层直接读 viewer 包）。
-func approvalViewerUserID(ctx context.Context) (uint32, bool) {
+func approvalViewerUserID(ctx context.Context) (int64, bool) {
 	vc, exist := viewer.FromContext(ctx)
 	if !exist || vc == nil {
 		return 0, false
@@ -25,7 +25,7 @@ func approvalViewerUserID(ctx context.Context) (uint32, bool) {
 	if uid == 0 {
 		return 0, false
 	}
-	return uint32(uid), true
+	return int64(uid), true
 }
 
 // ApprovalRequestService 审批请求服务
@@ -74,7 +74,7 @@ func (s *ApprovalRequestService) Count(ctx context.Context, req *paginationV1.Pa
 	if err != nil {
 		return nil, err
 	}
-	return &approvalV1.CountApprovalRequestResponse{Count: uint64(count)}, nil
+	return &approvalV1.CountApprovalRequestResponse{Count: int64(count)}, nil
 }
 
 func (s *ApprovalRequestService) Get(ctx context.Context, req *approvalV1.GetApprovalRequestRequest) (*approvalV1.ApprovalRequest, error) {
@@ -141,7 +141,7 @@ func (s *ApprovalRequestService) Delete(ctx context.Context, req *approvalV1.Del
 // 再由 repo 做条件更新（仅 from 状态可迁移）保证并发安全。
 func (s *ApprovalRequestService) transition(
 	ctx context.Context,
-	id uint32,
+	id int64,
 	to approvalV1.ApprovalRequest_Status,
 	comment *string,
 ) (*emptypb.Empty, error) {

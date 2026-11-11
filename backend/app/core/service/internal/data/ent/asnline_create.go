@@ -65,13 +65,13 @@ func (_c *AsnLineCreate) SetNillableDeletedAt(v *time.Time) *AsnLineCreate {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_c *AsnLineCreate) SetCreatedBy(v uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetCreatedBy(v int64) *AsnLineCreate {
 	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_c *AsnLineCreate) SetNillableCreatedBy(v *uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetNillableCreatedBy(v *int64) *AsnLineCreate {
 	if v != nil {
 		_c.SetCreatedBy(*v)
 	}
@@ -79,13 +79,13 @@ func (_c *AsnLineCreate) SetNillableCreatedBy(v *uint32) *AsnLineCreate {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_c *AsnLineCreate) SetUpdatedBy(v uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetUpdatedBy(v int64) *AsnLineCreate {
 	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_c *AsnLineCreate) SetNillableUpdatedBy(v *uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetNillableUpdatedBy(v *int64) *AsnLineCreate {
 	if v != nil {
 		_c.SetUpdatedBy(*v)
 	}
@@ -93,13 +93,13 @@ func (_c *AsnLineCreate) SetNillableUpdatedBy(v *uint32) *AsnLineCreate {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_c *AsnLineCreate) SetDeletedBy(v uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetDeletedBy(v int64) *AsnLineCreate {
 	_c.mutation.SetDeletedBy(v)
 	return _c
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_c *AsnLineCreate) SetNillableDeletedBy(v *uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetNillableDeletedBy(v *int64) *AsnLineCreate {
 	if v != nil {
 		_c.SetDeletedBy(*v)
 	}
@@ -121,13 +121,13 @@ func (_c *AsnLineCreate) SetNillableRemark(v *string) *AsnLineCreate {
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (_c *AsnLineCreate) SetTenantID(v uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetTenantID(v int64) *AsnLineCreate {
 	_c.mutation.SetTenantID(v)
 	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (_c *AsnLineCreate) SetNillableTenantID(v *uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetNillableTenantID(v *int64) *AsnLineCreate {
 	if v != nil {
 		_c.SetTenantID(*v)
 	}
@@ -135,13 +135,13 @@ func (_c *AsnLineCreate) SetNillableTenantID(v *uint32) *AsnLineCreate {
 }
 
 // SetAsnID sets the "asn_id" field.
-func (_c *AsnLineCreate) SetAsnID(v uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetAsnID(v int64) *AsnLineCreate {
 	_c.mutation.SetAsnID(v)
 	return _c
 }
 
 // SetNillableAsnID sets the "asn_id" field if the given value is not nil.
-func (_c *AsnLineCreate) SetNillableAsnID(v *uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetNillableAsnID(v *int64) *AsnLineCreate {
 	if v != nil {
 		_c.SetAsnID(*v)
 	}
@@ -247,7 +247,7 @@ func (_c *AsnLineCreate) SetNillableExpiryDate(v *time.Time) *AsnLineCreate {
 }
 
 // SetID sets the "id" field.
-func (_c *AsnLineCreate) SetID(v uint32) *AsnLineCreate {
+func (_c *AsnLineCreate) SetID(v int64) *AsnLineCreate {
 	_c.mutation.SetID(v)
 	return _c
 }
@@ -344,7 +344,7 @@ func (_c *AsnLineCreate) sqlSave(ctx context.Context) (*AsnLine, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = uint32(id)
+		_node.ID = int64(id)
 	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
@@ -354,7 +354,7 @@ func (_c *AsnLineCreate) sqlSave(ctx context.Context) (*AsnLine, error) {
 func (_c *AsnLineCreate) createSpec() (*AsnLine, *sqlgraph.CreateSpec) {
 	var (
 		_node = &AsnLine{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(asnline.Table, sqlgraph.NewFieldSpec(asnline.FieldID, field.TypeUint32))
+		_spec = sqlgraph.NewCreateSpec(asnline.Table, sqlgraph.NewFieldSpec(asnline.FieldID, field.TypeInt64))
 	)
 	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
@@ -374,15 +374,15 @@ func (_c *AsnLineCreate) createSpec() (*AsnLine, *sqlgraph.CreateSpec) {
 		_node.DeletedAt = &value
 	}
 	if value, ok := _c.mutation.CreatedBy(); ok {
-		_spec.SetField(asnline.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldCreatedBy, field.TypeInt64, value)
 		_node.CreatedBy = &value
 	}
 	if value, ok := _c.mutation.UpdatedBy(); ok {
-		_spec.SetField(asnline.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldUpdatedBy, field.TypeInt64, value)
 		_node.UpdatedBy = &value
 	}
 	if value, ok := _c.mutation.DeletedBy(); ok {
-		_spec.SetField(asnline.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldDeletedBy, field.TypeInt64, value)
 		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.Remark(); ok {
@@ -390,11 +390,11 @@ func (_c *AsnLineCreate) createSpec() (*AsnLine, *sqlgraph.CreateSpec) {
 		_node.Remark = &value
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
-		_spec.SetField(asnline.FieldTenantID, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldTenantID, field.TypeInt64, value)
 		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.AsnID(); ok {
-		_spec.SetField(asnline.FieldAsnID, field.TypeUint32, value)
+		_spec.SetField(asnline.FieldAsnID, field.TypeInt64, value)
 		_node.AsnID = &value
 	}
 	if value, ok := _c.mutation.SkuCode(); ok {
@@ -514,7 +514,7 @@ func (u *AsnLineUpsert) ClearDeletedAt() *AsnLineUpsert {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (u *AsnLineUpsert) SetCreatedBy(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) SetCreatedBy(v int64) *AsnLineUpsert {
 	u.Set(asnline.FieldCreatedBy, v)
 	return u
 }
@@ -526,7 +526,7 @@ func (u *AsnLineUpsert) UpdateCreatedBy() *AsnLineUpsert {
 }
 
 // AddCreatedBy adds v to the "created_by" field.
-func (u *AsnLineUpsert) AddCreatedBy(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) AddCreatedBy(v int64) *AsnLineUpsert {
 	u.Add(asnline.FieldCreatedBy, v)
 	return u
 }
@@ -538,7 +538,7 @@ func (u *AsnLineUpsert) ClearCreatedBy() *AsnLineUpsert {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (u *AsnLineUpsert) SetUpdatedBy(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) SetUpdatedBy(v int64) *AsnLineUpsert {
 	u.Set(asnline.FieldUpdatedBy, v)
 	return u
 }
@@ -550,7 +550,7 @@ func (u *AsnLineUpsert) UpdateUpdatedBy() *AsnLineUpsert {
 }
 
 // AddUpdatedBy adds v to the "updated_by" field.
-func (u *AsnLineUpsert) AddUpdatedBy(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) AddUpdatedBy(v int64) *AsnLineUpsert {
 	u.Add(asnline.FieldUpdatedBy, v)
 	return u
 }
@@ -562,7 +562,7 @@ func (u *AsnLineUpsert) ClearUpdatedBy() *AsnLineUpsert {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (u *AsnLineUpsert) SetDeletedBy(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) SetDeletedBy(v int64) *AsnLineUpsert {
 	u.Set(asnline.FieldDeletedBy, v)
 	return u
 }
@@ -574,7 +574,7 @@ func (u *AsnLineUpsert) UpdateDeletedBy() *AsnLineUpsert {
 }
 
 // AddDeletedBy adds v to the "deleted_by" field.
-func (u *AsnLineUpsert) AddDeletedBy(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) AddDeletedBy(v int64) *AsnLineUpsert {
 	u.Add(asnline.FieldDeletedBy, v)
 	return u
 }
@@ -604,7 +604,7 @@ func (u *AsnLineUpsert) ClearRemark() *AsnLineUpsert {
 }
 
 // SetAsnID sets the "asn_id" field.
-func (u *AsnLineUpsert) SetAsnID(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) SetAsnID(v int64) *AsnLineUpsert {
 	u.Set(asnline.FieldAsnID, v)
 	return u
 }
@@ -616,7 +616,7 @@ func (u *AsnLineUpsert) UpdateAsnID() *AsnLineUpsert {
 }
 
 // AddAsnID adds v to the "asn_id" field.
-func (u *AsnLineUpsert) AddAsnID(v uint32) *AsnLineUpsert {
+func (u *AsnLineUpsert) AddAsnID(v int64) *AsnLineUpsert {
 	u.Add(asnline.FieldAsnID, v)
 	return u
 }
@@ -868,14 +868,14 @@ func (u *AsnLineUpsertOne) ClearDeletedAt() *AsnLineUpsertOne {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (u *AsnLineUpsertOne) SetCreatedBy(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) SetCreatedBy(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetCreatedBy(v)
 	})
 }
 
 // AddCreatedBy adds v to the "created_by" field.
-func (u *AsnLineUpsertOne) AddCreatedBy(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) AddCreatedBy(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddCreatedBy(v)
 	})
@@ -896,14 +896,14 @@ func (u *AsnLineUpsertOne) ClearCreatedBy() *AsnLineUpsertOne {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (u *AsnLineUpsertOne) SetUpdatedBy(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) SetUpdatedBy(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetUpdatedBy(v)
 	})
 }
 
 // AddUpdatedBy adds v to the "updated_by" field.
-func (u *AsnLineUpsertOne) AddUpdatedBy(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) AddUpdatedBy(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddUpdatedBy(v)
 	})
@@ -924,14 +924,14 @@ func (u *AsnLineUpsertOne) ClearUpdatedBy() *AsnLineUpsertOne {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (u *AsnLineUpsertOne) SetDeletedBy(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) SetDeletedBy(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetDeletedBy(v)
 	})
 }
 
 // AddDeletedBy adds v to the "deleted_by" field.
-func (u *AsnLineUpsertOne) AddDeletedBy(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) AddDeletedBy(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddDeletedBy(v)
 	})
@@ -973,14 +973,14 @@ func (u *AsnLineUpsertOne) ClearRemark() *AsnLineUpsertOne {
 }
 
 // SetAsnID sets the "asn_id" field.
-func (u *AsnLineUpsertOne) SetAsnID(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) SetAsnID(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetAsnID(v)
 	})
 }
 
 // AddAsnID adds v to the "asn_id" field.
-func (u *AsnLineUpsertOne) AddAsnID(v uint32) *AsnLineUpsertOne {
+func (u *AsnLineUpsertOne) AddAsnID(v int64) *AsnLineUpsertOne {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddAsnID(v)
 	})
@@ -1184,7 +1184,7 @@ func (u *AsnLineUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *AsnLineUpsertOne) ID(ctx context.Context) (id uint32, err error) {
+func (u *AsnLineUpsertOne) ID(ctx context.Context) (id int64, err error) {
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -1193,7 +1193,7 @@ func (u *AsnLineUpsertOne) ID(ctx context.Context) (id uint32, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *AsnLineUpsertOne) IDX(ctx context.Context) uint32 {
+func (u *AsnLineUpsertOne) IDX(ctx context.Context) int64 {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -1250,7 +1250,7 @@ func (_c *AsnLineCreateBulk) Save(ctx context.Context) ([]*AsnLine, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint32(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil
@@ -1431,14 +1431,14 @@ func (u *AsnLineUpsertBulk) ClearDeletedAt() *AsnLineUpsertBulk {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (u *AsnLineUpsertBulk) SetCreatedBy(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) SetCreatedBy(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetCreatedBy(v)
 	})
 }
 
 // AddCreatedBy adds v to the "created_by" field.
-func (u *AsnLineUpsertBulk) AddCreatedBy(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) AddCreatedBy(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddCreatedBy(v)
 	})
@@ -1459,14 +1459,14 @@ func (u *AsnLineUpsertBulk) ClearCreatedBy() *AsnLineUpsertBulk {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (u *AsnLineUpsertBulk) SetUpdatedBy(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) SetUpdatedBy(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetUpdatedBy(v)
 	})
 }
 
 // AddUpdatedBy adds v to the "updated_by" field.
-func (u *AsnLineUpsertBulk) AddUpdatedBy(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) AddUpdatedBy(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddUpdatedBy(v)
 	})
@@ -1487,14 +1487,14 @@ func (u *AsnLineUpsertBulk) ClearUpdatedBy() *AsnLineUpsertBulk {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (u *AsnLineUpsertBulk) SetDeletedBy(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) SetDeletedBy(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetDeletedBy(v)
 	})
 }
 
 // AddDeletedBy adds v to the "deleted_by" field.
-func (u *AsnLineUpsertBulk) AddDeletedBy(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) AddDeletedBy(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddDeletedBy(v)
 	})
@@ -1536,14 +1536,14 @@ func (u *AsnLineUpsertBulk) ClearRemark() *AsnLineUpsertBulk {
 }
 
 // SetAsnID sets the "asn_id" field.
-func (u *AsnLineUpsertBulk) SetAsnID(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) SetAsnID(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.SetAsnID(v)
 	})
 }
 
 // AddAsnID adds v to the "asn_id" field.
-func (u *AsnLineUpsertBulk) AddAsnID(v uint32) *AsnLineUpsertBulk {
+func (u *AsnLineUpsertBulk) AddAsnID(v int64) *AsnLineUpsertBulk {
 	return u.Update(func(s *AsnLineUpsert) {
 		s.AddAsnID(v)
 	})

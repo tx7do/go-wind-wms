@@ -49,7 +49,7 @@ enum WaveStatus {
 
 // 波次
 message Wave {
-  optional uint32 id = 1 [
+  optional int64 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "波次ID"}
   ]; // 波次ID
@@ -74,20 +74,20 @@ message Wave {
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional uint32 tenant_id = 20 [
+  optional int64 tenant_id = 20 [
     json_name = "tenantId",
     (gnostic.openapi.v3.property) = {description: "租户ID，0代表系统全局"}
   ]; // 租户ID，0代表系统全局
 
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
+  optional int64 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者用户ID"}]; // 创建者用户ID
+  optional int64 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者用户ID"}]; // 更新者用户ID
   optional google.protobuf.Timestamp created_at = 102 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}]; // 创建时间
   optional google.protobuf.Timestamp updated_at = 103 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}]; // 更新时间
 }
 
 // 波次成员拣货单摘要（Get 时聚合）
 message WavePicking {
-  uint32 picking_id = 1 [json_name = "pickingId"]; // 拣货单ID
+  int64 picking_id = 1 [json_name = "pickingId"]; // 拣货单ID
 
   string picking_number = 2 [json_name = "pickingNumber"]; // 拣货单号
 
@@ -113,12 +113,12 @@ message WaveLine {
 
 message GetWaveRequest {
   oneof query_by {
-    uint32 id = 1 [json_name = "id"];
+    int64 id = 1 [json_name = "id"];
   }
 }
 
 message CreateWaveRequest {
-  repeated uint32 picking_ids = 1 [json_name = "pickingIds"]; // 成员拣货单ID（OUTGOING + CONFIRMED）
+  repeated int64 picking_ids = 1 [json_name = "pickingIds"]; // 成员拣货单ID（OUTGOING + CONFIRMED）
 
   optional string remark = 2 [
     json_name = "remark",
@@ -127,17 +127,17 @@ message CreateWaveRequest {
 }
 
 message ListWaveResponse {
-  uint64 total = 1 [json_name = "total"]; // 总数
+  int64 total = 1 [json_name = "total"]; // 总数
 
   repeated Wave items = 2 [json_name = "items"]; // 波次列表
 }
 
 message CountWaveResponse {
-  uint64 count = 1 [json_name = "count"]; // 数量
+  int64 count = 1 [json_name = "count"]; // 数量
 }
 
 message RunWaveRequest {
-  uint32 id = 1 [json_name = "id"]; // 波次ID
+  int64 id = 1 [json_name = "id"]; // 波次ID
 }
 
 message RunWaveResponse {
@@ -149,5 +149,5 @@ message RunWaveResponse {
 }
 
 message CancelWaveRequest {
-  uint32 id = 1 [json_name = "id"]; // 波次ID
+  int64 id = 1 [json_name = "id"]; // 波次ID
 }

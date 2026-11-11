@@ -63,13 +63,13 @@ func (Role) Fields() []ent.Field {
 // Mixin of the Role.
 func (Role) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.AutoIncrementId{},
+		mixin.AutoIncrementId64{},
 		mixin.TimeAt{}, appmixin.SoftDeleteQuery{},
-		mixin.OperatorID{},
+		mixin.OperatorID64{},
 		mixin.Remark{},
 		mixin.Description{},
 		mixin.SortOrder{},
-		mixin.TenantID[uint32]{},
+		mixin.TenantID[int64]{},
 		mixin.SwitchStatus{},
 	}
 }

@@ -56,7 +56,7 @@ func asnReceiveAllowed(from asnV1.AsnStatus) bool {
 
 // asnLineFacts 明细数量口径快照（纯数据，脱离 proto/ent 依赖，便于单测）。
 type asnLineFacts struct {
-	ID          uint32
+	ID          int64
 	ExpectedQty int64
 	ReceivedQty int64
 	PutawayQty  int64
@@ -66,8 +66,8 @@ type asnLineFacts struct {
 // validateReceiveQuantities 防超收口径校验（纯函数）。
 // 对每行：本次数量必须为正；累计已收 + 本次 ≤ 预期。
 // 返回违规的明细 ID，空切片表示全部通过。
-func validateReceiveQuantities(lines []asnLineFacts, reqLines map[uint32]int64) []uint32 {
-	var violated []uint32
+func validateReceiveQuantities(lines []asnLineFacts, reqLines map[int64]int64) []int64 {
+	var violated []int64
 	for _, line := range lines {
 		delta, ok := reqLines[line.ID]
 		if !ok || delta == 0 {
@@ -86,8 +86,8 @@ func validateReceiveQuantities(lines []asnLineFacts, reqLines map[uint32]int64) 
 
 // validatePutawayQuantities 防超上架口径校验（纯函数）。
 // 对每行：本次数量必须为正；质检必须通过；累计已上架 + 本次 ≤ 累计已收。
-func validatePutawayQuantities(lines []asnLineFacts, reqLines map[uint32]int64) []uint32 {
-	var violated []uint32
+func validatePutawayQuantities(lines []asnLineFacts, reqLines map[int64]int64) []int64 {
+	var violated []int64
 	for _, line := range lines {
 		delta, ok := reqLines[line.ID]
 		if !ok || delta == 0 {

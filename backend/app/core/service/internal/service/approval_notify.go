@@ -56,7 +56,7 @@ func (n *approvalNotifier) notifyStepApprovers(
 	ctx context.Context,
 	approval *approvalV1.ApprovalRequest,
 	step, total uint32,
-	userIDs []uint32,
+	userIDs []int64,
 ) error {
 	if n == nil || len(userIDs) == 0 {
 		return nil

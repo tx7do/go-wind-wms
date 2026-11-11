@@ -70,14 +70,14 @@ func (_u *StockMoveUpdate) ClearDeletedAt() *StockMoveUpdate {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_u *StockMoveUpdate) SetCreatedBy(v uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetCreatedBy(v int64) *StockMoveUpdate {
 	_u.mutation.ResetCreatedBy()
 	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_u *StockMoveUpdate) SetNillableCreatedBy(v *uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetNillableCreatedBy(v *int64) *StockMoveUpdate {
 	if v != nil {
 		_u.SetCreatedBy(*v)
 	}
@@ -85,7 +85,7 @@ func (_u *StockMoveUpdate) SetNillableCreatedBy(v *uint32) *StockMoveUpdate {
 }
 
 // AddCreatedBy adds value to the "created_by" field.
-func (_u *StockMoveUpdate) AddCreatedBy(v int32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) AddCreatedBy(v int64) *StockMoveUpdate {
 	_u.mutation.AddCreatedBy(v)
 	return _u
 }
@@ -97,14 +97,14 @@ func (_u *StockMoveUpdate) ClearCreatedBy() *StockMoveUpdate {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_u *StockMoveUpdate) SetUpdatedBy(v uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetUpdatedBy(v int64) *StockMoveUpdate {
 	_u.mutation.ResetUpdatedBy()
 	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_u *StockMoveUpdate) SetNillableUpdatedBy(v *uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetNillableUpdatedBy(v *int64) *StockMoveUpdate {
 	if v != nil {
 		_u.SetUpdatedBy(*v)
 	}
@@ -112,7 +112,7 @@ func (_u *StockMoveUpdate) SetNillableUpdatedBy(v *uint32) *StockMoveUpdate {
 }
 
 // AddUpdatedBy adds value to the "updated_by" field.
-func (_u *StockMoveUpdate) AddUpdatedBy(v int32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) AddUpdatedBy(v int64) *StockMoveUpdate {
 	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
@@ -124,14 +124,14 @@ func (_u *StockMoveUpdate) ClearUpdatedBy() *StockMoveUpdate {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_u *StockMoveUpdate) SetDeletedBy(v uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetDeletedBy(v int64) *StockMoveUpdate {
 	_u.mutation.ResetDeletedBy()
 	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_u *StockMoveUpdate) SetNillableDeletedBy(v *uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetNillableDeletedBy(v *int64) *StockMoveUpdate {
 	if v != nil {
 		_u.SetDeletedBy(*v)
 	}
@@ -139,7 +139,7 @@ func (_u *StockMoveUpdate) SetNillableDeletedBy(v *uint32) *StockMoveUpdate {
 }
 
 // AddDeletedBy adds value to the "deleted_by" field.
-func (_u *StockMoveUpdate) AddDeletedBy(v int32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) AddDeletedBy(v int64) *StockMoveUpdate {
 	_u.mutation.AddDeletedBy(v)
 	return _u
 }
@@ -171,14 +171,14 @@ func (_u *StockMoveUpdate) ClearRemark() *StockMoveUpdate {
 }
 
 // SetPickingID sets the "picking_id" field.
-func (_u *StockMoveUpdate) SetPickingID(v uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetPickingID(v int64) *StockMoveUpdate {
 	_u.mutation.ResetPickingID()
 	_u.mutation.SetPickingID(v)
 	return _u
 }
 
 // SetNillablePickingID sets the "picking_id" field if the given value is not nil.
-func (_u *StockMoveUpdate) SetNillablePickingID(v *uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetNillablePickingID(v *int64) *StockMoveUpdate {
 	if v != nil {
 		_u.SetPickingID(*v)
 	}
@@ -186,7 +186,7 @@ func (_u *StockMoveUpdate) SetNillablePickingID(v *uint32) *StockMoveUpdate {
 }
 
 // AddPickingID adds value to the "picking_id" field.
-func (_u *StockMoveUpdate) AddPickingID(v int32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) AddPickingID(v int64) *StockMoveUpdate {
 	_u.mutation.AddPickingID(v)
 	return _u
 }
@@ -218,14 +218,14 @@ func (_u *StockMoveUpdate) ClearProductCode() *StockMoveUpdate {
 }
 
 // SetSourceLocationID sets the "source_location_id" field.
-func (_u *StockMoveUpdate) SetSourceLocationID(v uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetSourceLocationID(v int64) *StockMoveUpdate {
 	_u.mutation.ResetSourceLocationID()
 	_u.mutation.SetSourceLocationID(v)
 	return _u
 }
 
 // SetNillableSourceLocationID sets the "source_location_id" field if the given value is not nil.
-func (_u *StockMoveUpdate) SetNillableSourceLocationID(v *uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetNillableSourceLocationID(v *int64) *StockMoveUpdate {
 	if v != nil {
 		_u.SetSourceLocationID(*v)
 	}
@@ -233,7 +233,7 @@ func (_u *StockMoveUpdate) SetNillableSourceLocationID(v *uint32) *StockMoveUpda
 }
 
 // AddSourceLocationID adds value to the "source_location_id" field.
-func (_u *StockMoveUpdate) AddSourceLocationID(v int32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) AddSourceLocationID(v int64) *StockMoveUpdate {
 	_u.mutation.AddSourceLocationID(v)
 	return _u
 }
@@ -245,14 +245,14 @@ func (_u *StockMoveUpdate) ClearSourceLocationID() *StockMoveUpdate {
 }
 
 // SetDestinationLocationID sets the "destination_location_id" field.
-func (_u *StockMoveUpdate) SetDestinationLocationID(v uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetDestinationLocationID(v int64) *StockMoveUpdate {
 	_u.mutation.ResetDestinationLocationID()
 	_u.mutation.SetDestinationLocationID(v)
 	return _u
 }
 
 // SetNillableDestinationLocationID sets the "destination_location_id" field if the given value is not nil.
-func (_u *StockMoveUpdate) SetNillableDestinationLocationID(v *uint32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) SetNillableDestinationLocationID(v *int64) *StockMoveUpdate {
 	if v != nil {
 		_u.SetDestinationLocationID(*v)
 	}
@@ -260,7 +260,7 @@ func (_u *StockMoveUpdate) SetNillableDestinationLocationID(v *uint32) *StockMov
 }
 
 // AddDestinationLocationID adds value to the "destination_location_id" field.
-func (_u *StockMoveUpdate) AddDestinationLocationID(v int32) *StockMoveUpdate {
+func (_u *StockMoveUpdate) AddDestinationLocationID(v int64) *StockMoveUpdate {
 	_u.mutation.AddDestinationLocationID(v)
 	return _u
 }
@@ -410,7 +410,7 @@ func (_u *StockMoveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(stockmove.Table, stockmove.Columns, sqlgraph.NewFieldSpec(stockmove.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(stockmove.Table, stockmove.Columns, sqlgraph.NewFieldSpec(stockmove.FieldID, field.TypeInt64))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -434,31 +434,31 @@ func (_u *StockMoveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		_spec.ClearField(stockmove.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.CreatedBy(); ok {
-		_spec.SetField(stockmove.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedCreatedBy(); ok {
-		_spec.AddField(stockmove.FieldCreatedBy, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.CreatedByCleared() {
-		_spec.ClearField(stockmove.FieldCreatedBy, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldCreatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.UpdatedBy(); ok {
-		_spec.SetField(stockmove.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
-		_spec.AddField(stockmove.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.UpdatedByCleared() {
-		_spec.ClearField(stockmove.FieldUpdatedBy, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldUpdatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DeletedBy(); ok {
-		_spec.SetField(stockmove.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDeletedBy(); ok {
-		_spec.AddField(stockmove.FieldDeletedBy, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.DeletedByCleared() {
-		_spec.ClearField(stockmove.FieldDeletedBy, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldDeletedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(stockmove.FieldRemark, field.TypeString, value)
@@ -467,16 +467,16 @@ func (_u *StockMoveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		_spec.ClearField(stockmove.FieldRemark, field.TypeString)
 	}
 	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(stockmove.FieldTenantID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldTenantID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.PickingID(); ok {
-		_spec.SetField(stockmove.FieldPickingID, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldPickingID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedPickingID(); ok {
-		_spec.AddField(stockmove.FieldPickingID, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldPickingID, field.TypeInt64, value)
 	}
 	if _u.mutation.PickingIDCleared() {
-		_spec.ClearField(stockmove.FieldPickingID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldPickingID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.ProductCode(); ok {
 		_spec.SetField(stockmove.FieldProductCode, field.TypeString, value)
@@ -485,22 +485,22 @@ func (_u *StockMoveUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 		_spec.ClearField(stockmove.FieldProductCode, field.TypeString)
 	}
 	if value, ok := _u.mutation.SourceLocationID(); ok {
-		_spec.SetField(stockmove.FieldSourceLocationID, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldSourceLocationID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedSourceLocationID(); ok {
-		_spec.AddField(stockmove.FieldSourceLocationID, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldSourceLocationID, field.TypeInt64, value)
 	}
 	if _u.mutation.SourceLocationIDCleared() {
-		_spec.ClearField(stockmove.FieldSourceLocationID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldSourceLocationID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DestinationLocationID(); ok {
-		_spec.SetField(stockmove.FieldDestinationLocationID, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldDestinationLocationID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDestinationLocationID(); ok {
-		_spec.AddField(stockmove.FieldDestinationLocationID, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldDestinationLocationID, field.TypeInt64, value)
 	}
 	if _u.mutation.DestinationLocationIDCleared() {
-		_spec.ClearField(stockmove.FieldDestinationLocationID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldDestinationLocationID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.PlannedQuantity(); ok {
 		_spec.SetField(stockmove.FieldPlannedQuantity, field.TypeInt64, value)
@@ -592,14 +592,14 @@ func (_u *StockMoveUpdateOne) ClearDeletedAt() *StockMoveUpdateOne {
 }
 
 // SetCreatedBy sets the "created_by" field.
-func (_u *StockMoveUpdateOne) SetCreatedBy(v uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetCreatedBy(v int64) *StockMoveUpdateOne {
 	_u.mutation.ResetCreatedBy()
 	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
 // SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
-func (_u *StockMoveUpdateOne) SetNillableCreatedBy(v *uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetNillableCreatedBy(v *int64) *StockMoveUpdateOne {
 	if v != nil {
 		_u.SetCreatedBy(*v)
 	}
@@ -607,7 +607,7 @@ func (_u *StockMoveUpdateOne) SetNillableCreatedBy(v *uint32) *StockMoveUpdateOn
 }
 
 // AddCreatedBy adds value to the "created_by" field.
-func (_u *StockMoveUpdateOne) AddCreatedBy(v int32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) AddCreatedBy(v int64) *StockMoveUpdateOne {
 	_u.mutation.AddCreatedBy(v)
 	return _u
 }
@@ -619,14 +619,14 @@ func (_u *StockMoveUpdateOne) ClearCreatedBy() *StockMoveUpdateOne {
 }
 
 // SetUpdatedBy sets the "updated_by" field.
-func (_u *StockMoveUpdateOne) SetUpdatedBy(v uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetUpdatedBy(v int64) *StockMoveUpdateOne {
 	_u.mutation.ResetUpdatedBy()
 	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
 // SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
-func (_u *StockMoveUpdateOne) SetNillableUpdatedBy(v *uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetNillableUpdatedBy(v *int64) *StockMoveUpdateOne {
 	if v != nil {
 		_u.SetUpdatedBy(*v)
 	}
@@ -634,7 +634,7 @@ func (_u *StockMoveUpdateOne) SetNillableUpdatedBy(v *uint32) *StockMoveUpdateOn
 }
 
 // AddUpdatedBy adds value to the "updated_by" field.
-func (_u *StockMoveUpdateOne) AddUpdatedBy(v int32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) AddUpdatedBy(v int64) *StockMoveUpdateOne {
 	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
@@ -646,14 +646,14 @@ func (_u *StockMoveUpdateOne) ClearUpdatedBy() *StockMoveUpdateOne {
 }
 
 // SetDeletedBy sets the "deleted_by" field.
-func (_u *StockMoveUpdateOne) SetDeletedBy(v uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetDeletedBy(v int64) *StockMoveUpdateOne {
 	_u.mutation.ResetDeletedBy()
 	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
 // SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
-func (_u *StockMoveUpdateOne) SetNillableDeletedBy(v *uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetNillableDeletedBy(v *int64) *StockMoveUpdateOne {
 	if v != nil {
 		_u.SetDeletedBy(*v)
 	}
@@ -661,7 +661,7 @@ func (_u *StockMoveUpdateOne) SetNillableDeletedBy(v *uint32) *StockMoveUpdateOn
 }
 
 // AddDeletedBy adds value to the "deleted_by" field.
-func (_u *StockMoveUpdateOne) AddDeletedBy(v int32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) AddDeletedBy(v int64) *StockMoveUpdateOne {
 	_u.mutation.AddDeletedBy(v)
 	return _u
 }
@@ -693,14 +693,14 @@ func (_u *StockMoveUpdateOne) ClearRemark() *StockMoveUpdateOne {
 }
 
 // SetPickingID sets the "picking_id" field.
-func (_u *StockMoveUpdateOne) SetPickingID(v uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetPickingID(v int64) *StockMoveUpdateOne {
 	_u.mutation.ResetPickingID()
 	_u.mutation.SetPickingID(v)
 	return _u
 }
 
 // SetNillablePickingID sets the "picking_id" field if the given value is not nil.
-func (_u *StockMoveUpdateOne) SetNillablePickingID(v *uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetNillablePickingID(v *int64) *StockMoveUpdateOne {
 	if v != nil {
 		_u.SetPickingID(*v)
 	}
@@ -708,7 +708,7 @@ func (_u *StockMoveUpdateOne) SetNillablePickingID(v *uint32) *StockMoveUpdateOn
 }
 
 // AddPickingID adds value to the "picking_id" field.
-func (_u *StockMoveUpdateOne) AddPickingID(v int32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) AddPickingID(v int64) *StockMoveUpdateOne {
 	_u.mutation.AddPickingID(v)
 	return _u
 }
@@ -740,14 +740,14 @@ func (_u *StockMoveUpdateOne) ClearProductCode() *StockMoveUpdateOne {
 }
 
 // SetSourceLocationID sets the "source_location_id" field.
-func (_u *StockMoveUpdateOne) SetSourceLocationID(v uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetSourceLocationID(v int64) *StockMoveUpdateOne {
 	_u.mutation.ResetSourceLocationID()
 	_u.mutation.SetSourceLocationID(v)
 	return _u
 }
 
 // SetNillableSourceLocationID sets the "source_location_id" field if the given value is not nil.
-func (_u *StockMoveUpdateOne) SetNillableSourceLocationID(v *uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetNillableSourceLocationID(v *int64) *StockMoveUpdateOne {
 	if v != nil {
 		_u.SetSourceLocationID(*v)
 	}
@@ -755,7 +755,7 @@ func (_u *StockMoveUpdateOne) SetNillableSourceLocationID(v *uint32) *StockMoveU
 }
 
 // AddSourceLocationID adds value to the "source_location_id" field.
-func (_u *StockMoveUpdateOne) AddSourceLocationID(v int32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) AddSourceLocationID(v int64) *StockMoveUpdateOne {
 	_u.mutation.AddSourceLocationID(v)
 	return _u
 }
@@ -767,14 +767,14 @@ func (_u *StockMoveUpdateOne) ClearSourceLocationID() *StockMoveUpdateOne {
 }
 
 // SetDestinationLocationID sets the "destination_location_id" field.
-func (_u *StockMoveUpdateOne) SetDestinationLocationID(v uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetDestinationLocationID(v int64) *StockMoveUpdateOne {
 	_u.mutation.ResetDestinationLocationID()
 	_u.mutation.SetDestinationLocationID(v)
 	return _u
 }
 
 // SetNillableDestinationLocationID sets the "destination_location_id" field if the given value is not nil.
-func (_u *StockMoveUpdateOne) SetNillableDestinationLocationID(v *uint32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) SetNillableDestinationLocationID(v *int64) *StockMoveUpdateOne {
 	if v != nil {
 		_u.SetDestinationLocationID(*v)
 	}
@@ -782,7 +782,7 @@ func (_u *StockMoveUpdateOne) SetNillableDestinationLocationID(v *uint32) *Stock
 }
 
 // AddDestinationLocationID adds value to the "destination_location_id" field.
-func (_u *StockMoveUpdateOne) AddDestinationLocationID(v int32) *StockMoveUpdateOne {
+func (_u *StockMoveUpdateOne) AddDestinationLocationID(v int64) *StockMoveUpdateOne {
 	_u.mutation.AddDestinationLocationID(v)
 	return _u
 }
@@ -945,7 +945,7 @@ func (_u *StockMoveUpdateOne) sqlSave(ctx context.Context) (_node *StockMove, er
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(stockmove.Table, stockmove.Columns, sqlgraph.NewFieldSpec(stockmove.FieldID, field.TypeUint32))
+	_spec := sqlgraph.NewUpdateSpec(stockmove.Table, stockmove.Columns, sqlgraph.NewFieldSpec(stockmove.FieldID, field.TypeInt64))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "StockMove.id" for update`)}
@@ -986,31 +986,31 @@ func (_u *StockMoveUpdateOne) sqlSave(ctx context.Context) (_node *StockMove, er
 		_spec.ClearField(stockmove.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.CreatedBy(); ok {
-		_spec.SetField(stockmove.FieldCreatedBy, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedCreatedBy(); ok {
-		_spec.AddField(stockmove.FieldCreatedBy, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldCreatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.CreatedByCleared() {
-		_spec.ClearField(stockmove.FieldCreatedBy, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldCreatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.UpdatedBy(); ok {
-		_spec.SetField(stockmove.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
-		_spec.AddField(stockmove.FieldUpdatedBy, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldUpdatedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.UpdatedByCleared() {
-		_spec.ClearField(stockmove.FieldUpdatedBy, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldUpdatedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DeletedBy(); ok {
-		_spec.SetField(stockmove.FieldDeletedBy, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDeletedBy(); ok {
-		_spec.AddField(stockmove.FieldDeletedBy, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldDeletedBy, field.TypeInt64, value)
 	}
 	if _u.mutation.DeletedByCleared() {
-		_spec.ClearField(stockmove.FieldDeletedBy, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldDeletedBy, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(stockmove.FieldRemark, field.TypeString, value)
@@ -1019,16 +1019,16 @@ func (_u *StockMoveUpdateOne) sqlSave(ctx context.Context) (_node *StockMove, er
 		_spec.ClearField(stockmove.FieldRemark, field.TypeString)
 	}
 	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(stockmove.FieldTenantID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldTenantID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.PickingID(); ok {
-		_spec.SetField(stockmove.FieldPickingID, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldPickingID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedPickingID(); ok {
-		_spec.AddField(stockmove.FieldPickingID, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldPickingID, field.TypeInt64, value)
 	}
 	if _u.mutation.PickingIDCleared() {
-		_spec.ClearField(stockmove.FieldPickingID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldPickingID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.ProductCode(); ok {
 		_spec.SetField(stockmove.FieldProductCode, field.TypeString, value)
@@ -1037,22 +1037,22 @@ func (_u *StockMoveUpdateOne) sqlSave(ctx context.Context) (_node *StockMove, er
 		_spec.ClearField(stockmove.FieldProductCode, field.TypeString)
 	}
 	if value, ok := _u.mutation.SourceLocationID(); ok {
-		_spec.SetField(stockmove.FieldSourceLocationID, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldSourceLocationID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedSourceLocationID(); ok {
-		_spec.AddField(stockmove.FieldSourceLocationID, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldSourceLocationID, field.TypeInt64, value)
 	}
 	if _u.mutation.SourceLocationIDCleared() {
-		_spec.ClearField(stockmove.FieldSourceLocationID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldSourceLocationID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.DestinationLocationID(); ok {
-		_spec.SetField(stockmove.FieldDestinationLocationID, field.TypeUint32, value)
+		_spec.SetField(stockmove.FieldDestinationLocationID, field.TypeInt64, value)
 	}
 	if value, ok := _u.mutation.AddedDestinationLocationID(); ok {
-		_spec.AddField(stockmove.FieldDestinationLocationID, field.TypeUint32, value)
+		_spec.AddField(stockmove.FieldDestinationLocationID, field.TypeInt64, value)
 	}
 	if _u.mutation.DestinationLocationIDCleared() {
-		_spec.ClearField(stockmove.FieldDestinationLocationID, field.TypeUint32)
+		_spec.ClearField(stockmove.FieldDestinationLocationID, field.TypeInt64)
 	}
 	if value, ok := _u.mutation.PlannedQuantity(); ok {
 		_spec.SetField(stockmove.FieldPlannedQuantity, field.TypeInt64, value)

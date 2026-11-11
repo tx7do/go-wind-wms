@@ -345,62 +345,62 @@ class PaginationPagingRequest {
     // field 1: page
     final f1 = page;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeUint32(1, f1);
     }
     // field 2: pageSize
     final f2 = pageSize;
     if (f2 != null) {
-      w.writeUint32(2, f2!);
+      w.writeUint32(2, f2);
     }
     // field 3: offset
     final f3 = offset;
     if (f3 != null) {
-      w.writeUint64(3, f3!);
+      w.writeUint64(3, f3);
     }
     // field 4: limit
     final f4 = limit;
     if (f4 != null) {
-      w.writeUint32(4, f4!);
+      w.writeUint32(4, f4);
     }
     // field 5: token
     final f5 = token;
     if (f5 != null) {
-      w.writeString(5, f5!);
+      w.writeString(5, f5);
     }
     // field 6: noPaging
     final f6 = noPaging;
     if (f6 != null) {
-      w.writeBool(6, f6!);
+      w.writeBool(6, f6);
     }
     // field 10: query
     final f10 = query;
     if (f10 != null) {
-      w.writeString(10, f10!);
+      w.writeString(10, f10);
     }
     // field 11: filter
     final f11 = filter;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 12: filterExpr
     final f12 = filterExpr;
     if (f12 != null) {
-      final cw = ProtoWireWriter(); f12!._writeTo(cw); w.writeRaw(12, cw.toBuffer()); // PaginationFilterExpr
+      final cw = ProtoWireWriter(); f12._writeTo(cw); w.writeRaw(12, cw.toBuffer()); // PaginationFilterExpr
     }
     // field 20: orderBy
     final f20 = orderBy;
     if (f20 != null) {
-      w.writeString(20, f20!);
+      w.writeString(20, f20);
     }
     // field 21: sorting
     final f21 = sorting;
     if (f21 != null) {
-      for (final e in f21!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(21, cw.toBuffer()); }
+      for (final e in f21) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(21, cw.toBuffer()); }
     }
     // field 30: fieldMask
     final f30 = fieldMask;
     if (f30 != null) {
-      w.writeFieldMask(30, f30!);
+      w.writeFieldMask(30, f30);
     }
   }
 
@@ -558,17 +558,17 @@ class PaginationFilterExpr {
     // field 1: type
     final f1 = type;
     if (f1 != null) {
-      w.writeEnum(1, f1!.wire); // PaginationExprType
+      w.writeEnum(1, f1.wire); // PaginationExprType
     }
     // field 2: conditions
     final f2 = conditions;
     if (f2 != null) {
-      for (final e in f2!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
+      for (final e in f2) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
     }
     // field 3: groups
     final f3 = groups;
     if (f3 != null) {
-      for (final e in f3!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(3, cw.toBuffer()); }
+      for (final e in f3) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(3, cw.toBuffer()); }
     }
   }
 
@@ -738,32 +738,32 @@ class PaginationFilterCondition {
     // field 1: field
     final f1 = field;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: op
     final f2 = op;
     if (f2 != null) {
-      w.writeEnum(2, f2!.wire); // PaginationOperator
+      w.writeEnum(2, f2.wire); // PaginationOperator
     }
     // field 3: value
     final f3 = value;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: values
     final f4 = values;
     if (f4 != null) {
-      w.writeStringList(4, f4!);
+      w.writeStringList(4, f4);
     }
     // field 5: datePart
     final f5 = datePart;
     if (f5 != null) {
-      w.writeEnum(5, f5!.wire); // PaginationDatePart
+      w.writeEnum(5, f5.wire); // PaginationDatePart
     }
     // field 6: jsonPath
     final f6 = jsonPath;
     if (f6 != null) {
-      w.writeString(6, f6!);
+      w.writeString(6, f6);
     }
     // field 7: jsonValue
     final f7 = jsonValue;
@@ -812,8 +812,7 @@ class PaginationFilterCondition {
         }
         // field 7: jsonValue
         case 7: {
-          m.jsonValue = (throw UnsupportedError('dart-http wire: google.protobuf.Value not supported'));
-          break;
+          throw UnsupportedError('dart-http wire: google.protobuf.Value not supported');
         }
         default: {
           r.skip();
@@ -972,12 +971,12 @@ class PaginationSorting {
     // field 1: field
     final f1 = field;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: direction
     final f2 = direction;
     if (f2 != null) {
-      w.writeEnum(2, f2!.wire); // PaginationSorting$Direction
+      w.writeEnum(2, f2.wire); // PaginationSorting$Direction
     }
   }
 
@@ -1096,12 +1095,12 @@ class ApprovalServiceV1ListApprovalRequestResponse {
     // field 1: items
     final f1 = items;
     if (f1 != null) {
-      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+      for (final e in f1) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
     }
     // field 2: total
     final f2 = total;
     if (f2 != null) {
-      w.writeUint64(2, f2!);
+      w.writeInt64(2, f2);
     }
   }
 
@@ -1120,7 +1119,7 @@ class ApprovalServiceV1ListApprovalRequestResponse {
         }
         // field 2: total
         case 2: {
-          m.total = r.readUint64();
+          m.total = r.readInt64();
           break;
         }
         default: {
@@ -1196,51 +1195,51 @@ class ApprovalServiceV1ApprovalRequest {
 
   factory ApprovalServiceV1ApprovalRequest.fromJson(Map<String, dynamic> json) {
     return ApprovalServiceV1ApprovalRequest(
-      applicantId: json['applicantId'] as int?,
-      approverId: json['approverId'] as int?,
+      applicantId: json['applicantId'] != null ? int.parse(json['applicantId'].toString()) : null,
+      approverId: json['approverId'] != null ? int.parse(json['approverId'].toString()) : null,
       bizRef: json['bizRef'] as String?,
       bizType: json['bizType'] as String?,
       comment: json['comment'] as String?,
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       currentStep: json['currentStep'] as int?,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
-      flowId: json['flowId'] as int?,
-      id: json['id'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
+      flowId: json['flowId'] != null ? int.parse(json['flowId'].toString()) : null,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       remark: json['remark'] as String?,
       status: json['status'] != null ? ApprovalServiceV1ApprovalRequest$Status.fromString(json['status'] as String) : null,
       summary: json['summary'] as String?,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       title: json['title'] as String?,
       totalSteps: json['totalSteps'] as int?,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (applicantId != null) json['applicantId'] = applicantId;
-    if (approverId != null) json['approverId'] = approverId;
+    if (applicantId != null) json['applicantId'] = applicantId.toString();
+    if (approverId != null) json['approverId'] = approverId.toString();
     if (bizRef != null) json['bizRef'] = bizRef;
     if (bizType != null) json['bizType'] = bizType;
     if (comment != null) json['comment'] = comment;
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (currentStep != null) json['currentStep'] = currentStep;
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
-    if (flowId != null) json['flowId'] = flowId;
-    if (id != null) json['id'] = id;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
+    if (flowId != null) json['flowId'] = flowId.toString();
+    if (id != null) json['id'] = id.toString();
     if (remark != null) json['remark'] = remark;
     if (status != null) json['status'] = status!.value;
     if (summary != null) json['summary'] = summary;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (title != null) json['title'] = title;
     if (totalSteps != null) json['totalSteps'] = totalSteps;
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     return json;
   }
 
@@ -1357,102 +1356,102 @@ class ApprovalServiceV1ApprovalRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: title
     final f2 = title;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: bizType
     final f3 = bizType;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: bizRef
     final f4 = bizRef;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: summary
     final f5 = summary;
     if (f5 != null) {
-      w.writeString(5, f5!);
+      w.writeString(5, f5);
     }
     // field 6: status
     final f6 = status;
     if (f6 != null) {
-      w.writeEnum(6, f6!.wire); // ApprovalServiceV1ApprovalRequest$Status
+      w.writeEnum(6, f6.wire); // ApprovalServiceV1ApprovalRequest$Status
     }
     // field 7: applicantId
     final f7 = applicantId;
     if (f7 != null) {
-      w.writeUint32(7, f7!);
+      w.writeInt64(7, f7);
     }
     // field 8: approverId
     final f8 = approverId;
     if (f8 != null) {
-      w.writeUint32(8, f8!);
+      w.writeInt64(8, f8);
     }
     // field 9: comment
     final f9 = comment;
     if (f9 != null) {
-      w.writeString(9, f9!);
+      w.writeString(9, f9);
     }
     // field 10: currentStep
     final f10 = currentStep;
     if (f10 != null) {
-      w.writeUint32(10, f10!);
+      w.writeUint32(10, f10);
     }
     // field 11: remark
     final f11 = remark;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 12: totalSteps
     final f12 = totalSteps;
     if (f12 != null) {
-      w.writeUint32(12, f12!);
+      w.writeUint32(12, f12);
     }
     // field 13: flowId
     final f13 = flowId;
     if (f13 != null) {
-      w.writeUint32(13, f13!);
+      w.writeInt64(13, f13);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -1466,7 +1465,7 @@ class ApprovalServiceV1ApprovalRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: title
@@ -1496,12 +1495,12 @@ class ApprovalServiceV1ApprovalRequest {
         }
         // field 7: applicantId
         case 7: {
-          m.applicantId = r.readUint32();
+          m.applicantId = r.readInt64();
           break;
         }
         // field 8: approverId
         case 8: {
-          m.approverId = r.readUint32();
+          m.approverId = r.readInt64();
           break;
         }
         // field 9: comment
@@ -1526,27 +1525,27 @@ class ApprovalServiceV1ApprovalRequest {
         }
         // field 13: flowId
         case 13: {
-          m.flowId = r.readUint32();
+          m.flowId = r.readInt64();
           break;
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -1610,14 +1609,14 @@ class ApprovalServiceV1GetApprovalRequestRequest {
 
   factory ApprovalServiceV1GetApprovalRequestRequest.fromJson(Map<String, dynamic> json) {
     return ApprovalServiceV1GetApprovalRequestRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       viewMask: json['viewMask'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (viewMask != null) json['viewMask'] = viewMask;
     return json;
   }
@@ -1663,12 +1662,12 @@ class ApprovalServiceV1GetApprovalRequestRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 100: viewMask
     final f100 = viewMask;
     if (f100 != null) {
-      w.writeFieldMask(100, f100!);
+      w.writeFieldMask(100, f100);
     }
   }
 
@@ -1682,7 +1681,7 @@ class ApprovalServiceV1GetApprovalRequestRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 100: viewMask
@@ -1713,14 +1712,14 @@ class ApprovalServiceV1ApproveApprovalRequestRequest {
   factory ApprovalServiceV1ApproveApprovalRequestRequest.fromJson(Map<String, dynamic> json) {
     return ApprovalServiceV1ApproveApprovalRequestRequest(
       comment: json['comment'] as String?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (comment != null) json['comment'] = comment;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     return json;
   }
 
@@ -1765,12 +1764,12 @@ class ApprovalServiceV1ApproveApprovalRequestRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: comment
     final f2 = comment;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -1784,7 +1783,7 @@ class ApprovalServiceV1ApproveApprovalRequestRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: comment
@@ -1819,14 +1818,14 @@ class ApprovalServiceV1RejectApprovalRequestRequest {
   factory ApprovalServiceV1RejectApprovalRequestRequest.fromJson(Map<String, dynamic> json) {
     return ApprovalServiceV1RejectApprovalRequestRequest(
       comment: json['comment'] as String?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (comment != null) json['comment'] = comment;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     return json;
   }
 
@@ -1871,12 +1870,12 @@ class ApprovalServiceV1RejectApprovalRequestRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: comment
     final f2 = comment;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -1890,7 +1889,7 @@ class ApprovalServiceV1RejectApprovalRequestRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: comment
@@ -1918,13 +1917,13 @@ class ApprovalServiceV1CancelApprovalRequestRequest {
 
   factory ApprovalServiceV1CancelApprovalRequestRequest.fromJson(Map<String, dynamic> json) {
     return ApprovalServiceV1CancelApprovalRequestRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     return json;
   }
 
@@ -1965,7 +1964,7 @@ class ApprovalServiceV1CancelApprovalRequestRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
   }
 
@@ -1979,7 +1978,7 @@ class ApprovalServiceV1CancelApprovalRequestRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         default: {
@@ -2169,12 +2168,12 @@ class AsnServiceV1ListAsnResponse {
     // field 1: total
     final f1 = total;
     if (f1 != null) {
-      w.writeUint64(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: items
     final f2 = items;
     if (f2 != null) {
-      for (final e in f2!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
+      for (final e in f2) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
     }
   }
 
@@ -2188,7 +2187,7 @@ class AsnServiceV1ListAsnResponse {
       switch (r.fieldNumber) {
         // field 1: total
         case 1: {
-          m.total = r.readUint64();
+          m.total = r.readInt64();
           break;
         }
         // field 2: items
@@ -2242,16 +2241,16 @@ class AsnServiceV1Asn {
     return AsnServiceV1Asn(
       asnNumber: json['asnNumber'] as String?,
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       expectedDate: json['expectedDate'] as String?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       lines: (json['lines'] as List<dynamic>?)?.map((e) => AsnServiceV1AsnLine.fromJson(e as Map<String, dynamic>)).toList(),
       partnerCode: json['partnerCode'] as String?,
       remark: json['remark'] as String?,
       status: json['status'] != null ? AsnServiceV1AsnStatus.fromString(json['status'] as String) : null,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
       warehouseCode: json['warehouseCode'] as String?,
     );
   }
@@ -2260,16 +2259,16 @@ class AsnServiceV1Asn {
     final json = <String, dynamic>{};
     if (asnNumber != null) json['asnNumber'] = asnNumber;
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (expectedDate != null) json['expectedDate'] = expectedDate;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (lines != null) json['lines'] = lines!.map((e) => e.toJson()).toList();
     if (partnerCode != null) json['partnerCode'] = partnerCode;
     if (remark != null) json['remark'] = remark;
     if (status != null) json['status'] = status!.value;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     if (warehouseCode != null) json['warehouseCode'] = warehouseCode;
     return json;
   }
@@ -2359,67 +2358,67 @@ class AsnServiceV1Asn {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: asnNumber
     final f2 = asnNumber;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: warehouseCode
     final f3 = warehouseCode;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: partnerCode
     final f4 = partnerCode;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: status
     final f5 = status;
     if (f5 != null) {
-      w.writeEnum(5, f5!.wire); // AsnServiceV1AsnStatus
+      w.writeEnum(5, f5.wire); // AsnServiceV1AsnStatus
     }
     // field 6: expectedDate
     final f6 = expectedDate;
     if (f6 != null) {
-      w.writeTimestamp(6, f6!);
+      w.writeTimestamp(6, f6);
     }
     // field 7: lines
     final f7 = lines;
     if (f7 != null) {
-      for (final e in f7!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(7, cw.toBuffer()); }
+      for (final e in f7) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(7, cw.toBuffer()); }
     }
     // field 8: remark
     final f8 = remark;
     if (f8 != null) {
-      w.writeString(8, f8!);
+      w.writeString(8, f8);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: createdAt
     final f102 = createdAt;
     if (f102 != null) {
-      w.writeTimestamp(102, f102!);
+      w.writeTimestamp(102, f102);
     }
     // field 103: updatedAt
     final f103 = updatedAt;
     if (f103 != null) {
-      w.writeTimestamp(103, f103!);
+      w.writeTimestamp(103, f103);
     }
   }
 
@@ -2433,7 +2432,7 @@ class AsnServiceV1Asn {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: asnNumber
@@ -2473,17 +2472,17 @@ class AsnServiceV1Asn {
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: createdAt
@@ -2555,10 +2554,10 @@ class AsnServiceV1AsnLine {
 
   factory AsnServiceV1AsnLine.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1AsnLine(
-      asnId: json['asnId'] as int?,
+      asnId: json['asnId'] != null ? int.parse(json['asnId'].toString()) : null,
       expectedQty: json['expectedQty'] != null ? int.parse(json['expectedQty'].toString()) : null,
       expiryDate: json['expiryDate'] as String?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       lotName: json['lotName'] as String?,
       putawayQty: json['putawayQty'] != null ? int.parse(json['putawayQty'].toString()) : null,
       qcStatus: json['qcStatus'] != null ? AsnServiceV1AsnQcStatus.fromString(json['qcStatus'] as String) : null,
@@ -2570,10 +2569,10 @@ class AsnServiceV1AsnLine {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (asnId != null) json['asnId'] = asnId;
+    if (asnId != null) json['asnId'] = asnId.toString();
     if (expectedQty != null) json['expectedQty'] = expectedQty.toString();
     if (expiryDate != null) json['expiryDate'] = expiryDate;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (lotName != null) json['lotName'] = lotName;
     if (putawayQty != null) json['putawayQty'] = putawayQty.toString();
     if (qcStatus != null) json['qcStatus'] = qcStatus!.value;
@@ -2656,52 +2655,52 @@ class AsnServiceV1AsnLine {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: asnId
     final f2 = asnId;
     if (f2 != null) {
-      w.writeUint32(2, f2!);
+      w.writeInt64(2, f2);
     }
     // field 3: skuCode
     final f3 = skuCode;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: expectedQty
     final f4 = expectedQty;
     if (f4 != null) {
-      w.writeInt64(4, f4!);
+      w.writeInt64(4, f4);
     }
     // field 5: receivedQty
     final f5 = receivedQty;
     if (f5 != null) {
-      w.writeInt64(5, f5!);
+      w.writeInt64(5, f5);
     }
     // field 6: putawayQty
     final f6 = putawayQty;
     if (f6 != null) {
-      w.writeInt64(6, f6!);
+      w.writeInt64(6, f6);
     }
     // field 7: qcStatus
     final f7 = qcStatus;
     if (f7 != null) {
-      w.writeEnum(7, f7!.wire); // AsnServiceV1AsnQcStatus
+      w.writeEnum(7, f7.wire); // AsnServiceV1AsnQcStatus
     }
     // field 8: lotName
     final f8 = lotName;
     if (f8 != null) {
-      w.writeString(8, f8!);
+      w.writeString(8, f8);
     }
     // field 9: remark
     final f9 = remark;
     if (f9 != null) {
-      w.writeString(9, f9!);
+      w.writeString(9, f9);
     }
     // field 10: expiryDate
     final f10 = expiryDate;
     if (f10 != null) {
-      w.writeTimestamp(10, f10!);
+      w.writeTimestamp(10, f10);
     }
   }
 
@@ -2715,12 +2714,12 @@ class AsnServiceV1AsnLine {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: asnId
         case 2: {
-          m.asnId = r.readUint32();
+          m.asnId = r.readInt64();
           break;
         }
         // field 3: skuCode
@@ -2848,7 +2847,7 @@ class AsnServiceV1GetAsnByNumberRequest {
     // field 1: number
     final f1 = number;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
   }
 
@@ -2884,13 +2883,13 @@ class AsnServiceV1GetAsnRequest {
 
   factory AsnServiceV1GetAsnRequest.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1GetAsnRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     return json;
   }
 
@@ -2931,7 +2930,7 @@ class AsnServiceV1GetAsnRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
   }
 
@@ -2945,7 +2944,7 @@ class AsnServiceV1GetAsnRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         default: {
@@ -2970,14 +2969,14 @@ class AsnServiceV1ReceiveAsnRequest {
 
   factory AsnServiceV1ReceiveAsnRequest.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1ReceiveAsnRequest(
-      asnId: json['asnId'] as int?,
+      asnId: json['asnId'] != null ? int.parse(json['asnId'].toString()) : null,
       lines: (json['lines'] as List<dynamic>?)?.map((e) => AsnServiceV1ReceiveAsnLine.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (asnId != null) json['asnId'] = asnId;
+    if (asnId != null) json['asnId'] = asnId.toString();
     if (lines != null) json['lines'] = lines!.map((e) => e.toJson()).toList();
     return json;
   }
@@ -3023,12 +3022,12 @@ class AsnServiceV1ReceiveAsnRequest {
     // field 1: asnId
     final f1 = asnId;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: lines
     final f2 = lines;
     if (f2 != null) {
-      for (final e in f2!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
+      for (final e in f2) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
     }
   }
 
@@ -3042,7 +3041,7 @@ class AsnServiceV1ReceiveAsnRequest {
       switch (r.fieldNumber) {
         // field 1: asnId
         case 1: {
-          m.asnId = r.readUint32();
+          m.asnId = r.readInt64();
           break;
         }
         // field 2: lines
@@ -3078,7 +3077,7 @@ class AsnServiceV1ReceiveAsnLine {
 
   factory AsnServiceV1ReceiveAsnLine.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1ReceiveAsnLine(
-      asnLineId: json['asnLineId'] as int?,
+      asnLineId: json['asnLineId'] != null ? int.parse(json['asnLineId'].toString()) : null,
       expiryDate: json['expiryDate'] as String?,
       lotName: json['lotName'] as String?,
       qcStatus: json['qcStatus'] != null ? AsnServiceV1AsnQcStatus.fromString(json['qcStatus'] as String) : null,
@@ -3088,7 +3087,7 @@ class AsnServiceV1ReceiveAsnLine {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (asnLineId != null) json['asnLineId'] = asnLineId;
+    if (asnLineId != null) json['asnLineId'] = asnLineId.toString();
     if (expiryDate != null) json['expiryDate'] = expiryDate;
     if (lotName != null) json['lotName'] = lotName;
     if (qcStatus != null) json['qcStatus'] = qcStatus!.value;
@@ -3149,27 +3148,27 @@ class AsnServiceV1ReceiveAsnLine {
     // field 1: asnLineId
     final f1 = asnLineId;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: quantity
     final f2 = quantity;
     if (f2 != null) {
-      w.writeInt64(2, f2!);
+      w.writeInt64(2, f2);
     }
     // field 3: qcStatus
     final f3 = qcStatus;
     if (f3 != null) {
-      w.writeEnum(3, f3!.wire); // AsnServiceV1AsnQcStatus
+      w.writeEnum(3, f3.wire); // AsnServiceV1AsnQcStatus
     }
     // field 4: lotName
     final f4 = lotName;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: expiryDate
     final f5 = expiryDate;
     if (f5 != null) {
-      w.writeTimestamp(5, f5!);
+      w.writeTimestamp(5, f5);
     }
   }
 
@@ -3183,7 +3182,7 @@ class AsnServiceV1ReceiveAsnLine {
       switch (r.fieldNumber) {
         // field 1: asnLineId
         case 1: {
-          m.asnLineId = r.readUint32();
+          m.asnLineId = r.readInt64();
           break;
         }
         // field 2: quantity
@@ -3225,13 +3224,13 @@ class AsnServiceV1ReceiveAsnResponse {
 
   factory AsnServiceV1ReceiveAsnResponse.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1ReceiveAsnResponse(
-      pickingId: json['pickingId'] as int?,
+      pickingId: json['pickingId'] != null ? int.parse(json['pickingId'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (pickingId != null) json['pickingId'] = pickingId;
+    if (pickingId != null) json['pickingId'] = pickingId.toString();
     return json;
   }
 
@@ -3272,7 +3271,7 @@ class AsnServiceV1ReceiveAsnResponse {
     // field 1: pickingId
     final f1 = pickingId;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
   }
 
@@ -3286,7 +3285,7 @@ class AsnServiceV1ReceiveAsnResponse {
       switch (r.fieldNumber) {
         // field 1: pickingId
         case 1: {
-          m.pickingId = r.readUint32();
+          m.pickingId = r.readInt64();
           break;
         }
         default: {
@@ -3311,14 +3310,14 @@ class AsnServiceV1PutawayAsnRequest {
 
   factory AsnServiceV1PutawayAsnRequest.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1PutawayAsnRequest(
-      asnId: json['asnId'] as int?,
+      asnId: json['asnId'] != null ? int.parse(json['asnId'].toString()) : null,
       lines: (json['lines'] as List<dynamic>?)?.map((e) => AsnServiceV1PutawayAsnLine.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (asnId != null) json['asnId'] = asnId;
+    if (asnId != null) json['asnId'] = asnId.toString();
     if (lines != null) json['lines'] = lines!.map((e) => e.toJson()).toList();
     return json;
   }
@@ -3364,12 +3363,12 @@ class AsnServiceV1PutawayAsnRequest {
     // field 1: asnId
     final f1 = asnId;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: lines
     final f2 = lines;
     if (f2 != null) {
-      for (final e in f2!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
+      for (final e in f2) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
     }
   }
 
@@ -3383,7 +3382,7 @@ class AsnServiceV1PutawayAsnRequest {
       switch (r.fieldNumber) {
         // field 1: asnId
         case 1: {
-          m.asnId = r.readUint32();
+          m.asnId = r.readInt64();
           break;
         }
         // field 2: lines
@@ -3415,17 +3414,17 @@ class AsnServiceV1PutawayAsnLine {
 
   factory AsnServiceV1PutawayAsnLine.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1PutawayAsnLine(
-      asnLineId: json['asnLineId'] as int?,
+      asnLineId: json['asnLineId'] != null ? int.parse(json['asnLineId'].toString()) : null,
       quantity: json['quantity'] != null ? int.parse(json['quantity'].toString()) : null,
-      targetLocationId: json['targetLocationId'] as int?,
+      targetLocationId: json['targetLocationId'] != null ? int.parse(json['targetLocationId'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (asnLineId != null) json['asnLineId'] = asnLineId;
+    if (asnLineId != null) json['asnLineId'] = asnLineId.toString();
     if (quantity != null) json['quantity'] = quantity.toString();
-    if (targetLocationId != null) json['targetLocationId'] = targetLocationId;
+    if (targetLocationId != null) json['targetLocationId'] = targetLocationId.toString();
     return json;
   }
 
@@ -3474,17 +3473,17 @@ class AsnServiceV1PutawayAsnLine {
     // field 1: asnLineId
     final f1 = asnLineId;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: quantity
     final f2 = quantity;
     if (f2 != null) {
-      w.writeInt64(2, f2!);
+      w.writeInt64(2, f2);
     }
     // field 3: targetLocationId
     final f3 = targetLocationId;
     if (f3 != null) {
-      w.writeUint32(3, f3!);
+      w.writeInt64(3, f3);
     }
   }
 
@@ -3498,7 +3497,7 @@ class AsnServiceV1PutawayAsnLine {
       switch (r.fieldNumber) {
         // field 1: asnLineId
         case 1: {
-          m.asnLineId = r.readUint32();
+          m.asnLineId = r.readInt64();
           break;
         }
         // field 2: quantity
@@ -3508,7 +3507,7 @@ class AsnServiceV1PutawayAsnLine {
         }
         // field 3: targetLocationId
         case 3: {
-          m.targetLocationId = r.readUint32();
+          m.targetLocationId = r.readInt64();
           break;
         }
         default: {
@@ -3530,13 +3529,13 @@ class AsnServiceV1PutawayAsnResponse {
 
   factory AsnServiceV1PutawayAsnResponse.fromJson(Map<String, dynamic> json) {
     return AsnServiceV1PutawayAsnResponse(
-      pickingId: json['pickingId'] as int?,
+      pickingId: json['pickingId'] != null ? int.parse(json['pickingId'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (pickingId != null) json['pickingId'] = pickingId;
+    if (pickingId != null) json['pickingId'] = pickingId.toString();
     return json;
   }
 
@@ -3577,7 +3576,7 @@ class AsnServiceV1PutawayAsnResponse {
     // field 1: pickingId
     final f1 = pickingId;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
   }
 
@@ -3591,7 +3590,7 @@ class AsnServiceV1PutawayAsnResponse {
       switch (r.fieldNumber) {
         // field 1: pickingId
         case 1: {
-          m.pickingId = r.readUint32();
+          m.pickingId = r.readInt64();
           break;
         }
         default: {
@@ -3700,7 +3699,7 @@ class AuthenticationServiceV1LoginRequest {
       refresh_token: json['refresh_token'] as String?,
       scope: json['scope'] as String?,
       tenant_code: json['tenant_code'] as String?,
-      user_id: json['user_id'] as int?,
+      user_id: json['user_id'] != null ? int.parse(json['user_id'].toString()) : null,
       username: json['username'] as String?,
     );
   }
@@ -3721,7 +3720,7 @@ class AuthenticationServiceV1LoginRequest {
     if (refresh_token != null) json['refresh_token'] = refresh_token;
     if (scope != null) json['scope'] = scope;
     if (tenant_code != null) json['tenant_code'] = tenant_code;
-    if (user_id != null) json['user_id'] = user_id;
+    if (user_id != null) json['user_id'] = user_id.toString();
     if (username != null) json['username'] = username;
     return json;
   }
@@ -3823,82 +3822,82 @@ class AuthenticationServiceV1LoginRequest {
     // field 1: grant_type
     final f1 = grant_type;
     if (f1 != null) {
-      w.writeEnum(1, f1!.wire); // AuthenticationServiceV1GrantType
+      w.writeEnum(1, f1.wire); // AuthenticationServiceV1GrantType
     }
     // field 2: client_id
     final f2 = client_id;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: client_secret
     final f3 = client_secret;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: scope
     final f4 = scope;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: redirect_uri
     final f5 = redirect_uri;
     if (f5 != null) {
-      w.writeString(5, f5!);
+      w.writeString(5, f5);
     }
     // field 6: user_id
     final f6 = user_id;
     if (f6 != null) {
-      w.writeUint32(6, f6!);
+      w.writeInt64(6, f6);
     }
     // field 10: username
     final f10 = username;
     if (f10 != null) {
-      w.writeString(10, f10!);
+      w.writeString(10, f10);
     }
     // field 11: email
     final f11 = email;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 12: mobile
     final f12 = mobile;
     if (f12 != null) {
-      w.writeString(12, f12!);
+      w.writeString(12, f12);
     }
     // field 19: password
     final f19 = password;
     if (f19 != null) {
-      w.writeString(19, f19!);
+      w.writeString(19, f19);
     }
     // field 20: refresh_token
     final f20 = refresh_token;
     if (f20 != null) {
-      w.writeString(20, f20!);
+      w.writeString(20, f20);
     }
     // field 30: code
     final f30 = code;
     if (f30 != null) {
-      w.writeString(30, f30!);
+      w.writeString(30, f30);
     }
     // field 40: client_type
     final f40 = client_type;
     if (f40 != null) {
-      w.writeEnum(40, f40!.wire); // AuthenticationServiceV1ClientType
+      w.writeEnum(40, f40.wire); // AuthenticationServiceV1ClientType
     }
     // field 50: device_id
     final f50 = device_id;
     if (f50 != null) {
-      w.writeString(50, f50!);
+      w.writeString(50, f50);
     }
     // field 60: jti
     final f60 = jti;
     if (f60 != null) {
-      w.writeString(60, f60!);
+      w.writeString(60, f60);
     }
     // field 70: tenant_code
     final f70 = tenant_code;
     if (f70 != null) {
-      w.writeString(70, f70!);
+      w.writeString(70, f70);
     }
   }
 
@@ -3937,7 +3936,7 @@ class AuthenticationServiceV1LoginRequest {
         }
         // field 6: user_id
         case 6: {
-          m.user_id = r.readUint32();
+          m.user_id = r.readInt64();
           break;
         }
         // field 10: username
@@ -4144,37 +4143,37 @@ class AuthenticationServiceV1LoginResponse {
     // field 1: token_type
     final f1 = token_type;
     if (f1 != null) {
-      w.writeEnum(1, f1!.wire); // AuthenticationServiceV1TokenType
+      w.writeEnum(1, f1.wire); // AuthenticationServiceV1TokenType
     }
     // field 2: access_token
     final f2 = access_token;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: expires_in
     final f3 = expires_in;
     if (f3 != null) {
-      w.writeInt64(3, f3!);
+      w.writeInt64(3, f3);
     }
     // field 4: refresh_token
     final f4 = refresh_token;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: scope
     final f5 = scope;
     if (f5 != null) {
-      w.writeString(5, f5!);
+      w.writeString(5, f5);
     }
     // field 6: refresh_expires_in
     final f6 = refresh_expires_in;
     if (f6 != null) {
-      w.writeInt64(6, f6!);
+      w.writeInt64(6, f6);
     }
     // field 7: id_token
     final f7 = id_token;
     if (f7 != null) {
-      w.writeString(7, f7!);
+      w.writeString(7, f7);
     }
   }
 
@@ -4342,12 +4341,12 @@ class DictServiceV1ListDictEntryByTypeCodeRequest {
     // field 1: typeCode
     final f1 = typeCode;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: local
     final f2 = local;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -4435,7 +4434,7 @@ class DictServiceV1ListDictEntryByTypeCodeResponse {
     // field 1: items
     final f1 = items;
     if (f1 != null) {
-      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+      for (final e in f1) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
     }
   }
 
@@ -4503,42 +4502,42 @@ class DictServiceV1DictEntry {
   factory DictServiceV1DictEntry.fromJson(Map<String, dynamic> json) {
     return DictServiceV1DictEntry(
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       currentI18n: json['currentI18n'] != null ? DictServiceV1DictEntryI18n.fromJson(json['currentI18n'] as Map<String, dynamic>) : null,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
       entryValue: json['entryValue'] as String?,
       i18n: (json['i18n'] as Map<String, dynamic>?)?.map((k, v) => MapEntry(k, DictServiceV1DictEntryI18n.fromJson(v as Map<String, dynamic>))),
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       isEnabled: json['isEnabled'] as bool?,
       numericValue: json['numericValue'] as int?,
       sortOrder: json['sortOrder'] as int?,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       tenantName: json['tenantName'] as String?,
-      typeId: json['typeId'] as int?,
+      typeId: json['typeId'] != null ? int.parse(json['typeId'].toString()) : null,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (currentI18n != null) json['currentI18n'] = currentI18n!.toJson();
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
     if (entryValue != null) json['entryValue'] = entryValue;
     if (i18n != null) json['i18n'] = i18n!.map((k, v) => MapEntry(k, v.toJson()));
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (isEnabled != null) json['isEnabled'] = isEnabled;
     if (numericValue != null) json['numericValue'] = numericValue;
     if (sortOrder != null) json['sortOrder'] = sortOrder;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (tenantName != null) json['tenantName'] = tenantName;
-    if (typeId != null) json['typeId'] = typeId;
+    if (typeId != null) json['typeId'] = typeId.toString();
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     return json;
   }
 
@@ -4639,37 +4638,37 @@ class DictServiceV1DictEntry {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: typeId
     final f2 = typeId;
     if (f2 != null) {
-      w.writeUint32(2, f2!);
+      w.writeInt64(2, f2);
     }
     // field 3: entryValue
     final f3 = entryValue;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: numericValue
     final f4 = numericValue;
     if (f4 != null) {
-      w.writeInt32(4, f4!);
+      w.writeInt32(4, f4);
     }
     // field 5: isEnabled
     final f5 = isEnabled;
     if (f5 != null) {
-      w.writeBool(5, f5!);
+      w.writeBool(5, f5);
     }
     // field 6: sortOrder
     final f6 = sortOrder;
     if (f6 != null) {
-      w.writeUint32(6, f6!);
+      w.writeUint32(6, f6);
     }
     // field 7: i18n
     final f7 = i18n;
     if (f7 != null) {
-      f7!.forEach((k, v) {
+      f7.forEach((k, v) {
         final ew = ProtoWireWriter();
         ew.writeString(1, k);
         final vw = ProtoWireWriter(); v._writeTo(vw); ew.writeRaw(2, vw.toBuffer());
@@ -4679,47 +4678,47 @@ class DictServiceV1DictEntry {
     // field 8: currentI18n
     final f8 = currentI18n;
     if (f8 != null) {
-      final cw = ProtoWireWriter(); f8!._writeTo(cw); w.writeRaw(8, cw.toBuffer()); // DictServiceV1DictEntryI18n
+      final cw = ProtoWireWriter(); f8._writeTo(cw); w.writeRaw(8, cw.toBuffer()); // DictServiceV1DictEntryI18n
     }
     // field 50: tenantId
     final f50 = tenantId;
     if (f50 != null) {
-      w.writeUint32(50, f50!);
+      w.writeInt64(50, f50);
     }
     // field 51: tenantName
     final f51 = tenantName;
     if (f51 != null) {
-      w.writeString(51, f51!);
+      w.writeString(51, f51);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -4733,12 +4732,12 @@ class DictServiceV1DictEntry {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: typeId
         case 2: {
-          m.typeId = r.readUint32();
+          m.typeId = r.readInt64();
           break;
         }
         // field 3: entryValue
@@ -4780,7 +4779,7 @@ class DictServiceV1DictEntry {
             }
           }
           if (k != null && v != null) {
-            (m.i18n ??= {})[k!] = v!;
+            (m.i18n ??= {})[k] = v;
           }
           break;
         }
@@ -4791,7 +4790,7 @@ class DictServiceV1DictEntry {
         }
         // field 50: tenantId
         case 50: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 51: tenantName
@@ -4801,17 +4800,17 @@ class DictServiceV1DictEntry {
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -4920,22 +4919,22 @@ class DictServiceV1DictEntryI18n {
     // field 1: entryLabel
     final f1 = entryLabel;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: description
     final f2 = description;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: languageCode
     final f3 = languageCode;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: languageName
     final f4 = languageName;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
   }
 
@@ -5084,7 +5083,7 @@ class StorageServiceV1DownloadFileRequest {
       acceptMime: json['acceptMime'] as String?,
       disposition: json['disposition'] as String?,
       downloadUrl: json['downloadUrl'] as String?,
-      fileId: json['fileId'] as int?,
+      fileId: json['fileId'] != null ? int.parse(json['fileId'].toString()) : null,
       preferPresignedUrl: json['preferPresignedUrl'] as bool?,
       presignExpireSeconds: json['presignExpireSeconds'] as int?,
       rangeEnd: json['rangeEnd'] != null ? int.parse(json['rangeEnd'].toString()) : null,
@@ -5098,7 +5097,7 @@ class StorageServiceV1DownloadFileRequest {
     if (acceptMime != null) json['acceptMime'] = acceptMime;
     if (disposition != null) json['disposition'] = disposition;
     if (downloadUrl != null) json['downloadUrl'] = downloadUrl;
-    if (fileId != null) json['fileId'] = fileId;
+    if (fileId != null) json['fileId'] = fileId.toString();
     if (preferPresignedUrl != null) json['preferPresignedUrl'] = preferPresignedUrl;
     if (presignExpireSeconds != null) json['presignExpireSeconds'] = presignExpireSeconds;
     if (rangeEnd != null) json['rangeEnd'] = rangeEnd.toString();
@@ -5176,47 +5175,47 @@ class StorageServiceV1DownloadFileRequest {
     // field 1: fileId
     final f1 = fileId;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: storageObject
     final f2 = storageObject;
     if (f2 != null) {
-      final cw = ProtoWireWriter(); f2!._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // StorageServiceV1StorageObject
+      final cw = ProtoWireWriter(); f2._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // StorageServiceV1StorageObject
     }
     // field 3: downloadUrl
     final f3 = downloadUrl;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: rangeStart
     final f4 = rangeStart;
     if (f4 != null) {
-      w.writeInt64(4, f4!);
+      w.writeInt64(4, f4);
     }
     // field 5: rangeEnd
     final f5 = rangeEnd;
     if (f5 != null) {
-      w.writeInt64(5, f5!);
+      w.writeInt64(5, f5);
     }
     // field 6: preferPresignedUrl
     final f6 = preferPresignedUrl;
     if (f6 != null) {
-      w.writeBool(6, f6!);
+      w.writeBool(6, f6);
     }
     // field 7: presignExpireSeconds
     final f7 = presignExpireSeconds;
     if (f7 != null) {
-      w.writeInt32(7, f7!);
+      w.writeInt32(7, f7);
     }
     // field 8: disposition
     final f8 = disposition;
     if (f8 != null) {
-      w.writeString(8, f8!);
+      w.writeString(8, f8);
     }
     // field 9: acceptMime
     final f9 = acceptMime;
     if (f9 != null) {
-      w.writeString(9, f9!);
+      w.writeString(9, f9);
     }
   }
 
@@ -5230,7 +5229,7 @@ class StorageServiceV1DownloadFileRequest {
       switch (r.fieldNumber) {
         // field 1: fileId
         case 1: {
-          m.fileId = r.readUint32();
+          m.fileId = r.readInt64();
           break;
         }
         // field 2: storageObject
@@ -5356,17 +5355,17 @@ class StorageServiceV1StorageObject {
     // field 1: bucketName
     final f1 = bucketName;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: fileDirectory
     final f2 = fileDirectory;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: objectName
     final f3 = objectName;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
   }
 
@@ -5514,41 +5513,44 @@ class StorageServiceV1DownloadFileResponse {
 
   void _writeTo(ProtoWireWriter w) {
     // field 1: file
-    throw UnsupportedError('dart-http wire: field storage.service.v1.DownloadFileResponse.file');
+    final f1 = file;
+    if (f1 != null) {
+      throw UnsupportedError('dart-http wire: field storage.service.v1.DownloadFileResponse.file');
+    }
     // field 2: downloadUrl
     final f2 = downloadUrl;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: sourceFileName
     final f3 = sourceFileName;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: mime
     final f4 = mime;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: size
     final f5 = size;
     if (f5 != null) {
-      w.writeInt64(5, f5!);
+      w.writeInt64(5, f5);
     }
     // field 6: checksum
     final f6 = checksum;
     if (f6 != null) {
-      w.writeString(6, f6!);
+      w.writeString(6, f6);
     }
     // field 7: storagePath
     final f7 = storagePath;
     if (f7 != null) {
-      w.writeString(7, f7!);
+      w.writeString(7, f7);
     }
     // field 8: updatedAt
     final f8 = updatedAt;
     if (f8 != null) {
-      w.writeTimestamp(8, f8!);
+      w.writeTimestamp(8, f8);
     }
   }
 
@@ -5639,8 +5641,8 @@ class StorageServiceV1UploadFileRequest {
       size: json['size'] != null ? int.parse(json['size'].toString()) : null,
       sourceFileName: json['sourceFileName'] as String?,
       storageObject: json['storageObject'] != null ? StorageServiceV1StorageObject.fromJson(json['storageObject'] as Map<String, dynamic>) : null,
-      tenantId: json['tenantId'] as int?,
-      userId: json['userId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
+      userId: json['userId'] != null ? int.parse(json['userId'].toString()) : null,
     );
   }
 
@@ -5652,8 +5654,8 @@ class StorageServiceV1UploadFileRequest {
     if (size != null) json['size'] = size.toString();
     if (sourceFileName != null) json['sourceFileName'] = sourceFileName;
     if (storageObject != null) json['storageObject'] = storageObject!.toJson();
-    if (tenantId != null) json['tenantId'] = tenantId;
-    if (userId != null) json['userId'] = userId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
+    if (userId != null) json['userId'] = userId.toString();
     return json;
   }
 
@@ -5722,39 +5724,42 @@ class StorageServiceV1UploadFileRequest {
     // field 1: storageObject
     final f1 = storageObject;
     if (f1 != null) {
-      final cw = ProtoWireWriter(); f1!._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // StorageServiceV1StorageObject
+      final cw = ProtoWireWriter(); f1._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // StorageServiceV1StorageObject
     }
     // field 2: file
-    throw UnsupportedError('dart-http wire: field storage.service.v1.UploadFileRequest.file');
+    final f2 = file;
+    if (f2 != null) {
+      throw UnsupportedError('dart-http wire: field storage.service.v1.UploadFileRequest.file');
+    }
     // field 3: presign
     final f3 = presign;
     if (f3 != null) {
-      final cw = ProtoWireWriter(); f3!._writeTo(cw); w.writeRaw(3, cw.toBuffer()); // StorageServiceV1PresignOption
+      final cw = ProtoWireWriter(); f3._writeTo(cw); w.writeRaw(3, cw.toBuffer()); // StorageServiceV1PresignOption
     }
     // field 4: sourceFileName
     final f4 = sourceFileName;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: mime
     final f5 = mime;
     if (f5 != null) {
-      w.writeString(5, f5!);
+      w.writeString(5, f5);
     }
     // field 6: size
     final f6 = size;
     if (f6 != null) {
-      w.writeInt64(6, f6!);
+      w.writeInt64(6, f6);
     }
     // field 10: tenantId
     final f10 = tenantId;
     if (f10 != null) {
-      w.writeUint32(10, f10!);
+      w.writeInt64(10, f10);
     }
     // field 11: userId
     final f11 = userId;
     if (f11 != null) {
-      w.writeUint32(11, f11!);
+      w.writeInt64(11, f11);
     }
   }
 
@@ -5798,12 +5803,12 @@ class StorageServiceV1UploadFileRequest {
         }
         // field 10: tenantId
         case 10: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 11: userId
         case 11: {
-          m.userId = r.readUint32();
+          m.userId = r.readInt64();
           break;
         }
         default: {
@@ -5889,17 +5894,17 @@ class StorageServiceV1PresignOption {
     // field 1: method
     final f1 = method;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: expireSeconds
     final f2 = expireSeconds;
     if (f2 != null) {
-      w.writeInt32(2, f2!);
+      w.writeInt32(2, f2);
     }
     // field 3: contentType
     final f3 = contentType;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
   }
 
@@ -6000,12 +6005,12 @@ class StorageServiceV1UploadFileResponse {
     // field 1: objectName
     final f1 = objectName;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: presignedUrl
     final f2 = presignedUrl;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -6178,12 +6183,12 @@ class InventoryServiceV1ListWarehouseResponse {
     // field 1: items
     final f1 = items;
     if (f1 != null) {
-      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+      for (final e in f1) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
     }
     // field 2: total
     final f2 = total;
     if (f2 != null) {
-      w.writeUint64(2, f2!);
+      w.writeInt64(2, f2);
     }
   }
 
@@ -6202,7 +6207,7 @@ class InventoryServiceV1ListWarehouseResponse {
         }
         // field 2: total
         case 2: {
-          m.total = r.readUint64();
+          m.total = r.readInt64();
           break;
         }
         default: {
@@ -6263,18 +6268,18 @@ class InventoryServiceV1Warehouse {
     return InventoryServiceV1Warehouse(
       code: json['code'] as String?,
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
       enable: json['enable'] as bool?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       location: json['location'] as String?,
       name: json['name'] as String?,
-      receivingLocationId: json['receivingLocationId'] as int?,
+      receivingLocationId: json['receivingLocationId'] != null ? int.parse(json['receivingLocationId'].toString()) : null,
       remark: json['remark'] as String?,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
     );
   }
 
@@ -6282,18 +6287,18 @@ class InventoryServiceV1Warehouse {
     final json = <String, dynamic>{};
     if (code != null) json['code'] = code;
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
     if (enable != null) json['enable'] = enable;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (location != null) json['location'] = location;
     if (name != null) json['name'] = name;
-    if (receivingLocationId != null) json['receivingLocationId'] = receivingLocationId;
+    if (receivingLocationId != null) json['receivingLocationId'] = receivingLocationId.toString();
     if (remark != null) json['remark'] = remark;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     return json;
   }
 
@@ -6386,72 +6391,72 @@ class InventoryServiceV1Warehouse {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: code
     final f2 = code;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: name
     final f3 = name;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: location
     final f4 = location;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 5: receivingLocationId
     final f5 = receivingLocationId;
     if (f5 != null) {
-      w.writeUint32(5, f5!);
+      w.writeInt64(5, f5);
     }
     // field 10: enable
     final f10 = enable;
     if (f10 != null) {
-      w.writeBool(10, f10!);
+      w.writeBool(10, f10);
     }
     // field 11: remark
     final f11 = remark;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -6465,7 +6470,7 @@ class InventoryServiceV1Warehouse {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: code
@@ -6485,7 +6490,7 @@ class InventoryServiceV1Warehouse {
         }
         // field 5: receivingLocationId
         case 5: {
-          m.receivingLocationId = r.readUint32();
+          m.receivingLocationId = r.readInt64();
           break;
         }
         // field 10: enable
@@ -6500,22 +6505,22 @@ class InventoryServiceV1Warehouse {
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -6555,14 +6560,14 @@ class InventoryServiceV1GetWarehouseRequest {
 
   factory InventoryServiceV1GetWarehouseRequest.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1GetWarehouseRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       viewMask: json['viewMask'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (viewMask != null) json['viewMask'] = viewMask;
     return json;
   }
@@ -6608,12 +6613,12 @@ class InventoryServiceV1GetWarehouseRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 100: viewMask
     final f100 = viewMask;
     if (f100 != null) {
-      w.writeFieldMask(100, f100!);
+      w.writeFieldMask(100, f100);
     }
   }
 
@@ -6627,7 +6632,7 @@ class InventoryServiceV1GetWarehouseRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 100: viewMask
@@ -6806,12 +6811,12 @@ class InventoryServiceV1ListStockQuantResponse {
     // field 1: items
     final f1 = items;
     if (f1 != null) {
-      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+      for (final e in f1) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
     }
     // field 2: total
     final f2 = total;
     if (f2 != null) {
-      w.writeUint64(2, f2!);
+      w.writeInt64(2, f2);
     }
   }
 
@@ -6830,7 +6835,7 @@ class InventoryServiceV1ListStockQuantResponse {
         }
         // field 2: total
         case 2: {
-          m.total = r.readUint64();
+          m.total = r.readInt64();
           break;
         }
         default: {
@@ -6892,18 +6897,18 @@ class InventoryServiceV1StockQuant {
     return InventoryServiceV1StockQuant(
       costPrice: json['costPrice'] != null ? int.parse(json['costPrice'].toString()) : null,
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
       frozen: json['frozen'] as bool?,
-      id: json['id'] as int?,
-      locationId: json['locationId'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
+      locationId: json['locationId'] != null ? int.parse(json['locationId'].toString()) : null,
       productCode: json['productCode'] as String?,
       quantity: json['quantity'] != null ? int.parse(json['quantity'].toString()) : null,
       remark: json['remark'] as String?,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
     );
   }
 
@@ -6911,18 +6916,18 @@ class InventoryServiceV1StockQuant {
     final json = <String, dynamic>{};
     if (costPrice != null) json['costPrice'] = costPrice.toString();
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
     if (frozen != null) json['frozen'] = frozen;
-    if (id != null) json['id'] = id;
-    if (locationId != null) json['locationId'] = locationId;
+    if (id != null) json['id'] = id.toString();
+    if (locationId != null) json['locationId'] = locationId.toString();
     if (productCode != null) json['productCode'] = productCode;
     if (quantity != null) json['quantity'] = quantity.toString();
     if (remark != null) json['remark'] = remark;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     return json;
   }
 
@@ -7015,72 +7020,72 @@ class InventoryServiceV1StockQuant {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: locationId
     final f2 = locationId;
     if (f2 != null) {
-      w.writeUint32(2, f2!);
+      w.writeInt64(2, f2);
     }
     // field 3: productCode
     final f3 = productCode;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: quantity
     final f4 = quantity;
     if (f4 != null) {
-      w.writeInt64(4, f4!);
+      w.writeInt64(4, f4);
     }
     // field 5: costPrice
     final f5 = costPrice;
     if (f5 != null) {
-      w.writeInt64(5, f5!);
+      w.writeInt64(5, f5);
     }
     // field 10: frozen
     final f10 = frozen;
     if (f10 != null) {
-      w.writeBool(10, f10!);
+      w.writeBool(10, f10);
     }
     // field 11: remark
     final f11 = remark;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -7094,12 +7099,12 @@ class InventoryServiceV1StockQuant {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: locationId
         case 2: {
-          m.locationId = r.readUint32();
+          m.locationId = r.readInt64();
           break;
         }
         // field 3: productCode
@@ -7129,22 +7134,22 @@ class InventoryServiceV1StockQuant {
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -7183,14 +7188,14 @@ class InventoryServiceV1GetStockQuantRequest {
 
   factory InventoryServiceV1GetStockQuantRequest.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1GetStockQuantRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       viewMask: json['viewMask'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (viewMask != null) json['viewMask'] = viewMask;
     return json;
   }
@@ -7236,12 +7241,12 @@ class InventoryServiceV1GetStockQuantRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 100: viewMask
     final f100 = viewMask;
     if (f100 != null) {
-      w.writeFieldMask(100, f100!);
+      w.writeFieldMask(100, f100);
     }
   }
 
@@ -7255,7 +7260,7 @@ class InventoryServiceV1GetStockQuantRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 100: viewMask
@@ -7337,12 +7342,12 @@ class InventoryServiceV1GetStockQuantOverviewRequest {
     // field 1: lowStockThreshold
     final f1 = lowStockThreshold;
     if (f1 != null) {
-      w.writeInt64(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: lowStockLimit
     final f2 = lowStockLimit;
     if (f2 != null) {
-      w.writeInt32(2, f2!);
+      w.writeInt32(2, f2);
     }
   }
 
@@ -7463,27 +7468,27 @@ class InventoryServiceV1StockQuantOverview {
     // field 1: warehouseCount
     final f1 = warehouseCount;
     if (f1 != null) {
-      w.writeUint64(1, f1!);
+      w.writeUint64(1, f1);
     }
     // field 2: skuCount
     final f2 = skuCount;
     if (f2 != null) {
-      w.writeUint64(2, f2!);
+      w.writeUint64(2, f2);
     }
     // field 3: totalQuantity
     final f3 = totalQuantity;
     if (f3 != null) {
-      w.writeInt64(3, f3!);
+      w.writeInt64(3, f3);
     }
     // field 4: movementCount
     final f4 = movementCount;
     if (f4 != null) {
-      w.writeUint64(4, f4!);
+      w.writeUint64(4, f4);
     }
     // field 5: lowStockItems
     final f5 = lowStockItems;
     if (f5 != null) {
-      for (final e in f5!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(5, cw.toBuffer()); }
+      for (final e in f5) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(5, cw.toBuffer()); }
     }
   }
 
@@ -7742,12 +7747,12 @@ class InventoryServiceV1ListStockPickingResponse {
     // field 1: items
     final f1 = items;
     if (f1 != null) {
-      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+      for (final e in f1) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
     }
     // field 2: total
     final f2 = total;
     if (f2 != null) {
-      w.writeUint64(2, f2!);
+      w.writeInt64(2, f2);
     }
   }
 
@@ -7766,7 +7771,7 @@ class InventoryServiceV1ListStockPickingResponse {
         }
         // field 2: total
         case 2: {
-          m.total = r.readUint64();
+          m.total = r.readInt64();
           break;
         }
         default: {
@@ -7848,51 +7853,51 @@ class InventoryServiceV1StockPicking {
 
   factory InventoryServiceV1StockPicking.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1StockPicking(
-      asnId: json['asnId'] as int?,
+      asnId: json['asnId'] != null ? int.parse(json['asnId'].toString()) : null,
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
       derivedState: json['derivedState'] != null ? InventoryServiceV1StockPicking$DerivedState.fromString(json['derivedState'] as String) : null,
-      destinationLocationId: json['destinationLocationId'] as int?,
+      destinationLocationId: json['destinationLocationId'] != null ? int.parse(json['destinationLocationId'].toString()) : null,
       fromWarehouseCode: json['fromWarehouseCode'] as String?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       moves: (json['moves'] as List<dynamic>?)?.map((e) => InventoryServiceV1StockMove.fromJson(e as Map<String, dynamic>)).toList(),
       partnerCode: json['partnerCode'] as String?,
       pickingNumber: json['pickingNumber'] as String?,
       pickingType: json['pickingType'] != null ? InventoryServiceV1StockPicking$PickingType.fromString(json['pickingType'] as String) : null,
       remark: json['remark'] as String?,
-      sourceLocationId: json['sourceLocationId'] as int?,
-      tenantId: json['tenantId'] as int?,
+      sourceLocationId: json['sourceLocationId'] != null ? int.parse(json['sourceLocationId'].toString()) : null,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       toWarehouseCode: json['toWarehouseCode'] as String?,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
-      waveId: json['waveId'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
+      waveId: json['waveId'] != null ? int.parse(json['waveId'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (asnId != null) json['asnId'] = asnId;
+    if (asnId != null) json['asnId'] = asnId.toString();
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
     if (derivedState != null) json['derivedState'] = derivedState!.value;
-    if (destinationLocationId != null) json['destinationLocationId'] = destinationLocationId;
+    if (destinationLocationId != null) json['destinationLocationId'] = destinationLocationId.toString();
     if (fromWarehouseCode != null) json['fromWarehouseCode'] = fromWarehouseCode;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (moves != null) json['moves'] = moves!.map((e) => e.toJson()).toList();
     if (partnerCode != null) json['partnerCode'] = partnerCode;
     if (pickingNumber != null) json['pickingNumber'] = pickingNumber;
     if (pickingType != null) json['pickingType'] = pickingType!.value;
     if (remark != null) json['remark'] = remark;
-    if (sourceLocationId != null) json['sourceLocationId'] = sourceLocationId;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (sourceLocationId != null) json['sourceLocationId'] = sourceLocationId.toString();
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (toWarehouseCode != null) json['toWarehouseCode'] = toWarehouseCode;
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
-    if (waveId != null) json['waveId'] = waveId;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
+    if (waveId != null) json['waveId'] = waveId.toString();
     return json;
   }
 
@@ -8009,102 +8014,102 @@ class InventoryServiceV1StockPicking {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: pickingNumber
     final f2 = pickingNumber;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: pickingType
     final f3 = pickingType;
     if (f3 != null) {
-      w.writeEnum(3, f3!.wire); // InventoryServiceV1StockPicking$PickingType
+      w.writeEnum(3, f3.wire); // InventoryServiceV1StockPicking$PickingType
     }
     // field 4: derivedState
     final f4 = derivedState;
     if (f4 != null) {
-      w.writeEnum(4, f4!.wire); // InventoryServiceV1StockPicking$DerivedState
+      w.writeEnum(4, f4.wire); // InventoryServiceV1StockPicking$DerivedState
     }
     // field 6: partnerCode
     final f6 = partnerCode;
     if (f6 != null) {
-      w.writeString(6, f6!);
+      w.writeString(6, f6);
     }
     // field 7: moves
     final f7 = moves;
     if (f7 != null) {
-      for (final e in f7!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(7, cw.toBuffer()); }
+      for (final e in f7) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(7, cw.toBuffer()); }
     }
     // field 9: sourceLocationId
     final f9 = sourceLocationId;
     if (f9 != null) {
-      w.writeUint32(9, f9!);
+      w.writeInt64(9, f9);
     }
     // field 10: destinationLocationId
     final f10 = destinationLocationId;
     if (f10 != null) {
-      w.writeUint32(10, f10!);
+      w.writeInt64(10, f10);
     }
     // field 11: remark
     final f11 = remark;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 12: fromWarehouseCode
     final f12 = fromWarehouseCode;
     if (f12 != null) {
-      w.writeString(12, f12!);
+      w.writeString(12, f12);
     }
     // field 13: toWarehouseCode
     final f13 = toWarehouseCode;
     if (f13 != null) {
-      w.writeString(13, f13!);
+      w.writeString(13, f13);
     }
     // field 14: asnId
     final f14 = asnId;
     if (f14 != null) {
-      w.writeUint32(14, f14!);
+      w.writeInt64(14, f14);
     }
     // field 15: waveId
     final f15 = waveId;
     if (f15 != null) {
-      w.writeUint32(15, f15!);
+      w.writeInt64(15, f15);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -8118,7 +8123,7 @@ class InventoryServiceV1StockPicking {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: pickingNumber
@@ -8148,12 +8153,12 @@ class InventoryServiceV1StockPicking {
         }
         // field 9: sourceLocationId
         case 9: {
-          m.sourceLocationId = r.readUint32();
+          m.sourceLocationId = r.readInt64();
           break;
         }
         // field 10: destinationLocationId
         case 10: {
-          m.destinationLocationId = r.readUint32();
+          m.destinationLocationId = r.readInt64();
           break;
         }
         // field 11: remark
@@ -8173,32 +8178,32 @@ class InventoryServiceV1StockPicking {
         }
         // field 14: asnId
         case 14: {
-          m.asnId = r.readUint32();
+          m.asnId = r.readInt64();
           break;
         }
         // field 15: waveId
         case 15: {
-          m.waveId = r.readUint32();
+          m.waveId = r.readInt64();
           break;
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -8329,44 +8334,44 @@ class InventoryServiceV1StockMove {
   factory InventoryServiceV1StockMove.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1StockMove(
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
-      destinationLocationId: json['destinationLocationId'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
+      destinationLocationId: json['destinationLocationId'] != null ? int.parse(json['destinationLocationId'].toString()) : null,
       expiryDate: json['expiryDate'] as String?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       lotName: json['lotName'] as String?,
-      pickingId: json['pickingId'] as int?,
+      pickingId: json['pickingId'] != null ? int.parse(json['pickingId'].toString()) : null,
       plannedQuantity: json['plannedQuantity'] != null ? int.parse(json['plannedQuantity'].toString()) : null,
       productCode: json['productCode'] as String?,
       remark: json['remark'] as String?,
-      sourceLocationId: json['sourceLocationId'] as int?,
+      sourceLocationId: json['sourceLocationId'] != null ? int.parse(json['sourceLocationId'].toString()) : null,
       state: json['state'] != null ? InventoryServiceV1StockMove$State.fromString(json['state'] as String) : null,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
-    if (destinationLocationId != null) json['destinationLocationId'] = destinationLocationId;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
+    if (destinationLocationId != null) json['destinationLocationId'] = destinationLocationId.toString();
     if (expiryDate != null) json['expiryDate'] = expiryDate;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (lotName != null) json['lotName'] = lotName;
-    if (pickingId != null) json['pickingId'] = pickingId;
+    if (pickingId != null) json['pickingId'] = pickingId.toString();
     if (plannedQuantity != null) json['plannedQuantity'] = plannedQuantity.toString();
     if (productCode != null) json['productCode'] = productCode;
     if (remark != null) json['remark'] = remark;
-    if (sourceLocationId != null) json['sourceLocationId'] = sourceLocationId;
+    if (sourceLocationId != null) json['sourceLocationId'] = sourceLocationId.toString();
     if (state != null) json['state'] = state!.value;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     return json;
   }
 
@@ -8471,87 +8476,87 @@ class InventoryServiceV1StockMove {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: pickingId
     final f2 = pickingId;
     if (f2 != null) {
-      w.writeUint32(2, f2!);
+      w.writeInt64(2, f2);
     }
     // field 3: productCode
     final f3 = productCode;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: sourceLocationId
     final f4 = sourceLocationId;
     if (f4 != null) {
-      w.writeUint32(4, f4!);
+      w.writeInt64(4, f4);
     }
     // field 5: destinationLocationId
     final f5 = destinationLocationId;
     if (f5 != null) {
-      w.writeUint32(5, f5!);
+      w.writeInt64(5, f5);
     }
     // field 6: plannedQuantity
     final f6 = plannedQuantity;
     if (f6 != null) {
-      w.writeInt64(6, f6!);
+      w.writeInt64(6, f6);
     }
     // field 7: state
     final f7 = state;
     if (f7 != null) {
-      w.writeEnum(7, f7!.wire); // InventoryServiceV1StockMove$State
+      w.writeEnum(7, f7.wire); // InventoryServiceV1StockMove$State
     }
     // field 11: remark
     final f11 = remark;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 16: lotName
     final f16 = lotName;
     if (f16 != null) {
-      w.writeString(16, f16!);
+      w.writeString(16, f16);
     }
     // field 17: expiryDate
     final f17 = expiryDate;
     if (f17 != null) {
-      w.writeTimestamp(17, f17!);
+      w.writeTimestamp(17, f17);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -8565,12 +8570,12 @@ class InventoryServiceV1StockMove {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: pickingId
         case 2: {
-          m.pickingId = r.readUint32();
+          m.pickingId = r.readInt64();
           break;
         }
         // field 3: productCode
@@ -8580,12 +8585,12 @@ class InventoryServiceV1StockMove {
         }
         // field 4: sourceLocationId
         case 4: {
-          m.sourceLocationId = r.readUint32();
+          m.sourceLocationId = r.readInt64();
           break;
         }
         // field 5: destinationLocationId
         case 5: {
-          m.destinationLocationId = r.readUint32();
+          m.destinationLocationId = r.readInt64();
           break;
         }
         // field 6: plannedQuantity
@@ -8615,22 +8620,22 @@ class InventoryServiceV1StockMove {
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -8689,14 +8694,14 @@ class InventoryServiceV1GetStockPickingRequest {
 
   factory InventoryServiceV1GetStockPickingRequest.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1GetStockPickingRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       viewMask: json['viewMask'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (viewMask != null) json['viewMask'] = viewMask;
     return json;
   }
@@ -8742,12 +8747,12 @@ class InventoryServiceV1GetStockPickingRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 100: viewMask
     final f100 = viewMask;
     if (f100 != null) {
-      w.writeFieldMask(100, f100!);
+      w.writeFieldMask(100, f100);
     }
   }
 
@@ -8761,7 +8766,7 @@ class InventoryServiceV1GetStockPickingRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 100: viewMask
@@ -8835,7 +8840,7 @@ class InventoryServiceV1GetStockPickingByNumberRequest {
     // field 1: number
     final f1 = number;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
   }
 
@@ -8918,7 +8923,7 @@ class InventoryServiceV1CreateStockPickingRequest {
     // field 1: data
     final f1 = data;
     if (f1 != null) {
-      final cw = ProtoWireWriter(); f1!._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // InventoryServiceV1StockPicking
+      final cw = ProtoWireWriter(); f1._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // InventoryServiceV1StockPicking
     }
   }
 
@@ -8954,13 +8959,13 @@ class InventoryServiceV1ConfirmStockPickingRequest {
 
   factory InventoryServiceV1ConfirmStockPickingRequest.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1ConfirmStockPickingRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     return json;
   }
 
@@ -9001,7 +9006,7 @@ class InventoryServiceV1ConfirmStockPickingRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
   }
 
@@ -9015,7 +9020,7 @@ class InventoryServiceV1ConfirmStockPickingRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         default: {
@@ -9041,14 +9046,14 @@ class InventoryServiceV1ValidateStockPickingRequest {
 
   factory InventoryServiceV1ValidateStockPickingRequest.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1ValidateStockPickingRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       lotAssignments: (json['lotAssignments'] as List<dynamic>?)?.map((e) => InventoryServiceV1LotAssignment.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (lotAssignments != null) json['lotAssignments'] = lotAssignments!.map((e) => e.toJson()).toList();
     return json;
   }
@@ -9094,12 +9099,12 @@ class InventoryServiceV1ValidateStockPickingRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: lotAssignments
     final f2 = lotAssignments;
     if (f2 != null) {
-      for (final e in f2!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
+      for (final e in f2) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(2, cw.toBuffer()); }
     }
   }
 
@@ -9113,7 +9118,7 @@ class InventoryServiceV1ValidateStockPickingRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: lotAssignments
@@ -9204,17 +9209,17 @@ class InventoryServiceV1LotAssignment {
     // field 1: productCode
     final f1 = productCode;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: lotName
     final f2 = lotName;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: expiryDate
     final f3 = expiryDate;
     if (f3 != null) {
-      w.writeTimestamp(3, f3!);
+      w.writeTimestamp(3, f3);
     }
   }
 
@@ -9260,13 +9265,13 @@ class InventoryServiceV1CancelStockPickingRequest {
 
   factory InventoryServiceV1CancelStockPickingRequest.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1CancelStockPickingRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     return json;
   }
 
@@ -9307,7 +9312,7 @@ class InventoryServiceV1CancelStockPickingRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
   }
 
@@ -9321,7 +9326,7 @@ class InventoryServiceV1CancelStockPickingRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         default: {
@@ -9475,12 +9480,12 @@ class InventoryServiceV1ListLocationResponse {
     // field 1: items
     final f1 = items;
     if (f1 != null) {
-      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+      for (final e in f1) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
     }
     // field 2: total
     final f2 = total;
     if (f2 != null) {
-      w.writeUint64(2, f2!);
+      w.writeInt64(2, f2);
     }
   }
 
@@ -9499,7 +9504,7 @@ class InventoryServiceV1ListLocationResponse {
         }
         // field 2: total
         case 2: {
-          m.total = r.readUint64();
+          m.total = r.readInt64();
           break;
         }
         default: {
@@ -9553,15 +9558,15 @@ class InventoryServiceV1StockLocation {
   factory InventoryServiceV1StockLocation.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1StockLocation(
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
-      id: json['id'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       name: json['name'] as String?,
       remark: json['remark'] as String?,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
       usage: json['usage'] != null ? InventoryServiceV1StockLocation$Usage.fromString(json['usage'] as String) : null,
       warehouseCode: json['warehouseCode'] as String?,
     );
@@ -9570,15 +9575,15 @@ class InventoryServiceV1StockLocation {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
-    if (id != null) json['id'] = id;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
+    if (id != null) json['id'] = id.toString();
     if (name != null) json['name'] = name;
     if (remark != null) json['remark'] = remark;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     if (usage != null) json['usage'] = usage!.value;
     if (warehouseCode != null) json['warehouseCode'] = warehouseCode;
     return json;
@@ -9665,62 +9670,62 @@ class InventoryServiceV1StockLocation {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: name
     final f2 = name;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: usage
     final f3 = usage;
     if (f3 != null) {
-      w.writeEnum(3, f3!.wire); // InventoryServiceV1StockLocation$Usage
+      w.writeEnum(3, f3.wire); // InventoryServiceV1StockLocation$Usage
     }
     // field 4: warehouseCode
     final f4 = warehouseCode;
     if (f4 != null) {
-      w.writeString(4, f4!);
+      w.writeString(4, f4);
     }
     // field 11: remark
     final f11 = remark;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -9734,7 +9739,7 @@ class InventoryServiceV1StockLocation {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: name
@@ -9759,22 +9764,22 @@ class InventoryServiceV1StockLocation {
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -9833,14 +9838,14 @@ class InventoryServiceV1GetLocationRequest {
 
   factory InventoryServiceV1GetLocationRequest.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1GetLocationRequest(
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       viewMask: json['viewMask'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (viewMask != null) json['viewMask'] = viewMask;
     return json;
   }
@@ -9886,12 +9891,12 @@ class InventoryServiceV1GetLocationRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 100: viewMask
     final f100 = viewMask;
     if (f100 != null) {
-      w.writeFieldMask(100, f100!);
+      w.writeFieldMask(100, f100);
     }
   }
 
@@ -9905,7 +9910,7 @@ class InventoryServiceV1GetLocationRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 100: viewMask
@@ -10040,12 +10045,12 @@ class InventoryServiceV1ListStockLotResponse {
     // field 1: items
     final f1 = items;
     if (f1 != null) {
-      for (final e in f1!) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
+      for (final e in f1) { final cw = ProtoWireWriter(); e._writeTo(cw); w.writeRaw(1, cw.toBuffer()); }
     }
     // field 2: total
     final f2 = total;
     if (f2 != null) {
-      w.writeUint64(2, f2!);
+      w.writeInt64(2, f2);
     }
   }
 
@@ -10064,7 +10069,7 @@ class InventoryServiceV1ListStockLotResponse {
         }
         // field 2: total
         case 2: {
-          m.total = r.readUint64();
+          m.total = r.readInt64();
           break;
         }
         default: {
@@ -10119,30 +10124,30 @@ class InventoryServiceV1StockLot {
   factory InventoryServiceV1StockLot.fromJson(Map<String, dynamic> json) {
     return InventoryServiceV1StockLot(
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       expiryDate: json['expiryDate'] as String?,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       lotStatus: json['lotStatus'] != null ? InventoryServiceV1LotStatus.fromString(json['lotStatus'] as String) : null,
       name: json['name'] as String?,
       remainingQuantity: json['remainingQuantity'] != null ? int.parse(json['remainingQuantity'].toString()) : null,
       remark: json['remark'] as String?,
       skuCode: json['skuCode'] as String?,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (expiryDate != null) json['expiryDate'] = expiryDate;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (lotStatus != null) json['lotStatus'] = lotStatus!.value;
     if (name != null) json['name'] = name;
     if (remainingQuantity != null) json['remainingQuantity'] = remainingQuantity.toString();
     if (remark != null) json['remark'] = remark;
     if (skuCode != null) json['skuCode'] = skuCode;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     return json;
   }
 
@@ -10219,52 +10224,52 @@ class InventoryServiceV1StockLot {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: skuCode
     final f2 = skuCode;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
     // field 3: name
     final f3 = name;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: expiryDate
     final f4 = expiryDate;
     if (f4 != null) {
-      w.writeTimestamp(4, f4!);
+      w.writeTimestamp(4, f4);
     }
     // field 5: remainingQuantity
     final f5 = remainingQuantity;
     if (f5 != null) {
-      w.writeInt64(5, f5!);
+      w.writeInt64(5, f5);
     }
     // field 6: lotStatus
     final f6 = lotStatus;
     if (f6 != null) {
-      w.writeEnum(6, f6!.wire); // InventoryServiceV1LotStatus
+      w.writeEnum(6, f6.wire); // InventoryServiceV1LotStatus
     }
     // field 11: remark
     final f11 = remark;
     if (f11 != null) {
-      w.writeString(11, f11!);
+      w.writeString(11, f11);
     }
     // field 20: tenantId
     final f20 = tenantId;
     if (f20 != null) {
-      w.writeUint32(20, f20!);
+      w.writeInt64(20, f20);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
   }
 
@@ -10278,7 +10283,7 @@ class InventoryServiceV1StockLot {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: skuCode
@@ -10313,12 +10318,12 @@ class InventoryServiceV1StockLot {
         }
         // field 20: tenantId
         case 20: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -10533,43 +10538,43 @@ class IdentityServiceV1User {
       avatar: json['avatar'] as String?,
       commentCount: json['commentCount'] != null ? int.parse(json['commentCount'].toString()) : null,
       createdAt: json['createdAt'] as String?,
-      createdBy: json['createdBy'] as int?,
+      createdBy: json['createdBy'] != null ? int.parse(json['createdBy'].toString()) : null,
       deletedAt: json['deletedAt'] as String?,
-      deletedBy: json['deletedBy'] as int?,
+      deletedBy: json['deletedBy'] != null ? int.parse(json['deletedBy'].toString()) : null,
       description: json['description'] as String?,
       email: json['email'] as String?,
       followers: json['followers'] != null ? int.parse(json['followers'].toString()) : null,
       following: json['following'] != null ? int.parse(json['following'].toString()) : null,
       gender: json['gender'] != null ? IdentityServiceV1User$Gender.fromString(json['gender'] as String) : null,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       lastLoginAt: json['lastLoginAt'] as String?,
       lastLoginIp: json['lastLoginIp'] as String?,
       likeCount: json['likeCount'] != null ? int.parse(json['likeCount'].toString()) : null,
       lockedUntil: json['lockedUntil'] as String?,
       mobile: json['mobile'] as String?,
       nickname: json['nickname'] as String?,
-      orgUnitId: json['orgUnitId'] as int?,
-      orgUnitIds: (json['orgUnitIds'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      orgUnitId: json['orgUnitId'] != null ? int.parse(json['orgUnitId'].toString()) : null,
+      orgUnitIds: (json['orgUnitIds'] as List<dynamic>?)?.map((e) => int.parse(e.toString())).toList(),
       orgUnitName: json['orgUnitName'] as String?,
       orgUnitNames: (json['orgUnitNames'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      positionId: json['positionId'] as int?,
-      positionIds: (json['positionIds'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      positionId: json['positionId'] != null ? int.parse(json['positionId'].toString()) : null,
+      positionIds: (json['positionIds'] as List<dynamic>?)?.map((e) => int.parse(e.toString())).toList(),
       positionName: json['positionName'] as String?,
       positionNames: (json['positionNames'] as List<dynamic>?)?.map((e) => e as String).toList(),
       postCount: json['postCount'] != null ? int.parse(json['postCount'].toString()) : null,
       realname: json['realname'] as String?,
       region: json['region'] as String?,
       remark: json['remark'] as String?,
-      roleId: json['roleId'] as int?,
-      roleIds: (json['roleIds'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      roleId: json['roleId'] != null ? int.parse(json['roleId'].toString()) : null,
+      roleIds: (json['roleIds'] as List<dynamic>?)?.map((e) => int.parse(e.toString())).toList(),
       roleNames: (json['roleNames'] as List<dynamic>?)?.map((e) => e as String).toList(),
       roles: (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
       status: json['status'] != null ? IdentityServiceV1User$Status.fromString(json['status'] as String) : null,
       telephone: json['telephone'] as String?,
-      tenantId: json['tenantId'] as int?,
+      tenantId: json['tenantId'] != null ? int.parse(json['tenantId'].toString()) : null,
       tenantName: json['tenantName'] as String?,
       updatedAt: json['updatedAt'] as String?,
-      updatedBy: json['updatedBy'] as int?,
+      updatedBy: json['updatedBy'] != null ? int.parse(json['updatedBy'].toString()) : null,
       username: json['username'] as String?,
     );
   }
@@ -10580,43 +10585,43 @@ class IdentityServiceV1User {
     if (avatar != null) json['avatar'] = avatar;
     if (commentCount != null) json['commentCount'] = commentCount.toString();
     if (createdAt != null) json['createdAt'] = createdAt;
-    if (createdBy != null) json['createdBy'] = createdBy;
+    if (createdBy != null) json['createdBy'] = createdBy.toString();
     if (deletedAt != null) json['deletedAt'] = deletedAt;
-    if (deletedBy != null) json['deletedBy'] = deletedBy;
+    if (deletedBy != null) json['deletedBy'] = deletedBy.toString();
     if (description != null) json['description'] = description;
     if (email != null) json['email'] = email;
     if (followers != null) json['followers'] = followers.toString();
     if (following != null) json['following'] = following.toString();
     if (gender != null) json['gender'] = gender!.value;
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (lastLoginAt != null) json['lastLoginAt'] = lastLoginAt;
     if (lastLoginIp != null) json['lastLoginIp'] = lastLoginIp;
     if (likeCount != null) json['likeCount'] = likeCount.toString();
     if (lockedUntil != null) json['lockedUntil'] = lockedUntil;
     if (mobile != null) json['mobile'] = mobile;
     if (nickname != null) json['nickname'] = nickname;
-    if (orgUnitId != null) json['orgUnitId'] = orgUnitId;
-    if (orgUnitIds != null) json['orgUnitIds'] = orgUnitIds;
+    if (orgUnitId != null) json['orgUnitId'] = orgUnitId.toString();
+    if (orgUnitIds != null) json['orgUnitIds'] = orgUnitIds!.map((e) => e.toString()).toList();
     if (orgUnitName != null) json['orgUnitName'] = orgUnitName;
     if (orgUnitNames != null) json['orgUnitNames'] = orgUnitNames;
-    if (positionId != null) json['positionId'] = positionId;
-    if (positionIds != null) json['positionIds'] = positionIds;
+    if (positionId != null) json['positionId'] = positionId.toString();
+    if (positionIds != null) json['positionIds'] = positionIds!.map((e) => e.toString()).toList();
     if (positionName != null) json['positionName'] = positionName;
     if (positionNames != null) json['positionNames'] = positionNames;
     if (postCount != null) json['postCount'] = postCount.toString();
     if (realname != null) json['realname'] = realname;
     if (region != null) json['region'] = region;
     if (remark != null) json['remark'] = remark;
-    if (roleId != null) json['roleId'] = roleId;
-    if (roleIds != null) json['roleIds'] = roleIds;
+    if (roleId != null) json['roleId'] = roleId.toString();
+    if (roleIds != null) json['roleIds'] = roleIds!.map((e) => e.toString()).toList();
     if (roleNames != null) json['roleNames'] = roleNames;
     if (roles != null) json['roles'] = roles;
     if (status != null) json['status'] = status!.value;
     if (telephone != null) json['telephone'] = telephone;
-    if (tenantId != null) json['tenantId'] = tenantId;
+    if (tenantId != null) json['tenantId'] = tenantId.toString();
     if (tenantName != null) json['tenantName'] = tenantName;
     if (updatedAt != null) json['updatedAt'] = updatedAt;
-    if (updatedBy != null) json['updatedBy'] = updatedBy;
+    if (updatedBy != null) json['updatedBy'] = updatedBy.toString();
     if (username != null) json['username'] = username;
     return json;
   }
@@ -10822,212 +10827,212 @@ class IdentityServiceV1User {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: tenantId
     final f2 = tenantId;
     if (f2 != null) {
-      w.writeUint32(2, f2!);
+      w.writeInt64(2, f2);
     }
     // field 3: tenantName
     final f3 = tenantName;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: orgUnitId
     final f4 = orgUnitId;
     if (f4 != null) {
-      w.writeUint32(4, f4!);
+      w.writeInt64(4, f4);
     }
     // field 5: orgUnitIds
     final f5 = orgUnitIds;
     if (f5 != null) {
-      w.writePackedVarintList(5, f5!);
+      w.writePackedVarintList(5, f5);
     }
     // field 6: orgUnitName
     final f6 = orgUnitName;
     if (f6 != null) {
-      w.writeString(6, f6!);
+      w.writeString(6, f6);
     }
     // field 7: orgUnitNames
     final f7 = orgUnitNames;
     if (f7 != null) {
-      w.writeStringList(7, f7!);
+      w.writeStringList(7, f7);
     }
     // field 8: positionId
     final f8 = positionId;
     if (f8 != null) {
-      w.writeUint32(8, f8!);
+      w.writeInt64(8, f8);
     }
     // field 9: positionIds
     final f9 = positionIds;
     if (f9 != null) {
-      w.writePackedVarintList(9, f9!);
+      w.writePackedVarintList(9, f9);
     }
     // field 10: positionName
     final f10 = positionName;
     if (f10 != null) {
-      w.writeString(10, f10!);
+      w.writeString(10, f10);
     }
     // field 11: positionNames
     final f11 = positionNames;
     if (f11 != null) {
-      w.writeStringList(11, f11!);
+      w.writeStringList(11, f11);
     }
     // field 12: roleId
     final f12 = roleId;
     if (f12 != null) {
-      w.writeUint32(12, f12!);
+      w.writeInt64(12, f12);
     }
     // field 13: roleIds
     final f13 = roleIds;
     if (f13 != null) {
-      w.writePackedVarintList(13, f13!);
+      w.writePackedVarintList(13, f13);
     }
     // field 14: roles
     final f14 = roles;
     if (f14 != null) {
-      w.writeStringList(14, f14!);
+      w.writeStringList(14, f14);
     }
     // field 15: roleNames
     final f15 = roleNames;
     if (f15 != null) {
-      w.writeStringList(15, f15!);
+      w.writeStringList(15, f15);
     }
     // field 20: username
     final f20 = username;
     if (f20 != null) {
-      w.writeString(20, f20!);
+      w.writeString(20, f20);
     }
     // field 21: nickname
     final f21 = nickname;
     if (f21 != null) {
-      w.writeString(21, f21!);
+      w.writeString(21, f21);
     }
     // field 22: realname
     final f22 = realname;
     if (f22 != null) {
-      w.writeString(22, f22!);
+      w.writeString(22, f22);
     }
     // field 23: avatar
     final f23 = avatar;
     if (f23 != null) {
-      w.writeString(23, f23!);
+      w.writeString(23, f23);
     }
     // field 24: email
     final f24 = email;
     if (f24 != null) {
-      w.writeString(24, f24!);
+      w.writeString(24, f24);
     }
     // field 25: mobile
     final f25 = mobile;
     if (f25 != null) {
-      w.writeString(25, f25!);
+      w.writeString(25, f25);
     }
     // field 26: telephone
     final f26 = telephone;
     if (f26 != null) {
-      w.writeString(26, f26!);
+      w.writeString(26, f26);
     }
     // field 27: gender
     final f27 = gender;
     if (f27 != null) {
-      w.writeEnum(27, f27!.wire); // IdentityServiceV1User$Gender
+      w.writeEnum(27, f27.wire); // IdentityServiceV1User$Gender
     }
     // field 28: address
     final f28 = address;
     if (f28 != null) {
-      w.writeString(28, f28!);
+      w.writeString(28, f28);
     }
     // field 29: region
     final f29 = region;
     if (f29 != null) {
-      w.writeString(29, f29!);
+      w.writeString(29, f29);
     }
     // field 30: description
     final f30 = description;
     if (f30 != null) {
-      w.writeString(30, f30!);
+      w.writeString(30, f30);
     }
     // field 31: remark
     final f31 = remark;
     if (f31 != null) {
-      w.writeString(31, f31!);
+      w.writeString(31, f31);
     }
     // field 50: lastLoginAt
     final f50 = lastLoginAt;
     if (f50 != null) {
-      w.writeTimestamp(50, f50!);
+      w.writeTimestamp(50, f50);
     }
     // field 51: lastLoginIp
     final f51 = lastLoginIp;
     if (f51 != null) {
-      w.writeString(51, f51!);
+      w.writeString(51, f51);
     }
     // field 52: status
     final f52 = status;
     if (f52 != null) {
-      w.writeEnum(52, f52!.wire); // IdentityServiceV1User$Status
+      w.writeEnum(52, f52.wire); // IdentityServiceV1User$Status
     }
     // field 53: lockedUntil
     final f53 = lockedUntil;
     if (f53 != null) {
-      w.writeTimestamp(53, f53!);
+      w.writeTimestamp(53, f53);
     }
     // field 80: followers
     final f80 = followers;
     if (f80 != null) {
-      w.writeUint64(80, f80!);
+      w.writeInt64(80, f80);
     }
     // field 81: following
     final f81 = following;
     if (f81 != null) {
-      w.writeUint64(81, f81!);
+      w.writeInt64(81, f81);
     }
     // field 90: postCount
     final f90 = postCount;
     if (f90 != null) {
-      w.writeUint64(90, f90!);
+      w.writeInt64(90, f90);
     }
     // field 91: commentCount
     final f91 = commentCount;
     if (f91 != null) {
-      w.writeUint64(91, f91!);
+      w.writeInt64(91, f91);
     }
     // field 92: likeCount
     final f92 = likeCount;
     if (f92 != null) {
-      w.writeUint64(92, f92!);
+      w.writeInt64(92, f92);
     }
     // field 100: createdBy
     final f100 = createdBy;
     if (f100 != null) {
-      w.writeUint32(100, f100!);
+      w.writeInt64(100, f100);
     }
     // field 101: updatedBy
     final f101 = updatedBy;
     if (f101 != null) {
-      w.writeUint32(101, f101!);
+      w.writeInt64(101, f101);
     }
     // field 102: deletedBy
     final f102 = deletedBy;
     if (f102 != null) {
-      w.writeUint32(102, f102!);
+      w.writeInt64(102, f102);
     }
     // field 200: createdAt
     final f200 = createdAt;
     if (f200 != null) {
-      w.writeTimestamp(200, f200!);
+      w.writeTimestamp(200, f200);
     }
     // field 201: updatedAt
     final f201 = updatedAt;
     if (f201 != null) {
-      w.writeTimestamp(201, f201!);
+      w.writeTimestamp(201, f201);
     }
     // field 202: deletedAt
     final f202 = deletedAt;
     if (f202 != null) {
-      w.writeTimestamp(202, f202!);
+      w.writeTimestamp(202, f202);
     }
   }
 
@@ -11041,12 +11046,12 @@ class IdentityServiceV1User {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: tenantId
         case 2: {
-          m.tenantId = r.readUint32();
+          m.tenantId = r.readInt64();
           break;
         }
         // field 3: tenantName
@@ -11056,7 +11061,7 @@ class IdentityServiceV1User {
         }
         // field 4: orgUnitId
         case 4: {
-          m.orgUnitId = r.readUint32();
+          m.orgUnitId = r.readInt64();
           break;
         }
         // field 5: orgUnitIds
@@ -11076,7 +11081,7 @@ class IdentityServiceV1User {
         }
         // field 8: positionId
         case 8: {
-          m.positionId = r.readUint32();
+          m.positionId = r.readInt64();
           break;
         }
         // field 9: positionIds
@@ -11096,7 +11101,7 @@ class IdentityServiceV1User {
         }
         // field 12: roleId
         case 12: {
-          m.roleId = r.readUint32();
+          m.roleId = r.readInt64();
           break;
         }
         // field 13: roleIds
@@ -11196,42 +11201,42 @@ class IdentityServiceV1User {
         }
         // field 80: followers
         case 80: {
-          m.followers = r.readUint64();
+          m.followers = r.readInt64();
           break;
         }
         // field 81: following
         case 81: {
-          m.following = r.readUint64();
+          m.following = r.readInt64();
           break;
         }
         // field 90: postCount
         case 90: {
-          m.postCount = r.readUint64();
+          m.postCount = r.readInt64();
           break;
         }
         // field 91: commentCount
         case 91: {
-          m.commentCount = r.readUint64();
+          m.commentCount = r.readInt64();
           break;
         }
         // field 92: likeCount
         case 92: {
-          m.likeCount = r.readUint64();
+          m.likeCount = r.readInt64();
           break;
         }
         // field 100: createdBy
         case 100: {
-          m.createdBy = r.readUint32();
+          m.createdBy = r.readInt64();
           break;
         }
         // field 101: updatedBy
         case 101: {
-          m.updatedBy = r.readUint32();
+          m.updatedBy = r.readInt64();
           break;
         }
         // field 102: deletedBy
         case 102: {
-          m.deletedBy = r.readUint32();
+          m.deletedBy = r.readInt64();
           break;
         }
         // field 200: createdAt
@@ -11322,7 +11327,7 @@ class IdentityServiceV1UpdateUserRequest {
     return IdentityServiceV1UpdateUserRequest(
       allowMissing: json['allowMissing'] as bool?,
       data: json['data'] != null ? IdentityServiceV1User.fromJson(json['data'] as Map<String, dynamic>) : null,
-      id: json['id'] as int?,
+      id: json['id'] != null ? int.parse(json['id'].toString()) : null,
       password: json['password'] as String?,
       updateMask: json['updateMask'] as String?,
     );
@@ -11332,7 +11337,7 @@ class IdentityServiceV1UpdateUserRequest {
     final json = <String, dynamic>{};
     if (allowMissing != null) json['allowMissing'] = allowMissing;
     if (data != null) json['data'] = data!.toJson();
-    if (id != null) json['id'] = id;
+    if (id != null) json['id'] = id.toString();
     if (password != null) json['password'] = password;
     if (updateMask != null) json['updateMask'] = updateMask;
     return json;
@@ -11391,27 +11396,27 @@ class IdentityServiceV1UpdateUserRequest {
     // field 1: id
     final f1 = id;
     if (f1 != null) {
-      w.writeUint32(1, f1!);
+      w.writeInt64(1, f1);
     }
     // field 2: data
     final f2 = data;
     if (f2 != null) {
-      final cw = ProtoWireWriter(); f2!._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // IdentityServiceV1User
+      final cw = ProtoWireWriter(); f2._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // IdentityServiceV1User
     }
     // field 3: password
     final f3 = password;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
     // field 4: updateMask
     final f4 = updateMask;
     if (f4 != null) {
-      w.writeFieldMask(4, f4!);
+      w.writeFieldMask(4, f4);
     }
     // field 5: allowMissing
     final f5 = allowMissing;
     if (f5 != null) {
-      w.writeBool(5, f5!);
+      w.writeBool(5, f5);
     }
   }
 
@@ -11425,7 +11430,7 @@ class IdentityServiceV1UpdateUserRequest {
       switch (r.fieldNumber) {
         // field 1: id
         case 1: {
-          m.id = r.readUint32();
+          m.id = r.readInt64();
           break;
         }
         // field 2: data
@@ -11523,12 +11528,12 @@ class IdentityServiceV1ChangePasswordRequest {
     // field 1: oldPassword
     final f1 = oldPassword;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: newPassword
     final f2 = newPassword;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -11624,12 +11629,12 @@ class IdentityServiceV1UploadAvatarRequest {
     // field 1: imageBase64
     final f1 = imageBase64;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: imageUrl
     final f2 = imageUrl;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -11717,7 +11722,7 @@ class IdentityServiceV1UploadAvatarResponse {
     // field 1: url
     final f1 = url;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
   }
 
@@ -11808,12 +11813,12 @@ class IdentityServiceV1BindContactRequest {
     // field 1: phone
     final f1 = phone;
     if (f1 != null) {
-      final cw = ProtoWireWriter(); f1!._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // IdentityServiceV1BindPhoneRequest
+      final cw = ProtoWireWriter(); f1._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // IdentityServiceV1BindPhoneRequest
     }
     // field 2: email
     final f2 = email;
     if (f2 != null) {
-      final cw = ProtoWireWriter(); f2!._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // IdentityServiceV1BindEmailRequest
+      final cw = ProtoWireWriter(); f2._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // IdentityServiceV1BindEmailRequest
     }
   }
 
@@ -11909,12 +11914,12 @@ class IdentityServiceV1BindPhoneRequest {
     // field 1: phone
     final f1 = phone;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: code
     final f2 = code;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -12010,12 +12015,12 @@ class IdentityServiceV1BindEmailRequest {
     // field 1: email
     final f1 = email;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: verificationCode
     final f2 = verificationCode;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -12120,17 +12125,17 @@ class IdentityServiceV1VerifyContactRequest {
     // field 1: phone
     final f1 = phone;
     if (f1 != null) {
-      final cw = ProtoWireWriter(); f1!._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // IdentityServiceV1PhoneVerification
+      final cw = ProtoWireWriter(); f1._writeTo(cw); w.writeRaw(1, cw.toBuffer()); // IdentityServiceV1PhoneVerification
     }
     // field 2: email
     final f2 = email;
     if (f2 != null) {
-      final cw = ProtoWireWriter(); f2!._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // IdentityServiceV1EmailVerification
+      final cw = ProtoWireWriter(); f2._writeTo(cw); w.writeRaw(2, cw.toBuffer()); // IdentityServiceV1EmailVerification
     }
     // field 3: verificationId
     final f3 = verificationId;
     if (f3 != null) {
-      w.writeString(3, f3!);
+      w.writeString(3, f3);
     }
   }
 
@@ -12234,12 +12239,12 @@ class IdentityServiceV1PhoneVerification {
     // field 1: phone
     final f1 = phone;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: code
     final f2 = code;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 
@@ -12338,12 +12343,12 @@ class IdentityServiceV1EmailVerification {
     // field 1: email
     final f1 = email;
     if (f1 != null) {
-      w.writeString(1, f1!);
+      w.writeString(1, f1);
     }
     // field 2: code
     final f2 = code;
     if (f2 != null) {
-      w.writeString(2, f2!);
+      w.writeString(2, f2);
     }
   }
 

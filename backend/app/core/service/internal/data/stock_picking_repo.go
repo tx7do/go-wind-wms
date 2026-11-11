@@ -125,7 +125,7 @@ func (r *StockPickingRepo) List(ctx context.Context, req *paginationV1.PagingReq
 	}, nil
 }
 
-func (r *StockPickingRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+func (r *StockPickingRepo) IsExist(ctx context.Context, id int64) (bool, error) {
 	exist, err := r.entClient.Client().StockPicking.Query().
 		Where(stockpicking.IDEQ(id)).
 		Exist(ctx)
@@ -158,7 +158,7 @@ func (r *StockPickingRepo) backfillBridgeIds(ctx context.Context, items []*inven
 	if len(items) == 0 {
 		return
 	}
-	ids := make([]uint32, 0, len(items))
+	ids := make([]int64, 0, len(items))
 	for _, it := range items {
 		ids = append(ids, it.GetId())
 	}
@@ -170,7 +170,7 @@ func (r *StockPickingRepo) backfillBridgeIds(ctx context.Context, items []*inven
 		r.log.Errorf("backfill picking bridge ids failed: %s", err.Error())
 		return
 	}
-	byID := make(map[uint32]*ent.StockPicking, len(rows))
+	byID := make(map[int64]*ent.StockPicking, len(rows))
 	for _, row := range rows {
 		byID[row.ID] = row
 	}
@@ -184,7 +184,7 @@ func (r *StockPickingRepo) backfillBridgeIds(ctx context.Context, items []*inven
 
 // CountTenantSince 统计租户自 since 起创建的拣货单数量（计费配额用，
 // 原 ERP 按 PO+SO 计数，WMS 以拣货单作为"单据"口径）。
-func (r *StockPickingRepo) CountTenantSince(ctx context.Context, tenantID uint32, since time.Time) (int, error) {
+func (r *StockPickingRepo) CountTenantSince(ctx context.Context, tenantID int64, since time.Time) (int, error) {
 	return r.entClient.Client().StockPicking.Query().
 		Where(stockpicking.TenantIDEQ(tenantID)).
 		Where(stockpicking.CreatedAtGTE(since)).
@@ -193,7 +193,7 @@ func (r *StockPickingRepo) CountTenantSince(ctx context.Context, tenantID uint32
 
 // GetOutgoingPickingIDs 取所有出库（OUTGOING）拣货单的 ID，供 COGS
 // 报表按月聚合 move-line 成本用。
-func (r *StockPickingRepo) GetOutgoingPickingIDs(ctx context.Context) ([]uint32, error) {
+func (r *StockPickingRepo) GetOutgoingPickingIDs(ctx context.Context) ([]int64, error) {
 	tid, hasTenant := maybeTenantFromViewer(ctx)
 	q := r.entClient.Client().StockPicking.Query().
 		Where(stockpicking.PickingTypeEQ(stockpicking.PickingTypeOutgoing))
@@ -324,7 +324,7 @@ func (r *StockPickingRepo) Delete(ctx context.Context, req *inventoryV1.DeleteSt
 func (r *StockPickingRepo) GetConfirmedMovesTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	pickingID uint32,
+	pickingID int64,
 ) ([]*inventoryV1.StockMove, error) {
 	return r.moveRepo.GetConfirmedMovesByPickingTx(ctx, tx, pickingID)
 }
@@ -334,7 +334,7 @@ func (r *StockPickingRepo) GetConfirmedMovesTx(
 func (r *StockPickingRepo) CancelMovesTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	pickingID uint32,
+	pickingID int64,
 ) error {
 	if err := r.moveRepo.CancelDraftMovesTx(ctx, tx, pickingID); err != nil {
 		return err
@@ -346,7 +346,7 @@ func (r *StockPickingRepo) CancelMovesTx(
 func (r *StockPickingRepo) TransitionMoveStateTx(
 	ctx context.Context,
 	tx *ent.Tx,
-	id uint32,
+	id int64,
 	from, to inventoryV1.StockMove_State,
 ) error {
 	return r.moveRepo.TransitionMoveStateTx(ctx, tx, id, from, to)
@@ -378,7 +378,7 @@ func (r *StockPickingRepo) FinishTx(tx *ent.Tx, err error) {
 }
 
 // computeDerivedState 从 DB 读取子 moves 并计算派生态（用于 List，每次读取时算）。
-func (r *StockPickingRepo) computeDerivedState(ctx context.Context, pickingID uint32) inventoryV1.StockPicking_DerivedState {
+func (r *StockPickingRepo) computeDerivedState(ctx context.Context, pickingID int64) inventoryV1.StockPicking_DerivedState {
 	moves := r.moveRepo.GetMovesByPicking(ctx, pickingID)
 	return r.deriveStateFromMoves(moves)
 }

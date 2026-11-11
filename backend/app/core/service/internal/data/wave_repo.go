@@ -60,7 +60,7 @@ func (r *WaveRepo) backfillStatus(ctx context.Context, items []*waveV1.Wave) {
 		return
 	}
 
-	ids := make([]uint32, 0, len(items))
+	ids := make([]int64, 0, len(items))
 	for _, it := range items {
 		ids = append(ids, it.GetId())
 	}
@@ -74,7 +74,7 @@ func (r *WaveRepo) backfillStatus(ctx context.Context, items []*waveV1.Wave) {
 		return
 	}
 
-	byID := make(map[uint32]*ent.Wave, len(rows))
+	byID := make(map[int64]*ent.Wave, len(rows))
 	for _, row := range rows {
 		byID[row.ID] = row
 	}
@@ -160,7 +160,7 @@ func (r *WaveRepo) List(ctx context.Context, req *paginationV1.PagingRequest) (*
 	}, nil
 }
 
-func (r *WaveRepo) Get(ctx context.Context, id uint32) (*waveV1.Wave, error) {
+func (r *WaveRepo) Get(ctx context.Context, id int64) (*waveV1.Wave, error) {
 	dto, err := r.repository.Get(ctx, r.entClient.Client().Wave.Query(), nil, wave.IDEQ(id))
 	if err != nil {
 		return nil, err
@@ -174,7 +174,7 @@ func (r *WaveRepo) Get(ctx context.Context, id uint32) (*waveV1.Wave, error) {
 // CreateTx 创建波次（DRAFT）+ 绑定成员拣货单（单事务）。
 // 成员资格由行级条件更新把关：仅 OUTGOING + CONFIRMED + 未入波次 的单据
 // 会被绑定；受影响行数不足即返回 CONFLICT（并发下安全）。
-func (r *WaveRepo) CreateTx(ctx context.Context, pickingIDs []uint32, remark *string, createdBy *uint32) (*ent.Wave, error) {
+func (r *WaveRepo) CreateTx(ctx context.Context, pickingIDs []int64, remark *string, createdBy *int64) (*ent.Wave, error) {
 	tx, err := r.entClient.Client().Tx(ctx)
 	if err != nil {
 		r.log.Errorf("start transaction failed: %s", err.Error())
@@ -224,7 +224,7 @@ func (r *WaveRepo) CreateTx(ctx context.Context, pickingIDs []uint32, remark *st
 }
 
 // GetWithPickingsTx 取波次 + 成员拣货单 ent（事务内外均可）。
-func (r *WaveRepo) GetWithPickingsTx(ctx context.Context, tx *ent.Tx, id uint32) (*ent.Wave, []*ent.StockPicking, error) {
+func (r *WaveRepo) GetWithPickingsTx(ctx context.Context, tx *ent.Tx, id int64) (*ent.Wave, []*ent.StockPicking, error) {
 	client := r.entClient.Client()
 	if tx != nil {
 		client = tx.Client()
@@ -254,7 +254,7 @@ func (r *WaveRepo) GetWithPickingsTx(ctx context.Context, tx *ent.Tx, id uint32)
 }
 
 // TransitionStatusTx 状态机流转（条件更新：仅 from 态可迁 to 态）。
-func (r *WaveRepo) TransitionStatusTx(ctx context.Context, tx *ent.Tx, id uint32, from, to wave.Status) error {
+func (r *WaveRepo) TransitionStatusTx(ctx context.Context, tx *ent.Tx, id int64, from, to wave.Status) error {
 	n, err := tx.Wave.Update().
 		Where(
 			wave.IDEQ(id),
@@ -274,7 +274,7 @@ func (r *WaveRepo) TransitionStatusTx(ctx context.Context, tx *ent.Tx, id uint32
 }
 
 // CompleteTx 自动完结：DRAFT/RUNNING → COMPLETED（幂等，条件更新）。
-func (r *WaveRepo) CompleteTx(ctx context.Context, tx *ent.Tx, id uint32) error {
+func (r *WaveRepo) CompleteTx(ctx context.Context, tx *ent.Tx, id int64) error {
 	n, err := tx.Wave.Update().
 		Where(
 			wave.IDEQ(id),
@@ -294,7 +294,7 @@ func (r *WaveRepo) CompleteTx(ctx context.Context, tx *ent.Tx, id uint32) error 
 }
 
 // ReleasePickingsTx 释放成员（wave_id 置 0），供取消波次用。
-func (r *WaveRepo) ReleasePickingsTx(ctx context.Context, tx *ent.Tx, waveID uint32) error {
+func (r *WaveRepo) ReleasePickingsTx(ctx context.Context, tx *ent.Tx, waveID int64) error {
 	_, err := tx.StockPicking.Update().
 		Where(stockpicking.WaveIDEQ(waveID)).
 		SetWaveID(0).

@@ -71,7 +71,7 @@ func (s *StockPickingService) Count(ctx context.Context, req *paginationV1.Pagin
 	if err != nil {
 		return nil, err
 	}
-	return &inventoryV1.CountStockPickingResponse{Count: uint64(count)}, nil
+	return &inventoryV1.CountStockPickingResponse{Count: int64(count)}, nil
 }
 
 func (s *StockPickingService) Get(ctx context.Context, req *inventoryV1.GetStockPickingRequest) (*inventoryV1.StockPicking, error) {
@@ -176,7 +176,7 @@ func (s *StockPickingService) createAdjustmentPicking(ctx context.Context, req *
 	// 盘盈：INVENTORY_LOSS→仓库；盘亏：仓库→INVENTORY_LOSS。
 	// move 的 planned_quantity 一律取绝对值（Validate 拒绝非正数量），
 	// 方向由 source/dest 表达——与 INCOMING/OUTGOING 的语义一致。
-	var srcLocID, dstLocID uint32
+	var srcLocID, dstLocID int64
 	absMoves := make([]*inventoryV1.StockMove, 0, len(moves))
 	if hasPositive {
 		srcLocID, dstLocID = lossLocID, whLocID
@@ -545,7 +545,7 @@ func (s *StockPickingService) recordMoveLinesWithLot(
 	ctx context.Context,
 	tx *ent.Tx,
 	move *inventoryV1.StockMove,
-	pickingID uint32,
+	pickingID int64,
 	srcUsage inventoryV1.StockLocation_Usage,
 	dstUsage inventoryV1.StockLocation_Usage,
 	executedQty int64,
@@ -555,7 +555,7 @@ func (s *StockPickingService) recordMoveLinesWithLot(
 	srcInternal := srcUsage == inventoryV1.StockLocation_INTERNAL
 	dstInternal := dstUsage == inventoryV1.StockLocation_INTERNAL
 
-	createLine := func(qty int64, lotID uint32) error {
+	createLine := func(qty int64, lotID int64) error {
 		return s.stockMoveLineRepo.CreateTx(ctx, tx, move.GetId(), pickingID,
 			move.GetProductCode(), move.GetSourceLocationId(), move.GetDestinationLocationId(),
 			qty, unitCost, lotID)
@@ -643,7 +643,7 @@ func (s *StockPickingService) recordMoveLinesWithLot(
 	}
 
 	// 调拨/其余腿：单行；指派批次存在则挂上。
-	lotID := uint32(0)
+	lotID := int64(0)
 	if assignment != nil {
 		if id, err := s.stockLotRepo.FindIdTx(ctx, tx,
 			move.GetProductCode(), assignment.GetLotName()); err == nil {

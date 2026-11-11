@@ -50,7 +50,7 @@ func NewBillingGuard(
 	}
 }
 
-func viewerTenantID(ctx context.Context) (uint32, bool) {
+func viewerTenantID(ctx context.Context) (int64, bool) {
 	vc, exist := viewer.FromContext(ctx)
 	if !exist || vc == nil {
 		return 0, false
@@ -59,11 +59,11 @@ func viewerTenantID(ctx context.Context) (uint32, bool) {
 	if tid == 0 || !vc.IsTenantContext() {
 		return 0, false
 	}
-	return uint32(tid), true
+	return int64(tid), true
 }
 
 // currentPlan 取租户当前生效的套餐 + 订阅。无订阅 → FREE 套餐（或内置默认）。
-func (g *BillingGuard) currentPlan(ctx context.Context, tenantID uint32) (*billingV1.Plan, *billingV1.Subscription) {
+func (g *BillingGuard) currentPlan(ctx context.Context, tenantID int64) (*billingV1.Plan, *billingV1.Subscription) {
 	sub, _ := g.subscriptionRepo.GetByTenant(ctx, tenantID)
 
 	planCode := constants.FreePlanCode
