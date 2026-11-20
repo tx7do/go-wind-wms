@@ -25,8 +25,8 @@ import (
 
 	"go-wind-wms/pkg/metadata"
 	"go-wind-wms/pkg/middleware/auth"
-	applogging "go-wind-wms/pkg/middleware/logging"
 	entmiddleware "go-wind-wms/pkg/middleware/ent"
+	applogging "go-wind-wms/pkg/middleware/logging"
 )
 
 // NewRestMiddleware 创建中间件
@@ -90,6 +90,7 @@ func NewRestServer(
 	ctx *bootstrap.Context,
 
 	middlewares []middleware.Middleware,
+	accessTokenChecker auth.AccessTokenChecker,
 
 	userService *service.UserService,
 	userProfileService *service.UserProfileService,
@@ -109,13 +110,13 @@ func NewRestServer(
 	warehouseService *service.WarehouseService,
 	locationService *service.LocationService,
 	stockQuantService *service.StockQuantService,
-	stockLotService   *service.StockLotService,
+	stockLotService *service.StockLotService,
 	stockPickingService *service.StockPickingService,
 	asnService *service.AsnService,
 	waveService *service.WaveService,
 
 	approvalRequestService *service.ApprovalRequestService,
-	approvalFlowService   *service.ApprovalFlowService,
+	approvalFlowService *service.ApprovalFlowService,
 
 	productService *service.ProductService,
 
@@ -156,6 +157,10 @@ func NewRestServer(
 		panic(err)
 	}
 
+	// 全站请求体护栏包在最外层（CORS/pprof 过滤器与路由都在其内层），
+	// 使 401/413 的判定发生在任何 body 读取之前。
+	srv.Handler = requestBodyGuard(accessTokenChecker)(srv.Handler)
+
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authenticationService)
 	adminV1.RegisterLoginPolicyServiceHTTPServer(srv, loginPolicyService)
 
@@ -181,8 +186,6 @@ func NewRestServer(
 	adminV1.RegisterProductServiceHTTPServer(srv, productService)
 	adminV1.RegisterAsnServiceHTTPServer(srv, asnService)
 	adminV1.RegisterWaveServiceHTTPServer(srv, waveService)
-
-
 
 	adminV1.RegisterBillingServiceHTTPServer(srv, billingService)
 	adminV1.RegisterPlanAdminServiceHTTPServer(srv, planAdminService)
